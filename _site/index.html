@@ -109,9 +109,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] }],
+      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
       
-      searchColumns: [],
+      searchColumns: ["listing-title","listing-author"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -440,11 +440,27 @@ Title
 </div>
 </section><section id="code-alongs" class="level2"><h2 class="anchored" data-anchor-id="code-alongs">Code alongs</h2>
 <div id="listing-code-alongs" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table caption-top">
-<thead><tr class="header">
-<th data-quarto-table-cell-role="th">Title</th>
+<table class="quarto-listing-table table">
+<thead><tr>
+<th>
+Title
+</th>
+
 </tr></thead>
-<tbody class="list"></tbody>
+<tbody class="list">
+<tr data-index="0" data-listing-file-modified-sort="1752094831845" data-listing-reading-time-sort="5" data-listing-word-count-sort="933" data-listing-title-sort="Modeling fish (Complete)" data-listing-filename-sort="1-2-modeling-fish-complete.qmd">
+<td>
+<a href="./code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html" class="title listing-title">Modeling fish (Complete)</a>
+</td>
+
+</tr>
+<tr data-index="1" data-listing-file-modified-sort="1752095173018" data-listing-reading-time-sort="3" data-listing-word-count-sort="596" data-listing-title-sort="Modeling fish" data-listing-filename-sort="1-2-modeling-fish.qmd">
+<td>
+<a href="./code-alongs/1-2-modeling-fish/1-2-modeling-fish.html" class="title listing-title">Modeling fish</a>
+</td>
+
+</tr>
+</tbody>
 </table>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>

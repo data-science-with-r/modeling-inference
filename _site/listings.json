@@ -4,7 +4,9 @@
     "items": [
       "/slides/1-1-1-welcome/1-1-1-welcome.html",
       "/slides/1-1-2-language-of-models/1-1-2-language-of-models.html",
-      "/slides/1-2-1-lin-mod-single-predictor/1-2-1-lin-mod-single-predictor.html"
+      "/slides/1-2-1-lin-mod-single-predictor/1-2-1-lin-mod-single-predictor.html",
+      "/code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html",
+      "/code-alongs/1-2-modeling-fish/1-2-modeling-fish.html"
     ]
   }
 ]
