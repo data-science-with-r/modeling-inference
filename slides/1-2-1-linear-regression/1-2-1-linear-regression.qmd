@@ -1,0 +1,429 @@
+---
+title: "Language of models"
+format: revealjs
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+library(tidymodels)
+library(gt)
+
+ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
+```
+
+# What is a model?
+
+## Modelling
+
+- Use models to explain the relationship between variables and to make predictions
+- For now we will focus on **linear** models (but remember there are *many* *many* other types of models too!)
+
+::: {.columns}
+::: {.column}
+```{r}
+#| echo: false
+df1 <- tibble(x = 1:100, y = x + rnorm(100, mean = 0, sd = 5))
+ggplot(df1, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(title = "Linear", x = NULL, y = NULL) +
+  theme(
+    axis.text  = element_blank(),
+    axis.ticks = element_blank()
+    )
+```
+:::
+::: {.column}
+```{r}
+#| echo: false
+df2 <- tibble(x = seq(-6, 5.9, 0.1), y = (1 / (1+exp(-2*x))) + rnorm(120, mean = 0, sd = 0.1))
+ggplot(df2, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "loess", color = "#FE5D26", se = FALSE) +
+  labs(title = "Non-linear", x = NULL, y = NULL) +
+  theme(
+    axis.text  = element_blank(),
+    axis.ticks = element_blank()
+    )
+```
+:::
+::: 
+
+# Modeling
+
+## Modeling cars {.smaller}
+
+::: question
+-   What is the relationship between cars' weights and their mileage?
+-   What is your best guess for a car's MPG that weighs 3,500 pounds?
+:::
+
+```{r}
+#| echo: false
+base <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  labs(
+    x = "Weight (1,000 lbs)",
+    y = "Miles per gallon (MPG)",
+    title = "MPG vs. weights of cars"
+  ) +
+  coord_cartesian(xlim = c(1.5, 5.5), ylim = c(10, 35))
+
+base
+```
+
+## Modelling cars {.smaller}
+
+::: question
+**Describe:** What is the relationship between cars' weights and their mileage?
+:::
+
+```{r}
+#| echo: false
+#| message: false
+base +
+  geom_smooth(method = "lm", color = "#FE5D26")
+```
+
+## Modelling cars {.smaller}
+
+::: question
+**Predict:** What is your best guess for a car's MPG that weighs 3,500 pounds?
+:::
+
+```{r}
+#| echo: false
+#| message: false
+base +
+  geom_smooth(method = "lm", se = FALSE, color = "darkgray", linetype = "dashed") +
+  annotate(
+    "segment",
+    x = 3.5, xend = 3.5, y = -Inf, yend = 18.5,
+    color = "#FE5D26"
+  ) +
+  annotate(
+    "segment",
+    x = -Inf, xend = 3.5, y = 18.5, yend = 18.5,
+    color = "#FE5D26"
+  )
+```
+
+## Modeling
+
+-   Use models to explain the relationship between variables and to make predictions
+-   For now we will focus on **linear** models (but there are *many* *many* other types of models too!)
+
+## Modeling vocabulary
+
+- **Outcome:** Variable whose behavior or variation you are trying to understand, on the y-axis (aka response variable, dependent variable)
+
+- **Predictor(s):** Other variable(s) that you want to use to explain the variation in the outcome, on the x-axis (aka explanatory variable(s), independent variable(s))
+
+- **Model function:** The regression line for predicting the outcome variable from the predictor variable(s), comprised generally of an **intercept** and a **slope** for each predictor
+
+- **Predicted value:** Output of the model function, which gives the typical (expected) value of the outcome *conditioning* on the predictor
+
+- **Residuals:** A measure of how far each case's observed value is from its predicted value (based on a particular model)
+  - Residual = Observed value - Predicted value
+  - Tells how far above/below the expected value each case is
+
+## Predictor
+
+```{r}
+#| echo: false
+base <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  labs(
+    x = "Weight (1000 lbs)",
+    y = "Miles per gallon (MPG)",
+    title = "MPG vs. weights of cars"
+  )
+```
+
+:::::: columns
+::: {.column width="25%"}
+```{r}
+#| echo: false
+mtcars |>
+  select(mpg, wt) |>
+  slice_head(n = 6) |>
+  mutate(across(where(is.numeric), as.character)) |>
+  bind_rows(c(mpg = "...", wt = "...")) |>
+  gt() |>
+  tab_style(
+    style = list(
+      cell_fill(color = "#FE5D26"),
+      cell_text(color = "white")
+      ),
+    locations = cells_body(columns = wt)
+  ) |>
+  tab_options(table.font.size = px(12))
+```
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="70%"}
+```{r}
+#| echo: false
+base +
+  theme(
+    axis.title.x = element_text(color = "#FE5D26", face = "bold", size = 16)
+  )
+```
+:::
+::::::
+
+## Outcome
+
+:::::: columns
+::: {.column width="25%"}
+```{r}
+#| echo: false
+mtcars |>
+  select(mpg, wt) |>
+  slice_head(n = 6) |>
+  mutate(across(where(is.numeric), as.character)) |>
+  bind_rows(c(mpg = "...", wt = "...")) |>
+  gt() |>
+  tab_style(
+    style = list(
+      cell_fill(color = "#FE5D26"),
+      cell_text(color = "white")
+      ),
+    locations = cells_body(columns = mpg)
+  ) |>
+  tab_options(table.font.size = px(12))
+```
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="70%"}
+```{r}
+#| echo: false
+base +
+  theme(
+    axis.title.y = element_text(color = "#FE5D26", face = "bold", size = 16)
+  )
+```
+:::
+::::::
+
+## Regression line
+
+```{r}
+#| echo: false
+#| message: false
+base +
+  geom_smooth(method = "lm", color = "#FE5D26", linewidth = 1.5, se = FALSE)
+```
+
+## Regression line: slope
+
+```{r}
+#| echo: false
+#| message: false
+base +
+  geom_smooth(method = "lm", color = "black", se = FALSE) +
+  annotate(
+    geom = "segment",
+    x = 4, xend = 5, y = 16, yend = 16, 
+    linetype = "dashed", color = "#FE5D26"
+  ) +
+  annotate(
+    geom = "segment",
+    x = 5, xend = 5, y = 16, yend = 10.6, 
+    color = "#FE5D26"
+  ) +
+  annotate(
+    geom = "text",
+    x = 5.2, y = 13, label = "slope", 
+    color = "#FE5D26", size = 5, hjust = 0
+  )
+```
+
+## Regression line: intercept
+
+```{r}
+#| echo: false
+#| message: false
+base +
+  geom_smooth(method = "lm", color = "gray", se = FALSE, fullrange = TRUE, linetype = "dashed") +
+  geom_smooth(method = "lm", color = "black", se = FALSE) +
+  scale_x_continuous(limits = c(0, 5.5)) +
+  annotate(
+    geom = "point",
+    shape = 1, size = 4, stroke = 2,
+    x = 0, y = 37.4, 
+    color = "#FE5D26"
+  ) +
+  annotate(
+    geom = "text",
+    label = "intercept",
+    x = 0.5, y = 37.4, 
+    color = "#FE5D26", size = 5, hjust = 0
+  )
+```
+
+## Correlation
+
+```{r}
+#| echo: false
+r <- mtcars |>
+  summarize(cor = round(cor(mpg, wt), 2)) |>
+  pull()
+
+base +
+  stat_ellipse(geom = "polygon", color = "#FE5D26", fill = "#FE5D2630") +
+  annotate(
+    geom = "text",
+    x = 3.5, y = 27.5, 
+    label = paste("r =", r),
+    color = "#FE5D26", size = 5, hjust = 0
+  )
+```
+
+## Correlation
+
+-   Ranges between -1 and 1.
+-   Same sign as the slope.
+
+![](images/corr-example.png){fig-align="center"}
+
+## Visualizing the model
+
+```{r}
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+## Residuals
+
+```{r}
+mtcars_fit <- linear_reg() |>
+    fit(mpg ~ wt, data = mtcars)
+
+mtcars_tidy <- tidy(mtcars_fit)
+mtcars_aug <- augment(mtcars_fit, new_data = mtcars) |>
+    mutate(res_cat = if_else(.resid > 0, TRUE, FALSE))
+
+ggplot(mtcars_aug) +
+  geom_line(aes(x = wt, y = .pred), linewidth = 0.75, alpha = 0.8) + 
+  geom_point(aes(x = wt, y = mpg, color = res_cat)) +
+  labs(
+    x = "Weight (1,000 lbs)",
+    y = "Miles per gallon (MPG)",
+    title = "MPG vs. weights of cars"
+  ) +
+  guides(color = "none") +
+  scale_color_manual(values = c("#fec926", "#fe265b")) +
+  annotate("text", x = 2.5, y = 30, label = "Positive residual", color = "#fe265b", hjust = 0, size = 8) +
+  annotate("text", x = 1, y = 10, label = "Negative residual", color = "#fec926", hjust = 0, size = 8)
+```
+
+## Extending regression lines
+
+```{r}
+ggplot(
+    mtcars, 
+    aes(x = wt, y = mpg) 
+  ) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE, fullrange = TRUE, color = "#fe5d26") +
+  labs(
+    x = "Weight (1,000 lbs)",
+    y = "Miles per gallon (MPG)",
+    title = "MPG vs. weights of cars"
+  ) +
+  xlim(-3, 10) + ylim(-10, 50)
+```
+
+## Models - upsides and downsides
+
+- Models can sometimes reveal patterns that are not evident in a graph of the data. This is a great advantage of modeling over simple visual inspection of data. 
+- There is a real risk, however, that a model is imposing structure that is not really there on the scatter of data, just as people imagine animal shapes in the stars. A skeptical approach is always warranted.
+
+## Variation around the model...
+
+is just as important as the model, if not more!  
+
+*Statistics is the explanation of variation in the context of what remains unexplained.*
+
+- The scatter suggests that there might be other factors that account for large parts of painting-to-painting variability, or perhaps just that randomness plays a big role.
+- Adding more explanatory variables to a model can sometimes usefully reduce the size of the scatter around the model. (We'll talk more about this later.)
+
+## How do we use models?
+
+- Explanation: Quantify the relationship between predictor(s) and outcome with slopes
+
+- Prediction: Plug in the value of a predictor to the model to obtain a predicted value of the outcome
+
+# Prediction / classification
+
+## Self driving cars
+
+{{< video https://www.youtube.com/embed/xvqQ4F7Yf2o start="150" width="900" height="600" >}}
+
+## Semi or garage? {.smaller}
+
+> i love how Tesla thinks the wall in my garage is a semi.
+> 😅
+
+![](images/14/tesla-get-wrong-1.png){fig-align="center" width="300"}
+
+::: aside
+Source: [Reddit](https://www.reddit.com/r/TeslaModelY/comments/vjcpte/i_love_how_tesla_thinks_the_wall_in_my_garage_is/)
+:::
+
+## Semi or garage? {.smaller}
+
+> New owner here.
+> Just parked in my garage.
+> Tesla thinks I crashed onto a semi.
+
+![](images/14/tesla-get-wrong-2.png){fig-align="center" width="300"}
+
+::: aside
+Source: [Reddit](https://www.reddit.com/r/TeslaModelY/comments/112520t/new_owner_here_just_parked_in_my_garage_tesla/)
+:::
+
+## Car or trash?
+
+> Tesla calls Mercedes trash
+
+![](images/14/tesla-get-wrong-3.png){fig-align="center" width="500"}
+
+::: aside
+Source: [Reddit](https://www.reddit.com/r/FUCKYOUINPARTICULAR/comments/hi5srx/tesla_calls_mercedes_trash/)
+:::
+
+# Description
+
+## Leisure, commute, physical activity and BP {.smaller}
+
+> [Relation Between Leisure Time, Commuting, and Occupational Physical Activity With Blood Pressure in 125,402 Adults: The Lifelines Cohort](https://www.ahajournals.org/doi/full/10.1161/JAHA.119.014313)
+>
+> Byambasukh, Oyuntugs, Harold Snieder, and Eva Corpeleijn.
+> "Relation between leisure time, commuting, and occupational physical activity with blood pressure in 125 402 adults: the lifelines cohort." *Journal of the American Heart Association* 9.4 (2020): e014313.
+
+## Leisure, commute, physical activity and BP {.smaller .scrollable}
+
+**Background:** Whether all domains of daily‐life moderate‐to‐vigorous physical activity (MVPA) are associated with lower blood pressure (BP) and how this association depends on age and body mass index remains unclear.
+
+**Methods and Results:** In the population‐based Lifelines cohort (N=125,402), MVPA was assessed by the Short Questionnaire to Assess Health‐Enhancing Physical Activity, a validated questionnaire in different domains such as commuting, leisure‐time, and occupational PA.
+BP was assessed using the last 3 of 10 measurements after 10 minutes’ rest in the supine position.
+Hypertension was defined as systolic BP ≥140 mm Hg and/or diastolic BP ≥90 mm Hg and/or use of antihypertensives.
+In regression analysis, higher commuting and leisure‐time but not occupational MVPA related to lower BP and lower hypertension risk.
+Commuting‐and‐leisure‐time MVPA was associated with BP in a dose‐dependent manner.
+β Coefficients (95% CI) from linear regression analyses were −1.64 (−2.03 to −1.24), −2.29 (−2.68 to −1.90), and finally −2.90 (−3.29 to −2.50) mm Hg systolic BP for the low, middle, and highest tertile of MVPA compared with “No MVPA” as the reference group after adjusting for age, sex, education, smoking and alcohol use.
+Further adjustment for body mass index attenuated the associations by 30% to 50%, but more MVPA remained significantly associated with lower BP and lower risk of hypertension.
+This association was age dependent.
+β Coefficients (95% CI) for the highest tertiles of commuting‐and‐leisure‐time MVPA were −1.67 (−2.20 to −1.15), −3.39 (−3.94 to −2.82) and −4.64 (−6.15 to −3.14) mm Hg systolic BP in adults \<40, 40 to 60, and \>60 years, respectively.
+
+**Conclusions:** Higher commuting and leisure‐time but not occupational MVPA were significantly associated with lower BP and lower hypertension risk at all ages, but these associations were stronger in older adults.

@@ -3,7 +3,8 @@
     "listing": "/index.html",
     "items": [
       "/slides/1-1-1-welcome/1-1-1-welcome.html",
-      "/slides/1-1-2-language-of-models/1-1-2-language-of-models.html"
+      "/slides/1-1-2-language-of-models/1-1-2-language-of-models.html",
+      "/slides/1-2-1-linear-regression/1-2-1-linear-regression.html"
     ]
   }
 ]

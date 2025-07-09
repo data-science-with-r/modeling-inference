@@ -13,11 +13,9 @@ format: revealjs
 
 ## Data science ethics
 
-::: incremental
 -   Misrepresentation
 -   Data privacy
 -   Algorithmic bias
-:::
 
 ## Modeling and inference
 
