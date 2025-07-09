@@ -1,0 +1,205 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "\n Modeling and prediction",
+    "section": "",
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#slides",
+    "href": "index.html#slides",
+    "title": "\n Modeling and prediction",
+    "section": "",
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#code-alongs",
+    "href": "index.html#code-alongs",
+    "title": "\n Modeling and prediction",
+    "section": "Code alongs",
+    "text": "Code alongs\n\n\n\nTitle\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#exercises",
+    "href": "index.html#exercises",
+    "title": "\n Modeling and prediction",
+    "section": "Exercises",
+    "text": "Exercises\n\n\n\nTitle\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling",
+    "title": "Language of models",
+    "section": "Modelling",
+    "text": "Modelling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but remember there are many many other types of models too!)\n\n\n\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-cars",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-cars",
+    "title": "Language of models",
+    "section": "Modeling cars",
+    "text": "Modeling cars\n\n\nWhat is the relationship between cars’ weights and their mileage?\nWhat is your best guess for a car’s MPG that weighs 3,500 pounds?"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars",
+    "title": "Language of models",
+    "section": "Modelling cars",
+    "text": "Modelling cars\n\nDescribe: What is the relationship between cars’ weights and their mileage?"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars-1",
+    "title": "Language of models",
+    "section": "Modelling cars",
+    "text": "Modelling cars\n\nPredict: What is your best guess for a car’s MPG that weighs 3,500 pounds?"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-1",
+    "title": "Language of models",
+    "section": "Modeling",
+    "text": "Modeling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but there are many many other types of models too!)"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-vocabulary",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-vocabulary",
+    "title": "Language of models",
+    "section": "Modeling vocabulary",
+    "text": "Modeling vocabulary\n\nOutcome: Variable whose behavior or variation you are trying to understand, on the y-axis (aka response variable, dependent variable)\nPredictor(s): Other variable(s) that you want to use to explain the variation in the outcome, on the x-axis (aka explanatory variable(s), independent variable(s))\nModel function: The regression line for predicting the outcome variable from the predictor variable(s), comprised generally of an intercept and a slope for each predictor\nPredicted value: Output of the model function, which gives the typical (expected) value of the outcome conditioning on the predictor\n\nResiduals: A measure of how far each case’s observed value is from its predicted value (based on a particular model)\n\nResidual = Observed value - Predicted value\nTells how far above/below the expected value each case is"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predictor",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predictor",
+    "title": "Language of models",
+    "section": "Predictor",
+    "text": "Predictor\n\n\n\n\n\n\n\n\nmpg\nwt\n\n\n\n21\n2.62\n\n\n21\n2.875\n\n\n22.8\n2.32\n\n\n21.4\n3.215\n\n\n18.7\n3.44\n\n\n18.1\n3.46\n\n\n...\n..."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#outcome",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#outcome",
+    "title": "Language of models",
+    "section": "Outcome",
+    "text": "Outcome\n\n\n\n\n\n\n\n\nmpg\nwt\n\n\n\n21\n2.62\n\n\n21\n2.875\n\n\n22.8\n2.32\n\n\n21.4\n3.215\n\n\n18.7\n3.44\n\n\n18.1\n3.46\n\n\n...\n..."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line",
+    "title": "Language of models",
+    "section": "Regression line",
+    "text": "Regression line"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-slope",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-slope",
+    "title": "Language of models",
+    "section": "Regression line: slope",
+    "text": "Regression line: slope"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-intercept",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-intercept",
+    "title": "Language of models",
+    "section": "Regression line: intercept",
+    "text": "Regression line: intercept"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation",
+    "title": "Language of models",
+    "section": "Correlation",
+    "text": "Correlation"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation-1",
+    "title": "Language of models",
+    "section": "Correlation",
+    "text": "Correlation\n\nRanges between -1 and 1.\nSame sign as the slope."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#visualizing-the-model",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#visualizing-the-model",
+    "title": "Language of models",
+    "section": "Visualizing the model",
+    "text": "Visualizing the model\n\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point() +\n  geom_smooth(method = \"lm\")\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#residuals",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#residuals",
+    "title": "Language of models",
+    "section": "Residuals",
+    "text": "Residuals\n\nmtcars_fit &lt;- linear_reg() |&gt;\n    fit(mpg ~ wt, data = mtcars)\n\nmtcars_tidy &lt;- tidy(mtcars_fit)\nmtcars_aug &lt;- augment(mtcars_fit, new_data = mtcars) |&gt;\n    mutate(res_cat = if_else(.resid &gt; 0, TRUE, FALSE))\n\nggplot(mtcars_aug) +\n  geom_line(aes(x = wt, y = .pred), linewidth = 0.75, alpha = 0.8) + \n  geom_point(aes(x = wt, y = mpg, color = res_cat)) +\n  labs(\n    x = \"Weight (1,000 lbs)\",\n    y = \"Miles per gallon (MPG)\",\n    title = \"MPG vs. weights of cars\"\n  ) +\n  guides(color = \"none\") +\n  scale_color_manual(values = c(\"#fec926\", \"#fe265b\")) +\n  annotate(\"text\", x = 2.5, y = 30, label = \"Positive residual\", color = \"#fe265b\", hjust = 0, size = 8) +\n  annotate(\"text\", x = 1, y = 10, label = \"Negative residual\", color = \"#fec926\", hjust = 0, size = 8)"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#extending-regression-lines",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#extending-regression-lines",
+    "title": "Language of models",
+    "section": "Extending regression lines",
+    "text": "Extending regression lines\n\nggplot(\n    mtcars, \n    aes(x = wt, y = mpg) \n  ) +\n  geom_point(alpha = 0.4) +\n  geom_smooth(method = \"lm\", se = FALSE, fullrange = TRUE, color = \"#fe5d26\") +\n  labs(\n    x = \"Weight (1,000 lbs)\",\n    y = \"Miles per gallon (MPG)\",\n    title = \"MPG vs. weights of cars\"\n  ) +\n  xlim(-3, 10) + ylim(-10, 50)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 12 rows containing missing values or values outside\nthe scale range (`geom_smooth()`)."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#models---upsides-and-downsides",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#models---upsides-and-downsides",
+    "title": "Language of models",
+    "section": "Models - upsides and downsides",
+    "text": "Models - upsides and downsides\n\nModels can sometimes reveal patterns that are not evident in a graph of the data. This is a great advantage of modeling over simple visual inspection of data.\nThere is a real risk, however, that a model is imposing structure that is not really there on the scatter of data, just as people imagine animal shapes in the stars. A skeptical approach is always warranted."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#variation-around-the-model",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#variation-around-the-model",
+    "title": "Language of models",
+    "section": "Variation around the model…",
+    "text": "Variation around the model…\nis just as important as the model, if not more!\nStatistics is the explanation of variation in the context of what remains unexplained.\n\nThe scatter suggests that there might be other factors that account for large parts of painting-to-painting variability, or perhaps just that randomness plays a big role.\nAdding more explanatory variables to a model can sometimes usefully reduce the size of the scatter around the model. (We’ll talk more about this later.)"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#how-do-we-use-models",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#how-do-we-use-models",
+    "title": "Language of models",
+    "section": "How do we use models?",
+    "text": "How do we use models?\n\nExplanation: Quantify the relationship between predictor(s) and outcome with slopes\nPrediction: Plug in the value of a predictor to the model to obtain a predicted value of the outcome"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#self-driving-cars",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#self-driving-cars",
+    "title": "Language of models",
+    "section": "Self driving cars",
+    "text": "Self driving cars"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#semi-or-garage",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#semi-or-garage",
+    "title": "Language of models",
+    "section": "Semi or garage?",
+    "text": "Semi or garage?\n\ni love how Tesla thinks the wall in my garage is a semi. 😅\n\n\n\n\n\n\n\nSource: Reddit"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#semi-or-garage-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#semi-or-garage-1",
+    "title": "Language of models",
+    "section": "Semi or garage?",
+    "text": "Semi or garage?\n\nNew owner here. Just parked in my garage. Tesla thinks I crashed onto a semi.\n\n\n\n\n\n\n\nSource: Reddit"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#car-or-trash",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#car-or-trash",
+    "title": "Language of models",
+    "section": "Car or trash?",
+    "text": "Car or trash?\n\nTesla calls Mercedes trash\n\n\n\n\n\n\n\nSource: Reddit"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp",
+    "title": "Language of models",
+    "section": "Leisure, commute, physical activity and BP",
+    "text": "Leisure, commute, physical activity and BP\n\nRelation Between Leisure Time, Commuting, and Occupational Physical Activity With Blood Pressure in 125,402 Adults: The Lifelines Cohort\nByambasukh, Oyuntugs, Harold Snieder, and Eva Corpeleijn. “Relation between leisure time, commuting, and occupational physical activity with blood pressure in 125 402 adults: the lifelines cohort.” Journal of the American Heart Association 9.4 (2020): e014313."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp-1",
+    "title": "Language of models",
+    "section": "Leisure, commute, physical activity and BP",
+    "text": "Leisure, commute, physical activity and BP\nBackground: Whether all domains of daily‐life moderate‐to‐vigorous physical activity (MVPA) are associated with lower blood pressure (BP) and how this association depends on age and body mass index remains unclear.\nMethods and Results: In the population‐based Lifelines cohort (N=125,402), MVPA was assessed by the Short Questionnaire to Assess Health‐Enhancing Physical Activity, a validated questionnaire in different domains such as commuting, leisure‐time, and occupational PA. BP was assessed using the last 3 of 10 measurements after 10 minutes’ rest in the supine position. Hypertension was defined as systolic BP ≥140 mm Hg and/or diastolic BP ≥90 mm Hg and/or use of antihypertensives. In regression analysis, higher commuting and leisure‐time but not occupational MVPA related to lower BP and lower hypertension risk. Commuting‐and‐leisure‐time MVPA was associated with BP in a dose‐dependent manner. β Coefficients (95% CI) from linear regression analyses were −1.64 (−2.03 to −1.24), −2.29 (−2.68 to −1.90), and finally −2.90 (−3.29 to −2.50) mm Hg systolic BP for the low, middle, and highest tertile of MVPA compared with “No MVPA” as the reference group after adjusting for age, sex, education, smoking and alcohol use. Further adjustment for body mass index attenuated the associations by 30% to 50%, but more MVPA remained significantly associated with lower BP and lower risk of hypertension. This association was age dependent. β Coefficients (95% CI) for the highest tertiles of commuting‐and‐leisure‐time MVPA were −1.67 (−2.20 to −1.15), −3.39 (−3.94 to −2.82) and −4.64 (−6.15 to −3.14) mm Hg systolic BP in adults &lt;40, 40 to 60, and &gt;60 years, respectively.\nConclusions: Higher commuting and leisure‐time but not occupational MVPA were significantly associated with lower BP and lower hypertension risk at all ages, but these associations were stronger in older adults."
+  }
+]
