@@ -19,8 +19,16 @@ format: revealjs
 
 ## Modeling and inference
 
+::: {.columns}
+::: {.column width="60%"}
+![](images/data-science-cycle/data-science-cycle.005.png){fig-align="left"}
+:::
+::: {.column width="40%"}
 ::: incremental
 -   Fitting, interpreting, selecting, and evaluating models
 -   Prediction, classification, and assessing accuracy
 -   Making inferences and quantifying uncertainty
 :::
+:::
+::: 
+
