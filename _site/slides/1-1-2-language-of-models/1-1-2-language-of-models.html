@@ -215,24 +215,18 @@
 <div class="columns">
 <div class="column">
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-1-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-1-1.png" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 </div><div class="column">
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-2-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-2-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -250,7 +244,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-3-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-3-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -262,7 +256,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-4-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-4-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -274,7 +268,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-5-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-5-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -283,17 +277,17 @@
 <ul>
 <li>Use models to explain the relationship between variables and to make predictions</li>
 <li>For now we will focus on <strong>linear</strong> models (but there are <em>many</em> <em>many</em> other types of models too!)</li>
-</ul></section><section id="modeling-vocabulary" class="slide level2"><h2>Modeling vocabulary</h2>
+</ul></section><section id="modeling-vocabulary" class="slide level2 smaller"><h2>Modeling vocabulary</h2>
 <ul>
-<li><p><strong>Outcome:</strong> Variable whose behavior or variation you are trying to understand, on the y-axis (aka response variable, dependent variable)</p></li>
-<li><p><strong>Predictor(s):</strong> Other variable(s) that you want to use to explain the variation in the outcome, on the x-axis (aka explanatory variable(s), independent variable(s))</p></li>
-<li><p><strong>Model function:</strong> The regression line for predicting the outcome variable from the predictor variable(s), comprised generally of an <strong>intercept</strong> and a <strong>slope</strong> for each predictor</p></li>
-<li><p><strong>Predicted value:</strong> Output of the model function, which gives the typical (expected) value of the outcome <em>conditioning</em> on the predictor</p></li>
-<li>
+<li class="fragment"><p><strong>Outcome:</strong> Variable whose behavior or variation you are trying to understand, on the y-axis (aka response variable, dependent variable)</p></li>
+<li class="fragment"><p><strong>Predictor(s):</strong> Other variable(s) that you want to use to explain the variation in the outcome, on the x-axis (aka explanatory variable(s), independent variable(s))</p></li>
+<li class="fragment"><p><strong>Model function:</strong> The regression line for predicting the outcome variable from the predictor variable(s), comprised generally of an <strong>intercept</strong> and a <strong>slope</strong> for each predictor</p></li>
+<li class="fragment"><p><strong>Predicted value:</strong> Output of the model function, which gives the typical (expected) value of the outcome <em>conditioning</em> on the predictor</p></li>
+<li class="fragment">
 <p><strong>Residuals:</strong> A measure of how far each case’s observed value is from its predicted value (based on a particular model)</p>
 <ul>
-<li>Residual = Observed value - Predicted value</li>
-<li>Tells how far above/below the expected value each case is</li>
+<li class="fragment">Residual = Observed value - Predicted value</li>
+<li class="fragment">Tells how far above/below the expected value each case is</li>
 </ul>
 </li>
 </ul></section><section id="predictor" class="slide level2"><h2>Predictor</h2>
@@ -301,30 +295,30 @@
 <div class="column" style="width:25%;">
 <div class="cell">
 <div class="cell-output-display">
-<div id="otfcjrkxva" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#otfcjrkxva table {
+<div id="fcoprnhvmx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fcoprnhvmx table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#otfcjrkxva thead, #otfcjrkxva tbody, #otfcjrkxva tfoot, #otfcjrkxva tr, #otfcjrkxva td, #otfcjrkxva th {
+#fcoprnhvmx thead, #fcoprnhvmx tbody, #fcoprnhvmx tfoot, #fcoprnhvmx tr, #fcoprnhvmx td, #fcoprnhvmx th {
   border-style: none;
 }
 
-#otfcjrkxva p {
+#fcoprnhvmx p {
   margin: 0;
   padding: 0;
 }
 
-#otfcjrkxva .gt_table {
+#fcoprnhvmx .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
-  font-size: 12px;
+  font-size: 24px;
   font-weight: normal;
   font-style: normal;
   background-color: #FFFFFF;
@@ -343,12 +337,12 @@
   border-left-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_caption {
+#fcoprnhvmx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#otfcjrkxva .gt_title {
+#fcoprnhvmx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -360,7 +354,7 @@
   border-bottom-width: 0;
 }
 
-#otfcjrkxva .gt_subtitle {
+#fcoprnhvmx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -372,7 +366,7 @@
   border-top-width: 0;
 }
 
-#otfcjrkxva .gt_heading {
+#fcoprnhvmx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -384,13 +378,13 @@
   border-right-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_bottom_border {
+#fcoprnhvmx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_col_headings {
+#fcoprnhvmx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -405,7 +399,7 @@
   border-right-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_col_heading {
+#fcoprnhvmx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -425,7 +419,7 @@
   overflow-x: hidden;
 }
 
-#otfcjrkxva .gt_column_spanner_outer {
+#fcoprnhvmx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -437,15 +431,15 @@
   padding-right: 4px;
 }
 
-#otfcjrkxva .gt_column_spanner_outer:first-child {
+#fcoprnhvmx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#otfcjrkxva .gt_column_spanner_outer:last-child {
+#fcoprnhvmx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#otfcjrkxva .gt_column_spanner {
+#fcoprnhvmx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -457,11 +451,11 @@
   width: 100%;
 }
 
-#otfcjrkxva .gt_spanner_row {
+#fcoprnhvmx .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#otfcjrkxva .gt_group_heading {
+#fcoprnhvmx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -487,7 +481,7 @@
   text-align: left;
 }
 
-#otfcjrkxva .gt_empty_group_heading {
+#fcoprnhvmx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -502,15 +496,15 @@
   vertical-align: middle;
 }
 
-#otfcjrkxva .gt_from_md > :first-child {
+#fcoprnhvmx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#otfcjrkxva .gt_from_md > :last-child {
+#fcoprnhvmx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#otfcjrkxva .gt_row {
+#fcoprnhvmx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -529,7 +523,7 @@
   overflow-x: hidden;
 }
 
-#otfcjrkxva .gt_stub {
+#fcoprnhvmx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -542,7 +536,7 @@
   padding-right: 5px;
 }
 
-#otfcjrkxva .gt_stub_row_group {
+#fcoprnhvmx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -556,15 +550,15 @@
   vertical-align: top;
 }
 
-#otfcjrkxva .gt_row_group_first td {
+#fcoprnhvmx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#otfcjrkxva .gt_row_group_first th {
+#fcoprnhvmx .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#otfcjrkxva .gt_summary_row {
+#fcoprnhvmx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -574,16 +568,16 @@
   padding-right: 5px;
 }
 
-#otfcjrkxva .gt_first_summary_row {
+#fcoprnhvmx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_first_summary_row.thick {
+#fcoprnhvmx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#otfcjrkxva .gt_last_summary_row {
+#fcoprnhvmx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -593,7 +587,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_grand_summary_row {
+#fcoprnhvmx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -603,7 +597,7 @@
   padding-right: 5px;
 }
 
-#otfcjrkxva .gt_first_grand_summary_row {
+#fcoprnhvmx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -613,7 +607,7 @@
   border-top-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_last_grand_summary_row_top {
+#fcoprnhvmx .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -623,11 +617,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_striped {
+#fcoprnhvmx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#otfcjrkxva .gt_table_body {
+#fcoprnhvmx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -636,7 +630,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_footnotes {
+#fcoprnhvmx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -650,7 +644,7 @@
   border-right-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_footnote {
+#fcoprnhvmx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -659,7 +653,7 @@
   padding-right: 5px;
 }
 
-#otfcjrkxva .gt_sourcenotes {
+#fcoprnhvmx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -673,7 +667,7 @@
   border-right-color: #D3D3D3;
 }
 
-#otfcjrkxva .gt_sourcenote {
+#fcoprnhvmx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -681,72 +675,72 @@
   padding-right: 5px;
 }
 
-#otfcjrkxva .gt_left {
+#fcoprnhvmx .gt_left {
   text-align: left;
 }
 
-#otfcjrkxva .gt_center {
+#fcoprnhvmx .gt_center {
   text-align: center;
 }
 
-#otfcjrkxva .gt_right {
+#fcoprnhvmx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#otfcjrkxva .gt_font_normal {
+#fcoprnhvmx .gt_font_normal {
   font-weight: normal;
 }
 
-#otfcjrkxva .gt_font_bold {
+#fcoprnhvmx .gt_font_bold {
   font-weight: bold;
 }
 
-#otfcjrkxva .gt_font_italic {
+#fcoprnhvmx .gt_font_italic {
   font-style: italic;
 }
 
-#otfcjrkxva .gt_super {
+#fcoprnhvmx .gt_super {
   font-size: 65%;
 }
 
-#otfcjrkxva .gt_footnote_marks {
+#fcoprnhvmx .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#otfcjrkxva .gt_asterisk {
+#fcoprnhvmx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#otfcjrkxva .gt_indent_1 {
+#fcoprnhvmx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#otfcjrkxva .gt_indent_2 {
+#fcoprnhvmx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#otfcjrkxva .gt_indent_3 {
+#fcoprnhvmx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#otfcjrkxva .gt_indent_4 {
+#fcoprnhvmx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#otfcjrkxva .gt_indent_5 {
+#fcoprnhvmx .gt_indent_5 {
   text-indent: 25px;
 }
 
-#otfcjrkxva .katex-display {
+#fcoprnhvmx .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#otfcjrkxva div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fcoprnhvmx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -795,7 +789,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-8-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-8-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -806,30 +800,30 @@
 <div class="column" style="width:25%;">
 <div class="cell">
 <div class="cell-output-display">
-<div id="quvpswrodp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#quvpswrodp table {
+<div id="hwthejnukb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hwthejnukb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#quvpswrodp thead, #quvpswrodp tbody, #quvpswrodp tfoot, #quvpswrodp tr, #quvpswrodp td, #quvpswrodp th {
+#hwthejnukb thead, #hwthejnukb tbody, #hwthejnukb tfoot, #hwthejnukb tr, #hwthejnukb td, #hwthejnukb th {
   border-style: none;
 }
 
-#quvpswrodp p {
+#hwthejnukb p {
   margin: 0;
   padding: 0;
 }
 
-#quvpswrodp .gt_table {
+#hwthejnukb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
-  font-size: 12px;
+  font-size: 24px;
   font-weight: normal;
   font-style: normal;
   background-color: #FFFFFF;
@@ -848,12 +842,12 @@
   border-left-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_caption {
+#hwthejnukb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#quvpswrodp .gt_title {
+#hwthejnukb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -865,7 +859,7 @@
   border-bottom-width: 0;
 }
 
-#quvpswrodp .gt_subtitle {
+#hwthejnukb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -877,7 +871,7 @@
   border-top-width: 0;
 }
 
-#quvpswrodp .gt_heading {
+#hwthejnukb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -889,13 +883,13 @@
   border-right-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_bottom_border {
+#hwthejnukb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_col_headings {
+#hwthejnukb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -910,7 +904,7 @@
   border-right-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_col_heading {
+#hwthejnukb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -930,7 +924,7 @@
   overflow-x: hidden;
 }
 
-#quvpswrodp .gt_column_spanner_outer {
+#hwthejnukb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -942,15 +936,15 @@
   padding-right: 4px;
 }
 
-#quvpswrodp .gt_column_spanner_outer:first-child {
+#hwthejnukb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#quvpswrodp .gt_column_spanner_outer:last-child {
+#hwthejnukb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#quvpswrodp .gt_column_spanner {
+#hwthejnukb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -962,11 +956,11 @@
   width: 100%;
 }
 
-#quvpswrodp .gt_spanner_row {
+#hwthejnukb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#quvpswrodp .gt_group_heading {
+#hwthejnukb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -992,7 +986,7 @@
   text-align: left;
 }
 
-#quvpswrodp .gt_empty_group_heading {
+#hwthejnukb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1007,15 +1001,15 @@
   vertical-align: middle;
 }
 
-#quvpswrodp .gt_from_md > :first-child {
+#hwthejnukb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#quvpswrodp .gt_from_md > :last-child {
+#hwthejnukb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#quvpswrodp .gt_row {
+#hwthejnukb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1034,7 +1028,7 @@
   overflow-x: hidden;
 }
 
-#quvpswrodp .gt_stub {
+#hwthejnukb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1047,7 +1041,7 @@
   padding-right: 5px;
 }
 
-#quvpswrodp .gt_stub_row_group {
+#hwthejnukb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1061,15 +1055,15 @@
   vertical-align: top;
 }
 
-#quvpswrodp .gt_row_group_first td {
+#hwthejnukb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#quvpswrodp .gt_row_group_first th {
+#hwthejnukb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#quvpswrodp .gt_summary_row {
+#hwthejnukb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1079,16 +1073,16 @@
   padding-right: 5px;
 }
 
-#quvpswrodp .gt_first_summary_row {
+#hwthejnukb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_first_summary_row.thick {
+#hwthejnukb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#quvpswrodp .gt_last_summary_row {
+#hwthejnukb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1098,7 +1092,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_grand_summary_row {
+#hwthejnukb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1108,7 +1102,7 @@
   padding-right: 5px;
 }
 
-#quvpswrodp .gt_first_grand_summary_row {
+#hwthejnukb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1118,7 +1112,7 @@
   border-top-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_last_grand_summary_row_top {
+#hwthejnukb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1128,11 +1122,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_striped {
+#hwthejnukb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#quvpswrodp .gt_table_body {
+#hwthejnukb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1141,7 +1135,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_footnotes {
+#hwthejnukb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1155,7 +1149,7 @@
   border-right-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_footnote {
+#hwthejnukb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1164,7 +1158,7 @@
   padding-right: 5px;
 }
 
-#quvpswrodp .gt_sourcenotes {
+#hwthejnukb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1178,7 +1172,7 @@
   border-right-color: #D3D3D3;
 }
 
-#quvpswrodp .gt_sourcenote {
+#hwthejnukb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1186,72 +1180,72 @@
   padding-right: 5px;
 }
 
-#quvpswrodp .gt_left {
+#hwthejnukb .gt_left {
   text-align: left;
 }
 
-#quvpswrodp .gt_center {
+#hwthejnukb .gt_center {
   text-align: center;
 }
 
-#quvpswrodp .gt_right {
+#hwthejnukb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#quvpswrodp .gt_font_normal {
+#hwthejnukb .gt_font_normal {
   font-weight: normal;
 }
 
-#quvpswrodp .gt_font_bold {
+#hwthejnukb .gt_font_bold {
   font-weight: bold;
 }
 
-#quvpswrodp .gt_font_italic {
+#hwthejnukb .gt_font_italic {
   font-style: italic;
 }
 
-#quvpswrodp .gt_super {
+#hwthejnukb .gt_super {
   font-size: 65%;
 }
 
-#quvpswrodp .gt_footnote_marks {
+#hwthejnukb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#quvpswrodp .gt_asterisk {
+#hwthejnukb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#quvpswrodp .gt_indent_1 {
+#hwthejnukb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#quvpswrodp .gt_indent_2 {
+#hwthejnukb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#quvpswrodp .gt_indent_3 {
+#hwthejnukb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#quvpswrodp .gt_indent_4 {
+#hwthejnukb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#quvpswrodp .gt_indent_5 {
+#hwthejnukb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#quvpswrodp .katex-display {
+#hwthejnukb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#quvpswrodp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hwthejnukb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1300,7 +1294,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-10-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-10-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -1310,7 +1304,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-11-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-11-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -1319,7 +1313,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-12-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-12-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -1328,7 +1322,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-13-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-13-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -1337,7 +1331,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-14-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-14-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -1353,71 +1347,30 @@
 </div>
 </section><section id="visualizing-the-model" class="slide level2"><h2>Visualizing the model</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span></span>
-<span id="cb3-2"><a></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb3-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span></span>
+<span id="cb1-2"><a></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-15-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-15-1.png" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 </section><section id="residuals" class="slide level2"><h2>Residuals</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>mtcars_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a></a>    <span class="fu">fit</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars)</span>
-<span id="cb5-3"><a></a></span>
-<span id="cb5-4"><a></a>mtcars_tidy <span class="ot">&lt;-</span> <span class="fu">tidy</span>(mtcars_fit)</span>
-<span id="cb5-5"><a></a>mtcars_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(mtcars_fit, <span class="at">new_data =</span> mtcars) <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a></a>    <span class="fu">mutate</span>(<span class="at">res_cat =</span> <span class="fu">if_else</span>(.resid <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
-<span id="cb5-7"><a></a></span>
-<span id="cb5-8"><a></a><span class="fu">ggplot</span>(mtcars_aug) <span class="sc">+</span></span>
-<span id="cb5-9"><a></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> .pred), <span class="at">linewidth =</span> <span class="fl">0.75</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
-<span id="cb5-10"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> res_cat)) <span class="sc">+</span></span>
-<span id="cb5-11"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-12"><a></a>    <span class="at">x =</span> <span class="st">"Weight (1,000 lbs)"</span>,</span>
-<span id="cb5-13"><a></a>    <span class="at">y =</span> <span class="st">"Miles per gallon (MPG)"</span>,</span>
-<span id="cb5-14"><a></a>    <span class="at">title =</span> <span class="st">"MPG vs. weights of cars"</span></span>
-<span id="cb5-15"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb5-16"><a></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb5-17"><a></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#fec926"</span>, <span class="st">"#fe265b"</span>)) <span class="sc">+</span></span>
-<span id="cb5-18"><a></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.5</span>, <span class="at">y =</span> <span class="dv">30</span>, <span class="at">label =</span> <span class="st">"Positive residual"</span>, <span class="at">color =</span> <span class="st">"#fe265b"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">8</span>) <span class="sc">+</span></span>
-<span id="cb5-19"><a></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="dv">10</span>, <span class="at">label =</span> <span class="st">"Negative residual"</span>, <span class="at">color =</span> <span class="st">"#fec926"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-16-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-16-1.png" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 </section><section id="extending-regression-lines" class="slide level2"><h2>Extending regression lines</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">ggplot</span>(</span>
-<span id="cb6-2"><a></a>    mtcars, </span>
-<span id="cb6-3"><a></a>    <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg) </span>
-<span id="cb6-4"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb6-5"><a></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">fullrange =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"#fe5d26"</span>) <span class="sc">+</span></span>
-<span id="cb6-7"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-8"><a></a>    <span class="at">x =</span> <span class="st">"Weight (1,000 lbs)"</span>,</span>
-<span id="cb6-9"><a></a>    <span class="at">y =</span> <span class="st">"Miles per gallon (MPG)"</span>,</span>
-<span id="cb6-10"><a></a>    <span class="at">title =</span> <span class="st">"MPG vs. weights of cars"</span></span>
-<span id="cb6-11"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb6-12"><a></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">10</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 12 rows containing missing values or values outside
-the scale range (`geom_smooth()`).</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-17-1.png" width="576"></p>
+<figure><p><img data-src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-17-1.png" width="768"></p>
 </figure>
 </div>
 </div>
@@ -1434,9 +1387,9 @@ the scale range (`geom_smooth()`).</code></pre>
 <li>Adding more explanatory variables to a model can sometimes usefully reduce the size of the scatter around the model. (We’ll talk more about this later.)</li>
 </ul></section><section id="how-do-we-use-models" class="slide level2"><h2>How do we use models?</h2>
 <ul>
-<li><p>Explanation: Quantify the relationship between predictor(s) and outcome with slopes</p></li>
-<li><p>Prediction: Plug in the value of a predictor to the model to obtain a predicted value of the outcome</p></li>
-</ul></section></section><section><section id="prediction-classification" class="title-slide slide level1 center"><h1>Prediction / classification</h1>
+<li><p><strong>Predict / classify:</strong> Plug in the value(s) of predictor(s) to the model to obtain the predicted value of the outcome</p></li>
+<li><p><strong>Describe:</strong> Quantify the relationship between predictor(s) and outcome with slopes</p></li>
+</ul></section></section><section><section id="predict-classify" class="title-slide slide level1 center"><h1>Predict / classify</h1>
 
 </section><section id="self-driving-cars" class="slide level2"><h2>Self driving cars</h2>
 <iframe data-external="1" src="https://www.youtube.com/embed/xvqQ4F7Yf2o?start=150" width="900" height="600" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
@@ -1445,7 +1398,7 @@ the scale range (`geom_smooth()`).</code></pre>
 <p>i love how Tesla thinks the wall in my garage is a semi. 😅</p>
 </blockquote>
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="images/14/tesla-get-wrong-1.png" class="quarto-figure quarto-figure-center" width="300"></p>
+<figure><p><img data-src="images/tesla-get-wrong-1.png" class="quarto-figure quarto-figure-center" width="300"></p>
 </figure>
 </div>
 
@@ -1456,7 +1409,7 @@ the scale range (`geom_smooth()`).</code></pre>
 <p>New owner here. Just parked in my garage. Tesla thinks I crashed onto a semi.</p>
 </blockquote>
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="images/14/tesla-get-wrong-2.png" class="quarto-figure quarto-figure-center" width="300"></p>
+<figure><p><img data-src="images/tesla-get-wrong-2.png" class="quarto-figure quarto-figure-center" width="300"></p>
 </figure>
 </div>
 
@@ -1467,13 +1420,13 @@ the scale range (`geom_smooth()`).</code></pre>
 <p>Tesla calls Mercedes trash</p>
 </blockquote>
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="images/14/tesla-get-wrong-3.png" class="quarto-figure quarto-figure-center" width="500"></p>
+<figure><p><img data-src="images/tesla-get-wrong-3.png" class="quarto-figure quarto-figure-center" width="500"></p>
 </figure>
 </div>
 
 <aside><div>
 <p>Source: <a href="https://www.reddit.com/r/FUCKYOUINPARTICULAR/comments/hi5srx/tesla_calls_mercedes_trash/">Reddit</a></p>
-</div></aside></section></section><section><section id="description" class="title-slide slide level1 center"><h1>Description</h1>
+</div></aside></section></section><section><section id="describe" class="title-slide slide level1 center"><h1>Describe</h1>
 
 </section><section id="leisure-commute-physical-activity-and-bp" class="slide level2 smaller"><h2>Leisure, commute, physical activity and BP</h2>
 <blockquote>

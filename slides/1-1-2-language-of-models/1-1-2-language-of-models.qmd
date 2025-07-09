@@ -1,6 +1,8 @@
 ---
 title: "Language of models"
 format: revealjs
+fig-width: 8
+fig-asp: 0.618
 ---
 
 ```{r}
@@ -24,6 +26,7 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
 ::: {.column}
 ```{r}
 #| echo: false
+#| warning: false
 df1 <- tibble(x = 1:100, y = x + rnorm(100, mean = 0, sd = 5))
 ggplot(df1, aes(x = x, y = y)) +
   geom_point() +
@@ -38,6 +41,7 @@ ggplot(df1, aes(x = x, y = y)) +
 ::: {.column}
 ```{r}
 #| echo: false
+#| warning: false
 df2 <- tibble(x = seq(-6, 5.9, 0.1), y = (1 / (1+exp(-2*x))) + rnorm(120, mean = 0, sd = 0.1))
 ggplot(df2, aes(x = x, y = y)) +
   geom_point() +
@@ -115,8 +119,9 @@ base +
 -   Use models to explain the relationship between variables and to make predictions
 -   For now we will focus on **linear** models (but there are *many* *many* other types of models too!)
 
-## Modeling vocabulary
+## Modeling vocabulary {.smaller}
 
+::: incremental
 - **Outcome:** Variable whose behavior or variation you are trying to understand, on the y-axis (aka response variable, dependent variable)
 
 - **Predictor(s):** Other variable(s) that you want to use to explain the variation in the outcome, on the x-axis (aka explanatory variable(s), independent variable(s))
@@ -128,6 +133,7 @@ base +
 - **Residuals:** A measure of how far each case's observed value is from its predicted value (based on a particular model)
   - Residual = Observed value - Predicted value
   - Tells how far above/below the expected value each case is
+:::
 
 ## Predictor
 
@@ -159,7 +165,7 @@ mtcars |>
       ),
     locations = cells_body(columns = wt)
   ) |>
-  tab_options(table.font.size = px(12))
+  tab_options(table.font.size = px(24))
 ```
 :::
 
@@ -196,7 +202,7 @@ mtcars |>
       ),
     locations = cells_body(columns = mpg)
   ) |>
-  tab_options(table.font.size = px(12))
+  tab_options(table.font.size = px(24))
 ```
 :::
 
@@ -298,6 +304,7 @@ base +
 ## Visualizing the model
 
 ```{r}
+#| warning: false
 ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point() +
   geom_smooth(method = "lm")
@@ -306,6 +313,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
 ## Residuals
 
 ```{r}
+#| echo: false
 mtcars_fit <- linear_reg() |>
     fit(mpg ~ wt, data = mtcars)
 
@@ -330,6 +338,8 @@ ggplot(mtcars_aug) +
 ## Extending regression lines
 
 ```{r}
+#| echo: false
+#| warning: false
 ggplot(
     mtcars, 
     aes(x = wt, y = mpg) 
@@ -360,11 +370,11 @@ is just as important as the model, if not more!
 
 ## How do we use models?
 
-- Explanation: Quantify the relationship between predictor(s) and outcome with slopes
+- **Predict / classify:** Plug in the value(s) of predictor(s) to the model to obtain the predicted value of the outcome
 
-- Prediction: Plug in the value of a predictor to the model to obtain a predicted value of the outcome
+- **Describe:** Quantify the relationship between predictor(s) and outcome with slopes
 
-# Prediction / classification
+# Predict / classify
 
 ## Self driving cars
 
@@ -375,7 +385,7 @@ is just as important as the model, if not more!
 > i love how Tesla thinks the wall in my garage is a semi.
 > 😅
 
-![](images/14/tesla-get-wrong-1.png){fig-align="center" width="300"}
+![](images/tesla-get-wrong-1.png){fig-align="center" width="300"}
 
 ::: aside
 Source: [Reddit](https://www.reddit.com/r/TeslaModelY/comments/vjcpte/i_love_how_tesla_thinks_the_wall_in_my_garage_is/)
@@ -387,7 +397,7 @@ Source: [Reddit](https://www.reddit.com/r/TeslaModelY/comments/vjcpte/i_love_how
 > Just parked in my garage.
 > Tesla thinks I crashed onto a semi.
 
-![](images/14/tesla-get-wrong-2.png){fig-align="center" width="300"}
+![](images/tesla-get-wrong-2.png){fig-align="center" width="300"}
 
 ::: aside
 Source: [Reddit](https://www.reddit.com/r/TeslaModelY/comments/112520t/new_owner_here_just_parked_in_my_garage_tesla/)
@@ -397,13 +407,13 @@ Source: [Reddit](https://www.reddit.com/r/TeslaModelY/comments/112520t/new_owner
 
 > Tesla calls Mercedes trash
 
-![](images/14/tesla-get-wrong-3.png){fig-align="center" width="500"}
+![](images/tesla-get-wrong-3.png){fig-align="center" width="500"}
 
 ::: aside
 Source: [Reddit](https://www.reddit.com/r/FUCKYOUINPARTICULAR/comments/hi5srx/tesla_calls_mercedes_trash/)
 :::
 
-# Description
+# Describe
 
 ## Leisure, commute, physical activity and BP {.smaller}
 
