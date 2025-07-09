@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.14">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="author" content="Mine Çetinkaya-Rundel + Elijah Meyer">
-<title> Modeling and inference – Modeling and inference</title>
+<title>Modeling fish – Modeling and inference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -18,34 +17,65 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a931dd857d6747ccdb56a861fbe4dae6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0becec3c5eb789f68b427df08fd3c8b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-53cb08ceadd442fd4d3a8917625d2ae8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-0becec3c5eb789f68b427df08fd3c8b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-a931dd857d6747ccdb56a861fbe4dae6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0becec3c5eb789f68b427df08fd3c8b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-53cb08ceadd442fd4d3a8917625d2ae8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-0becec3c5eb789f68b427df08fd3c8b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -71,116 +101,7 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-slides .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-slides'] = new List('listing-slides', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-code-alongs .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-code-alongs'] = new List('listing-code-alongs', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-exercises .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] }],
-      
-      searchColumns: [],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-exercises'] = new List('listing-exercises', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
+}</script>
 </head>
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
@@ -349,7 +270,7 @@ window.Quarto = {
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Modeling and inference</span>
     </a>
   </div>
@@ -360,7 +281,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
 </ul>
@@ -377,28 +298,36 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#slides" id="toc-slides" class="nav-link active" data-scroll-target="#slides">Slides</a></li>
-  <li><a href="#code-alongs" id="toc-code-alongs" class="nav-link" data-scroll-target="#code-alongs">Code alongs</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+<li>
+<a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+<li><a href="#goal" id="toc-goal" class="nav-link" data-scroll-target="#goal">Goal</a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a>
+  <ul class="collapse">
+<li><a href="#visualizing-the-model" id="toc-visualizing-the-model" class="nav-link" data-scroll-target="#visualizing-the-model">Visualizing the model</a></li>
+  <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">Model fitting</a></li>
+  <li><a href="#model-summary" id="toc-model-summary" class="nav-link" data-scroll-target="#model-summary">Model summary</a></li>
+  <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation">Correlation</a></li>
+  <li><a href="#adding-a-third-variable" id="toc-adding-a-third-variable" class="nav-link" data-scroll-target="#adding-a-third-variable">Adding a third variable</a></li>
+  <li><a href="#fitting-other-models" id="toc-fitting-other-models" class="nav-link" data-scroll-target="#fitting-other-models">Fitting other models</a></li>
+  </ul>
+</li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">
-<i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</h1>
-<p class="subtitle lead"><i class="fa-solid fa-book" aria-label="book"></i> Data Science with R</p>
+<h1 class="title">Modeling fish</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Mine Çetinkaya-Rundel + Elijah Meyer </p>
-          </div>
-  </div>
     
   
     
@@ -406,78 +335,170 @@ window.Quarto = {
   
 
 
-</header><section id="slides" class="level2"><h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<div id="listing-slides" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table">
-<thead><tr>
-<th>
-Title
-</th>
-
-</tr></thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1752095209551" data-listing-reading-time-sort="1" data-listing-word-count-sort="52" data-listing-title-sort="Welcome" data-listing-filename-sort="1-1-1-welcome.qmd">
-<td>
-<a href="./slides/1-1-1-welcome/1-1-1-welcome.html" class="title listing-title">Welcome</a>
-</td>
-
-</tr>
-<tr data-index="1" data-listing-file-modified-sort="1752095209556" data-listing-reading-time-sort="10" data-listing-word-count-sort="1984" data-listing-title-sort="Language of models" data-listing-filename-sort="1-1-2-language-of-models.qmd">
-<td>
-<a href="./slides/1-1-2-language-of-models/1-1-2-language-of-models.html" class="title listing-title">Language of models</a>
-</td>
-
-</tr>
-<tr data-index="2" data-listing-file-modified-sort="1752095209558" data-listing-reading-time-sort="5" data-listing-word-count-sort="845" data-listing-title-sort="Linear models with a single predictor" data-listing-filename-sort="1-2-1-lin-mod-single-predictor.qmd">
-<td>
-<a href="./slides/1-2-1-lin-mod-single-predictor/1-2-1-lin-mod-single-predictor.html" class="title listing-title">Linear models with a single predictor</a>
-</td>
-
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
+</header><section id="introduction" class="level1"><h1>Introduction</h1>
+<section id="goal" class="level2"><h2 class="anchored" data-anchor-id="goal">Goal</h2>
+<p>Practice modeling using the <code>fish</code> dataset on two common fish species in fish market sales.</p>
+</section><section id="packages" class="level2"><h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<p>We will use the <strong>tidyverse</strong> package for data wrangling and visualization and the <strong>tidymodels</strong> package for modeling.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="code-alongs" class="level2"><h2 class="anchored" data-anchor-id="code-alongs">Code alongs</h2>
-<div id="listing-code-alongs" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table">
-<thead><tr>
-<th>
-Title
-</th>
-
-</tr></thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1752095209549" data-listing-reading-time-sort="5" data-listing-word-count-sort="933" data-listing-title-sort="Modeling fish (Complete)" data-listing-filename-sort="1-2-modeling-fish-complete.qmd">
-<td>
-<a href="./code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html" class="title listing-title">Modeling fish (Complete)</a>
-</td>
-
-</tr>
-<tr data-index="1" data-listing-file-modified-sort="1752095209549" data-listing-reading-time-sort="3" data-listing-word-count-sort="596" data-listing-title-sort="Modeling fish" data-listing-filename-sort="1-2-modeling-fish.qmd">
-<td>
-<a href="./code-alongs/1-2-modeling-fish/1-2-modeling-fish.html" class="title listing-title">Modeling fish</a>
-</td>
-
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
+</section><section id="data" class="level2"><h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>These data come from Kaggle and is commonly used in machine learning examples.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fish</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"https://data-science-with-r.github.io/data/fish.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="exercises" class="level2"><h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
-<div id="listing-exercises" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table caption-top">
+<p>The data dictionary is below:</p>
+<table class="caption-top table">
 <thead><tr class="header">
-<th data-quarto-table-cell-role="th">Title</th>
+<th><strong>variable</strong></th>
+<th><strong>description</strong></th>
 </tr></thead>
-<tbody class="list"></tbody>
+<tbody>
+<tr class="odd">
+<td><code>species</code></td>
+<td>Species name of fish</td>
+</tr>
+<tr class="even">
+<td><code>weight</code></td>
+<td>Weight, in grams</td>
+</tr>
+<tr class="odd">
+<td><code>length_vertical</code></td>
+<td>Vertical length, in cm</td>
+</tr>
+<tr class="even">
+<td><code>length_diagonal</code></td>
+<td>Diagonal length, in cm</td>
+</tr>
+<tr class="odd">
+<td><code>length_cross</code></td>
+<td>Cross length, in cm</td>
+</tr>
+<tr class="even">
+<td><code>height</code></td>
+<td>Height, in cm</td>
+</tr>
+<tr class="odd">
+<td><code>width</code></td>
+<td>Diagonal width, in cm</td>
+</tr>
+</tbody>
 </table>
-<div class="listing-no-matching d-none">No matching items</div>
+<p>Let’s take a look at the data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fish</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 55 × 7
+   species weight length_vertical length_diagonal length_cross height width
+   &lt;chr&gt;    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+ 1 Bream      242            23.2            25.4         30     11.5  4.02
+ 2 Bream      290            24              26.3         31.2   12.5  4.31
+ 3 Bream      340            23.9            26.5         31.1   12.4  4.70
+ 4 Bream      363            26.3            29           33.5   12.7  4.46
+ 5 Bream      430            26.5            29           34     12.4  5.13
+ 6 Bream      450            26.8            29.7         34.7   13.6  4.93
+ 7 Bream      500            26.8            29.7         34.5   14.2  5.28
+ 8 Bream      390            27.6            30           35     12.7  4.69
+ 9 Bream      450            27.6            30           35.1   14.0  4.84
+10 Bream      500            28.5            30.7         36.2   14.2  4.96
+# ℹ 45 more rows</code></pre>
+</div>
+</div>
+</section></section><section id="analysis" class="level1"><h1>Analysis</h1>
+<section id="visualizing-the-model" class="level2"><h2 class="anchored" data-anchor-id="visualizing-the-model">Visualizing the model</h2>
+<p>We’re going to investigate the relationship between the weights and heights of fish, predicting weight from height.</p>
+<ul>
+<li>Create an appropriate plot to investigate this relationship. Add appropriate labels to the plot.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>If you were to draw a a straight line to best represent the relationship between the heights and weights of fish, where would it go? Why?</li>
+</ul>
+<p>Add response here.</p>
+<ul>
+<li>Now, let R draw the line for you! Hint: Use <code><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth()</a></code>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>What types of questions can this plot help answer?</li>
+</ul>
+<p>Add response here.</p>
+<ul>
+<li>We can use this line to make predictions. Predict what you think the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm. Which prediction is considered extrapolation?</li>
+</ul>
+<p>Add response here.</p>
+<ul>
+<li>What is a residual?</li>
+</ul>
+<p>Add response here.</p>
+</section><section id="model-fitting" class="level2"><h2 class="anchored" data-anchor-id="model-fitting">Model fitting</h2>
+<ul>
+<li>Fit a model to predict fish weights from their heights.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Predict what the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm using this model.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Calculate predicted weights for all fish in the data and visualize the residuals under this model.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="model-summary" class="level2"><h2 class="anchored" data-anchor-id="model-summary">Model summary</h2>
+<ul>
+<li>
+<strong>Demo:</strong> Display the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>
+<strong>Demo:</strong> Write out your model using mathematical notation.</li>
+</ul>
+<p>Add response here.</p>
+</section><section id="correlation" class="level2"><h2 class="anchored" data-anchor-id="correlation">Correlation</h2>
+<p>We can also assess correlation between two quantitative variables.</p>
+<ul>
+<li>What is correlation? What are values correlation can take?</li>
+</ul>
+<p>Add response here.</p>
+<ul>
+<li><p>Are you good at guessing correlation? Give it a try! <a href="https://www.rossmanchance.com/applets/2021/guesscorrelation/GuessCorrelation.html" class="uri">https://www.rossmanchance.com/applets/2021/guesscorrelation/GuessCorrelation.html</a></p></li>
+<li><p>What is the correlation between heights and weights of fish?</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="adding-a-third-variable" class="level2"><h2 class="anchored" data-anchor-id="adding-a-third-variable">Adding a third variable</h2>
+<ul>
+<li>Does the relationship between heights and weights of fish change if we take into consideration species? Plot two separate straight lines for the Bream and Roach species.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="fitting-other-models" class="level2"><h2 class="anchored" data-anchor-id="fitting-other-models">Fitting other models</h2>
+<ul>
+<li>We can fit more models than just a straight line. Change the following code below to read <code>method = "loess"</code>. What is different from the plot created before?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
-
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {

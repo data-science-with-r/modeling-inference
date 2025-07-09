@@ -1,5 +1,75 @@
 [
   {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html",
+    "title": "Modeling fish",
+    "section": "",
+    "text": "Practice modeling using the fish dataset on two common fish species in fish market sales.\n\nWe will use the tidyverse package for data wrangling and visualization and the tidymodels package for modeling.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\n\n\nThese data come from Kaggle and is commonly used in machine learning examples.\n\nfish &lt;- read_csv(\"https://data-science-with-r.github.io/data/fish.csv\")\n\nThe data dictionary is below:\n\n\nvariable\ndescription\n\n\n\nspecies\nSpecies name of fish\n\n\nweight\nWeight, in grams\n\n\nlength_vertical\nVertical length, in cm\n\n\nlength_diagonal\nDiagonal length, in cm\n\n\nlength_cross\nCross length, in cm\n\n\nheight\nHeight, in cm\n\n\nwidth\nDiagonal width, in cm\n\n\n\nLet’s take a look at the data.\n\nfish\n\n# A tibble: 55 × 7\n   species weight length_vertical length_diagonal length_cross height width\n   &lt;chr&gt;    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n 1 Bream      242            23.2            25.4         30     11.5  4.02\n 2 Bream      290            24              26.3         31.2   12.5  4.31\n 3 Bream      340            23.9            26.5         31.1   12.4  4.70\n 4 Bream      363            26.3            29           33.5   12.7  4.46\n 5 Bream      430            26.5            29           34     12.4  5.13\n 6 Bream      450            26.8            29.7         34.7   13.6  4.93\n 7 Bream      500            26.8            29.7         34.5   14.2  5.28\n 8 Bream      390            27.6            30           35     12.7  4.69\n 9 Bream      450            27.6            30           35.1   14.0  4.84\n10 Bream      500            28.5            30.7         36.2   14.2  4.96\n# ℹ 45 more rows"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#goal",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#goal",
+    "title": "Modeling fish",
+    "section": "",
+    "text": "Practice modeling using the fish dataset on two common fish species in fish market sales."
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#packages",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#packages",
+    "title": "Modeling fish",
+    "section": "",
+    "text": "We will use the tidyverse package for data wrangling and visualization and the tidymodels package for modeling.\n\nlibrary(tidyverse)\nlibrary(tidymodels)"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#data",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#data",
+    "title": "Modeling fish",
+    "section": "",
+    "text": "These data come from Kaggle and is commonly used in machine learning examples.\n\nfish &lt;- read_csv(\"https://data-science-with-r.github.io/data/fish.csv\")\n\nThe data dictionary is below:\n\n\nvariable\ndescription\n\n\n\nspecies\nSpecies name of fish\n\n\nweight\nWeight, in grams\n\n\nlength_vertical\nVertical length, in cm\n\n\nlength_diagonal\nDiagonal length, in cm\n\n\nlength_cross\nCross length, in cm\n\n\nheight\nHeight, in cm\n\n\nwidth\nDiagonal width, in cm\n\n\n\nLet’s take a look at the data.\n\nfish\n\n# A tibble: 55 × 7\n   species weight length_vertical length_diagonal length_cross height width\n   &lt;chr&gt;    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n 1 Bream      242            23.2            25.4         30     11.5  4.02\n 2 Bream      290            24              26.3         31.2   12.5  4.31\n 3 Bream      340            23.9            26.5         31.1   12.4  4.70\n 4 Bream      363            26.3            29           33.5   12.7  4.46\n 5 Bream      430            26.5            29           34     12.4  5.13\n 6 Bream      450            26.8            29.7         34.7   13.6  4.93\n 7 Bream      500            26.8            29.7         34.5   14.2  5.28\n 8 Bream      390            27.6            30           35     12.7  4.69\n 9 Bream      450            27.6            30           35.1   14.0  4.84\n10 Bream      500            28.5            30.7         36.2   14.2  4.96\n# ℹ 45 more rows"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#visualizing-the-model",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#visualizing-the-model",
+    "title": "Modeling fish",
+    "section": "Visualizing the model",
+    "text": "Visualizing the model\nWe’re going to investigate the relationship between the weights and heights of fish, predicting weight from height.\n\nCreate an appropriate plot to investigate this relationship. Add appropriate labels to the plot.\n\n\n# add code here\n\n\nIf you were to draw a a straight line to best represent the relationship between the heights and weights of fish, where would it go? Why?\n\nAdd response here.\n\nNow, let R draw the line for you! Hint: Use geom_smooth().\n\n\n# add code here\n\n\nWhat types of questions can this plot help answer?\n\nAdd response here.\n\nWe can use this line to make predictions. Predict what you think the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm. Which prediction is considered extrapolation?\n\nAdd response here.\n\nWhat is a residual?\n\nAdd response here."
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#model-fitting",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#model-fitting",
+    "title": "Modeling fish",
+    "section": "Model fitting",
+    "text": "Model fitting\n\nFit a model to predict fish weights from their heights.\n\n\n# add code here\n\n\nPredict what the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm using this model.\n\n\n# add code here\n\n\nCalculate predicted weights for all fish in the data and visualize the residuals under this model.\n\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#model-summary",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#model-summary",
+    "title": "Modeling fish",
+    "section": "Model summary",
+    "text": "Model summary\n\n\nDemo: Display the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.\n\n\n# add code here\n\n\n\nDemo: Write out your model using mathematical notation.\n\nAdd response here."
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#correlation",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#correlation",
+    "title": "Modeling fish",
+    "section": "Correlation",
+    "text": "Correlation\nWe can also assess correlation between two quantitative variables.\n\nWhat is correlation? What are values correlation can take?\n\nAdd response here.\n\nAre you good at guessing correlation? Give it a try! https://www.rossmanchance.com/applets/2021/guesscorrelation/GuessCorrelation.html\nWhat is the correlation between heights and weights of fish?\n\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#adding-a-third-variable",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#adding-a-third-variable",
+    "title": "Modeling fish",
+    "section": "Adding a third variable",
+    "text": "Adding a third variable\n\nDoes the relationship between heights and weights of fish change if we take into consideration species? Plot two separate straight lines for the Bream and Roach species.\n\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#fitting-other-models",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#fitting-other-models",
+    "title": "Modeling fish",
+    "section": "Fitting other models",
+    "text": "Fitting other models\n\nWe can fit more models than just a straight line. Change the following code below to read method = \"loess\". What is different from the plot created before?\n\n\n# add code here"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "\n Modeling and inference",
@@ -18,7 +88,7 @@
     "href": "index.html#code-alongs",
     "title": "\n Modeling and inference",
     "section": "Code alongs",
-    "text": "Code alongs\n\n\n\nTitle\n\n\n\nNo matching items"
+    "text": "Code alongs\n\n\n\n\nTitle\n\n\n\n\n\n\nModeling fish (Complete)\n\n\n\n\n\nModeling fish\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#exercises",
@@ -341,5 +411,75 @@
     "title": "Linear models with a single predictor",
     "section": "Properties of least squares regression",
     "text": "Properties of least squares regression\n\nThe regression line goes through the center of mass point (the coordinates corresponding to average \\(X\\) and average \\(Y\\)): \\(b_0 = \\bar{Y} - b_1~\\bar{X}\\)\nSlope has the same sign as the correlation coefficient: \\(b_1 = r \\frac{s_Y}{s_X}\\)\nSum of the residuals is zero: \\(\\sum_{i = 1}^n \\epsilon_i = 0\\)\nResiduals and \\(X\\) values are uncorrelated"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html",
+    "title": "Modeling fish (Complete)",
+    "section": "",
+    "text": "Practice modeling using the fish dataset on two common fish species in fish market sales.\n\nWe will use the tidyverse package for data wrangling and visualization and the tidymodels package for modeling.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\n\n\nThese data come from Kaggle and is commonly used in machine learning examples.\n\nfish &lt;- read_csv(\"https://data-science-with-r.github.io/data/fish.csv\")\n\nThe data dictionary is below:\n\n\nvariable\ndescription\n\n\n\nspecies\nSpecies name of fish\n\n\nweight\nWeight, in grams\n\n\nlength_vertical\nVertical length, in cm\n\n\nlength_diagonal\nDiagonal length, in cm\n\n\nlength_cross\nCross length, in cm\n\n\nheight\nHeight, in cm\n\n\nwidth\nDiagonal width, in cm\n\n\n\nLet’s take a look at the data.\n\nfish\n\n# A tibble: 55 × 7\n   species weight length_vertical length_diagonal length_cross height width\n   &lt;chr&gt;    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n 1 Bream      242            23.2            25.4         30     11.5  4.02\n 2 Bream      290            24              26.3         31.2   12.5  4.31\n 3 Bream      340            23.9            26.5         31.1   12.4  4.70\n 4 Bream      363            26.3            29           33.5   12.7  4.46\n 5 Bream      430            26.5            29           34     12.4  5.13\n 6 Bream      450            26.8            29.7         34.7   13.6  4.93\n 7 Bream      500            26.8            29.7         34.5   14.2  5.28\n 8 Bream      390            27.6            30           35     12.7  4.69\n 9 Bream      450            27.6            30           35.1   14.0  4.84\n10 Bream      500            28.5            30.7         36.2   14.2  4.96\n# ℹ 45 more rows"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#goal",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#goal",
+    "title": "Modeling fish (Complete)",
+    "section": "",
+    "text": "Practice modeling using the fish dataset on two common fish species in fish market sales."
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#packages",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#packages",
+    "title": "Modeling fish (Complete)",
+    "section": "",
+    "text": "We will use the tidyverse package for data wrangling and visualization and the tidymodels package for modeling.\n\nlibrary(tidyverse)\nlibrary(tidymodels)"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#data",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#data",
+    "title": "Modeling fish (Complete)",
+    "section": "",
+    "text": "These data come from Kaggle and is commonly used in machine learning examples.\n\nfish &lt;- read_csv(\"https://data-science-with-r.github.io/data/fish.csv\")\n\nThe data dictionary is below:\n\n\nvariable\ndescription\n\n\n\nspecies\nSpecies name of fish\n\n\nweight\nWeight, in grams\n\n\nlength_vertical\nVertical length, in cm\n\n\nlength_diagonal\nDiagonal length, in cm\n\n\nlength_cross\nCross length, in cm\n\n\nheight\nHeight, in cm\n\n\nwidth\nDiagonal width, in cm\n\n\n\nLet’s take a look at the data.\n\nfish\n\n# A tibble: 55 × 7\n   species weight length_vertical length_diagonal length_cross height width\n   &lt;chr&gt;    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n 1 Bream      242            23.2            25.4         30     11.5  4.02\n 2 Bream      290            24              26.3         31.2   12.5  4.31\n 3 Bream      340            23.9            26.5         31.1   12.4  4.70\n 4 Bream      363            26.3            29           33.5   12.7  4.46\n 5 Bream      430            26.5            29           34     12.4  5.13\n 6 Bream      450            26.8            29.7         34.7   13.6  4.93\n 7 Bream      500            26.8            29.7         34.5   14.2  5.28\n 8 Bream      390            27.6            30           35     12.7  4.69\n 9 Bream      450            27.6            30           35.1   14.0  4.84\n10 Bream      500            28.5            30.7         36.2   14.2  4.96\n# ℹ 45 more rows"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#visualizing-the-model",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#visualizing-the-model",
+    "title": "Modeling fish (Complete)",
+    "section": "Visualizing the model",
+    "text": "Visualizing the model\nWe’re going to investigate the relationship between the weights and heights of fish, predicting weight from height.\n\nCreate an appropriate plot to investigate this relationship. Add appropriate labels to the plot.\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n\n\n\n\n\n\n\nIf you were to draw a a straight line to best represent the relationship between the heights and weights of fish, where would it go? Why?\n\nStart from the bottom and go up. Identify the first and last point and draw a line through most the others.\n\nNow, let R draw the line for you! Hint: Use geom_smooth().\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  geom_smooth(method = \"lm\") +\n  labs(\n    title = \"Weights vs. lengths of fish\",\n    x = \"Head-to-tail lentgh (cm)\",\n    y = \"Weight of fish (grams)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nWhat types of questions can this plot help answer?\n\nIs there a relationship between fish heights and weights of fish?\n\nWe can use this line to make predictions. Predict what you think the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm. Which prediction is considered extrapolation?\n\nAt 10 cm, we estimate a weight of 375 grams. At 15 cm, we estimate a weight of 600 grams At 20 cm, we estimate a weight of 975 grams. 20 cm would be considered extrapolation.\n\nWhat is a residual?\n\nDifference between predicted and observed."
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-fitting",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-fitting",
+    "title": "Modeling fish (Complete)",
+    "section": "Model fitting",
+    "text": "Model fitting\n\nFit a model to predict fish weights from their heights.\n\n\nfish_hw_fit &lt;- linear_reg() |&gt;\n  fit(weight ~ height, data = fish)\n\nfish_hw_fit\n\nparsnip model object\n\n\nCall:\nstats::lm(formula = weight ~ height, data = data)\n\nCoefficients:\n(Intercept)       height  \n    -288.42        60.92  \n\n\n\nPredict what the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm using this model.\n\n\nx &lt;- c(10, 15, 20)\n-288 + 60.92 * x\n\n[1] 321.2 625.8 930.4\n\n\n\nCalculate predicted weights for all fish in the data and visualize the residuals under this model.\n\n\nfish_hw_aug &lt;- augment(fish_hw_fit, new_data = fish)\n\nggplot(fish_hw_aug, aes(x = height, y = weight)) + \n  geom_point() + \n  geom_smooth(method = \"lm\", se = FALSE, color = \"lightgrey\") +  \n  geom_segment(aes(xend = height, yend = .pred), color = \"gray\") +  \n  geom_point(aes(y = .pred), shape = \"circle open\") + \n  theme_minimal() +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    subtitle = \"Residuals\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-summary",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-summary",
+    "title": "Modeling fish (Complete)",
+    "section": "Model summary",
+    "text": "Model summary\n\n\nDemo: Display the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.\n\n\nfish_hw_tidy &lt;- tidy(fish_hw_fit)\nfish_hw_tidy\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -288.      34.0      -8.49 1.83e-11\n2 height          60.9      2.64     23.1  2.40e-29\n\n\n\n\nDemo: Write out your model using mathematical notation.\n\n\\(\\widehat{weight} = -288 + 60.9 \\times height\\)"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#correlation",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#correlation",
+    "title": "Modeling fish (Complete)",
+    "section": "Correlation",
+    "text": "Correlation\nWe can also assess correlation between two quantitative variables.\n\nWhat is correlation? What are values correlation can take?\n\nStrength and direction of a linear relationship. It’s bounded by -1 and 1.\n\nAre you good at guessing correlation? Give it a try! https://www.rossmanchance.com/applets/2021/guesscorrelation/GuessCorrelation.html\nWhat is the correlation between heights and weights of fish?\n\n\nfish |&gt;\n  summarize(r = cor(height, weight))\n\n# A tibble: 1 × 1\n      r\n  &lt;dbl&gt;\n1 0.954"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#adding-a-third-variable",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#adding-a-third-variable",
+    "title": "Modeling fish (Complete)",
+    "section": "Adding a third variable",
+    "text": "Adding a third variable\n\nDoes the relationship between heights and weights of fish change if we take into consideration species? Plot two separate straight lines for the Bream and Roach species.\n\n\nggplot(fish, aes(x = height, y = weight, color = species)) +\n  geom_point() +\n  geom_smooth(method = \"lm\") +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#fitting-other-models",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#fitting-other-models",
+    "title": "Modeling fish (Complete)",
+    "section": "Fitting other models",
+    "text": "Fitting other models\n\nWe can fit more models than just a straight line. Change the following code below to read method = \"loess\". What is different from the plot created before?\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  geom_smooth(method = \"loess\") +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
   }
 ]
