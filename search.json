@@ -207,7 +207,7 @@
     "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling",
     "title": "Language of models",
     "section": "Modelling",
-    "text": "Modelling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but remember there are many many other types of models too!)\n\n\n\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n`geom_smooth()` using formula = 'y ~ x'"
+    "text": "Modelling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but remember there are many many other types of models too!)"
   },
   {
     "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-cars",
@@ -298,21 +298,21 @@
     "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#visualizing-the-model",
     "title": "Language of models",
     "section": "Visualizing the model",
-    "text": "Visualizing the model\n\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point() +\n  geom_smooth(method = \"lm\")\n\n`geom_smooth()` using formula = 'y ~ x'"
+    "text": "Visualizing the model\n\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point() +\n  geom_smooth(method = \"lm\")"
   },
   {
     "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#residuals",
     "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#residuals",
     "title": "Language of models",
     "section": "Residuals",
-    "text": "Residuals\n\nmtcars_fit &lt;- linear_reg() |&gt;\n    fit(mpg ~ wt, data = mtcars)\n\nmtcars_tidy &lt;- tidy(mtcars_fit)\nmtcars_aug &lt;- augment(mtcars_fit, new_data = mtcars) |&gt;\n    mutate(res_cat = if_else(.resid &gt; 0, TRUE, FALSE))\n\nggplot(mtcars_aug) +\n  geom_line(aes(x = wt, y = .pred), linewidth = 0.75, alpha = 0.8) + \n  geom_point(aes(x = wt, y = mpg, color = res_cat)) +\n  labs(\n    x = \"Weight (1,000 lbs)\",\n    y = \"Miles per gallon (MPG)\",\n    title = \"MPG vs. weights of cars\"\n  ) +\n  guides(color = \"none\") +\n  scale_color_manual(values = c(\"#fec926\", \"#fe265b\")) +\n  annotate(\"text\", x = 2.5, y = 30, label = \"Positive residual\", color = \"#fe265b\", hjust = 0, size = 8) +\n  annotate(\"text\", x = 1, y = 10, label = \"Negative residual\", color = \"#fec926\", hjust = 0, size = 8)"
+    "text": "Residuals"
   },
   {
     "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#extending-regression-lines",
     "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#extending-regression-lines",
     "title": "Language of models",
     "section": "Extending regression lines",
-    "text": "Extending regression lines\n\nggplot(\n    mtcars, \n    aes(x = wt, y = mpg) \n  ) +\n  geom_point(alpha = 0.4) +\n  geom_smooth(method = \"lm\", se = FALSE, fullrange = TRUE, color = \"#fe5d26\") +\n  labs(\n    x = \"Weight (1,000 lbs)\",\n    y = \"Miles per gallon (MPG)\",\n    title = \"MPG vs. weights of cars\"\n  ) +\n  xlim(-3, 10) + ylim(-10, 50)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 12 rows containing missing values or values outside\nthe scale range (`geom_smooth()`)."
+    "text": "Extending regression lines"
   },
   {
     "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#models---upsides-and-downsides",
@@ -333,7 +333,7 @@
     "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#how-do-we-use-models",
     "title": "Language of models",
     "section": "How do we use models?",
-    "text": "How do we use models?\n\nExplanation: Quantify the relationship between predictor(s) and outcome with slopes\nPrediction: Plug in the value of a predictor to the model to obtain a predicted value of the outcome"
+    "text": "How do we use models?\n\nPredict / classify: Plug in the value(s) of predictor(s) to the model to obtain the predicted value of the outcome\nDescribe: Quantify the relationship between predictor(s) and outcome with slopes"
   },
   {
     "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#self-driving-cars",
