@@ -1,0 +1,216 @@
+---
+title: "Linear model with a categorical predictor"
+format: revealjs
+---
+
+```{r}
+#| include: false
+library(gt)
+```
+
+```{r}
+#| label: setup
+#| include: false
+ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
+```
+
+# Packages, data, variables
+
+## Packages
+
+- **palmerpenguins** for data
+- **tidyverse** for data wrangling and visualization
+- **tidymodels** for modeling
+
+```{r}
+#| label: load-packages
+#| warning: false
+library(palmerpenguins)
+library(tidyverse)
+library(tidymodels)
+```
+
+## Data: `penguins`
+
+We'll work with the `penguins` dataset from the **palmerpenguins** package, which contains information on 
+
+```{r}
+#| label: view-data
+penguins
+```
+
+## Variables
+
+::: task
+A researcher wants to study the relationship between body weights of penguins based on the island they were recorded on. How are the variables involved in this analysis different?
+:::
+
+. . .
+
+- Outcome: body weight (numerical)
+- Predictor: island (categorical)
+
+## Body weight vs. island
+
+::: task
+Determine whether each of the following plot types would be an appropriate choice for visualizing the relationship between body weight and island of penguins.
+:::
+
+-   Scatterplot [❌]{.fragment}
+
+-   Box plot [✅]{.fragment}
+
+-   Violin plot [✅]{.fragment}
+
+-   Density plot [✅]{.fragment}
+
+-   Bar plot [❌]{.fragment}
+
+-   Stacked bar plot [❌]{.fragment}
+
+## Body weight vs. island
+
+```{r}
+#| label: bm-island-plot
+#| fig-width: 8
+#| fig-asp: 0.5
+ggplot(
+  penguins, 
+  aes(x = body_mass_g, y = island, color = island)
+  ) +
+  geom_boxplot(show.legend = FALSE)
+```
+
+# Modeling
+
+## Fitting the model
+
+Let's fit a model to predict body weight from island:
+
+. . .
+
+- Fit:
+
+```{r}
+#| label: bm-island-fit
+bm_island_fit <- linear_reg() |>
+  fit(body_mass_g ~ island, data = penguins)
+```
+
+. . .
+
+- Tidy:
+
+```{r}
+#| label: bm-island-tidy
+tidy(bm_island_fit)
+```
+
+## Inspecting the model output
+
+::: task
+Why is Biscoe not on the output?
+::: 
+
+```{r}
+#| label: bm-island-tidy-again
+#| echo: false
+tidy(bm_island_fit)
+```
+
+. . .
+
+::: incremental
+- When fitting a model with a categorical predictor, the levels of the categorical predictor are encoded to **dummy variables**, except for one of the levels, the **baseline level**.
+
+- In this case Biscoe is the is the baseline level.
+
+- Each slope coefficient describes the predicted difference between heights in that particular school compared to the baseline level.
+:::
+
+## Dummy variables
+
+::: {.columns}
+::: {.column width="30%"}
+```{r}
+#| label: dummy-diagram
+#| echo: false
+tribble(
+  ~island,    ~Dream, ~Torgersen,
+  "Biscoe",   0, 0,
+  "Dream",    1, 0,
+  "torgersen",0, 1
+) |>
+  gt() |>
+  tab_spanner(
+    label = "Dummy variable",
+    columns = c(Dream, Torgersen)
+  ) |>
+  tab_options(table.font.size = px(24))
+```
+:::
+::: {.column width="70%" .fragment}
+For a categorical predictor with $k$ levels, we only need $k - 1$ dummy variables to describe all of its levels:
+
+-  `Dream = 1` and `Torgersen = 0`, the penguin is from Dream island. 
+-  `Dream = 0` and `Torgersen = 1`, the penguin is from Torgersen island. 
+-  `Dream = 0` and `Torgersen = 0`, the penguin is from Biscoe island, we don't need a third dummy variable to identify these penguins.
+:::
+:::
+
+## Dummy coding
+
+::: callout-note
+You do not need to do anything (i.e., write code) to do the "dummy coding", R does this under the hood for you when you have a predictor that is categorical (a character or a factor).
+:::
+
+## Interpreting the model output
+
+$$
+\widehat{body~mass} = 4716 - 1003 \times islandDream - 1010 \times islandTorgersen
+$$
+
+-   Intercept: [Penguins from Biscoe island are expected to weigh, on average, 4,716 grams.]{.fragment}
+
+-   Slope - islandDream: [Penguins from Dream island are expected to weigh, on average, 1,003 grams less than those from Biscoe island.]{.fragment}
+
+-   Slope - islandTorgersen: [Penguins from Torgersen island are expected to weigh, on average, 1,010 grams less than those from Biscoe island.]{.fragment}
+
+## Predicting based on the model
+
+$$
+\widehat{body~mass} = 4716 - 1003 \times islandDream - 1010 \times islandTorgersen
+$$
+
+. . .
+
+-   Biscoe: $\widehat{body~mass} = 4716 - 1003 \times 0 - 1010 \times 0 = 4716$
+
+. . .
+
+-   Dream: $\widehat{body~mass} = 4716 - 1003 \times 1 - 1010 \times 0 = 3713$
+
+. . .
+
+-   Torgersen: $\widehat{body~mass} = 4716 - 1003 \times 0 - 1010 \times 1 = 3706$
+
+## Predicting based on the model - again
+
+```{r}
+#| label: bm-island-predict
+three_penguins <- tibble(
+  island = c("Biscoe", "Dream", "Torgersen")
+  )
+
+augment(bm_island_fit, new_data = three_penguins)
+```
+
+## Models with categorical predictors
+
+::: incremental
+-   When the categorical predictor has many levels, they're encoded to **dummy variables**.
+
+-   The first level of the categorical variable is the baseline level. In a model with one categorical predictor, the intercept is the predicted value of the outcome for the baseline level (x = 0).
+
+-   Each slope coefficient describes the difference between the predicted value of the outcome for that level of the categorical variable compared to the baseline level.
+:::

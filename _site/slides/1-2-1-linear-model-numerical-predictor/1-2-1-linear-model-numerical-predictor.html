@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.14">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="author" content="Mine Çetinkaya-Rundel + Elijah Meyer">
-<title> Modeling and inference – Modeling and inference</title>
+<meta name="author" content=" Data Science with R">
+<title>Linear model with a numerical predictor – Modeling and inference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -18,34 +18,67 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a931dd857d6747ccdb56a861fbe4dae6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be50dcf481d68524211a1c56744b7368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-877e03302d4495ba50c58b67a1320d94.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be50dcf481d68524211a1c56744b7368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-a931dd857d6747ccdb56a861fbe4dae6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-be50dcf481d68524211a1c56744b7368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-877e03302d4495ba50c58b67a1320d94.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-be50dcf481d68524211a1c56744b7368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -71,91 +104,7 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-slides .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-slides'] = new List('listing-slides', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-code-alongs .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-code-alongs'] = new List('listing-code-alongs', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-exercises .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] }],
-      
-      searchColumns: [],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-exercises'] = new List('listing-exercises', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -349,7 +298,7 @@ window.Quarto = {
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Modeling and inference</span>
     </a>
   </div>
@@ -360,7 +309,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
 </ul>
@@ -377,16 +326,48 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#slides" id="toc-slides" class="nav-link active" data-scroll-target="#slides">Slides</a></li>
-  <li><a href="#code-alongs" id="toc-code-alongs" class="nav-link" data-scroll-target="#code-alongs">Code alongs</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
-  </ul></nav>
+<li>
+<a href="#packages-and-data" id="toc-packages-and-data" class="nav-link active" data-scroll-target="#packages-and-data">Packages and data</a>
+  <ul class="collapse">
+<li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
+  <li><a href="#data-prep" id="toc-data-prep" class="nav-link" data-scroll-target="#data-prep">Data prep</a></li>
+  <li><a href="#data-overview" id="toc-data-overview" class="nav-link" data-scroll-target="#data-overview">Data overview</a></li>
+  <li><a href="#data-visualization" id="toc-data-visualization" class="nav-link" data-scroll-target="#data-visualization">Data visualization</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#regression-model" id="toc-regression-model" class="nav-link" data-scroll-target="#regression-model">Regression model</a>
+  <ul class="collapse">
+<li><a href="#regression-model-1" id="toc-regression-model-1" class="nav-link" data-scroll-target="#regression-model-1">Regression model</a></li>
+  <li><a href="#regression-model-2" id="toc-regression-model-2" class="nav-link" data-scroll-target="#regression-model-2">Regression model</a></li>
+  <li><a href="#simple-linear-regression" id="toc-simple-linear-regression" class="nav-link" data-scroll-target="#simple-linear-regression">Simple linear regression</a></li>
+  <li><a href="#simple-linear-regression-1" id="toc-simple-linear-regression-1" class="nav-link" data-scroll-target="#simple-linear-regression-1">Simple linear regression</a></li>
+  <li><a href="#choosing-values-for-b_1-and-b_0" id="toc-choosing-values-for-b_1-and-b_0" class="nav-link" data-scroll-target="#choosing-values-for-b_1-and-b_0">Choosing values for <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_0\)</span></a></li>
+  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals">Residuals</a></li>
+  <li><a href="#least-squares-line" id="toc-least-squares-line" class="nav-link" data-scroll-target="#least-squares-line">Least squares line</a></li>
+  <li><a href="#fitting-a-model" id="toc-fitting-a-model" class="nav-link" data-scroll-target="#fitting-a-model">Fitting a model</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#interpreting-model-output" id="toc-interpreting-model-output" class="nav-link" data-scroll-target="#interpreting-model-output">Interpreting model output</a>
+  <ul class="collapse">
+<li><a href="#interpreting-the-slope" id="toc-interpreting-the-slope" class="nav-link" data-scroll-target="#interpreting-the-slope">Interpreting the slope</a></li>
+  <li><a href="#interpreting-slope-intercept" id="toc-interpreting-slope-intercept" class="nav-link" data-scroll-target="#interpreting-slope-intercept">Interpreting slope &amp; intercept</a></li>
+  <li><a href="#is-the-intercept-meaningful" id="toc-is-the-intercept-meaningful" class="nav-link" data-scroll-target="#is-the-intercept-meaningful">Is the intercept meaningful?</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#putting-it-altogether" id="toc-putting-it-altogether" class="nav-link" data-scroll-target="#putting-it-altogether">Putting it altogether</a>
+  <ul class="collapse">
+<li><a href="#least-squares-regression" id="toc-least-squares-regression" class="nav-link" data-scroll-target="#least-squares-regression">Least squares regression</a></li>
+  </ul>
+</li>
+  </ul><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="1-2-1-linear-model-numerical-predictor.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">
-<i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</h1>
-<p class="subtitle lead"><i class="fa-solid fa-book" aria-label="book"></i> Data Science with R</p>
+<h1 class="title">Linear model with a numerical predictor</h1>
+<p class="subtitle lead"><br><br><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</p>
 </div>
 
 
@@ -396,7 +377,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Mine Çetinkaya-Rundel + Elijah Meyer </p>
+             <p><i class="fa-solid fa-book" aria-label="book"></i> Data Science with R </p>
           </div>
   </div>
     
@@ -406,84 +387,218 @@ window.Quarto = {
   
 
 
-</header><section id="slides" class="level2"><h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<div id="listing-slides" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table">
-<thead><tr>
-<th>
-Title
-</th>
-
-</tr></thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1752071516725" data-listing-reading-time-sort="1" data-listing-word-count-sort="52" data-listing-title-sort="Welcome" data-listing-filename-sort="1-1-1-welcome.qmd">
-<td>
-<a href="./slides/1-1-1-welcome/1-1-1-welcome.html" class="title listing-title">Welcome</a>
-</td>
-
-</tr>
-<tr data-index="1" data-listing-file-modified-sort="1752072518278" data-listing-reading-time-sort="10" data-listing-word-count-sort="1984" data-listing-title-sort="Language of models" data-listing-filename-sort="1-1-2-language-of-models.qmd">
-<td>
-<a href="./slides/1-1-2-language-of-models/1-1-2-language-of-models.html" class="title listing-title">Language of models</a>
-</td>
-
-</tr>
-<tr data-index="2" data-listing-file-modified-sort="1752099294203" data-listing-reading-time-sort="5" data-listing-word-count-sort="862" data-listing-title-sort="Linear model with a numerical predictor" data-listing-filename-sort="1-2-1-linear-model-numerical-predictor.qmd">
-<td>
-<a href="./slides/1-2-1-linear-model-numerical-predictor/1-2-1-linear-model-numerical-predictor.html" class="title listing-title">Linear model with a numerical predictor</a>
-</td>
-
-</tr>
-<tr data-index="3" data-listing-file-modified-sort="1752107242194" data-listing-reading-time-sort="4" data-listing-word-count-sort="702" data-listing-title-sort="Linear model with a categorical predictor" data-listing-filename-sort="1-2-2-linear-model-categorical-predictor.qmd">
-<td>
-<a href="./slides/1-2-2-linear-model-categorical-predictor/1-2-2-linear-model-categorical-predictor.html" class="title listing-title">Linear model with a categorical predictor</a>
-</td>
-
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
+</header><section id="packages-and-data" class="level1"><h1>Packages and data</h1>
+<section id="packages" class="level2"><h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<ul>
+<li>
+<strong>fivethirtyeight</strong> for data</li>
+<li>
+<strong>tidyverse</strong> for data wrangling and visualization</li>
+<li>
+<strong>tidymodels</strong> for modeling</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rudeboybert/fivethirtyeight">fivethirtyeight</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="code-alongs" class="level2"><h2 class="anchored" data-anchor-id="code-alongs">Code alongs</h2>
-<div id="listing-code-alongs" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table">
-<thead><tr>
-<th>
-Title
-</th>
-
-</tr></thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1752094831845" data-listing-reading-time-sort="5" data-listing-word-count-sort="933" data-listing-title-sort="Modeling fish (Complete)" data-listing-filename-sort="1-2-modeling-fish-complete.qmd">
-<td>
-<a href="./code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html" class="title listing-title">Modeling fish (Complete)</a>
-</td>
-
-</tr>
-<tr data-index="1" data-listing-file-modified-sort="1752095173018" data-listing-reading-time-sort="3" data-listing-word-count-sort="596" data-listing-title-sort="Modeling fish" data-listing-filename-sort="1-2-modeling-fish.qmd">
-<td>
-<a href="./code-alongs/1-2-modeling-fish/1-2-modeling-fish.html" class="title listing-title">Modeling fish</a>
-</td>
-
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
+</section><section id="data-prep" class="level2"><h2 class="anchored" data-anchor-id="data-prep">Data prep</h2>
+<ul>
+<li>Rename Rotten Tomatoes columns as <code>critics</code> and <code>audience</code>
+</li>
+<li>Rename the dataset as <code>movie_scores</code>
+</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">movie_scores</span> <span class="op">&lt;-</span> <span class="va">fandango</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span></span>
+<span>    critics <span class="op">=</span> <span class="va">rottentomatoes</span>, </span>
+<span>    audience <span class="op">=</span> <span class="va">rottentomatoes_user</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="exercises" class="level2"><h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
-<div id="listing-exercises" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table caption-top">
-<thead><tr class="header">
-<th data-quarto-table-cell-role="th">Title</th>
-</tr></thead>
-<tbody class="list"></tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
+</section><section id="data-overview" class="level2"><h2 class="anchored" data-anchor-id="data-overview">Data overview</h2>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">movie_scores</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">critics</span>, <span class="va">audience</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 146 × 2
+   critics audience
+     &lt;int&gt;    &lt;int&gt;
+ 1      74       86
+ 2      85       80
+ 3      80       90
+ 4      18       84
+ 5      14       28
+ 6      63       62
+ 7      42       53
+ 8      86       64
+ 9      99       82
+10      89       87
+# ℹ 136 more rows</code></pre>
+</div>
+</div>
+</section><section id="data-visualization" class="level2"><h2 class="anchored" data-anchor-id="data-visualization">Data visualization</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="1-2-1-linear-model-numerical-predictor_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="regression-model" class="level1"><h1>Regression model</h1>
+<section id="regression-model-1" class="level2"><h2 class="anchored" data-anchor-id="regression-model-1">Regression model</h2>
+<p>A <strong>regression model</strong> is a function that describes the relationship between the outcome, <span class="math inline">\(Y\)</span>, and the predictor, <span class="math inline">\(X\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;= \color{black}{\textbf{Model}} + \text{Error} \\[8pt]
+&amp;= \color{black}{\mathbf{f(X)}} + \epsilon \\[8pt]
+&amp;= \color{black}{\boldsymbol{\mu_{Y|X}}} + \epsilon
+\end{aligned}
+\]</span></p>
+</section><section id="regression-model-2" class="level2"><h2 class="anchored" data-anchor-id="regression-model-2">Regression model</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;= \color{#325b74}{\textbf{Model}} + \text{Error} \\[8pt]
+&amp;= \color{#325b74}{\mathbf{f(X)}} + \epsilon \\[8pt]
+&amp;= \color{#325b74}{\boldsymbol{\mu_{Y|X}}} + \epsilon
+\end{aligned}
+\]</span></p>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="1-2-1-linear-model-numerical-predictor_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section id="simple-linear-regression" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="simple-linear-regression">Simple linear regression</h2>
+<p>Use <strong>simple linear regression</strong> to model the relationship between a numerical outcome (<span class="math inline">\(Y\)</span>) and a single numerical predictor (<span class="math inline">\(X\)</span>): <span class="math display">\[\Large{Y = \beta_0 + \beta_1 X + \epsilon}\]</span></p>
+<div class="incremental">
+<ul class="incremental">
+<li>
+<span class="math inline">\(\beta_1\)</span>: True slope of the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>
+</li>
+<li>
+<span class="math inline">\(\beta_0\)</span>: True intercept of the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>
+</li>
+<li>
+<span class="math inline">\(\epsilon\)</span>: Error (residual)</li>
+</ul>
+</div>
+</section><section id="simple-linear-regression-1" class="level2"><h2 class="anchored" data-anchor-id="simple-linear-regression-1">Simple linear regression</h2>
+<p><span class="math display">\[
+\Large{\hat{Y} = b_0 + b_1 X}
+\]</span></p>
+<ul>
+<li>
+<span class="math inline">\(b_1\)</span>: Estimated slope of the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>
+</li>
+<li>
+<span class="math inline">\(b_0\)</span>: Estimated intercept of the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>
+</li>
+<li>No error term!</li>
+</ul></section><section id="choosing-values-for-b_1-and-b_0" class="level2"><h2 class="anchored" data-anchor-id="choosing-values-for-b_1-and-b_0">Choosing values for <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_0\)</span>
+</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="1-2-1-linear-model-numerical-predictor_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="residuals" class="level2"><h2 class="anchored" data-anchor-id="residuals">Residuals</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="1-2-1-linear-model-numerical-predictor_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math display">\[
+\text{residual} = \text{observed} - \text{predicted} = y - \hat{y}
+\]</span></p>
+</section><section id="least-squares-line" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="least-squares-line">Least squares line</h2>
+<ul>
+<li>The residual for the <span class="math inline">\(i^{th}\)</span> observation is</li>
+</ul>
+<p><span class="math display">\[
+e_i = \text{observed} - \text{predicted} = y_i - \hat{y}_i
+\]</span></p>
+<ul>
+<li>The <strong>sum of squared</strong> residuals is</li>
+</ul>
+<p><span class="math display">\[
+e^2_1 + e^2_2 + \dots + e^2_n
+\]</span></p>
+<ul>
+<li>The <strong>least squares line</strong> is the one that <strong>minimizes the sum of squared residuals</strong>
+</li>
+</ul></section><section id="fitting-a-model" class="level2"><h2 class="anchored" data-anchor-id="fitting-a-model">Fitting a model</h2>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">movies_fit</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">fit</span><span class="op">(</span><span class="va">audience</span> <span class="op">~</span> <span class="va">critics</span>, data <span class="op">=</span> <span class="va">movie_scores</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">movies_fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)   32.3      2.34        13.8 4.03e-28
+2 critics        0.519    0.0345      15.0 2.70e-31</code></pre>
+</div>
+</div>
+</section></section><section id="interpreting-model-output" class="level1"><h1>Interpreting model output</h1>
+<section id="interpreting-the-slope" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="interpreting-the-slope">Interpreting the slope</h2>
+<div class="task">
+<p>The slope of the model for predicting audience score from critics score is 0.519. Which of the following is the best interpretation of this value?</p>
+</div>
+<ol type="a">
+<li>For every one point increase in the critics score, the audience score goes up by 0.519 points, on average.</li>
+<li>For every one point increase in the critics score, we expect the audience score to be higher by 0.519 points, on average.</li>
+<li>For every one point increase in the critics score, the audience score goes up by 0.519 points.</li>
+<li>For every one point increase in the audience score, the critics score goes up by 0.519 points, on average.</li>
+</ol></section><section id="interpreting-slope-intercept" class="level2"><h2 class="anchored" data-anchor-id="interpreting-slope-intercept">Interpreting slope &amp; intercept</h2>
+<p><span class="math display">\[
+\widehat{\text{audience}} = 32.3 + 0.519 \times \text{critics}
+\]</span></p>
+<div class="incremental">
+<ul class="incremental">
+<li>
+<strong>Slope:</strong> For every one point increase in the critics score, we expect the audience score to be higher by 0.519 points, on average.</li>
+<li>
+<strong>Intercept:</strong> If the critics score is 0 points, we expect the audience score to be 32.3 points.</li>
+</ul>
+</div>
+</section><section id="is-the-intercept-meaningful" class="level2"><h2 class="anchored" data-anchor-id="is-the-intercept-meaningful">Is the intercept meaningful?</h2>
+<p>✅ The intercept is meaningful in context of the data if</p>
+<ul>
+<li>the predictor can feasibly take values equal to or near zero or</li>
+<li>the predictor has values near zero in the observed data</li>
+</ul>
+<p>. . .</p>
+<p>🛑 Otherwise, it might not be meaningful!</p>
+</section></section><section id="putting-it-altogether" class="level1"><h1>Putting it altogether</h1>
+<section id="least-squares-regression" class="level2"><h2 class="anchored" data-anchor-id="least-squares-regression">Least squares regression</h2>
+<p>The least squares regression line minimizes the sum of squares residuals. It has the following properties:</p>
+<div class="incremental">
+<ul class="incremental">
+<li><p>Goes through the center of mass point (the coordinates corresponding to average <span class="math inline">\(X\)</span> and average <span class="math inline">\(Y\)</span>): <span class="math inline">\(b_0 = \bar{Y} - b_1~\bar{X}\)</span></p></li>
+<li><p>Slope of the line has the same sign as the correlation coefficient: <span class="math inline">\(b_1 = r \frac{s_Y}{s_X}\)</span></p></li>
+<li><p>Sum of the residuals is zero: <span class="math inline">\(\sum_{i = 1}^n \epsilon_i = 0\)</span></p></li>
+<li><p>Residuals and <span class="math inline">\(X\)</span> values are uncorrelated</p></li>
+</ul>
 </div>
 
 
-
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {

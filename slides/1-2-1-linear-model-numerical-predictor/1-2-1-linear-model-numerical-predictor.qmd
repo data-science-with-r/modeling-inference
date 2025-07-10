@@ -1,5 +1,5 @@
 ---
-title: "Linear models with a single predictor"
+title: "Linear model with a numerical predictor"
 format: revealjs
 ---
 
@@ -9,7 +9,7 @@ format: revealjs
 ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
 ```
 
-# Linear regression with a single predictor
+# Packages and data
 
 ## Packages
 
@@ -59,20 +59,27 @@ ggplot(movie_scores, aes(x = critics, y = audience)) +
   )
 ```
 
-## Regression model {#regression-model-1}
+# Regression model
+
+## Regression model
 
 A **regression model** is a function that describes the relationship between the outcome, $Y$, and the predictor, $X$.
 
-$$\begin{aligned} Y &= \color{black}{\textbf{Model}} + \text{Error} \\[8pt]
+$$
+\begin{aligned} 
+Y &= \color{black}{\textbf{Model}} + \text{Error} \\[8pt]
 &= \color{black}{\mathbf{f(X)}} + \epsilon \\[8pt]
-&= \color{black}{\boldsymbol{\mu_{Y|X}}} + \epsilon \end{aligned}$$
+&= \color{black}{\boldsymbol{\mu_{Y|X}}} + \epsilon 
+\end{aligned}
+$$
 
 ## Regression model
 
 ::::: columns
 ::: {.column width="30%"}
 $$
-\begin{aligned} Y &= \color{#325b74}{\textbf{Model}} + \text{Error} \\[8pt]
+\begin{aligned} 
+Y &= \color{#325b74}{\textbf{Model}} + \text{Error} \\[8pt]
 &= \color{#325b74}{\mathbf{f(X)}} + \epsilon \\[8pt]
 &= \color{#325b74}{\boldsymbol{\mu_{Y|X}}} + \epsilon 
 \end{aligned}
@@ -83,7 +90,6 @@ $$
 ```{r}
 #| echo: false
 #| message: false
-
 m <- lm(audience ~ critics, data = movie_scores)
 ggplot(data = movie_scores, 
        mapping = aes(x = critics, y = audience)) +
@@ -102,7 +108,7 @@ ggplot(data = movie_scores,
 
 ## Simple linear regression {.smaller}
 
-Use **simple linear regression** to model the relationship between a quantitative outcome ($Y$) and a single quantitative predictor ($X$): $$\Large{Y = \beta_0 + \beta_1 X + \epsilon}$$
+Use **simple linear regression** to model the relationship between a numerical outcome ($Y$) and a single numerical predictor ($X$): $$\Large{Y = \beta_0 + \beta_1 X + \epsilon}$$
 
 ::: incremental
 -   $\beta_1$: True slope of the relationship between $X$ and $Y$
@@ -112,7 +118,9 @@ Use **simple linear regression** to model the relationship between a quantitativ
 
 ## Simple linear regression
 
-$$\Large{\hat{Y} = b_0 + b_1 X}$$
+$$
+\Large{\hat{Y} = b_0 + b_1 X}
+$$
 
 -   $b_1$: Estimated slope of the relationship between $X$ and $Y$
 -   $b_0$: Estimated intercept of the relationship between $X$ and $Y$
@@ -146,21 +154,27 @@ ggplot(movie_scores, aes(x = critics, y = audience)) +
   theme(legend.position = "none")
 ```
 
-$$\text{residual} = \text{observed} - \text{predicted} = y - \hat{y}$$
+$$
+\text{residual} = \text{observed} - \text{predicted} = y - \hat{y}
+$$
 
 ## Least squares line {.smaller}
 
 -   The residual for the $i^{th}$ observation is
 
-$$e_i = \text{observed} - \text{predicted} = y_i - \hat{y}_i$$
+$$
+e_i = \text{observed} - \text{predicted} = y_i - \hat{y}_i
+$$
 
 -   The **sum of squared** residuals is
 
-$$e^2_1 + e^2_2 + \dots + e^2_n$$
+$$
+e^2_1 + e^2_2 + \dots + e^2_n
+$$
 
 -   The **least squares line** is the one that **minimizes the sum of squared residuals**
 
-## Least squares line
+## Fitting a model
 
 ```{r}
 movies_fit <- linear_reg() |>
@@ -169,7 +183,7 @@ movies_fit <- linear_reg() |>
 tidy(movies_fit)
 ```
 
-# Slope and intercept
+# Interpreting model output
 
 ## Interpreting the slope {.smaller}
 
@@ -185,7 +199,9 @@ d.  For every one point increase in the audience score, the critics score goes u
 
 ## Interpreting slope & intercept
 
-$$\widehat{\text{audience}} = 32.3 + 0.519 \times \text{critics}$$
+$$
+\widehat{\text{audience}} = 32.3 + 0.519 \times \text{critics}
+$$
 
 ::: incremental
 -   **Slope:** For every one point increase in the critics score, we expect the audience score to be higher by 0.519 points, on average.
@@ -203,12 +219,16 @@ $$\widehat{\text{audience}} = 32.3 + 0.519 \times \text{critics}$$
 
 🛑 Otherwise, it might not be meaningful!
 
-## Properties of least squares regression
+# Putting it altogether
+
+## Least squares regression
+
+The least squares regression line minimizes the sum of squares residuals. It has the following properties:
 
 ::: incremental
--   The regression line goes through the center of mass point (the coordinates corresponding to average $X$ and average $Y$): $b_0 = \bar{Y} - b_1~\bar{X}$
+-   Goes through the center of mass point (the coordinates corresponding to average $X$ and average $Y$): $b_0 = \bar{Y} - b_1~\bar{X}$
 
--   Slope has the same sign as the correlation coefficient: $b_1 = r \frac{s_Y}{s_X}$
+-   Slope of the line has the same sign as the correlation coefficient: $b_1 = r \frac{s_Y}{s_X}$
 
 -   Sum of the residuals is zero: $\sum_{i = 1}^n \epsilon_i = 0$
 
