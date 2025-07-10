@@ -12,7 +12,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.14">
 <meta name="author" content=" Data Science with R">
-<title>Modeling and inference – Linear model with a categorical predictor</title>
+<title>Modeling and inference – Outliers in linear regression</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -194,7 +194,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center"><h1 class="title">Linear model with a categorical predictor</h1>
+<section id="title-slide" class="quarto-title-block center"><h1 class="title">Outliers in linear regression</h1>
   <p class="subtitle"><br><br><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</p>
 
 <div class="quarto-title-authors">
@@ -205,708 +205,307 @@
 </div>
 </div>
 
-</section><section><section id="packages-data-variables" class="title-slide slide level1 center"><h1>Packages, data, variables</h1>
-
-</section><section id="packages" class="slide level2"><h2>Packages</h2>
+</section><section id="outliers-in-regression" class="slide level2"><h2>Outliers in regression</h2>
 <ul>
+<li><p>Outliers are observations that fall far from the main cloud of points.</p></li>
 <li>
-<strong>palmerpenguins</strong> for data</li>
-<li>
-<strong>tidyverse</strong> for data wrangling and visualization</li>
-<li>
-<strong>tidymodels</strong> for modeling</li>
+<p>They can be outlying in:</p>
+<ul>
+<li>the <span class="math inline">\(x\)</span> direction,</li>
+<li>the <span class="math inline">\(y\)</span> direction, or</li>
+<li>both.</li>
 </ul>
+</li>
+<li><p>However, being outlying in a univariate sense does <strong>not</strong> always mean being outlying from the <strong>bivariate model</strong>.</p></li>
+<li><p>Points that are in-line with the bivariate model usually do <strong>not</strong> influence the least squares line, even if they are extreme in <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, or both.</p></li>
+</ul></section><section id="outliers-and-influence" class="slide level2"><h2>Outliers and influence</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(palmerpenguins)</span>
-<span id="cb1-2"><a></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section><section id="data-penguins" class="slide level2"><h2>Data: <code>penguins</code>
-</h2>
-<p>We’ll work with the <code>penguins</code> dataset from the <strong>palmerpenguins</strong> package, which contains information on</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 344 × 7
-   species island    bill_length_mm bill_depth_mm
-   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;
- 1 Adelie  Torgersen           39.1          18.7
- 2 Adelie  Torgersen           39.5          17.4
- 3 Adelie  Torgersen           40.3          18  
- 4 Adelie  Torgersen           NA            NA  
- 5 Adelie  Torgersen           36.7          19.3
- 6 Adelie  Torgersen           39.3          20.6
- 7 Adelie  Torgersen           38.9          17.8
- 8 Adelie  Torgersen           39.2          19.6
- 9 Adelie  Torgersen           34.1          18.1
-10 Adelie  Torgersen           42            20.2
-# ℹ 334 more rows
-# ℹ 3 more variables: flipper_length_mm &lt;int&gt;,
-#   body_mass_g &lt;int&gt;, sex &lt;fct&gt;</code></pre>
-</div>
-</div>
-</section><section id="variables" class="slide level2"><h2>Variables</h2>
-<div class="task">
-<p>A researcher wants to study the relationship between body weights of penguins based on the island they were recorded on. How are the variables involved in this analysis different?</p>
-</div>
-<div class="fragment">
-<ul>
-<li>Outcome: body weight (numerical)</li>
-<li>Predictor: island (categorical)</li>
-</ul>
-</div>
-</section><section id="body-weight-vs.-island" class="slide level2"><h2>Body weight vs.&nbsp;island</h2>
-<div class="task">
-<p>Determine whether each of the following plot types would be an appropriate choice for visualizing the relationship between body weight and island of penguins.</p>
-</div>
-<ul>
-<li><p>Scatterplot <span class="fragment">❌</span></p></li>
-<li><p>Box plot <span class="fragment">✅</span></p></li>
-<li><p>Violin plot <span class="fragment">✅</span></p></li>
-<li><p>Density plot <span class="fragment">✅</span></p></li>
-<li><p>Bar plot <span class="fragment">❌</span></p></li>
-<li><p>Stacked bar plot <span class="fragment">❌</span></p></li>
-</ul></section><section id="body-weight-vs.-island-1" class="slide level2"><h2>Body weight vs.&nbsp;island</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">ggplot</span>(</span>
-<span id="cb4-2"><a></a>  penguins, </span>
-<span id="cb4-3"><a></a>  <span class="fu">aes</span>(<span class="at">x =</span> body_mass_g, <span class="at">y =</span> island, <span class="at">color =</span> island)</span>
-<span id="cb4-4"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb4-5"><a></a>  <span class="fu">geom_boxplot</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>d1 <span class="ot">&lt;-</span> simulated_scatter <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a></a>  <span class="fu">filter</span>(group <span class="sc">==</span> <span class="dv">24</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a></a>  <span class="fu">mutate</span>(<span class="at">outlier =</span> <span class="fu">if_else</span>(y <span class="sc">==</span> <span class="fu">min</span>(y), <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb1-4"><a></a>d2 <span class="ot">&lt;-</span> simulated_scatter <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a></a>  <span class="fu">filter</span>(group <span class="sc">==</span> <span class="dv">25</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a></a>  <span class="fu">mutate</span>(<span class="at">outlier =</span> <span class="fu">if_else</span>(y <span class="sc">==</span> <span class="fu">min</span>(y), <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb1-7"><a></a>d3 <span class="ot">&lt;-</span> simulated_scatter <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a></a>  <span class="fu">filter</span>(group <span class="sc">==</span> <span class="dv">26</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a></a>  <span class="fu">mutate</span>(<span class="at">outlier =</span> <span class="fu">if_else</span>(y <span class="sc">==</span> <span class="fu">max</span>(y), <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb1-10"><a></a></span>
+<span id="cb1-11"><a></a>m1_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> d1)) <span class="sc">|&gt;</span></span>
+<span id="cb1-12"><a></a>  <span class="fu">mutate</span>(<span class="at">outlier =</span> <span class="fu">if_else</span>(y <span class="sc">==</span> <span class="fu">min</span>(y), <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb1-13"><a></a></span>
+<span id="cb1-14"><a></a>m2_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> d2)) <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a></a>  <span class="fu">mutate</span>(<span class="at">outlier =</span> <span class="fu">if_else</span>(y <span class="sc">==</span> <span class="fu">min</span>(y), <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb1-16"><a></a></span>
+<span id="cb1-17"><a></a>m3_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> d3)) <span class="sc">|&gt;</span></span>
+<span id="cb1-18"><a></a>  <span class="fu">mutate</span>(<span class="at">outlier =</span> <span class="fu">if_else</span>(y <span class="sc">==</span> <span class="fu">max</span>(y), <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb1-19"><a></a></span>
+<span id="cb1-20"><a></a>p_1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb1-21"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb1-22"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb1-23"><a></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb1-24"><a></a>    <span class="at">data =</span> d1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(outlier),</span>
+<span id="cb1-25"><a></a>    <span class="at">size =</span> <span class="dv">5</span>, <span class="at">shape =</span> <span class="st">"circle open"</span>,</span>
+<span id="cb1-26"><a></a>    <span class="at">color =</span> IMSCOL[<span class="st">"red"</span>, <span class="st">"full"</span>], <span class="at">stroke =</span> <span class="dv">2</span></span>
+<span id="cb1-27"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb1-28"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"A"</span>) <span class="sc">+</span></span>
+<span id="cb1-29"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb1-30"><a></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-31"><a></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-32"><a></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb1-33"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb1-34"><a></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>)) <span class="sc">+</span></span>
+<span id="cb1-35"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale
-range (`stat_boxplot()`).</code></pre>
+<pre><code>Warning: The `size` argument of `element_rect()` is deprecated as of
+ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>p_1_res <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(m1_aug, <span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb3-2"><a></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb3-5"><a></a>    <span class="at">data =</span> m1_aug <span class="sc">|&gt;</span> <span class="fu">filter</span>(outlier),</span>
+<span id="cb3-6"><a></a>    <span class="at">size =</span> <span class="dv">5</span>, <span class="at">shape =</span> <span class="st">"circle open"</span>,</span>
+<span id="cb3-7"><a></a>    <span class="at">color =</span> IMSCOL[<span class="st">"red"</span>, <span class="st">"full"</span>], <span class="at">stroke =</span> <span class="dv">2</span></span>
+<span id="cb3-8"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-9"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Predicted y"</span>, <span class="at">y =</span> <span class="st">"Residual"</span>) <span class="sc">+</span></span>
+<span id="cb3-10"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb3-11"><a></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-12"><a></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-13"><a></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb3-14"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-15"><a></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>)) <span class="sc">+</span></span>
+<span id="cb3-16"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="dv">8</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>))</span>
+<span id="cb3-17"><a></a></span>
+<span id="cb3-18"><a></a>p_2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d2, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb3-19"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb3-20"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb3-21"><a></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb3-22"><a></a>    <span class="at">data =</span> d2 <span class="sc">|&gt;</span> <span class="fu">filter</span>(outlier),</span>
+<span id="cb3-23"><a></a>    <span class="at">size =</span> <span class="dv">5</span>, <span class="at">shape =</span> <span class="st">"circle open"</span>,</span>
+<span id="cb3-24"><a></a>    <span class="at">color =</span> IMSCOL[<span class="st">"green"</span>, <span class="st">"full"</span>], <span class="at">stroke =</span> <span class="dv">2</span></span>
+<span id="cb3-25"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-26"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"B"</span>) <span class="sc">+</span></span>
+<span id="cb3-27"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb3-28"><a></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-29"><a></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-30"><a></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb3-31"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-32"><a></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>)) <span class="sc">+</span></span>
+<span id="cb3-33"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>))</span>
+<span id="cb3-34"><a></a></span>
+<span id="cb3-35"><a></a>p_2_res <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(m2_aug, <span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb3-36"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb3-37"><a></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-38"><a></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb3-39"><a></a>    <span class="at">data =</span> m2_aug <span class="sc">|&gt;</span> <span class="fu">filter</span>(outlier),</span>
+<span id="cb3-40"><a></a>    <span class="at">size =</span> <span class="dv">5</span>, <span class="at">shape =</span> <span class="st">"circle open"</span>,</span>
+<span id="cb3-41"><a></a>    <span class="at">color =</span> IMSCOL[<span class="st">"green"</span>, <span class="st">"full"</span>], <span class="at">stroke =</span> <span class="dv">2</span></span>
+<span id="cb3-42"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-43"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Predicted y"</span>, <span class="at">y =</span> <span class="st">"Residual"</span>) <span class="sc">+</span></span>
+<span id="cb3-44"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb3-45"><a></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-46"><a></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-47"><a></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb3-48"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-49"><a></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>)) <span class="sc">+</span></span>
+<span id="cb3-50"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="dv">8</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>))</span>
+<span id="cb3-51"><a></a></span>
+<span id="cb3-52"><a></a>p_3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d3, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb3-53"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb3-54"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb3-55"><a></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb3-56"><a></a>    <span class="at">data =</span> d3 <span class="sc">|&gt;</span> <span class="fu">filter</span>(outlier),</span>
+<span id="cb3-57"><a></a>    <span class="at">size =</span> <span class="dv">5</span>, <span class="at">shape =</span> <span class="st">"circle open"</span>,</span>
+<span id="cb3-58"><a></a>    <span class="at">color =</span> IMSCOL[<span class="st">"pink"</span>, <span class="st">"full"</span>], <span class="at">stroke =</span> <span class="dv">2</span></span>
+<span id="cb3-59"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-60"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"C"</span>) <span class="sc">+</span></span>
+<span id="cb3-61"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb3-62"><a></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-63"><a></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-64"><a></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb3-65"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-66"><a></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>)) <span class="sc">+</span></span>
+<span id="cb3-67"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>))</span>
+<span id="cb3-68"><a></a></span>
+<span id="cb3-69"><a></a>p_3_res <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(m3_aug, <span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb3-70"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb3-71"><a></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-72"><a></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb3-73"><a></a>    <span class="at">data =</span> m3_aug <span class="sc">|&gt;</span> <span class="fu">filter</span>(outlier),</span>
+<span id="cb3-74"><a></a>    <span class="at">size =</span> <span class="dv">5</span>, <span class="at">shape =</span> <span class="st">"circle open"</span>,</span>
+<span id="cb3-75"><a></a>    <span class="at">color =</span> IMSCOL[<span class="st">"pink"</span>, <span class="st">"full"</span>], <span class="at">stroke =</span> <span class="dv">2</span></span>
+<span id="cb3-76"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-77"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Predicted y"</span>, <span class="at">y =</span> <span class="st">"Residual"</span>) <span class="sc">+</span></span>
+<span id="cb3-78"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb3-79"><a></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-80"><a></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-81"><a></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb3-82"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb3-83"><a></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>)) <span class="sc">+</span></span>
+<span id="cb3-84"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="dv">8</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fl">0.12</span>))</span>
+<span id="cb3-85"><a></a></span>
+<span id="cb3-86"><a></a>p_1 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">0</span>), <span class="st">"pt"</span>)) <span class="sc">+</span></span>
+<span id="cb3-87"><a></a>  p_2 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">0</span>), <span class="st">"pt"</span>)) <span class="sc">+</span> p_3 <span class="sc">+</span></span>
+<span id="cb3-88"><a></a>  p_1_res <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">0</span>), <span class="st">"pt"</span>)) <span class="sc">+</span></span>
+<span id="cb3-89"><a></a>  p_2_res <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">0</span>), <span class="st">"pt"</span>)) <span class="sc">+</span> p_3_res <span class="sc">+</span></span>
+<span id="cb3-90"><a></a>  <span class="fu">plot_layout</span>(<span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-2-3-outliers-linear-regression_files/figure-revealjs/bm-island-plot-1.png" width="768"></p>
+<figure><p><img data-src="1-2-3-outliers-linear-regression_files/figure-revealjs/outliers-influence-1-1.png" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section></section><section><section id="modeling" class="title-slide slide level1 center"><h1>Modeling</h1>
-
-</section><section id="fitting-the-model" class="slide level2"><h2>Fitting the model</h2>
-<p>Let’s fit a model to predict body weight from island:</p>
-<div class="fragment">
 <ul>
-<li>Fit:</li>
-</ul>
+<li class="fragment">
+<strong>A:</strong> One outlier in the <span class="math inline">\(y\)</span> direction, also outlying in the bivariate model; slightly influences the regression line.</li>
+<li class="fragment">
+<strong>B:</strong> One outlier on the right (outlying in <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, but not outlying in the bivariate model); close to the regression line and not influential.</li>
+<li class="fragment">
+<strong>C:</strong> One point far from the cloud (outlying in <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and bivariate model); pulls the regression line upward, worsening fit for the main data.</li>
+</ul></section><section id="outliers-and-influence-1" class="slide level2"><h2>Outliers and influence</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>bm_island_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a></a>  <span class="fu">fit</span>(body_mass_g <span class="sc">~</span> island, <span class="at">data =</span> penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>d4 <span class="ot">&lt;-</span> simulated_scatter <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a></a>  <span class="fu">filter</span>(group <span class="sc">==</span> <span class="dv">27</span>)</span>
+<span id="cb5-3"><a></a></span>
+<span id="cb5-4"><a></a>d5 <span class="ot">&lt;-</span> simulated_scatter <span class="sc">|&gt;</span> <span class="fu">filter</span>(group <span class="sc">==</span> <span class="dv">28</span>)</span>
+<span id="cb5-5"><a></a>d6 <span class="ot">&lt;-</span> simulated_scatter <span class="sc">|&gt;</span> <span class="fu">filter</span>(group <span class="sc">==</span> <span class="dv">29</span>)</span>
+<span id="cb5-6"><a></a></span>
+<span id="cb5-7"><a></a>m4_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> d4))</span>
+<span id="cb5-8"><a></a>m5_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> d5))</span>
+<span id="cb5-9"><a></a>m6_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> d6))</span>
+<span id="cb5-10"><a></a></span>
+<span id="cb5-11"><a></a>p_4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d4, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb5-12"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb5-13"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-15"><a></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-16"><a></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-17"><a></a>        <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb5-18"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb5-19"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"D"</span>)</span>
+<span id="cb5-20"><a></a></span>
+<span id="cb5-21"><a></a>p_4_res <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(m4_aug, <span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb5-22"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb5-23"><a></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-24"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Predicted y"</span>, <span class="at">y =</span> <span class="st">"Residual"</span>) <span class="sc">+</span></span>
+<span id="cb5-25"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-26"><a></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-27"><a></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-28"><a></a>        <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb5-29"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb5-30"><a></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb5-31"><a></a></span>
+<span id="cb5-32"><a></a>p_5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d5, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb5-33"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb5-34"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-35"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-36"><a></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-37"><a></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-38"><a></a>        <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb5-39"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb5-40"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"E"</span>)</span>
+<span id="cb5-41"><a></a></span>
+<span id="cb5-42"><a></a>p_5_res <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(m5_aug, <span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb5-43"><a></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-44"><a></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-45"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Predicted y"</span>, <span class="at">y =</span> <span class="st">"Residual"</span>) <span class="sc">+</span></span>
+<span id="cb5-46"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-47"><a></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-48"><a></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-49"><a></a>        <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb5-50"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb5-51"><a></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb5-52"><a></a></span>
+<span id="cb5-53"><a></a>p_6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d6, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb5-54"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb5-55"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-56"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-57"><a></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-58"><a></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-59"><a></a>        <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb5-60"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb5-61"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"F"</span>)</span>
+<span id="cb5-62"><a></a></span>
+<span id="cb5-63"><a></a>p_6_res <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(m6_aug, <span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb5-64"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb5-65"><a></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-66"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Predicted y"</span>, <span class="at">y =</span> <span class="st">"Residual"</span>) <span class="sc">+</span></span>
+<span id="cb5-67"><a></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-68"><a></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-69"><a></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-70"><a></a>        <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"gray"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb5-71"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb5-72"><a></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb5-73"><a></a></span>
+<span id="cb5-74"><a></a>p_4 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">0</span>), <span class="st">"pt"</span>)) <span class="sc">+</span></span>
+<span id="cb5-75"><a></a>  p_5 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">0</span>), <span class="st">"pt"</span>)) <span class="sc">+</span> p_6 <span class="sc">+</span></span>
+<span id="cb5-76"><a></a>  p_4_res <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">0</span>), <span class="st">"pt"</span>)) <span class="sc">+</span></span>
+<span id="cb5-77"><a></a>  p_5_res <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">0</span>), <span class="st">"pt"</span>)) <span class="sc">+</span> p_6_res <span class="sc">+</span></span>
+<span id="cb5-78"><a></a>  <span class="fu">plot_layout</span>(<span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside
+the scale range (`geom_point()`).</code></pre>
 </div>
-<div class="fragment">
-<ul>
-<li>Tidy:</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">tidy</span>(bm_island_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-  term            estimate std.error statistic   p.value
-  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)        4716.      48.5      97.3 8.93e-250
-2 islandDream       -1003.      74.2     -13.5 1.42e- 33
-3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21</code></pre>
-</div>
-</div>
-</div>
-</section><section id="inspecting-the-model-output" class="slide level2"><h2>Inspecting the model output</h2>
-<div class="task">
-<p>Why is Biscoe not on the output?</p>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-  term            estimate std.error statistic   p.value
-  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)        4716.      48.5      97.3 8.93e-250
-2 islandDream       -1003.      74.2     -13.5 1.42e- 33
-3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21</code></pre>
-</div>
-</div>
-<div class="fragment">
-<ul>
-<li class="fragment"><p>When fitting a model with a categorical predictor, the levels of the categorical predictor are encoded to <strong>dummy variables</strong>, except for one of the levels, the <strong>baseline level</strong>.</p></li>
-<li class="fragment"><p>In this case Biscoe is the is the baseline level.</p></li>
-<li class="fragment"><p>Each slope coefficient describes the predicted difference between heights in that particular school compared to the baseline level.</p></li>
-</ul>
-</div>
-</section><section id="dummy-variables" class="slide level2"><h2>Dummy variables</h2>
-<div class="columns">
-<div class="column" style="width:30%;">
-<div class="cell">
 <div class="cell-output-display">
-<div id="mbjszaomwq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mbjszaomwq table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#mbjszaomwq thead, #mbjszaomwq tbody, #mbjszaomwq tfoot, #mbjszaomwq tr, #mbjszaomwq td, #mbjszaomwq th {
-  border-style: none;
-}
-
-#mbjszaomwq p {
-  margin: 0;
-  padding: 0;
-}
-
-#mbjszaomwq .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 24px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#mbjszaomwq .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#mbjszaomwq .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#mbjszaomwq .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#mbjszaomwq .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#mbjszaomwq .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#mbjszaomwq .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#mbjszaomwq .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#mbjszaomwq .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#mbjszaomwq .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#mbjszaomwq .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#mbjszaomwq .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#mbjszaomwq .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#mbjszaomwq .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#mbjszaomwq .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mbjszaomwq .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#mbjszaomwq .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#mbjszaomwq .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#mbjszaomwq .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mbjszaomwq .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#mbjszaomwq .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mbjszaomwq .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#mbjszaomwq .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mbjszaomwq .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mbjszaomwq .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mbjszaomwq .gt_left {
-  text-align: left;
-}
-
-#mbjszaomwq .gt_center {
-  text-align: center;
-}
-
-#mbjszaomwq .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#mbjszaomwq .gt_font_normal {
-  font-weight: normal;
-}
-
-#mbjszaomwq .gt_font_bold {
-  font-weight: bold;
-}
-
-#mbjszaomwq .gt_font_italic {
-  font-style: italic;
-}
-
-#mbjszaomwq .gt_super {
-  font-size: 65%;
-}
-
-#mbjszaomwq .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#mbjszaomwq .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#mbjszaomwq .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#mbjszaomwq .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#mbjszaomwq .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#mbjszaomwq .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#mbjszaomwq .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#mbjszaomwq .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#mbjszaomwq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="gt_table caption-top" data-quarto-bootstrap="false">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="gt_col_headings gt_spanner_row header">
-<th rowspan="2" id="island" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">island</th>
-<th colspan="2" id="Dummy variable" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
-Dummy variable
-</div></th>
-</tr>
-<tr class="gt_col_headings even">
-<th id="Dream" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Dream</th>
-<th id="Torgersen" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Torgersen</th>
-</tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="odd">
-<td class="gt_row gt_left" headers="island">Biscoe</td>
-<td class="gt_row gt_right" headers="Dream">0</td>
-<td class="gt_row gt_right" headers="Torgersen">0</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="island">Dream</td>
-<td class="gt_row gt_right" headers="Dream">1</td>
-<td class="gt_row gt_right" headers="Torgersen">0</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="island">torgersen</td>
-<td class="gt_row gt_right" headers="Dream">0</td>
-<td class="gt_row gt_right" headers="Torgersen">1</td>
-</tr>
-</tbody>
-</table>
+<div>
+<figure><p><img data-src="1-2-3-outliers-linear-regression_files/figure-revealjs/outliers-influence-2-1.png" width="768"></p>
+</figure>
 </div>
 </div>
 </div>
-</div><div class="column fragment" style="width:70%;">
-<p>For a categorical predictor with <span class="math inline">\(k\)</span> levels, we only need <span class="math inline">\(k - 1\)</span> dummy variables to describe all of its levels:</p>
 <ul>
+<li class="fragment">
+<strong>D:</strong> A secondary small cloud of four points (outlying in <span class="math inline">\(x\)</span> and bivariate model); strongly influences the regression line, creating poor fit.</li>
+<li class="fragment">
+<strong>E:</strong> Outlier far right (outlying in <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>); the regression line is largely controlled by this single point, imposing a trend where there is none.</li>
+<li class="fragment">
+<strong>F:</strong> One outlier far away (outlying in <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>), but in-line with the model; has little influence.</li>
+</ul></section><section id="types-of-outliers" class="slide level2"><h2>Types of outliers</h2>
+<ul>
+<li><p><strong>Outliers:</strong> Points or groups of points that stand out from the rest of the data.</p></li>
+<li><p><strong>Leverage points:</strong> Points that fall horizontally away from the center of the cloud tend to pull harder on the line, so we call them points with <strong>high leverage</strong> or <strong>leverage points</strong>.</p></li>
 <li>
-<code>Dream = 1</code> and <code>Torgersen = 0</code>, the penguin is from Dream island.</li>
-<li>
-<code>Dream = 0</code> and <code>Torgersen = 1</code>, the penguin is from Torgersen island.</li>
-<li>
-<code>Dream = 0</code> and <code>Torgersen = 0</code>, the penguin is from Biscoe island, we don’t need a third dummy variable to identify these penguins.</li>
+<p><strong>Influential points:</strong> Outliers, generally high leverage points, that actually alter the slope or position of the regression line.</p>
+<ul>
+<li>We say a point is influential if omitting it would substantially change the regression model.</li>
 </ul>
-</div></div>
-</section><section id="dummy-coding" class="slide level2"><h2>Dummy coding</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+</li>
+</ul></section><section id="practical-advice" class="slide level2"><h2>Practical advice</h2>
+<ul>
+<li class="fragment"><p>Test your analysis <strong>with and without</strong> outliers.</p></li>
+<li class="fragment"><p>Compare and discuss the impact of outliers on model fit.</p></li>
+<li class="fragment"><p>Present both models to stakeholders to choose the most reasonable interpretation.</p></li>
+</ul>
+<div class="fragment">
+<div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Note</strong></p>
+<p><strong>Warning</strong></p>
 </div>
 <div class="callout-content">
-<p>You do not need to do anything (i.e., write code) to do the “dummy coding”, R does this under the hood for you when you have a predictor that is categorical (a character or a factor).</p>
+<p>Removing outliers should only be done with strong justification – excluding interesting or extreme cases can lead to misleading models, poor predictive performance, and flawed conclusions.</p>
 </div>
 </div>
 </div>
-</section><section id="interpreting-the-model-output" class="slide level2"><h2>Interpreting the model output</h2>
-<p><span class="math display">\[
-\widehat{body~mass} = 4716 - 1003 \times islandDream - 1010 \times islandTorgersen
-\]</span></p>
-<ul>
-<li><p>Intercept: <span class="fragment">Penguins from Biscoe island are expected to weigh, on average, 4,716 grams.</span></p></li>
-<li><p>Slope - islandDream: <span class="fragment">Penguins from Dream island are expected to weigh, on average, 1,003 grams less than those from Biscoe island.</span></p></li>
-<li><p>Slope - islandTorgersen: <span class="fragment">Penguins from Torgersen island are expected to weigh, on average, 1,010 grams less than those from Biscoe island.</span></p></li>
-</ul></section><section id="predicting-based-on-the-model" class="slide level2"><h2>Predicting based on the model</h2>
-<p><span class="math display">\[
-\widehat{body~mass} = 4716 - 1003 \times islandDream - 1010 \times islandTorgersen
-\]</span></p>
-<div class="fragment">
-<ul>
-<li>Biscoe: <span class="math inline">\(\widehat{body~mass} = 4716 - 1003 \times 0 - 1010 \times 0 = 4716\)</span>
-</li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li>Dream: <span class="math inline">\(\widehat{body~mass} = 4716 - 1003 \times 1 - 1010 \times 0 = 3713\)</span>
-</li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li>Torgersen: <span class="math inline">\(\widehat{body~mass} = 4716 - 1003 \times 0 - 1010 \times 1 = 3706\)</span>
-</li>
-</ul>
-</div>
-</section><section id="predicting-based-on-the-model---again" class="slide level2"><h2>Predicting based on the model - again</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>three_penguins <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb10-2"><a></a>  <span class="at">island =</span> <span class="fu">c</span>(<span class="st">"Biscoe"</span>, <span class="st">"Dream"</span>, <span class="st">"Torgersen"</span>)</span>
-<span id="cb10-3"><a></a>  )</span>
-<span id="cb10-4"><a></a></span>
-<span id="cb10-5"><a></a><span class="fu">augment</span>(bm_island_fit, <span class="at">new_data =</span> three_penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 2
-  .pred island   
-  &lt;dbl&gt; &lt;chr&gt;    
-1 4716. Biscoe   
-2 3713. Dream    
-3 3706. Torgersen</code></pre>
-</div>
-</div>
-</section><section id="models-with-categorical-predictors" class="slide level2"><h2>Models with categorical predictors</h2>
-<ul>
-<li class="fragment"><p>When the categorical predictor has many levels, they’re encoded to <strong>dummy variables</strong>.</p></li>
-<li class="fragment"><p>The first level of the categorical variable is the baseline level. In a model with one categorical predictor, the intercept is the predicted value of the outcome for the baseline level (x = 0).</p></li>
-<li class="fragment"><p>Each slope coefficient describes the difference between the predicted value of the outcome for that level of the categorical variable compared to the baseline level.</p></li>
-</ul>
 
 
-</section></section>
+</div>
+</section>
 </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
