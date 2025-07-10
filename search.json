@@ -74,14 +74,14 @@
     "href": "index.html",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nLinear model with a categorical predictor\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#slides",
     "href": "index.html#slides",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nLinear model with a categorical predictor\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#code-alongs",
@@ -504,95 +504,39 @@
     "text": "Modeling and inference\n\n\n\n\n\n\n\n\n\nFitting, interpreting, selecting, and evaluating models\nPrediction, classification, and assessing accuracy\nMaking inferences and quantifying uncertainty"
   },
   {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#packages",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#packages",
-    "title": "Linear model with a categorical predictor",
-    "section": "Packages",
-    "text": "Packages\n\n\npalmerpenguins for data\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(palmerpenguins)\nlibrary(tidyverse)\nlibrary(tidymodels)"
+    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#outliers-in-regression",
+    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#outliers-in-regression",
+    "title": "Outliers in linear regression",
+    "section": "Outliers in regression",
+    "text": "Outliers in regression\n\nOutliers are observations that fall far from the main cloud of points.\n\nThey can be outlying in:\n\nthe \\(x\\) direction,\nthe \\(y\\) direction, or\nboth.\n\n\nHowever, being outlying in a univariate sense does not always mean being outlying from the bivariate model.\nPoints that are in-line with the bivariate model usually do not influence the least squares line, even if they are extreme in \\(x\\), \\(y\\), or both."
   },
   {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#data-penguins",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#data-penguins",
-    "title": "Linear model with a categorical predictor",
-    "section": "Data: penguins\n",
-    "text": "Data: penguins\n\nWe’ll work with the penguins dataset from the palmerpenguins package, which contains information on\n\npenguins\n\n# A tibble: 344 × 7\n   species island    bill_length_mm bill_depth_mm\n   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;\n 1 Adelie  Torgersen           39.1          18.7\n 2 Adelie  Torgersen           39.5          17.4\n 3 Adelie  Torgersen           40.3          18  \n 4 Adelie  Torgersen           NA            NA  \n 5 Adelie  Torgersen           36.7          19.3\n 6 Adelie  Torgersen           39.3          20.6\n 7 Adelie  Torgersen           38.9          17.8\n 8 Adelie  Torgersen           39.2          19.6\n 9 Adelie  Torgersen           34.1          18.1\n10 Adelie  Torgersen           42            20.2\n# ℹ 334 more rows\n# ℹ 3 more variables: flipper_length_mm &lt;int&gt;,\n#   body_mass_g &lt;int&gt;, sex &lt;fct&gt;"
+    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#outliers-and-influence",
+    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#outliers-and-influence",
+    "title": "Outliers in linear regression",
+    "section": "Outliers and influence",
+    "text": "Outliers and influence\n\nd1 &lt;- simulated_scatter |&gt;\n  filter(group == 24) |&gt;\n  mutate(outlier = if_else(y == min(y), TRUE, FALSE))\nd2 &lt;- simulated_scatter |&gt;\n  filter(group == 25) |&gt;\n  mutate(outlier = if_else(y == min(y), TRUE, FALSE))\nd3 &lt;- simulated_scatter |&gt;\n  filter(group == 26) |&gt;\n  mutate(outlier = if_else(y == max(y), TRUE, FALSE))\n\nm1_aug &lt;- augment(lm(y ~ x, data = d1)) |&gt;\n  mutate(outlier = if_else(y == min(y), TRUE, FALSE))\n\nm2_aug &lt;- augment(lm(y ~ x, data = d2)) |&gt;\n  mutate(outlier = if_else(y == min(y), TRUE, FALSE))\n\nm3_aug &lt;- augment(lm(y ~ x, data = d3)) |&gt;\n  mutate(outlier = if_else(y == max(y), TRUE, FALSE))\n\np_1 &lt;- ggplot(d1, aes(x = x, y = y)) +\n  geom_point(size = 2, alpha = 0.8) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  geom_point(\n    data = d1 |&gt; filter(outlier),\n    size = 5, shape = \"circle open\",\n    color = IMSCOL[\"red\", \"full\"], stroke = 2\n  ) +\n  labs(title = \"A\") +\n  theme(\n    panel.grid = element_blank(),\n    axis.text = element_blank(),\n    panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n  ) +\n  scale_x_continuous(expand = expansion(mult = 0.12)) +\n  scale_y_continuous(expand = expansion(mult = 0.12))\n\nWarning: The `size` argument of `element_rect()` is deprecated as of\nggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\n\np_1_res &lt;- ggplot(m1_aug, aes(x = .fitted, y = .resid)) +\n  geom_point(alpha = 0.7, size = 2) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  geom_point(\n    data = m1_aug |&gt; filter(outlier),\n    size = 5, shape = \"circle open\",\n    color = IMSCOL[\"red\", \"full\"], stroke = 2\n  ) +\n  labs(x = \"Predicted y\", y = \"Residual\") +\n  theme(\n    panel.grid = element_blank(),\n    axis.text = element_blank(),\n    panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n  ) +\n  scale_x_continuous(expand = expansion(mult = 0.12)) +\n  scale_y_continuous(limits = c(-8, 8), expand = expansion(mult = 0.12))\n\np_2 &lt;- ggplot(d2, aes(x = x, y = y)) +\n  geom_point(size = 2, alpha = 0.8) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  geom_point(\n    data = d2 |&gt; filter(outlier),\n    size = 5, shape = \"circle open\",\n    color = IMSCOL[\"green\", \"full\"], stroke = 2\n  ) +\n  labs(title = \"B\") +\n  theme(\n    panel.grid = element_blank(),\n    axis.text = element_blank(),\n    panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n  ) +\n  scale_x_continuous(expand = expansion(mult = 0.12)) +\n  scale_y_continuous(expand = expansion(mult = 0.12))\n\np_2_res &lt;- ggplot(m2_aug, aes(x = .fitted, y = .resid)) +\n  geom_point(size = 2, alpha = 0.8) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  geom_point(\n    data = m2_aug |&gt; filter(outlier),\n    size = 5, shape = \"circle open\",\n    color = IMSCOL[\"green\", \"full\"], stroke = 2\n  ) +\n  labs(x = \"Predicted y\", y = \"Residual\") +\n  theme(\n    panel.grid = element_blank(),\n    axis.text = element_blank(),\n    panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n  ) +\n  scale_x_continuous(expand = expansion(mult = 0.12)) +\n  scale_y_continuous(limits = c(-8, 8), expand = expansion(mult = 0.12))\n\np_3 &lt;- ggplot(d3, aes(x = x, y = y)) +\n  geom_point(size = 2, alpha = 0.8) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  geom_point(\n    data = d3 |&gt; filter(outlier),\n    size = 5, shape = \"circle open\",\n    color = IMSCOL[\"pink\", \"full\"], stroke = 2\n  ) +\n  labs(title = \"C\") +\n  theme(\n    panel.grid = element_blank(),\n    axis.text = element_blank(),\n    panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n  ) +\n  scale_x_continuous(expand = expansion(mult = 0.12)) +\n  scale_y_continuous(expand = expansion(mult = 0.12))\n\np_3_res &lt;- ggplot(m3_aug, aes(x = .fitted, y = .resid)) +\n  geom_point(size = 2, alpha = 0.8) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  geom_point(\n    data = m3_aug |&gt; filter(outlier),\n    size = 5, shape = \"circle open\",\n    color = IMSCOL[\"pink\", \"full\"], stroke = 2\n  ) +\n  labs(x = \"Predicted y\", y = \"Residual\") +\n  theme(\n    panel.grid = element_blank(),\n    axis.text = element_blank(),\n    panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n  ) +\n  scale_x_continuous(expand = expansion(mult = 0.12)) +\n  scale_y_continuous(limits = c(-8, 8), expand = expansion(mult = 0.12))\n\np_1 + theme(plot.margin = unit(c(0, 10, 5, 0), \"pt\")) +\n  p_2 + theme(plot.margin = unit(c(0, 10, 5, 0), \"pt\")) + p_3 +\n  p_1_res + theme(plot.margin = unit(c(0, 10, 5, 0), \"pt\")) +\n  p_2_res + theme(plot.margin = unit(c(0, 10, 5, 0), \"pt\")) + p_3_res +\n  plot_layout(ncol = 3, heights = c(2, 1))\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\nA: One outlier in the \\(y\\) direction, also outlying in the bivariate model; slightly influences the regression line.\n\nB: One outlier on the right (outlying in \\(x\\) and \\(y\\), but not outlying in the bivariate model); close to the regression line and not influential.\n\nC: One point far from the cloud (outlying in \\(x\\), \\(y\\), and bivariate model); pulls the regression line upward, worsening fit for the main data."
   },
   {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#variables",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#variables",
-    "title": "Linear model with a categorical predictor",
-    "section": "Variables",
-    "text": "Variables\n\nA researcher wants to study the relationship between body weights of penguins based on the island they were recorded on. How are the variables involved in this analysis different?\n\n\n\nOutcome: body weight (numerical)\nPredictor: island (categorical)"
+    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#outliers-and-influence-1",
+    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#outliers-and-influence-1",
+    "title": "Outliers in linear regression",
+    "section": "Outliers and influence",
+    "text": "Outliers and influence\n\nd4 &lt;- simulated_scatter |&gt;\n  filter(group == 27)\n\nd5 &lt;- simulated_scatter |&gt; filter(group == 28)\nd6 &lt;- simulated_scatter |&gt; filter(group == 29)\n\nm4_aug &lt;- augment(lm(y ~ x, data = d4))\nm5_aug &lt;- augment(lm(y ~ x, data = d5))\nm6_aug &lt;- augment(lm(y ~ x, data = d6))\n\np_4 &lt;- ggplot(d4, aes(x = x, y = y)) +\n  geom_point(size = 2, alpha = 0.7) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  theme(\n        panel.grid = element_blank(),\n        axis.text = element_blank(),\n        panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n    ) +\n  labs(title = \"D\")\n\np_4_res &lt;- ggplot(m4_aug, aes(x = .fitted, y = .resid)) +\n  geom_point(size = 2, alpha = 0.7) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  labs(x = \"Predicted y\", y = \"Residual\") +\n  theme(\n        panel.grid = element_blank(),\n        axis.text = element_blank(),\n        panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n    ) +\n  ylim(-4, 4)\n\np_5 &lt;- ggplot(d5, aes(x = x, y = y)) +\n  geom_point(size = 2, alpha = 0.7) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  theme(\n        panel.grid = element_blank(),\n        axis.text = element_blank(),\n        panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n    ) +\n  labs(title = \"E\")\n\np_5_res &lt;- ggplot(m5_aug, aes(x = .fitted, y = .resid)) +\n  geom_point(alpha = 0.7, size = 2) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  labs(x = \"Predicted y\", y = \"Residual\") +\n  theme(\n        panel.grid = element_blank(),\n        axis.text = element_blank(),\n        panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n    ) +\n  ylim(-4, 4)\n\np_6 &lt;- ggplot(d6, aes(x = x, y = y)) +\n  geom_point(size = 2, alpha = 0.7) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  theme(\n        panel.grid = element_blank(),\n        axis.text = element_blank(),\n        panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n    ) +\n  labs(title = \"F\")\n\np_6_res &lt;- ggplot(m6_aug, aes(x = .fitted, y = .resid)) +\n  geom_point(size = 2, alpha = 0.7) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  labs(x = \"Predicted y\", y = \"Residual\") +\n  theme(\n        panel.grid = element_blank(),\n        axis.text = element_blank(),\n        panel.border = element_rect(colour = \"gray\", fill = NA, size = 1)\n    ) +\n  ylim(-4, 4)\n\np_4 + theme(plot.margin = unit(c(0, 10, 5, 0), \"pt\")) +\n  p_5 + theme(plot.margin = unit(c(0, 10, 5, 0), \"pt\")) + p_6 +\n  p_4_res + theme(plot.margin = unit(c(0, 10, 5, 0), \"pt\")) +\n  p_5_res + theme(plot.margin = unit(c(0, 10, 5, 0), \"pt\")) + p_6_res +\n  plot_layout(ncol = 3, heights = c(2, 1))\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 2 rows containing missing values or values outside\nthe scale range (`geom_point()`).\n\n\n\n\n\n\n\n\n\n\nD: A secondary small cloud of four points (outlying in \\(x\\) and bivariate model); strongly influences the regression line, creating poor fit.\n\nE: Outlier far right (outlying in \\(x\\) and \\(y\\)); the regression line is largely controlled by this single point, imposing a trend where there is none.\n\nF: One outlier far away (outlying in \\(x\\) and \\(y\\)), but in-line with the model; has little influence."
   },
   {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#body-weight-vs.-island",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#body-weight-vs.-island",
-    "title": "Linear model with a categorical predictor",
-    "section": "Body weight vs. island",
-    "text": "Body weight vs. island\n\nDetermine whether each of the following plot types would be an appropriate choice for visualizing the relationship between body weight and island of penguins.\n\n\nScatterplot ❌\nBox plot ✅\nViolin plot ✅\nDensity plot ✅\nBar plot ❌\nStacked bar plot ❌"
+    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#types-of-outliers",
+    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#types-of-outliers",
+    "title": "Outliers in linear regression",
+    "section": "Types of outliers",
+    "text": "Types of outliers\n\nOutliers: Points or groups of points that stand out from the rest of the data.\nLeverage points: Points that fall horizontally away from the center of the cloud tend to pull harder on the line, so we call them points with high leverage or leverage points.\n\nInfluential points: Outliers, generally high leverage points, that actually alter the slope or position of the regression line.\n\nWe say a point is influential if omitting it would substantially change the regression model."
   },
   {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#body-weight-vs.-island-1",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#body-weight-vs.-island-1",
-    "title": "Linear model with a categorical predictor",
-    "section": "Body weight vs. island",
-    "text": "Body weight vs. island\n\nggplot(\n  penguins, \n  aes(x = body_mass_g, y = island, color = island)\n  ) +\n  geom_boxplot(show.legend = FALSE)\n\nWarning: Removed 2 rows containing non-finite outside the scale\nrange (`stat_boxplot()`)."
-  },
-  {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#fitting-the-model",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#fitting-the-model",
-    "title": "Linear model with a categorical predictor",
-    "section": "Fitting the model",
-    "text": "Fitting the model\nLet’s fit a model to predict body weight from island:\n\n\nFit:\n\n\nbm_island_fit &lt;- linear_reg() |&gt;\n  fit(body_mass_g ~ island, data = penguins)\n\n\n\n\nTidy:\n\n\ntidy(bm_island_fit)\n\n# A tibble: 3 × 5\n  term            estimate std.error statistic   p.value\n  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)        4716.      48.5      97.3 8.93e-250\n2 islandDream       -1003.      74.2     -13.5 1.42e- 33\n3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21"
-  },
-  {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#inspecting-the-model-output",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#inspecting-the-model-output",
-    "title": "Linear model with a categorical predictor",
-    "section": "Inspecting the model output",
-    "text": "Inspecting the model output\n\nWhy is Biscoe not on the output?\n\n\n\n# A tibble: 3 × 5\n  term            estimate std.error statistic   p.value\n  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)        4716.      48.5      97.3 8.93e-250\n2 islandDream       -1003.      74.2     -13.5 1.42e- 33\n3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21\n\n\n\n\nWhen fitting a model with a categorical predictor, the levels of the categorical predictor are encoded to dummy variables, except for one of the levels, the baseline level.\nIn this case Biscoe is the is the baseline level.\nEach slope coefficient describes the predicted difference between heights in that particular school compared to the baseline level."
-  },
-  {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#dummy-variables",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#dummy-variables",
-    "title": "Linear model with a categorical predictor",
-    "section": "Dummy variables",
-    "text": "Dummy variables\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nisland\n\nDummy variable\n\n\n\nDream\nTorgersen\n\n\n\n\nBiscoe\n0\n0\n\n\nDream\n1\n0\n\n\ntorgersen\n0\n1\n\n\n\n\n\n\n\nFor a categorical predictor with \\(k\\) levels, we only need \\(k - 1\\) dummy variables to describe all of its levels:\n\n\nDream = 1 and Torgersen = 0, the penguin is from Dream island.\n\nDream = 0 and Torgersen = 1, the penguin is from Torgersen island.\n\nDream = 0 and Torgersen = 0, the penguin is from Biscoe island, we don’t need a third dummy variable to identify these penguins."
-  },
-  {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#dummy-coding",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#dummy-coding",
-    "title": "Linear model with a categorical predictor",
-    "section": "Dummy coding",
-    "text": "Dummy coding\n\n\n\n\n\n\nNote\n\n\nYou do not need to do anything (i.e., write code) to do the “dummy coding”, R does this under the hood for you when you have a predictor that is categorical (a character or a factor)."
-  },
-  {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#interpreting-the-model-output",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#interpreting-the-model-output",
-    "title": "Linear model with a categorical predictor",
-    "section": "Interpreting the model output",
-    "text": "Interpreting the model output\n\\[\n\\widehat{body~mass} = 4716 - 1003 \\times islandDream - 1010 \\times islandTorgersen\n\\]\n\nIntercept: Penguins from Biscoe island are expected to weigh, on average, 4,716 grams.\nSlope - islandDream: Penguins from Dream island are expected to weigh, on average, 1,003 grams less than those from Biscoe island.\nSlope - islandTorgersen: Penguins from Torgersen island are expected to weigh, on average, 1,010 grams less than those from Biscoe island."
-  },
-  {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#predicting-based-on-the-model",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#predicting-based-on-the-model",
-    "title": "Linear model with a categorical predictor",
-    "section": "Predicting based on the model",
-    "text": "Predicting based on the model\n\\[\n\\widehat{body~mass} = 4716 - 1003 \\times islandDream - 1010 \\times islandTorgersen\n\\]\n\n\nBiscoe: \\(\\widehat{body~mass} = 4716 - 1003 \\times 0 - 1010 \\times 0 = 4716\\)\n\n\n\n\n\nDream: \\(\\widehat{body~mass} = 4716 - 1003 \\times 1 - 1010 \\times 0 = 3713\\)\n\n\n\n\n\nTorgersen: \\(\\widehat{body~mass} = 4716 - 1003 \\times 0 - 1010 \\times 1 = 3706\\)"
-  },
-  {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#predicting-based-on-the-model---again",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#predicting-based-on-the-model---again",
-    "title": "Linear model with a categorical predictor",
-    "section": "Predicting based on the model - again",
-    "text": "Predicting based on the model - again\n\nthree_penguins &lt;- tibble(\n  island = c(\"Biscoe\", \"Dream\", \"Torgersen\")\n  )\n\naugment(bm_island_fit, new_data = three_penguins)\n\n# A tibble: 3 × 2\n  .pred island   \n  &lt;dbl&gt; &lt;chr&gt;    \n1 4716. Biscoe   \n2 3713. Dream    \n3 3706. Torgersen"
-  },
-  {
-    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#models-with-categorical-predictors",
-    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#models-with-categorical-predictors",
-    "title": "Linear model with a categorical predictor",
-    "section": "Models with categorical predictors",
-    "text": "Models with categorical predictors\n\nWhen the categorical predictor has many levels, they’re encoded to dummy variables.\nThe first level of the categorical variable is the baseline level. In a model with one categorical predictor, the intercept is the predicted value of the outcome for the baseline level (x = 0).\nEach slope coefficient describes the difference between the predicted value of the outcome for that level of the categorical variable compared to the baseline level."
+    "objectID": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#practical-advice",
+    "href": "slides/1-2-3-outliers-linear-regression/1-2-3-outliers-linear-regression.html#practical-advice",
+    "title": "Outliers in linear regression",
+    "section": "Practical advice",
+    "text": "Practical advice\n\nTest your analysis with and without outliers.\nCompare and discuss the impact of outliers on model fit.\nPresent both models to stakeholders to choose the most reasonable interpretation.\n\n\n\n\n\n\n\n\nWarning\n\n\nRemoving outliers should only be done with strong justification – excluding interesting or extreme cases can lead to misleading models, poor predictive performance, and flawed conclusions."
   },
   {
     "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html",
