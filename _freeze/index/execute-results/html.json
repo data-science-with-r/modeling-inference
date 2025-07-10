@@ -1,9 +1,11 @@
 {
-  "hash": "775a693a7405b87d3f4c071c26d3864e",
+  "hash": "8f3d8b2c45691fa98cf249bd014c89d2",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"{{< fa book-open >}} Modeling and inference\"\nsubtitle: \"{{< fa book >}} Data Science with R\"\nauthor: \"Mine Çetinkaya-Rundel + Elijah Meyer\"\nlisting:\n  - id: slides\n    contents: slides/*/*.qmd\n    type: table\n    fields: [title]\n    filter-ui: false\n    sort-ui: false\n    sort: [filename]\n  - id: code-alongs\n    contents: code-alongs/*/*.qmd\n    type: table\n    fields: [title]\n    filter-ui: false\n    sort-ui: false\n    sort: [filename]\n  - id: exercises\n    contents: exercises/*.qmd\n    type: table\n    fields: [title]\n    sort: [order]\n    filter-ui: false\n    sort-ui: false\n---\n\n\n\n\n## Slides\n\n::: {#slides}\n:::\n\n## Code alongs\n\n::: {#code-alongs}\n:::\n\n## Exercises\n\n::: {#exercises}\n:::\n",
-    "supporting": [],
+    "markdown": "---\ntitle: \"{{< fa book-open >}} Modeling and inference\"\nsubtitle: \"{{< fa book >}} Data Science with R\"\nauthor: \"Mine Çetinkaya-Rundel + Elijah Meyer\"\nlisting:\n  - id: slides\n    contents: slides/*/*.qmd\n    type: table\n    fields: [title]\n    filter-ui: false\n    sort-ui: false\n    sort: [filename]\n  - id: code-alongs\n    contents: code-alongs/*/*.qmd\n    type: table\n    fields: [title]\n    filter-ui: false\n    sort-ui: false\n    sort: [filename]\n  - id: exercises\n    contents: exercises/*.qmd\n    type: table\n    fields: [title]\n    sort: [order]\n    filter-ui: false\n    sort-ui: false\n---\n\n\n\n\n## Slides\n\n::: {#slides}\n:::\n\n## Code alongs\n\n::: {#code-alongs}\n:::\n\n## Exercises\n\n::: {#exercises}\n:::\n\n",
+    "supporting": [
+      "index_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
