@@ -368,14 +368,14 @@
     "href": "index.html",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#slides",
     "href": "index.html#slides",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#code-alongs",
@@ -733,5 +733,12 @@
     "title": "Outliers in linear regression",
     "section": "Practical advice",
     "text": "Practical advice\n\nTest your analysis with and without outliers.\nCompare and discuss the impact of outliers on model fit.\nPresent both models to stakeholders to choose the most reasonable interpretation.\n\n\n\n\n\n\n\n\nWarning\n\n\nRemoving outliers should only be done with strong justification – excluding interesting or extreme cases can lead to misleading models, poor predictive performance, and flawed conclusions."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predict-classify-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predict-classify-1",
+    "title": "Language of models",
+    "section": "Predict / classify",
+    "text": "Predict / classify\n\nHow do self-driving cars decide whether an object in front of them is a human, another car, or a trash can?\nHow does an online shopping website decide which ad to serve to you for the next item you might purchase?\nWhat happens if either of these get it wrong?"
   }
 ]

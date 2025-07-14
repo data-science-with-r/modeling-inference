@@ -376,41 +376,14 @@ is just as important as the model, if not more!
 
 # Predict / classify
 
-## Self driving cars
+## Predict / classify
 
-{{< video https://www.youtube.com/embed/xvqQ4F7Yf2o start="150" width="900" height="600" >}}
+::: incremental
+- How do self-driving cars decide whether an object in front of them is a human, another car, or a trash can?
 
-## Semi or garage? {.smaller}
+- How does an online shopping website decide which ad to serve to you for the next item you might purchase?
 
-> i love how Tesla thinks the wall in my garage is a semi.
-> 😅
-
-![](images/tesla-get-wrong-1.png){fig-align="center" width="300"}
-
-::: aside
-Source: [Reddit](https://www.reddit.com/r/TeslaModelY/comments/vjcpte/i_love_how_tesla_thinks_the_wall_in_my_garage_is/)
-:::
-
-## Semi or garage? {.smaller}
-
-> New owner here.
-> Just parked in my garage.
-> Tesla thinks I crashed onto a semi.
-
-![](images/tesla-get-wrong-2.png){fig-align="center" width="300"}
-
-::: aside
-Source: [Reddit](https://www.reddit.com/r/TeslaModelY/comments/112520t/new_owner_here_just_parked_in_my_garage_tesla/)
-:::
-
-## Car or trash?
-
-> Tesla calls Mercedes trash
-
-![](images/tesla-get-wrong-3.png){fig-align="center" width="500"}
-
-::: aside
-Source: [Reddit](https://www.reddit.com/r/FUCKYOUINPARTICULAR/comments/hi5srx/tesla_calls_mercedes_trash/)
+- What happens if either of these get it wrong?
 :::
 
 # Describe
