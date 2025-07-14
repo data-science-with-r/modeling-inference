@@ -17,10 +17,14 @@ ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
 
 # What is a model?
 
-## Modelling
+## Modeling
 
+::: incremental
 - Use models to explain the relationship between variables and to make predictions
 - For now we will focus on **linear** models (but remember there are *many* *many* other types of models too!)
+:::
+
+. . .
 
 ::: {.columns}
 ::: {.column}
@@ -299,12 +303,15 @@ base +
 -   Ranges between -1 and 1.
 -   Same sign as the slope.
 
+. . .
+
 ![](images/corr-example.png){fig-align="center"}
 
 ## Visualizing the model
 
 ```{r}
 #| warning: false
+#| code-line-numbers: "|2|3"
 ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point() +
   geom_smooth(method = "lm")
@@ -323,16 +330,17 @@ mtcars_aug <- augment(mtcars_fit, new_data = mtcars) |>
 
 ggplot(mtcars_aug) +
   geom_line(aes(x = wt, y = .pred), linewidth = 0.75, alpha = 0.8) + 
-  geom_point(aes(x = wt, y = mpg, color = res_cat)) +
+  geom_point(aes(x = wt, y = mpg, color = res_cat, shape = res_cat), size = 3) +
   labs(
     x = "Weight (1,000 lbs)",
     y = "Miles per gallon (MPG)",
     title = "MPG vs. weights of cars"
   ) +
-  guides(color = "none") +
+  guides(color = "none", shape = "none") +
   scale_color_manual(values = c("#fec926", "#fe265b")) +
-  annotate("text", x = 2.5, y = 30, label = "Positive residual", color = "#fe265b", hjust = 0, size = 8) +
-  annotate("text", x = 1, y = 10, label = "Negative residual", color = "#fec926", hjust = 0, size = 8)
+  scale_shape_manual(values = c("circle", "triangle")) +
+  annotate("label", x = 2.5, y = 30, label = "Positive residual", color = "#fe265b", hjust = 0, size = 8) +
+  annotate("label", x = 1, y = 15, label = "Negative residual", color = "#fec926", hjust = 0, size = 8)
 ```
 
 ## Extending regression lines
@@ -370,9 +378,11 @@ is just as important as the model, if not more!
 
 ## How do we use models?
 
+::: incremental
 - **Predict / classify:** Plug in the value(s) of predictor(s) to the model to obtain the predicted value of the outcome
 
 - **Describe:** Quantify the relationship between predictor(s) and outcome with slopes
+:::
 
 # Predict / classify
 

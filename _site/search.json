@@ -740,5 +740,19 @@
     "title": "Language of models",
     "section": "Predict / classify",
     "text": "Predict / classify\n\nHow do self-driving cars decide whether an object in front of them is a human, another car, or a trash can?\nHow does an online shopping website decide which ad to serve to you for the next item you might purchase?\nWhat happens if either of these get it wrong?"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling",
+    "title": "Language of models",
+    "section": "Modeling",
+    "text": "Modeling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but remember there are many many other types of models too!)"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-2",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-2",
+    "title": "Language of models",
+    "section": "Modeling",
+    "text": "Modeling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but there are many many other types of models too!)"
   }
 ]

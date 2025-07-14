@@ -1,0 +1,38 @@
+Hello, and welcome! My name is Mine Cetinkaya-Rundel, and I will be your instructor for the Modeling and inference course in the Data Science with R Specialization.
+
+>> In the first course of the specialization we introduced the data science cycle with this figure from the book R for Data Science and we learned about data visualization and transformation.
+
+>> In the second course we introduced data tidying, which involved reshaping and joining data, as well as importing data into R.
+
+>> Then we took a break from "how to do a task in R" and asked "should we do this task" in the course focusing on data science ethics. Specifically we discussed misrepresentation of data science results, data privacy, and algorithmic bias.
+
+>> In this course we'll dive into modeling. We'll discuss
+> how to fit, interpret, select, and evaluate models,
+> how to do prediction and classification and assess the accuracy of our predictions and classificiations,
+> and finally how to make inferences from samples for a target population and how to quantify the uncertainty of our estimates from samples
+
+Let's get started!
+
+
+
+
+"Welcome to our introduction to data science. Today we'll explore the fundamental concepts and processes that make up the data science workflow, from data collection to visualization and everything in between."
+Slide 2: Transform ↔ Visualize
+"Let's start by looking at the data science cycle. At its core, data science is an iterative process that involves transforming raw data into meaningful insights and then visualizing those insights to communicate findings effectively.
+This cycle shows us that transformation and visualization work hand in hand - we transform data to make it suitable for analysis, and we visualize it to understand patterns and communicate results. Notice the bidirectional arrows - this isn't a linear process. We constantly move back and forth between these stages as we refine our understanding."
+Slide 3: Import ↔ Tidy
+"Before we can transform and visualize data, we need to import it and make it tidy. This is often where data scientists spend most of their time - and for good reason.
+Importing data means bringing it into our analysis environment from various sources - databases, files, APIs, or web scraping. But raw data is rarely ready for analysis. We need to tidy it, which means structuring it so that each variable forms a column, each observation forms a row, and each type of observational unit forms a table. This foundational step makes all subsequent analysis possible."
+Slide 4: Data Science Ethics
+"As we work with data, we must always keep ethics at the forefront of our minds. There are three critical ethical considerations every data scientist must address:
+First, misrepresentation - we have a responsibility to present data accurately and avoid misleading visualizations or cherry-picked results that don't tell the full story.
+Second, data privacy - we must protect individuals' personal information and ensure we're using data in ways that respect people's privacy and consent.
+Third, algorithmic bias - our models and algorithms can perpetuate or amplify existing biases in society. We need to actively work to identify and mitigate these biases to ensure fair and equitable outcomes."
+Slide 5: Modeling and Inference
+"Now let's talk about modeling and inference - the heart of data science analysis. This is where we move from descriptive statistics to predictive and inferential analytics.
+Modeling involves several key activities: We start by fitting models to our data, then interpreting what these models tell us about the underlying patterns. We need to select the most appropriate models for our specific questions and evaluate how well they perform.
+The goals of modeling are multifaceted. We use models for prediction - forecasting future values or outcomes. We use them for classification - categorizing observations into different groups. And throughout this process, we must assess the accuracy of our models to understand their limitations.
+Finally, modeling allows us to make inferences about our data and quantify the uncertainty in our conclusions. This is crucial because it helps us understand not just what our data suggests, but how confident we can be in those suggestions.
+Remember, modeling is not just about building complex algorithms - it's about asking the right questions and choosing the right tools to answer them reliably."
+Closing
+"This overview gives you a foundation for understanding the data science process. Each of these stages - importing, tidying, transforming, visualizing, and modeling - builds upon the others in an iterative cycle, all while maintaining a strong ethical framework. As you continue your data science journey, you'll dive deeper into each of these areas, but this cycle will remain your roadmap for turning data into insights."
