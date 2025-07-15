@@ -46,7 +46,7 @@
     "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-summary",
     "title": "Modeling fish (Complete)",
     "section": "Model summary",
-    "text": "Model summary\n\n\nDemo: Display the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.\n\n\nfish_hw_tidy &lt;- tidy(fish_hw_fit)\nfish_hw_tidy\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -288.      34.0      -8.49 1.83e-11\n2 height          60.9      2.64     23.1  2.40e-29\n\n\n\n\nDemo: Write out your model using mathematical notation.\n\n\\(\\widehat{weight} = -288 + 60.9 \\times height\\)"
+    "text": "Model summary\n\nDisplay the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.\n\n\nfish_hw_tidy &lt;- tidy(fish_hw_fit)\nfish_hw_tidy\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -288.      34.0      -8.49 1.83e-11\n2 height          60.9      2.64     23.1  2.40e-29\n\n\n\nWrite out your model using mathematical notation.\n\n\\(\\widehat{weight} = -288 + 60.9 \\times height\\)"
   },
   {
     "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#correlation",
@@ -67,7 +67,7 @@
     "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#fitting-other-models",
     "title": "Modeling fish (Complete)",
     "section": "Fitting other models",
-    "text": "Fitting other models\n\nWe can fit more models than just a straight line. Change the following code below to read method = \"loess\". What is different from the plot created before?\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  geom_smooth(method = \"loess\") +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
+    "text": "Fitting other models\n\nWe can fit more models than just a straight line. Use method = \"loess\". What is different from the plot created before?\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  geom_smooth(method = \"loess\") +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
   },
   {
     "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html",
@@ -830,7 +830,7 @@
     "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#model-summary",
     "title": "Modeling fish",
     "section": "Model summary",
-    "text": "Model summary\n\n\nDemo: Display the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.\n\n\n# add code here\n\n\n\nDemo: Write out your model using mathematical notation.\n\nAdd response here."
+    "text": "Model summary\n\nDisplay the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.\n\n\n# add code here\n\n\nWrite out your model using mathematical notation.\n\nAdd response here."
   },
   {
     "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#correlation",
@@ -851,6 +851,6 @@
     "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html#fitting-other-models",
     "title": "Modeling fish",
     "section": "Fitting other models",
-    "text": "Fitting other models\n\nWe can fit more models than just a straight line. Change the following code below to read method = \"loess\". What is different from the plot created before?\n\n\n# add code here"
+    "text": "Fitting other models\n\nWe can fit more models than just a straight line. Use method = \"loess\". What is different from the plot created before?\n\n\n# add code here"
   }
 ]

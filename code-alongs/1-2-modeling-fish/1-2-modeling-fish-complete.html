@@ -551,8 +551,7 @@ Coefficients:
 </div>
 </section><section id="model-summary" class="level2"><h2 class="anchored" data-anchor-id="model-summary">Model summary</h2>
 <ul>
-<li>
-<strong>Demo:</strong> Display the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.</li>
+<li>Display the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.</li>
 </ul>
 <div class="cell">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fish_hw_tidy</span> <span class="op">&lt;-</span> <span class="fu">tidy</span><span class="op">(</span><span class="va">fish_hw_fit</span><span class="op">)</span></span>
@@ -566,8 +565,7 @@ Coefficients:
 </div>
 </div>
 <ul>
-<li>
-<strong>Demo:</strong> Write out your model using mathematical notation.</li>
+<li>Write out your model using mathematical notation.</li>
 </ul>
 <p><span class="math inline">\(\widehat{weight} = -288 + 60.9 \times height\)</span></p>
 </section><section id="correlation" class="level2"><h2 class="anchored" data-anchor-id="correlation">Correlation</h2>
@@ -615,7 +613,7 @@ Coefficients:
 </div>
 </section><section id="fitting-other-models" class="level2"><h2 class="anchored" data-anchor-id="fitting-other-models">Fitting other models</h2>
 <ul>
-<li>We can fit more models than just a straight line. Change the following code below to read <code>method = "loess"</code>. What is different from the plot created before?</li>
+<li>We can fit more models than just a straight line. Use <code>method = "loess"</code>. What is different from the plot created before?</li>
 </ul>
 <div class="cell">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">fish</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">height</span>, y <span class="op">=</span> <span class="va">weight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
