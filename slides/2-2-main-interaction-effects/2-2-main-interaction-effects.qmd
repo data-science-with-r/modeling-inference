@@ -1,0 +1,271 @@
+---
+title: "Linear regression with multiple predictors"
+format: revealjs
+---
+
+```{r}
+#| label: setup
+#| include: false
+ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
+```
+
+## Packages
+
+- **DAAG** for data
+- **tidyverse** for data wrangling and visualization
+- **tidymodels** for modeling
+
+```{r}
+#| label: load-packages
+#| warning: false
+library(DAAG)
+library(tidyverse)
+library(tidymodels)
+```
+
+## Data: Book weight and volume
+
+The `allbacks` data frame gives measurements on the volume and weight of 15 books, some of which are paperback and some of which are hardback
+
+::: {.columns}
+::: {.column width=40%}
+- Volume - cubic centimetres
+- Area - square centimetres
+- Weight - grams
+:::
+::: {.column width=60%}
+```{r }
+#| echo: false
+as_tibble(allbacks)
+```
+:::
+::: 
+
+::: aside
+These books are from the bookshelf of J. H. Maindonald at Australian National University.
+:::
+
+## Book weight vs. volume
+
+::: {.columns}
+::: {.column width=65%}
+```{r}
+allbacks_1_fit <- linear_reg() |>
+  fit(weight ~ volume, data = allbacks)
+
+tidy(allbacks_1_fit)
+```
+:::
+::: {.column width=35%}
+```{r}
+#| echo: false
+#| fig-width: 5
+ggplot(allbacks, aes(x = volume, y = weight)) +
+  geom_point(alpha = 0.7, size = 3)
+```
+:::
+:::
+
+## Book weight vs. volume and cover
+
+::: {.columns}
+::: {.column width=65%}
+```{r}
+allbacks_2_fit <- linear_reg() |>
+  fit(weight ~ volume + cover, data = allbacks)
+
+tidy(allbacks_2_fit)
+```
+:::
+::: {.column width=35%}
+```{r}
+#| echo: false
+#| fig-width: 5
+#| fig-asp: 0.8
+ggplot(allbacks, aes(x = volume, y = weight, color = cover, shape = cover)) +
+  geom_point(alpha = 0.7, size = 3) +
+  theme(legend.position = "bottom") +
+  scale_color_manual(values = c("#E48957", "#071381"))
+```
+:::
+:::
+
+## Interpretation of estimates
+
+```{r}
+tidy(allbacks_2_fit)
+```
+
+. . .
+
+- **Slope - volume:** *All else held constant*, for each additional cubic centimetre books are larger in volume, we would expect the weight to be higher, on average, by 0.718 grams.
+
+. . .
+
+- **Slope - cover:** *All else held constant*, paperback books are weigh, on average, by 184 grams less than hardcover books.
+
+. . .
+
+- **Intercept:** Hardcover books with 0 volume are expected to weigh 198 grams, on average. (Doesn't make sense in context.)
+
+## Main vs. interaction effects {.smaller}
+
+::: {.columns}
+::: {.column width=45%}
+::: task
+Suppose we want to predict weight of books from their volume and cover type 
+(hardback vs. paperback). Do you think a model with main effects or 
+interaction effects is more appropriate? Explain your reasoning.
+
+**Hint:** Main effects would mean rate at which weight changes as volume 
+increases would be the same for hardback and paperback books and interaction 
+effects would mean the rate at which weight changes as volume 
+increases would be different for hardback and paperback books.
+:::
+:::
+::: {.column width=5%}
+:::
+::: {.column width=45%}
+
+```{r}
+#| label: book-main-int
+#| echo: false
+#| fig-asp: 0.5
+#| fig-width: 6
+book_main_fit <- linear_reg() |>
+  fit(weight ~ volume + cover, data = allbacks)
+book_main_fit_aug <- augment(book_main_fit, new_data = allbacks)
+
+book_int_fit <- linear_reg() |>
+  fit(weight ~ volume + cover + volume*cover, data = allbacks)
+book_int_fit_aug <- augment(book_int_fit, new_data = allbacks)
+
+ggplot(
+  book_main_fit_aug, 
+  aes(x = volume, color = cover)
+  ) +
+  geom_point(aes(y = weight, shape = cover), alpha = 0.7) +
+  geom_line(aes(y = .pred)) +
+  labs(
+    title = "Main effects, parallel slopes", 
+    subtitle = "weight-hat = volume + cover"
+  ) +
+  scale_color_manual(values = c("#E48957", "#071381")) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.1, 0.7)
+  )
+
+ggplot(
+  book_int_fit_aug,
+  aes(x = volume, color = cover)
+) +
+  geom_point(aes(y = weight, shape = cover), alpha = 0.7) +
+  geom_line(aes(y = .pred)) +
+  labs(
+    title = "Interaction effects, not parallel slopes", 
+    subtitle = "weight-hat = volume + cover + volume * cover"
+  ) +
+  scale_color_manual(values = c("#E48957", "#071381")) +
+  guides(color = "none", shape = "none")
+```
+
+:::
+:::
+
+
+## In pursuit of Occam's razor
+
+- Occam's Razor states that among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected.
+
+. . .
+
+- Model selection follows this principle.
+
+. . .
+
+- We only want to add another variable to the model if the addition of that variable brings something valuable in terms of predictive power to the model.
+
+. . .
+
+- In other words, we prefer the simplest best model, i.e. **parsimonious** model.
+
+## In pursuit of Occam's razor
+
+::: {.columns}
+::: {.column width=70%}
+::: task
+Visually, which of the two models is preferable under Occam's razor?
+:::
+
+```{r}
+#| ref.label: "book-main-int"
+#| echo: false
+#| fig-asp: 0.618
+#| fig-width: 6
+#| fig-ncol: 2
+```
+
+:::
+::: 
+
+
+## R-squared
+
+- $R^2$ is the percentage of variability in the outcome explained by the regression model.
+
+```{r}
+glance(book_main_fit)$r.squared
+glance(book_int_fit)$r.squared
+```
+
+. . .
+
+- The model with interaction effect has a slightly higher $R^2$.
+
+. . .
+
+- However using $R^2$ for model selection in models with multiple explanatory variables is not a good idea as $R^2$ increases when **any** variable is added to the model.
+
+## Adjusted R-squared
+
+... a (more) objective measure for model selection
+
+- Adjusted $R^2$ doesn't increase if the new variable does not provide any new  informaton or is completely unrelated, as it applies a penalty for number of  variables included in the model.
+
+- This makes adjusted $R^2$ a preferable metric for model selection in multiple regression models.
+
+## Comparing models
+
+::: columns
+::: {.column width=45%}
+
+$R^2$:
+
+```{r}
+glance(book_main_fit)$r.squared
+glance(book_int_fit)$r.squared
+```
+:::
+::: {.column width=45%}
+
+Adjusted $R^2$:
+
+```{r}
+glance(book_main_fit)$adj.r.squared
+glance(book_int_fit)$adj.r.squared
+```
+:::
+:::
+
+. . .
+
+::: columns
+::: {.column width=70%}
+
+- $R^2$ is higher for the model with the interaction effect.
+
+- Adjusted $R^2$ is **not** higher for the model with the interaction effect.
+
+:::
+:::

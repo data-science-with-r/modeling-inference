@@ -312,14 +312,14 @@
     "href": "index.html",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#slides",
     "href": "index.html#slides",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#code-alongs",
@@ -403,7 +403,7 @@
     "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#interpretation-of-estimates",
     "title": "Linear regression with multiple predictors",
     "section": "Interpretation of estimates",
-    "text": "Interpretation of estimates\n\ntidy(allbacks_2_fit)\n\n# A tibble: 3 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)  198.      59.2         3.34 0.00584     \n2 volume         0.718    0.0615     11.7  0.0000000660\n3 coverpb     -184.      40.5        -4.55 0.000672    \n\n\n\n\n\nSlope - volume: All else held constant, for each additional cubic centimetre books are larger in volume, we would expect the weight to be higher, on average, by 0.718 grams.\n\n\n\n\n\nSlope - cover: All else held constant, paperback books are weigh, on average, by 184 grams less than hardcover books.\n\n\n\n\n\nIntercept: Hardcover books with 0 volume are expected to weigh 198 grams, on average. (Doesn’t make sense in context.)"
+    "text": "Interpretation of estimates\n\ntidy(allbacks_2_fit)\n\n# A tibble: 3 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)  198.      59.2         3.34 0.00584     \n2 volume         0.718    0.0615     11.7  0.0000000660\n3 coverpb     -184.      40.5        -4.55 0.000672    \n\n\n\n\nSlope - volume: All else held constant, for each additional cubic centimetre books are larger in volume, we would expect the weight to be higher, on average, by 0.718 grams.\nSlope - cover: All else held constant, paperback books are weigh, on average, by 184 grams less than hardcover books.\nIntercept: Hardcover books with 0 volume are expected to weigh 198 grams, on average. (Doesn’t make sense in context.)"
   },
   {
     "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#main-vs.-interaction-effects",
@@ -670,5 +670,117 @@
     "title": "Modeling fish",
     "section": "Fitting other models",
     "text": "Fitting other models\n\nWe can fit more models than just a straight line. Change the following code below to read method = \"loess\". What is different from the plot created before?\n\n\n# add code here"
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#r2",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#r2",
+    "title": "Linear regression with multiple predictors",
+    "section": "\\(R^2\\)",
+    "text": "\\(R^2\\)\n\\(R^2\\) is the percentage of variability in the outcome explained by the regression model.\n\n\nModel 1: weight ~ volume\n\n\n\nglance(allbacks_1_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic    p.value    df\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;\n1     0.803         0.787  124.      52.9 0.00000626     1\n# ℹ 6 more variables: logLik &lt;dbl&gt;, AIC &lt;dbl&gt;, BIC &lt;dbl&gt;,\n#   deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\nModel 2: weight ~ volume + cover\n\n\n\nglance(allbacks_2_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic     p.value    df\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;\n1     0.927         0.915  78.2      76.7 0.000000145     2\n# ℹ 6 more variables: logLik &lt;dbl&gt;, AIC &lt;dbl&gt;, BIC &lt;dbl&gt;,\n#   deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\n\n\\(R^2\\) increases when any variable is added to the model."
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#adjusted-r2",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#adjusted-r2",
+    "title": "Linear regression with multiple predictors",
+    "section": "Adjusted \\(R^2\\)\n",
+    "text": "Adjusted \\(R^2\\)\n\nAdjusted \\(R^2\\) adds a penalty to \\(R^2\\) for additional variables in the model, and is therefore a (more) objective measure for comparing models with different numbers of predictors.\n\n\nModel 1: weight ~ volume\n\n\n\nglance(allbacks_1_fit)$adj.r.squared\n\n[1] 0.7874526\n\n\n\n\n\nModel 2: weight ~ volume + cover\n\n\n\nglance(allbacks_2_fit)$adj.r.squared\n\n[1] 0.9153905\n\n\n\n\n\nAdjusted \\(R^2\\) is higher for the model with volume and cover as predictors, and it is therefore the preferable model for predicting weight."
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-1---visualized",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-1---visualized",
+    "title": "Linear regression with multiple predictors",
+    "section": "Model 1 - visualized",
+    "text": "Model 1 - visualized\n\nglance(allbacks_1_fit) |&gt;\n  select(r.squared, adj.r.squared)\n\n# A tibble: 1 × 2\n  r.squared adj.r.squared\n      &lt;dbl&gt;         &lt;dbl&gt;\n1     0.803         0.787"
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-2---visualized",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-2---visualized",
+    "title": "Linear regression with multiple predictors",
+    "section": "Model 2 - visualized",
+    "text": "Model 2 - visualized\n\nglance(allbacks_2_fit) |&gt;\n  select(r.squared, adj.r.squared)\n\n# A tibble: 1 × 2\n  r.squared adj.r.squared\n      &lt;dbl&gt;         &lt;dbl&gt;\n1     0.927         0.915"
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html",
+    "title": "Linear regression with multiple predictors",
+    "section": "",
+    "text": "DAAG for data\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(DAAG)\nlibrary(tidyverse)\nlibrary(tidymodels)"
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#packages",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#packages",
+    "title": "Linear regression with multiple predictors",
+    "section": "",
+    "text": "DAAG for data\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(DAAG)\nlibrary(tidyverse)\nlibrary(tidymodels)"
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#data-book-weight-and-volume",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#data-book-weight-and-volume",
+    "title": "Linear regression with multiple predictors",
+    "section": "Data: Book weight and volume",
+    "text": "Data: Book weight and volume\nThe allbacks data frame gives measurements on the volume and weight of 15 books, some of which are paperback and some of which are hardback\n\n\n\nVolume - cubic centimetres\nArea - square centimetres\nWeight - grams\n\n\n\n\n# A tibble: 15 × 4\n   volume  area weight cover\n    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;\n 1    885   382    800 hb   \n 2   1016   468    950 hb   \n 3   1125   387   1050 hb   \n 4    239   371    350 hb   \n 5    701   371    750 hb   \n 6    641   367    600 hb   \n 7   1228   396   1075 hb   \n 8    412     0    250 pb   \n 9    953     0    700 pb   \n10    929     0    650 pb   \n11   1492     0    975 pb   \n12    419     0    350 pb   \n13   1010     0    950 pb   \n14    595     0    425 pb   \n15   1034     0    725 pb   \n\n\n\n\n\n\nThese books are from the bookshelf of J. H. Maindonald at Australian National University."
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#book-weight-vs.-volume",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#book-weight-vs.-volume",
+    "title": "Linear regression with multiple predictors",
+    "section": "Book weight vs. volume",
+    "text": "Book weight vs. volume\n\n\n\nallbacks_1_fit &lt;- linear_reg() |&gt;\n  fit(weight ~ volume, data = allbacks)\n\ntidy(allbacks_1_fit)\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic    p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;\n1 (Intercept)  108.      88.4         1.22 0.245     \n2 volume         0.709    0.0975      7.27 0.00000626"
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#book-weight-vs.-volume-and-cover",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#book-weight-vs.-volume-and-cover",
+    "title": "Linear regression with multiple predictors",
+    "section": "Book weight vs. volume and cover",
+    "text": "Book weight vs. volume and cover\n\n\n\nallbacks_2_fit &lt;- linear_reg() |&gt;\n  fit(weight ~ volume + cover, data = allbacks)\n\ntidy(allbacks_2_fit)\n\n# A tibble: 3 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)  198.      59.2         3.34 0.00584     \n2 volume         0.718    0.0615     11.7  0.0000000660\n3 coverpb     -184.      40.5        -4.55 0.000672"
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#interpretation-of-estimates",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#interpretation-of-estimates",
+    "title": "Linear regression with multiple predictors",
+    "section": "Interpretation of estimates",
+    "text": "Interpretation of estimates\n\ntidy(allbacks_2_fit)\n\n# A tibble: 3 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)  198.      59.2         3.34 0.00584     \n2 volume         0.718    0.0615     11.7  0.0000000660\n3 coverpb     -184.      40.5        -4.55 0.000672    \n\n\n. . .\n\n\nSlope - volume: All else held constant, for each additional cubic centimetre books are larger in volume, we would expect the weight to be higher, on average, by 0.718 grams.\n\n. . .\n\n\nSlope - cover: All else held constant, paperback books are weigh, on average, by 184 grams less than hardcover books.\n\n. . .\n\n\nIntercept: Hardcover books with 0 volume are expected to weigh 198 grams, on average. (Doesn’t make sense in context.)"
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#main-vs.-interaction-effects",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#main-vs.-interaction-effects",
+    "title": "Linear regression with multiple predictors",
+    "section": "Main vs. interaction effects",
+    "text": "Main vs. interaction effects\n\n\n\nSuppose we want to predict weight of books from their volume and cover type (hardback vs. paperback). Do you think a model with main effects or interaction effects is more appropriate? Explain your reasoning.\nHint: Main effects would mean rate at which weight changes as volume increases would be the same for hardback and paperback books and interaction effects would mean the rate at which weight changes as volume increases would be different for hardback and paperback books."
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#in-pursuit-of-occams-razor",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#in-pursuit-of-occams-razor",
+    "title": "Linear regression with multiple predictors",
+    "section": "In pursuit of Occam’s razor",
+    "text": "In pursuit of Occam’s razor\n\nOccam’s Razor states that among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected.\n\n. . .\n\nModel selection follows this principle.\n\n. . .\n\nWe only want to add another variable to the model if the addition of that variable brings something valuable in terms of predictive power to the model.\n\n. . .\n\nIn other words, we prefer the simplest best model, i.e. parsimonious model."
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#in-pursuit-of-occams-razor-1",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#in-pursuit-of-occams-razor-1",
+    "title": "Linear regression with multiple predictors",
+    "section": "In pursuit of Occam’s razor",
+    "text": "In pursuit of Occam’s razor\n\n\n\nVisually, which of the two models is preferable under Occam’s razor?"
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#r-squared",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#r-squared",
+    "title": "Linear regression with multiple predictors",
+    "section": "R-squared",
+    "text": "R-squared\n\n\n\\(R^2\\) is the percentage of variability in the outcome explained by the regression model.\n\n\nglance(book_main_fit)$r.squared\n\n[1] 0.9274776\n\nglance(book_int_fit)$r.squared\n\n[1] 0.9297137\n\n\n. . .\n\nThe model with interaction effect has a slightly higher \\(R^2\\).\n\n. . .\n\nHowever using \\(R^2\\) for model selection in models with multiple explanatory variables is not a good idea as \\(R^2\\) increases when any variable is added to the model."
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#adjusted-r-squared",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#adjusted-r-squared",
+    "title": "Linear regression with multiple predictors",
+    "section": "Adjusted R-squared",
+    "text": "Adjusted R-squared\n… a (more) objective measure for model selection\n\nAdjusted \\(R^2\\) doesn’t increase if the new variable does not provide any new informaton or is completely unrelated, as it applies a penalty for number of variables included in the model.\nThis makes adjusted \\(R^2\\) a preferable metric for model selection in multiple regression models."
+  },
+  {
+    "objectID": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#comparing-models",
+    "href": "slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html#comparing-models",
+    "title": "Linear regression with multiple predictors",
+    "section": "Comparing models",
+    "text": "Comparing models\n\n\n\\(R^2\\):\n\nglance(book_main_fit)$r.squared\n\n[1] 0.9274776\n\nglance(book_int_fit)$r.squared\n\n[1] 0.9297137\n\n\n\nAdjusted \\(R^2\\):\n\nglance(book_main_fit)$adj.r.squared\n\n[1] 0.9153905\n\nglance(book_int_fit)$adj.r.squared\n\n[1] 0.9105447\n\n\n\n\n. . .\n\n\n\n\\(R^2\\) is higher for the model with the interaction effect.\nAdjusted \\(R^2\\) is not higher for the model with the interaction effect."
   }
 ]
