@@ -112,7 +112,7 @@ tidy(allbacks_2_fit)
 - **Intercept:** The model predicts that hardback books with 0 volume are expected to weigh 198 grams, on average. (Doesn't make sense in context.)
 :::
 
-## $R^2$
+## $R^2$ {.smaller}
 
 $R^2$ is the percentage of variability in the outcome explained by the regression model.
 
@@ -136,7 +136,7 @@ glance(allbacks_2_fit)
 
 - $R^2$ increases when **any** predictor is added to the model.
 
-## Adjusted $R^2$
+## Adjusted $R^2$ {.smaller}
 
 Adjusted $R^2$ adds a penalty to $R^2$ for additional predictors in the model, and is therefore a (more) objective measure for comparing models with different numbers of predictors.
 
