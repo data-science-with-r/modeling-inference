@@ -97,7 +97,7 @@
     code span.vs { color: #abe338; } /* VerbatimString */
     code span.wa { color: #d4d0ab; font-style: italic; } /* Warning */
   </style>
-<link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-e089f84475e4a2f473bfe8b672b532e6.css">
+<link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-372c58e770871828c9e3188ce937a5b7.css">
 <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
 <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
 <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -296,7 +296,7 @@ Y &amp;= \color{#325b74}{\textbf{Model}} + \text{Error} \\[8pt]
 </div>
 </div>
 </div></div>
-</section><section id="simple-linear-regression" class="slide level2 smaller"><h2>Simple linear regression</h2>
+</section><section id="simple-linear-regression" class="slide level2"><h2>Simple linear regression</h2>
 <p>Use <strong>simple linear regression</strong> to model the relationship between a numerical outcome (<span class="math inline">\(Y\)</span>) and a single numerical predictor (<span class="math inline">\(X\)</span>): <span class="math display">\[\Large{Y = \beta_0 + \beta_1 X + \epsilon}\]</span></p>
 <ul>
 <li class="fragment">
@@ -341,25 +341,32 @@ Y &amp;= \color{#325b74}{\textbf{Model}} + \text{Error} \\[8pt]
 <p><span class="math display">\[
 \text{residual} = \text{observed} - \text{predicted} = y - \hat{y}
 \]</span></p>
-</section><section id="least-squares-line" class="slide level2 smaller"><h2>Least squares line</h2>
+</section><section id="least-squares-line" class="slide level2"><h2>Least squares line</h2>
+<div class="fragment">
 <ul>
 <li>The residual for the <span class="math inline">\(i^{th}\)</span> observation is</li>
 </ul>
 <p><span class="math display">\[
 e_i = \text{observed} - \text{predicted} = y_i - \hat{y}_i
 \]</span></p>
+</div>
+<div class="fragment">
 <ul>
 <li>The <strong>sum of squared</strong> residuals is</li>
 </ul>
 <p><span class="math display">\[
 e^2_1 + e^2_2 + \dots + e^2_n
 \]</span></p>
+</div>
+<div class="fragment">
 <ul>
 <li>The <strong>least squares line</strong> is the one that <strong>minimizes the sum of squared residuals</strong>
 </li>
-</ul></section><section id="fitting-a-model" class="slide level2"><h2>Fitting a model</h2>
+</ul>
+</div>
+</section><section id="fitting-a-model" class="slide level2"><h2>Fitting a model</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>movies_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="|1|2|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>movies_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a></a>  <span class="fu">fit</span>(audience <span class="sc">~</span> critics, <span class="at">data =</span> movie_scores)</span>
 <span id="cb5-3"><a></a></span>
 <span id="cb5-4"><a></a><span class="fu">tidy</span>(movies_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -373,16 +380,33 @@ e^2_1 + e^2_2 + \dots + e^2_n
 </div>
 </section></section><section><section id="interpreting-model-output" class="title-slide slide level1 center"><h1>Interpreting model output</h1>
 
-</section><section id="interpreting-the-slope" class="slide level2 smaller"><h2>Interpreting the slope</h2>
+</section><section id="interpreting-the-slope" class="slide level2"><h2>Interpreting the slope</h2>
 <div class="task">
 <p>The slope of the model for predicting audience score from critics score is 0.519. Which of the following is the best interpretation of this value?</p>
 </div>
+<div class="columns">
+<div class="column" style="width:70%;">
 <ol type="a">
 <li>For every one point increase in the critics score, the audience score goes up by 0.519 points, on average.</li>
 <li>For every one point increase in the critics score, we expect the audience score to be higher by 0.519 points, on average.</li>
 <li>For every one point increase in the critics score, the audience score goes up by 0.519 points.</li>
 <li>For every one point increase in the audience score, the critics score goes up by 0.519 points, on average.</li>
-</ol></section><section id="interpreting-slope-intercept" class="slide level2"><h2>Interpreting slope &amp; intercept</h2>
+</ol>
+</div></div>
+</section><section id="interpreting-the-slope-1" class="slide level2"><h2>Interpreting the slope</h2>
+<div class="task">
+<p>The slope of the model for predicting audience score from critics score is 0.519. Which of the following is the best interpretation of this value?</p>
+</div>
+<div class="columns">
+<div class="column" style="width:70%;">
+<ol type="a">
+<li>For every one point increase in the critics score, the audience score goes up by 0.519 points, on average.</li>
+<li><strong>For every one point increase in the critics score, we expect the audience score to be higher by 0.519 points, on average.</strong></li>
+<li>For every one point increase in the critics score, the audience score goes up by 0.519 points.</li>
+<li>For every one point increase in the audience score, the critics score goes up by 0.519 points, on average.</li>
+</ol>
+</div></div>
+</section><section id="interpreting-slope-intercept" class="slide level2"><h2>Interpreting slope &amp; intercept</h2>
 <p><span class="math display">\[
 \widehat{\text{audience}} = 32.3 + 0.519 \times \text{critics}
 \]</span></p>
@@ -390,7 +414,7 @@ e^2_1 + e^2_2 + \dots + e^2_n
 <li class="fragment">
 <strong>Slope:</strong> For every one point increase in the critics score, we expect the audience score to be higher by 0.519 points, on average.</li>
 <li class="fragment">
-<strong>Intercept:</strong> If the critics score is 0 points, we expect the audience score to be 32.3 points.</li>
+<strong>Intercept:</strong> For movies with a critics score of 0, we expect the audience score to be 32.3 points, on average.</li>
 </ul></section><section id="is-the-intercept-meaningful" class="slide level2"><h2>Is the intercept meaningful?</h2>
 <p>✅ The intercept is meaningful in context of the data if</p>
 <ul>

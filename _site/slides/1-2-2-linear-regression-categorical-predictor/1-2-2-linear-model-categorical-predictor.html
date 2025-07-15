@@ -97,7 +97,7 @@
     code span.vs { color: #abe338; } /* VerbatimString */
     code span.wa { color: #d4d0ab; font-style: italic; } /* Warning */
   </style>
-<link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-e089f84475e4a2f473bfe8b672b532e6.css">
+<link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-372c58e770871828c9e3188ce937a5b7.css">
 <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
 <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
 <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@
 </div>
 </section><section id="data-penguins" class="slide level2"><h2>Data: <code>penguins</code>
 </h2>
-<p>We’ll work with the <code>penguins</code> dataset from the <strong>palmerpenguins</strong> package, which contains information on</p>
+<p>We’ll work with the <code>penguins</code> dataset from the <strong>palmerpenguins</strong> package, which contains information on body measurements of three species of Antarctic penguins:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -287,15 +287,12 @@ range (`stat_boxplot()`).</code></pre>
 </section></section><section><section id="modeling" class="title-slide slide level1 center"><h1>Modeling</h1>
 
 </section><section id="fitting-the-model" class="slide level2"><h2>Fitting the model</h2>
-<p>Let’s fit a model to predict body weight from island:</p>
-<div class="fragment">
 <ul>
 <li>Fit:</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>bm_island_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
 <span id="cb6-2"><a></a>  <span class="fu">fit</span>(body_mass_g <span class="sc">~</span> island, <span class="at">data =</span> penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </div>
 <div class="fragment">
 <ul>
@@ -339,23 +336,23 @@ range (`stat_boxplot()`).</code></pre>
 <div class="column" style="width:30%;">
 <div class="cell">
 <div class="cell-output-display">
-<div id="gxvaxbqoox" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gxvaxbqoox table {
+<div id="adktgqdruv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#adktgqdruv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gxvaxbqoox thead, #gxvaxbqoox tbody, #gxvaxbqoox tfoot, #gxvaxbqoox tr, #gxvaxbqoox td, #gxvaxbqoox th {
+#adktgqdruv thead, #adktgqdruv tbody, #adktgqdruv tfoot, #adktgqdruv tr, #adktgqdruv td, #adktgqdruv th {
   border-style: none;
 }
 
-#gxvaxbqoox p {
+#adktgqdruv p {
   margin: 0;
   padding: 0;
 }
 
-#gxvaxbqoox .gt_table {
+#adktgqdruv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -381,12 +378,12 @@ range (`stat_boxplot()`).</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_caption {
+#adktgqdruv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gxvaxbqoox .gt_title {
+#adktgqdruv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -398,7 +395,7 @@ range (`stat_boxplot()`).</code></pre>
   border-bottom-width: 0;
 }
 
-#gxvaxbqoox .gt_subtitle {
+#adktgqdruv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -410,7 +407,7 @@ range (`stat_boxplot()`).</code></pre>
   border-top-width: 0;
 }
 
-#gxvaxbqoox .gt_heading {
+#adktgqdruv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -422,13 +419,13 @@ range (`stat_boxplot()`).</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_bottom_border {
+#adktgqdruv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_col_headings {
+#adktgqdruv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -443,7 +440,7 @@ range (`stat_boxplot()`).</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_col_heading {
+#adktgqdruv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -463,7 +460,7 @@ range (`stat_boxplot()`).</code></pre>
   overflow-x: hidden;
 }
 
-#gxvaxbqoox .gt_column_spanner_outer {
+#adktgqdruv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -475,15 +472,15 @@ range (`stat_boxplot()`).</code></pre>
   padding-right: 4px;
 }
 
-#gxvaxbqoox .gt_column_spanner_outer:first-child {
+#adktgqdruv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gxvaxbqoox .gt_column_spanner_outer:last-child {
+#adktgqdruv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gxvaxbqoox .gt_column_spanner {
+#adktgqdruv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -495,11 +492,11 @@ range (`stat_boxplot()`).</code></pre>
   width: 100%;
 }
 
-#gxvaxbqoox .gt_spanner_row {
+#adktgqdruv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gxvaxbqoox .gt_group_heading {
+#adktgqdruv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -525,7 +522,7 @@ range (`stat_boxplot()`).</code></pre>
   text-align: left;
 }
 
-#gxvaxbqoox .gt_empty_group_heading {
+#adktgqdruv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -540,15 +537,15 @@ range (`stat_boxplot()`).</code></pre>
   vertical-align: middle;
 }
 
-#gxvaxbqoox .gt_from_md > :first-child {
+#adktgqdruv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gxvaxbqoox .gt_from_md > :last-child {
+#adktgqdruv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gxvaxbqoox .gt_row {
+#adktgqdruv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -567,7 +564,7 @@ range (`stat_boxplot()`).</code></pre>
   overflow-x: hidden;
 }
 
-#gxvaxbqoox .gt_stub {
+#adktgqdruv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -580,7 +577,7 @@ range (`stat_boxplot()`).</code></pre>
   padding-right: 5px;
 }
 
-#gxvaxbqoox .gt_stub_row_group {
+#adktgqdruv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -594,15 +591,15 @@ range (`stat_boxplot()`).</code></pre>
   vertical-align: top;
 }
 
-#gxvaxbqoox .gt_row_group_first td {
+#adktgqdruv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gxvaxbqoox .gt_row_group_first th {
+#adktgqdruv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gxvaxbqoox .gt_summary_row {
+#adktgqdruv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -612,16 +609,16 @@ range (`stat_boxplot()`).</code></pre>
   padding-right: 5px;
 }
 
-#gxvaxbqoox .gt_first_summary_row {
+#adktgqdruv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_first_summary_row.thick {
+#adktgqdruv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gxvaxbqoox .gt_last_summary_row {
+#adktgqdruv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -631,7 +628,7 @@ range (`stat_boxplot()`).</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_grand_summary_row {
+#adktgqdruv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -641,7 +638,7 @@ range (`stat_boxplot()`).</code></pre>
   padding-right: 5px;
 }
 
-#gxvaxbqoox .gt_first_grand_summary_row {
+#adktgqdruv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -651,7 +648,7 @@ range (`stat_boxplot()`).</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_last_grand_summary_row_top {
+#adktgqdruv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -661,11 +658,11 @@ range (`stat_boxplot()`).</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_striped {
+#adktgqdruv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gxvaxbqoox .gt_table_body {
+#adktgqdruv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -674,7 +671,7 @@ range (`stat_boxplot()`).</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_footnotes {
+#adktgqdruv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -688,7 +685,7 @@ range (`stat_boxplot()`).</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_footnote {
+#adktgqdruv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -697,7 +694,7 @@ range (`stat_boxplot()`).</code></pre>
   padding-right: 5px;
 }
 
-#gxvaxbqoox .gt_sourcenotes {
+#adktgqdruv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -711,7 +708,7 @@ range (`stat_boxplot()`).</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#gxvaxbqoox .gt_sourcenote {
+#adktgqdruv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -719,72 +716,72 @@ range (`stat_boxplot()`).</code></pre>
   padding-right: 5px;
 }
 
-#gxvaxbqoox .gt_left {
+#adktgqdruv .gt_left {
   text-align: left;
 }
 
-#gxvaxbqoox .gt_center {
+#adktgqdruv .gt_center {
   text-align: center;
 }
 
-#gxvaxbqoox .gt_right {
+#adktgqdruv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gxvaxbqoox .gt_font_normal {
+#adktgqdruv .gt_font_normal {
   font-weight: normal;
 }
 
-#gxvaxbqoox .gt_font_bold {
+#adktgqdruv .gt_font_bold {
   font-weight: bold;
 }
 
-#gxvaxbqoox .gt_font_italic {
+#adktgqdruv .gt_font_italic {
   font-style: italic;
 }
 
-#gxvaxbqoox .gt_super {
+#adktgqdruv .gt_super {
   font-size: 65%;
 }
 
-#gxvaxbqoox .gt_footnote_marks {
+#adktgqdruv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gxvaxbqoox .gt_asterisk {
+#adktgqdruv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gxvaxbqoox .gt_indent_1 {
+#adktgqdruv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gxvaxbqoox .gt_indent_2 {
+#adktgqdruv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gxvaxbqoox .gt_indent_3 {
+#adktgqdruv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gxvaxbqoox .gt_indent_4 {
+#adktgqdruv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gxvaxbqoox .gt_indent_5 {
+#adktgqdruv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#gxvaxbqoox .katex-display {
+#adktgqdruv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#gxvaxbqoox div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#adktgqdruv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -839,6 +836,8 @@ Dummy variable
 </ul>
 </div></div>
 </section><section id="dummy-coding" class="slide level2"><h2>Dummy coding</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -852,6 +851,7 @@ Dummy variable
 </div>
 </div>
 </div>
+</div></div>
 </section><section id="interpreting-the-model-output" class="slide level2"><h2>Interpreting the model output</h2>
 <p><span class="math display">\[
 \widehat{body~mass} = 4716 - 1003 \times islandDream - 1010 \times islandTorgersen
@@ -884,7 +884,7 @@ Dummy variable
 </div>
 </section><section id="predicting-based-on-the-model---again" class="slide level2"><h2>Predicting based on the model - again</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>three_penguins <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="|1-3|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>three_penguins <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb10-2"><a></a>  <span class="at">island =</span> <span class="fu">c</span>(<span class="st">"Biscoe"</span>, <span class="st">"Dream"</span>, <span class="st">"Torgersen"</span>)</span>
 <span id="cb10-3"><a></a>  )</span>
 <span id="cb10-4"><a></a></span>

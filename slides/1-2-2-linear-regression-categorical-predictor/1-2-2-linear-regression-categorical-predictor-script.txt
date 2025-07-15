@@ -1,0 +1,84 @@
+>> In this video we'll work through another simple modeling example, predicting a numerical outcome from a categorical predictor.
+
+>> Let's start with some setup.
+
+>> For this analysis, we'll be using three  packages. The **palmerpenguins** package provides us with a dataset about Antarctic penguins. As always, we'll use the **tidyverse** for data wrangling and visualization, and **tidymodels** for modeling.
+
+>> We'll work with the `penguins` dataset from the **palmerpenguins** package, which contains information on body measurements of 344 Antarctic penguins from three islands, Biscoe, Dream, and Torgersen. We have measurements for each penguin including their body mass, bill length and depth, flipper length, and of course, which island they were observed on. This rich dataset allows us to explore how penguin characteristics might differ across different locations."
+
+>> Here's our research question: A researcher wants to study the relationship between body weights of penguins based on the island they were recorded on. Let's think about how the variables involved in this analysis are different from what we've seen before.
+
+> Our outcome variable is body weight - this is numerical, just like in our previous examples. But our predictor variable is island - and this is categorical. Island isn't something we can  put on a numerical scale. Biscoe isn't 'more' or 'less' than Dream - they're just different categories.
+
+This fundamental difference in the type of predictor variable means we need to think a bit differently about our modeling approach.
+
+>> But before modeling, let's take a look at the data, which requires deciding which type of visualization to make to explore the relationship between body weight and island.
+
+> A scatterplot wouldn't work well because we can't meaningfully plot island on a continuous axis. 
+> Side-by-side box plots, however, are ideal for visualizing the distribtution of a numerical variable across the levels of a categorical variable.
+> Similarly, violin plots 
+> and density plots would work well for comparing distributions. On the other hand
+> Bar plots and 
+> stacked bar plots are designed for categorical data only, not for visualizing the relationship between a numerical and a categorical variable.
+
+>> Here's what that plot looks like. This box plot shows the distribution of body mass for penguins from each island. We can see some interesting patterns: penguins from Biscoe island tend to be heavier on average, while those from Dream and Torgersen islands have similar, somewhat lower body masses.
+
+>> Now let's fit a model to quantify this relationship.
+
+>> Let's fit a linear regression model to predict body weight from island. The syntax looks very similar to what we've used before - we're still using the linear_reg function and fitting body_mass_g as a function of island.
+
+>> Then we tidy the model output to see the model summary.
+
+The summary shows something interesting and different from our previous models. Despite having a single predictor, island, the model output shows two slope terms, called 'islandDream' and 'islandTorgersen'."
+
+>> And Biscoe is missing. Why? This is a crucial concept in categorical regression.
+
+> When we fit a model with a categorical predictor, the levels of that predictor are encoded into what we call dummy variables. However, we don't need a dummy variable for every level - we leave out one level, which becomes our baseline level.
+
+> In this case, Biscoe is the baseline level. 
+
+> Each slope coefficient describes the predicted difference in body weight for that particular island compared to the baseline level - Biscoe.
+
+>> Let's understand how dummy variables work. For our three islands, we create two dummy variables: one for Dream and one for Torgersen.
+
+> When Dream equals 1 and Torgersen equals 0, the penguin is from Dream island. When Dream equals 0 and Torgersen equals 1, the penguin is from Torgersen island. When both Dream and Torgersen equal 0, the penguin is from Biscoe island.
+
+This is why we only need k-1 dummy variables for a categorical predictor with k levels. The baseline level is identified by all dummy variables being zero.
+
+>> An important note, though. You don't need to create these dummy variables yourself. R does this automatically when you include a categorical predictor in your model. Whether your categorical variable is stored as a character or as a factor, R will handle the dummy coding behind the scenes.
+
+>> Now let's get back to our model. Our model equation says the predicted body mass equals 4716 minus 1003 times islandDream minus 1010 times islandTorgersen.
+
+>> The intercept tells us about our baseline group: Penguins from Biscoe island are expected to weigh, on average, 4,716 grams.
+
+>> The slope for islandDream tells us about the predicted difference between penguins from Biscoe and Dream islans: Penguins from Dream island are expected to weigh, on average, 1,003 grams less than those from Biscoe island. It's "less" because the sign of the slope is negative.
+
+>> Similarly, the slope for islandTorgersen tells us that penguins from Torgersen island are expected to weigh, on average, 1,010 grams less than those from Biscoe island.
+
+Notice that each slope coefficient tells us about the difference between a given group and the baseline group, on average.
+
+>> We can also use the same model for making predictions. Using our equation, we can calculate the predicted body mass for penguins from each island:
+
+> For penguins from Biscoe we plug in 0s for both dummy variables. The predicted body mass is the just the intercept, 4716 grams.
+
+> For penguins from Dream island, we plug in 1 for islandDream and 0 for the other dummy variable and solve for the predicted weight, 3713 grams.
+
+> And finally for penguins from Torgersen, we plug in 1 for islandTorgersen and 0 for the other dummy variable.
+
+Notice how the dummy variables 'turn on' for the appropriate island and 'turn off' for the others.
+
+And the calculated outcome values are what the model predicts as the average weight of penguins from that island.
+
+>> We can also use R to make these predictions automatically. 
+> First, we create a data frame with one penguin from each island. Note that we spell the name of the variable and the names of the islands exactly the same way they're spelled in the original dataset.
+> Then, we use the augment function where we prodive the model object and this new data frame we just created.
+
+The results match our manual calculations: Biscoe penguins are predicted to weigh 4716 grams on average, Dream penguins 3713 grams on average, and Torgersen penguins 3706 grams on average. This automated approach would be a lot handier if we were doing prediction for a bunch of penguins or with a model with a bunch of variables.
+
+>> As we wrap up this video, let's summarize the key concepts for models with categorical predictors:
+
+> First, when a categorical predictor has multiple levels, they're encoded into dummy variables. This happens automatically in R during model fitting.
+
+> Second, the first level of the categorical variable becomes the baseline level. In models with one categorical predictor, the intercept represents the predicted value of the outcome for this baseline level.
+
+> Third, each slope coefficient describes the difference between the predicted value for that level of the categorical variable compared to the baseline level. This is different from numerical predictors, where the slope represents the change in the outcome per unit increase in the predictor.

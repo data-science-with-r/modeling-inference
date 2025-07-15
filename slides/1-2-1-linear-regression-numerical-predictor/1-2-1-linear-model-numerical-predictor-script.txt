@@ -1,0 +1,106 @@
+>> In this video we focus on linear regression models with a single numerical predictor, and give a concrete example of fitting and interpreting such models with data on movie ratings.
+
+>> Before we begin, let's talk about the tools we'll be using. 
+
+>> We'll need three key R packages for this analysis:
+
+The **fivethirtyeight** package provides us with the movie ratings data that we will use, the **tidyverse** package gives us powerful tools for data wrangling and visualization, and the **tidymodels** package provides a consistent framework for statistical modeling.
+
+>> Our dataset comes from FiveThirtyEight's analysis of movie ratings. We're going to focus on the relationship between critics' scores and audience scores from an online movie rating website called Rotten Tomatoes.
+
+To make our analysis clearer, we'll rename the columns from their original names to something more intuitive: 'critics' for the critics' score and 'audience' for the audience score. We'll also rename our dataset to 'movie_scores' to make it easy to work with.
+
+>> Let's take a look at our data. Here we can see the structure of our two main variables: critics scores and audience scores. Each row represents a different movie, and we can see the range of scores, for at least the first few cases, for both critics and audiences. Notice that both variables are numerical.
+
+>> Before we start modeling, let's visualize our data to understand the relationship we're trying to model. This scatter plot shows critics scores on the x-axis and audience scores on the y-axis. We're going to use critics' scores to predict audience scores, as critics scores tend to come out earlier and can be indicators of how well a movie will do in the box office. They also can directly influence audience scores, of course, but in this case we're not evaluating a causal relationship between these two variables, only an association.
+Each point on the plot represents one movie. We can see there's a general positive relationship - movies that critics rate highly tend to also be rated highly by audiences. However, there's also quite a bit of scatter around this trend, which suggests the relationship isn't super strong.
+
+This visualization helps us understand what we're working with and tells us what to expect, like a positive slope, before we start building our model.
+
+>> Now let's formalize what we mean by a regression model. 
+
+>> A regression model is a function that describes the relationship between our outcome variable Y and our predictor variable X.
+We can write this relationship as Y equals Model plus Error. The model part - shown here as f(X) - represents the systematic relationship we're trying to capture. This is also written as mu of Y given X, which represents the expected value of Y for a given value of X.
+The error term, epsilon, represents the part of Y that our model can't explain - the randomness or the influence of other factors that aren't in our model.
+
+>> Here's what this looks like visually. The blue line represents our model - the systematic relationship between X and Y. Each individual point represents an actual observation, and the vertical distance between each point and the line represents the error or residual for that observation.
+
+The model gives us the expected value of Y for any given X, but individual observations will vary around this expected value.
+
+>> We'll use a simple linear regression to model the relationship between our numerical outcome Y and our single numerical predictor X. The equation for simple linear regression is:
+
+Y equals beta-zero plus beta-one times X plus epsilon.
+
+> Here, beta-one represents the true slope of the relationship - how much Y changes for each unit increase in X. 
+> Beta-zero represents the true intercept - the expected value of Y when X equals zero. 
+> And epsilon represents the error term - the part of Y that our linear model can't explain.
+
+These beta values represent the true, unknown parameters in the population.
+
+>> Of course, we don't know the true beta values - we have to estimate them from our data. When we estimate these parameters, we use different notation:
+
+Y-hat equals b-zero plus b-one times X.
+
+Here, b-one is our estimated slope and b-zero is our estimated intercept. Notice there's no error term in this equation - that's because Y-hat represents our predicted value, not the actual observed value.
+
+The difference between our predicted values and the actual observed values gives us our residuals."
+
+>> So how do we choose the best values for our slope and intercept? We could draw many different lines through our data. The blue line represents what we think might be the best fit, but the gray lines show other possible relationships.
+
+Some lines fit the data better than others. We need a systematic way to determine which line is 'best' - and that's where the method of least squares comes in.
+
+>> Let's focus on residuals - the differences between our observed values and our predicted values. In this plot, the blue vertical lines show the residuals for each data point. Some are positive -- where the observed value is above the predicted line -- and some are negative -- where the observed value is below the predicted line.
+
+The residual for each observation is calculated as: observed value minus predicted value, or y minus y-hat.
+
+These residuals tell us how well our model fits each individual data point.
+
+>> The least squares method gives us a systematic way to find the best-fitting line. 
+> For each observation i, the residual is denoted as e-i, and it equals y-i (the observed value of the outcome) minus y-hat-i (the predicted value of the outcome).
+> The sum of squared residuals is e-squared-1 plus e-squared-2 plus... all the way to e-squared-n.
+> The least squares line is the one that minimizes this quantity -- the sum of squared residuals. We square the residuals to get rid of negative signs -- so positive and negative residuals don't cancel each other -- and place higher value on the residuals with larger magnitudes.
+
+This method is the most commonly used method for determining the best fit line. 
+
+>> Now let's actually fit this model to the movie ratings data. We'll use the tidymodels framework. So,
+> we start with specifying our model with linear_reg
+> then we fit the model with the fit function and we supply the model formula in the form outcome tilde predictor, so audience tilde critics, and then the name of the data frame these variables come from, movie scores. We store the model object as movies_fit. We can use any name for the model object but you'll see me always use something-underscore-fit.
+> We can then use the tidy function to print the model summary, which shows the slope and the intercept as well as their standard errors, test statistics, and p-values, which we'll learn more about later in the course in the inference unit.
+We can see that our estimated intercept (b-zero) is 32.3, and our estimated slope (b-one) is 0.519.
+
+>> Let's make sure we can interpret the slope and the intercept correctly. The slope is about the rate of change in the outcome when the predictor is higher by one unit. And the intercept is the predicted value of the outcome when the predictor is equal to 0. Despite these relatively straightforward sounding descriptions, it can be easy to get tripped up about what these numbers mean when considering them in context of the data and the research question.
+
+>> So let's take a look at the slope. The slope of the model is 0.519. Which of these interpretations is best? I'll give you a bit of time to read over them.
+
+[wait] > The correct answer is option b: For every one point increase in the critics score, we expect the audience score to be higher by 0.519 points, on average.
+
+This interpretation is important because it includes the phrase 'we expect' and 'on average' - acknowledging that this what we expect to happen, on average. Not every movie will follow this pattern exactly, but on average, this is what we expect to see.
+
+>> Let's write out our complete model equation: predicted audience score equals 32.3 plus 0.519 times critics score.
+
+> The slope says that for every one point increase in the critics score, we expect the audience score to be higher by 0.519 points, on average.
+
+> The intercept interpretation says that for movies with a critics score of 0, we expect the audience score to be 32.3 points, on average.
+
+Notice that the slope tells us about the relationship between our variables, while the intercept tells us about the expected outcome when the predictor equals zero.
+
+>> This brings up an important question: Is our intercept meaningful in this context?
+
+The intercept is meaningful when the predictor can feasibly take values equal to or near zero, or when we have observed data near zero.
+
+In our movie example, a critics score of 0 is theoretically possible - it would represent a movie that critics really did not like. So our intercept of 32.3 suggests that even movies with the worst possible critics scores might still receive moderate audience scores.
+
+> However, be careful - if your predictor can't realistically be zero, the intercept might not have a meaningful interpretation."
+
+>> Let's wrap up by reviewing the key properties of least squares regression.
+
+>> The least squares regression line minimizes the sum of squares residuals.
+> First, the regression line always goes through the center of mass point - the coordinates corresponding to the average X and average Y values. This means that if we plug in x-bar (average x) into the regression equation, the predicted value of y would be y-bar (average y). Moving things around, this property can be used to solve for the value of the intercept: b-zero equals Y-bar minus b-one times X-bar. Not that you ever need to calculate these by hand, but this property of "regression to the mean" is important nonetheless.
+
+> Second, the slope of the line has the same sign as the correlation coefficient. The relationship is b-one equals r, the correlation coefficient, times s-Y, the standard deviation of y, over s-X, the standard deviation of x. Once again, you won't need to calculate these values by hand, but knowing these formulas can be helpful for quick mental checks when you see the regression output from R.
+
+> Third, the sum of the residuals is always zero. This means that the positive and negative residuals balance each other out. This is why we don't minimize the sum of residuals, but instead sum of squared residuals, when determining the line of best fit.
+
+> Finally, the residuals and X values need to be uncorrelated - there should be no systematic relationship between the size of the residuals and the X values.
+
+These properties ensure that our least squares line is not only mathematically optimal but also has desirable statistical properties.

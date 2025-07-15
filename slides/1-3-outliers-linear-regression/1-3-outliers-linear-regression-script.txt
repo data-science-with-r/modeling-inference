@@ -1,0 +1,55 @@
+>> In this video we'll discuss outliers in linear regression.
+
+>> In other words, points points that fall far from the main cloud of observations. 
+
+> These points can be outlying in the 
+> x-direction, 
+> the y-direction, 
+> or both.
+
+> However, being outlying in a univariate sense does not always mean being outlying from the bivariate model. Some points may be extreme on the distribution of a single variable, but if they fall in line with the overall trend in the relationship between two variables, that is, with the bivariate model, they might not stand out as outliers in the linear regression.
+
+> Points that are in-line with the bivariate model usually do not influence the least squares line, even if they are extreme in x direction, the y direction, or both.
+
+>> Let’s look at three different scatter plots to understand this better.
+
+> In Plot A, we’ve highlighted an outlier that is extreme in the y-direction — it's much lower than the rest of the data. Because it doesn't follow the overall pattern, it does slightly influence the regression line.
+
+> In Plot B, we see a point far out in x and y directions, but it actually lies very close to the regression line. This means it's not influential — the line of best fit would be nearly the same with or without it.
+
+> In Plot C, the outlying point is far away in both x and y directions, and it's not in line with the rest of the data. It pulls the regression line upward, leading to a worse fit for the majority of points. This is an influential point.
+
+The residual plots below each graph give us another perspective — they show how far each point lies from the model’s predictions.
+
+>> Next, let’s look at another trio of examples.
+
+> In Plot D, we see a small cluster of points far to the right. These aren’t just outliers — they form a secondary cloud that strongly influences the regression line, pulling it toward themselves.
+
+> In Plot E, a single point is far off to the right, and it completely dictates the slope of the regression line, creating the illusion of a trend where none exists in the main data.
+
+> Finally in Plot F, the outlying point is also far out in the x and y directions, but it lies along the existing trend. It has high leverage but doesn’t influence the model.
+
+>> Now that we’ve seen some examples, let’s establish the terminology.
+
+> Outliers are points that stand apart from the rest — in any direction.
+
+> Leverage points fall horizontally away from the center of the main data cloud and they tend to pull harder on the line, so we call them points with high leverage or leverage points.
+
+> Influential points are the ones that actually inluence the regression model. 
+
+> We consider a point influential if the slope or position of the line would shift significantly without it.
+
+So remember — not all outliers are influential, but many influential points are outliers with high leverage.
+
+>> Here is some practical advice for modeling data with outliers
+
+> Always test your analysis with and without suspected outliers.
+> Compare and discuss the impact of outliers on model fit.
+> Present both models to stakeholders to choose the most reasonable interpretation.
+> And don't forget -- be very careful about removing outliers.
+
+Unless there’s a strong, defensible reason to exclude them — like data entry errors — removing unusual points can backfire. It can lead to models that are overly optimistic, miss critical cases, or even support misleading conclusions.
+
+Always treat outliers as information, not just as noise.
+
+Outliers can be subtle, tricky to work with, and sometimes misleading — but understanding how they affect your models is a crucial part of sound statistical modeling. So always ask -- what's this point trying to tell me?

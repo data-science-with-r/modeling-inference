@@ -32,7 +32,7 @@ library(tidymodels)
 
 ## Data: `penguins`
 
-We'll work with the `penguins` dataset from the **palmerpenguins** package, which contains information on 
+We'll work with the `penguins` dataset from the **palmerpenguins** package, which contains information on body measurements of three species of Antarctic penguins:
 
 ```{r}
 #| label: view-data
@@ -84,10 +84,6 @@ ggplot(
 # Modeling
 
 ## Fitting the model
-
-Let's fit a model to predict body weight from island:
-
-. . .
 
 - Fit:
 
@@ -160,8 +156,12 @@ For a categorical predictor with $k$ levels, we only need $k - 1$ dummy variable
 
 ## Dummy coding
 
+::: columns
+::: {.column width="70%"}
 ::: callout-note
 You do not need to do anything (i.e., write code) to do the "dummy coding", R does this under the hood for you when you have a predictor that is categorical (a character or a factor).
+:::
+:::
 :::
 
 ## Interpreting the model output
@@ -198,6 +198,7 @@ $$
 
 ```{r}
 #| label: bm-island-predict
+#| code-line-numbers: "|1-3|5"
 three_penguins <- tibble(
   island = c("Biscoe", "Dream", "Torgersen")
   )
