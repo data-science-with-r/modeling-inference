@@ -139,7 +139,7 @@ ggplot(fish_hw_aug, aes(x = height, y = weight)) +
 
 ## Model summary
 
--   **Demo:** Display the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.
+-   Display the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.
 
 ```{r}
 #| label: model-summary
@@ -147,7 +147,7 @@ fish_hw_tidy <- tidy(fish_hw_fit)
 fish_hw_tidy
 ```
 
--   **Demo:** Write out your model using mathematical notation.
+-   Write out your model using mathematical notation.
 
 $\widehat{weight} = -288 + 60.9 \times height$
 
@@ -189,7 +189,7 @@ ggplot(fish, aes(x = height, y = weight, color = species)) +
 
 ## Fitting other models
 
--   We can fit more models than just a straight line. Change the following code below to read `method = "loess"`. What is different from the plot created before?
+-   We can fit more models than just a straight line. Use `method = "loess"`. What is different from the plot created before?
 
 ```{r}
 #| label: plot-hw-loess
