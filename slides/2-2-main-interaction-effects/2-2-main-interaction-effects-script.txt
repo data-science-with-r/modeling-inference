@@ -1,0 +1,41 @@
+>> In this video we'll discuss when to include interaction effects between your predictors in your models, and how to choose between competing models with and without interaction effects using the principle of Occam's razor.
+
+>> Before we dive into our analysis, let's load the necessary R packages. We'll be using three key packages in this analysis:
+
+D-A-A-G for our dataset
+tidyverse for data wrangling and visualization
+tidymodels for modeling
+
+>> We'll once again work with the allbacks data on 15 books, predicting their weights from volume and cover type.
+
+>> We'll consider two possible explanations when predicting weights of books from their volume and cover type -- the relationship between volume and weight doesn't vary by cover type or the relationship between weight and cover type *does* vary by cover type. The first one is depicted in the first plot with parallel lines and the second one in the second plot with non-parallel lines. Visually, which of these look like a better fit? A little hard to tell... And sounds like a subjective question, so let's try to formalize things a bit before making a call.
+
+>> Let's establish our guiding principle: Occam's razor.
+>This principle tells us that among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected.
+>Model selection follows this principle.
+>In modeling terms this means we only want to add another predictor to the model if the addition of that variable brings something valuable in terms of predictive power to the model.
+>In other words, we prefer the simplest best model, i.e. parsimonious model.
+
+>> So, let's take another look at the plots. Which of these two models is preferable under Occam's razor? [pause] They don't seem to be very different, the non-parallel lines do not have wildly different slopes. Both models seem to fit the data reasonably well, but the parallel lines model is simpler. Unless the interaction model provides substantially better predictions, we should prefer the simpler main effects model. Could we come up with a way to quantify this decision?
+Before making a choice, though, let's pause and review how we fit these models.
+
+>> Model 1, what we call the main effects model, the one that considers only the main effects of volume and cover type and no interaction between them is one we've seen before.
+> We use linear_reg() to specify the model
+> the fit() function to fit the model, using the plus operator between the predictor variables
+> and tidy() to display the model summary
+> we can also use the glance() function to display model-level statistics like r-squared, adjusted r-squared, and a bunch of others, some of which you'll learn about later in the course and some potentially in future courses if you choose to continue your modeling adventures
+
+>> In Model 2, we add an interaction effect between the predictors, allowing the rate of change for weights to vary by cover type as volume increases. 
+> We once again specify the model with linear_reg()
+> But then we add an additional predictor that is the product of volume and cover
+> Once again use tidy() to display model summary
+> and glance for model level statistics
+
+>> A note about R syntax, and how R's got your back! In statistical modeling, if you're including an interaction effect, the main effects should also be included in the model. Even if you get sloppy and omit them from your
+> fit function
+R will still add them to the model as you can see from the model summary.
+So you might see interaction effect models coded up in this way elsewhere, but in this course we'll choose to be precise and always explicitly include the main and the interaction effects in our fit() functions.
+
+>> Now to make that choice of whether to include or not include the interaction effect. The model with the interaction effects has more predictors, and remember that when comparing models with different numbers of predictors, we use adjusted R-squared for model selection.
+While the R-squared is slightly higher for the main effects model (93% vs. 92.7%), the adjusted R-squared, which applies a penalty for the added interaction effect, is not higher (91.5% for the main effects model vs. 91.05% for the interaction effects model). This lines up with what we saw in the original visualizations and gives us an objective measure for why, in this case, the interaction effect is not worth including among the predictors.
+

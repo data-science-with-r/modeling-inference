@@ -223,11 +223,10 @@
 <p>The <code>allbacks</code> data frame gives measurements on the volume and weight of 15 books, some of which are paperback and some of which are hardback</p>
 <div class="columns">
 <div class="column" style="width:40%;">
-<ul>
-<li>Volume - cubic centimetres</li>
-<li>Area - square centimetres</li>
-<li>Weight - grams</li>
-</ul>
+<p><span class="fragment">- <code>volume</code> - cubic centimetres</span></p>
+<p><span class="fragment">- <code>area</code> - square centimetres</span></p>
+<p><span class="fragment">- <code>weight</code> - grams</span></p>
+<p><span class="fragment">- <code>cover</code> - <code>hb</code> or <code>pb</code></span></p>
 </div><div class="column" style="width:60%;">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -259,7 +258,7 @@
 <div class="columns">
 <div class="column" style="width:65%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>allbacks_1_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="|1|2|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>allbacks_1_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a></a>  <span class="fu">fit</span>(weight <span class="sc">~</span> volume, <span class="at">data =</span> allbacks)</span>
 <span id="cb3-3"><a></a></span>
 <span id="cb3-4"><a></a><span class="fu">tidy</span>(allbacks_1_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -285,7 +284,7 @@
 <div class="columns">
 <div class="column" style="width:65%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>allbacks_2_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>allbacks_2_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a></a>  <span class="fu">fit</span>(weight <span class="sc">~</span> volume <span class="sc">+</span> cover, <span class="at">data =</span> allbacks)</span>
 <span id="cb5-3"><a></a></span>
 <span id="cb5-4"><a></a><span class="fu">tidy</span>(allbacks_2_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -322,9 +321,9 @@
 </div>
 <div class="fragment">
 <ul>
-<li class="fragment"><p><strong>Slope - volume:</strong> <em>All else held constant</em>, for each additional cubic centimetre books are larger in volume, we would expect the weight to be higher, on average, by 0.718 grams.</p></li>
-<li class="fragment"><p><strong>Slope - cover:</strong> <em>All else held constant</em>, paperback books are weigh, on average, by 184 grams less than hardcover books.</p></li>
-<li class="fragment"><p><strong>Intercept:</strong> Hardcover books with 0 volume are expected to weigh 198 grams, on average. (Doesn’t make sense in context.)</p></li>
+<li class="fragment"><p><strong>Slope - volume:</strong> <em>Keeping cover constant</em>, for each additional cubic centimetre books are larger in volume, the model predicts the weight to be higher, on average, by 0.718 grams.</p></li>
+<li class="fragment"><p><strong>Slope - cover:</strong> <em>Keeping volume constant</em>, the model predicts that paperback books weigh, on average, by 184 grams less than hardback books.</p></li>
+<li class="fragment"><p><strong>Intercept:</strong> The model predicts that hardback books with 0 volume are expected to weigh 198 grams, on average. (Doesn’t make sense in context.)</p></li>
 </ul>
 </div>
 </section><section id="r2" class="slide level2"><h2><span class="math inline">\(R^2\)</span></h2>
@@ -366,12 +365,12 @@
 <div class="fragment">
 <ul>
 <li>
-<span class="math inline">\(R^2\)</span> increases when <strong>any</strong> variable is added to the model.</li>
+<span class="math inline">\(R^2\)</span> increases when <strong>any</strong> predictor is added to the model.</li>
 </ul>
 </div>
 </section><section id="adjusted-r2" class="slide level2"><h2>Adjusted <span class="math inline">\(R^2\)</span>
 </h2>
-<p>Adjusted <span class="math inline">\(R^2\)</span> adds a penalty to <span class="math inline">\(R^2\)</span> for additional variables in the model, and is therefore a (more) objective measure for comparing models with different numbers of predictors.</p>
+<p>Adjusted <span class="math inline">\(R^2\)</span> adds a penalty to <span class="math inline">\(R^2\)</span> for additional predictors in the model, and is therefore a (more) objective measure for comparing models with different numbers of predictors.</p>
 <div class="fragment">
 <ul>
 <li>Model 1: <code>weight ~ volume</code>
@@ -439,6 +438,11 @@
 </div>
 </div>
 </div>
+</section><section id="takeaways" class="slide level2"><h2>Takeaways</h2>
+<ul>
+<li class="fragment"><p>When interpreting slope coefficients for multiple regression models we need to state that one predictor is kept constant while the other increases.</p></li>
+<li class="fragment"><p>Adjusted R-squared is useful when comparing models with different numbers of predictors - it helps you balance model complexity with explanatory power.</p></li>
+</ul>
 
 
 </section>
