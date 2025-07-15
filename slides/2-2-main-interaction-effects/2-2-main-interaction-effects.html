@@ -275,7 +275,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="2-1-linear-regression-multiple-predictors_files/figure-revealjs/unnamed-chunk-3-1.png" width="480"></p>
+<figure><p><img data-src="2-2-main-interaction-effects_files/figure-html/unnamed-chunk-3-1.png" width="480"></p>
 </figure>
 </div>
 </div>
@@ -302,7 +302,7 @@
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="2-1-linear-regression-multiple-predictors_files/figure-revealjs/unnamed-chunk-5-1.png" width="480"></p>
+<figure><p><img data-src="2-2-main-interaction-effects_files/figure-html/unnamed-chunk-5-1.png" width="480"></p>
 </figure>
 </div>
 </div>
@@ -322,125 +322,151 @@
 </div>
 <div class="fragment">
 <ul>
-<li class="fragment"><p><strong>Slope - volume:</strong> <em>All else held constant</em>, for each additional cubic centimetre books are larger in volume, we would expect the weight to be higher, on average, by 0.718 grams.</p></li>
-<li class="fragment"><p><strong>Slope - cover:</strong> <em>All else held constant</em>, paperback books are weigh, on average, by 184 grams less than hardcover books.</p></li>
-<li class="fragment"><p><strong>Intercept:</strong> Hardcover books with 0 volume are expected to weigh 198 grams, on average. (Doesn’t make sense in context.)</p></li>
+<li>
+<strong>Slope - volume:</strong> <em>All else held constant</em>, for each additional cubic centimetre books are larger in volume, we would expect the weight to be higher, on average, by 0.718 grams.</li>
 </ul>
-</div>
-</section><section id="r2" class="slide level2"><h2><span class="math inline">\(R^2\)</span></h2>
-<p><span class="math inline">\(R^2\)</span> is the percentage of variability in the outcome explained by the regression model.</p>
-<div class="fragment">
-<ul>
-<li>Model 1: <code>weight ~ volume</code>
-</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">glance</span>(allbacks_1_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 12
-  r.squared adj.r.squared sigma statistic    p.value    df
-      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
-1     0.803         0.787  124.      52.9 0.00000626     1
-# ℹ 6 more variables: logLik &lt;dbl&gt;, AIC &lt;dbl&gt;, BIC &lt;dbl&gt;,
-#   deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
-</div>
-</div>
-</div>
-<div class="fragment">
-<ul>
-<li>Model 2: <code>weight ~ volume + cover</code>
-</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="fu">glance</span>(allbacks_2_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 12
-  r.squared adj.r.squared sigma statistic     p.value    df
-      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
-1     0.927         0.915  78.2      76.7 0.000000145     2
-# ℹ 6 more variables: logLik &lt;dbl&gt;, AIC &lt;dbl&gt;, BIC &lt;dbl&gt;,
-#   deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
-</div>
-</div>
 </div>
 <div class="fragment">
 <ul>
 <li>
-<span class="math inline">\(R^2\)</span> increases when <strong>any</strong> variable is added to the model.</li>
+<strong>Slope - cover:</strong> <em>All else held constant</em>, paperback books are weigh, on average, by 184 grams less than hardcover books.</li>
 </ul>
 </div>
-</section><section id="adjusted-r2" class="slide level2"><h2>Adjusted <span class="math inline">\(R^2\)</span>
-</h2>
-<p>Adjusted <span class="math inline">\(R^2\)</span> adds a penalty to <span class="math inline">\(R^2\)</span> for additional variables in the model, and is therefore a (more) objective measure for comparing models with different numbers of predictors.</p>
 <div class="fragment">
 <ul>
-<li>Model 1: <code>weight ~ volume</code>
-</li>
+<li>
+<strong>Intercept:</strong> Hardcover books with 0 volume are expected to weigh 198 grams, on average. (Doesn’t make sense in context.)</li>
+</ul>
+</div>
+</section><section id="main-vs.-interaction-effects" class="slide level2 smaller"><h2>Main vs.&nbsp;interaction effects</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="task">
+<p>Suppose we want to predict weight of books from their volume and cover type (hardback vs.&nbsp;paperback). Do you think a model with main effects or interaction effects is more appropriate? Explain your reasoning.</p>
+<p><strong>Hint:</strong> Main effects would mean rate at which weight changes as volume increases would be the same for hardback and paperback books and interaction effects would mean the rate at which weight changes as volume increases would be different for hardback and paperback books.</p>
+</div>
+</div><div class="column" style="width:5%;">
+
+</div><div class="column" style="width:45%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="2-2-main-interaction-effects_files/figure-html/book-main-int-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="2-2-main-interaction-effects_files/figure-html/book-main-int-2.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section><section id="in-pursuit-of-occams-razor" class="slide level2"><h2>In pursuit of Occam’s razor</h2>
+<ul>
+<li>Occam’s Razor states that among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Model selection follows this principle.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>We only want to add another variable to the model if the addition of that variable brings something valuable in terms of predictive power to the model.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>In other words, we prefer the simplest best model, i.e.&nbsp;<strong>parsimonious</strong> model.</li>
+</ul>
+</div>
+</section><section id="in-pursuit-of-occams-razor-1" class="slide level2"><h2>In pursuit of Occam’s razor</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="task">
+<p>Visually, which of the two models is preferable under Occam’s razor?</p>
+</div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="2-2-main-interaction-effects_files/figure-html/unnamed-chunk-7-1.png" width="576"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="2-2-main-interaction-effects_files/figure-html/unnamed-chunk-7-2.png" width="576"></p>
+</div>
+</div>
+</div>
+</div></div>
+</section><section id="r-squared" class="slide level2"><h2>R-squared</h2>
+<ul>
+<li>
+<span class="math inline">\(R^2\)</span> is the percentage of variability in the outcome explained by the regression model.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">glance</span>(allbacks_1_fit)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">glance</span>(book_main_fit)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7874526</code></pre>
+<pre><code>[1] 0.9274776</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="fu">glance</span>(book_int_fit)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9297137</code></pre>
 </div>
 </div>
 <div class="fragment">
 <ul>
-<li>Model 2: <code>weight ~ volume + cover</code>
-</li>
+<li>The model with interaction effect has a slightly higher <span class="math inline">\(R^2\)</span>.</li>
 </ul>
+</div>
+<div class="fragment">
+<ul>
+<li>However using <span class="math inline">\(R^2\)</span> for model selection in models with multiple explanatory variables is not a good idea as <span class="math inline">\(R^2\)</span> increases when <strong>any</strong> variable is added to the model.</li>
+</ul>
+</div>
+</section><section id="adjusted-r-squared" class="slide level2"><h2>Adjusted R-squared</h2>
+<p>… a (more) objective measure for model selection</p>
+<ul>
+<li><p>Adjusted <span class="math inline">\(R^2\)</span> doesn’t increase if the new variable does not provide any new informaton or is completely unrelated, as it applies a penalty for number of variables included in the model.</p></li>
+<li><p>This makes adjusted <span class="math inline">\(R^2\)</span> a preferable metric for model selection in multiple regression models.</p></li>
+</ul></section><section id="comparing-models" class="slide level2"><h2>Comparing models</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<p><span class="math inline">\(R^2\)</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">glance</span>(allbacks_2_fit)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">glance</span>(book_main_fit)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9274776</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">glance</span>(book_int_fit)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9297137</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<p>Adjusted <span class="math inline">\(R^2\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">glance</span>(book_main_fit)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9153905</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="fu">glance</span>(book_int_fit)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9105447</code></pre>
 </div>
 </div>
+</div></div>
 <div class="fragment">
+<div class="columns">
+<div class="column" style="width:70%;">
 <ul>
-<li>Adjusted <span class="math inline">\(R^2\)</span> is higher for the model with <code>volume</code> and <code>cover</code> as predictors, and it is therefore the preferable model for predicting <code>weight</code>.</li>
+<li><p><span class="math inline">\(R^2\)</span> is higher for the model with the interaction effect.</p></li>
+<li><p>Adjusted <span class="math inline">\(R^2\)</span> is <strong>not</strong> higher for the model with the interaction effect.</p></li>
 </ul>
-</div>
-</section><section id="model-1---visualized" class="slide level2"><h2>Model 1 - visualized</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">glance</span>(allbacks_1_fit) <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a></a>  <span class="fu">select</span>(r.squared, adj.r.squared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
-  r.squared adj.r.squared
-      &lt;dbl&gt;         &lt;dbl&gt;
-1     0.803         0.787</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure><p><img data-src="2-1-linear-regression-multiple-predictors_files/figure-revealjs/unnamed-chunk-12-1.png" width="768"></p>
-</figure>
-</div>
-</div>
-</div>
-</section><section id="model-2---visualized" class="slide level2"><h2>Model 2 - visualized</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="fu">glance</span>(allbacks_2_fit) <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a></a>  <span class="fu">select</span>(r.squared, adj.r.squared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
-  r.squared adj.r.squared
-      &lt;dbl&gt;         &lt;dbl&gt;
-1     0.927         0.915</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure><p><img data-src="2-1-linear-regression-multiple-predictors_files/figure-revealjs/unnamed-chunk-14-1.png" width="768"></p>
-</figure>
-</div>
-</div>
-</div>
+</div></div>
 
 
+</div>
 </section>
 </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -640,41 +666,6 @@
           RevealZoom
         ]
       });
-    </script><script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
     </script><script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
