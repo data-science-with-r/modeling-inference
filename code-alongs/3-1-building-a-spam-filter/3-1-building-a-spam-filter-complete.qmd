@@ -1,5 +1,5 @@
 ---
-title: "Building a spam filter"
+title: "Building a spam filter (Complete)"
 ---
 
 In this code along, we will
