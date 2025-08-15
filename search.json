@@ -18,7 +18,7 @@
     "href": "index.html#code-alongs",
     "title": "\n Modeling and inference",
     "section": "Code alongs",
-    "text": "Code alongs\n\n\n\n\nTitle\n\n\n\n\n\n\nModeling fish (Complete)\n\n\n\n\n\nModeling fish\n\n\n\n\n\nModeling loan interest rates (Complete)\n\n\n\n\n\nModeling loan interest rates\n\n\n\n\n\nBuilding a spam filter\n\n\n\n\n\nBuilding a spam filter\n\n\n\n\n\nForest classification (Complete)\n\n\n\n\n\nForest classification\n\n\n\n\n\nNo matching items"
+    "text": "Code alongs\n\n\n\n\nTitle\n\n\n\n\n\n\nModeling fish (Complete)\n\n\n\n\n\nModeling fish\n\n\n\n\n\nModeling loan interest rates (Complete)\n\n\n\n\n\nModeling loan interest rates\n\n\n\n\n\nBuilding a spam filter (Complete)\n\n\n\n\n\nBuilding a spam filter\n\n\n\n\n\nForest classification (Complete)\n\n\n\n\n\nForest classification\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#exercises",
@@ -1304,49 +1304,49 @@
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html",
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html",
-    "title": "Building a spam filter",
+    "title": "Building a spam filter (Complete)",
     "section": "",
     "text": "In this code along, we will\nTo illustrate logistic regression, we will build a spam filter from email data.\nThe data come from incoming emails in David Diez’s (one of the authors of OpenIntro textbooks) Gmail account for the first three months of 2012. All personally identifiable information has been removed.\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)\nglimpse(email)\n\nRows: 3,921\nColumns: 21\n$ spam         &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ to_multiple  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ from         &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …\n$ cc           &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2, 1, 0, 2, 0, …\n$ sent_email   &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, …\n$ time         &lt;dttm&gt; 2012-01-01 01:16:41, 2012-01-01 02:03:59, 2012-01-01 11:…\n$ image        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ attach       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ dollar       &lt;dbl&gt; 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 5, 0, 0, …\n$ winner       &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, no, n…\n$ inherit      &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ viagra       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ password     &lt;dbl&gt; 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ num_char     &lt;dbl&gt; 11.370, 10.504, 7.773, 13.256, 1.231, 1.091, 4.837, 7.421…\n$ line_breaks  &lt;int&gt; 202, 202, 192, 255, 29, 25, 193, 237, 69, 68, 25, 79, 191…\n$ format       &lt;fct&gt; 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, …\n$ re_subj      &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, …\n$ exclaim_subj &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ urgent_subj  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ exclaim_mess &lt;dbl&gt; 0, 1, 6, 48, 1, 1, 1, 18, 1, 0, 2, 1, 0, 10, 4, 10, 20, 0…\n$ number       &lt;fct&gt; big, small, small, small, none, none, big, small, small, …\nThe variables we’ll use in this analysis are\nGoal: Use the number of exclamation points in an email to predict whether or not it is spam."
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit",
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit",
-    "title": "Building a spam filter",
+    "title": "Building a spam filter (Complete)",
     "section": "Fit",
     "text": "Fit\nFit a linear model that models spam by exclamation marks.\n\nlinear_reg() |&gt;\n  fit(as.numeric(spam) ~ exclaim_mess, data = email)\n\nparsnip model object\n\n\nCall:\nstats::lm(formula = as.numeric(spam) ~ exclaim_mess, data = data)\n\nCoefficients:\n (Intercept)  exclaim_mess  \n   1.093e+00     2.604e-05"
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#visualize",
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#visualize",
-    "title": "Building a spam filter",
+    "title": "Building a spam filter (Complete)",
     "section": "Visualize",
     "text": "Visualize\nVisualizate the linear model.\n\nggplot(email, aes(x = exclaim_mess, y = as.numeric(spam), color = spam)) + \n  geom_jitter(alpha = 0.5) + \n  geom_smooth(method = \"lm\", se = FALSE, color = \"black\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nIs the linear model a good fit for the data? Why or why not?\n\nNo."
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit-1",
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit-1",
-    "title": "Building a spam filter",
+    "title": "Building a spam filter (Complete)",
     "section": "Fit",
     "text": "Fit\nFit the logistic regression model using the number of exclamation points to predict the probability an email is spam.\n\nlog_fit &lt;- logistic_reg() |&gt;\n  fit(spam ~ exclaim_mess, data = email)\n\ntidy(log_fit)\n\n# A tibble: 2 × 5\n  term          estimate std.error statistic p.value\n  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 (Intercept)  -2.27      0.0553     -41.1     0    \n2 exclaim_mess  0.000272  0.000949     0.287   0.774"
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#summarize",
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#summarize",
-    "title": "Building a spam filter",
+    "title": "Building a spam filter (Complete)",
     "section": "Summarize",
     "text": "Summarize\nWrite the estimated model.\n\\[\\log\\Big(\\frac{p}{1-p}\\Big) = -2.27 - 0.000272 \\times exclaim\\_mess\\]"
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#think",
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#think",
-    "title": "Building a spam filter",
+    "title": "Building a spam filter (Complete)",
     "section": "Think",
     "text": "Think\nSuppose you are a data scientist working on a spam filter. You must determine how high the predicted probability must be before you think it would be reasonable to call it spam and put it in the junk folder (which the user is unlikely to check). What are some trade offs you would consider as you set the decision-making threshold?\nAnswers will vary."
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#do",
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#do",
-    "title": "Building a spam filter",
+    "title": "Building a spam filter (Complete)",
     "section": "Do",
     "text": "Do\nClassify the emails in this dataset as spam or not spam.\n\nlog_aug &lt;- augment(log_fit, email)\n\nggplot(log_aug, aes(x = exclaim_mess, y = spam, color = .pred_class)) +\n  geom_jitter(alpha = 0.5)"
   },
