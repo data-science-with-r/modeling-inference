@@ -227,7 +227,7 @@
 </section><section id="data" class="slide level2"><h2>Data</h2>
 <ul>
 <li>Family income and gift aid data from a random sample of fifty students in the freshman class of Elmhurst College in Illinois, USA</li>
-<li>Gift aid is financial aid that does not need to be paid back, as opposed to a loan</li>
+<li>Gift aid is financial aid that doesn’t need to be paid back, unlike loans</li>
 </ul>
 <div class="cell">
 <div class="cell-output-display">
@@ -346,15 +346,18 @@
 </div><div class="column">
 
 </div></div>
-</section><section id="quantifying-the-variability-of-slopes" class="slide level2"><h2>Quantifying the variability of slopes</h2>
+</section><section id="quantifying-the-variability-of-sample-statistics" class="slide level2"><h2>Quantifying the variability of sample statistics</h2>
 <p>We can quantify the variability of sample statistics using</p>
 <ul>
 <li>simulation: via bootstrapping (in this course)</li>
 </ul>
+<div class="fragment">
 <p>or</p>
 <ul>
 <li>theory: via Central Limit Theorem (in future stat courses!)</li>
 </ul>
+</div>
+<div class="fragment">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
@@ -362,6 +365,7 @@
   &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 1 (Intercept)    24.3       1.29       18.8  8.28e-24
 2 family_income  -0.0431    0.0108     -3.98 2.29e- 4</code></pre>
+</div>
 </div>
 </div>
 </section></section><section><section id="bootstrapping" class="title-slide slide level1 center"><h1>Bootstrapping</h1>
@@ -403,10 +407,10 @@
 </div>
 </section><section id="bootstrapping-scheme" class="slide level2"><h2>Bootstrapping scheme</h2>
 <ol type="1">
-<li><p>Take a bootstrap sample - a random sample taken <strong>with replacement</strong> from the original sample, of the same size as the original sample</p></li>
-<li><p>Calculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples</p></li>
-<li><p>Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics</p></li>
-<li><p>Calculate the bounds of the XX% confidence interval as the middle XX% of the bootstrap distribution</p></li>
+<li class="fragment"><p>Take a bootstrap sample - a random sample taken <strong>with replacement</strong> from the original sample, of the same size as the original sample</p></li>
+<li class="fragment"><p>Calculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples</p></li>
+<li class="fragment"><p>Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics</p></li>
+<li class="fragment"><p>Calculate the bounds of the XX% confidence interval as the middle XX% of the bootstrap distribution</p></li>
 </ol></section><section id="bootstrap-sample-1" class="slide level2"><h2>Bootstrap sample 1</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>elmhurtst_boot_1 <span class="ot">&lt;-</span> elmhurst <span class="sc">|&gt;</span></span>
@@ -507,10 +511,10 @@
 <pre><code># A tibble: 1 × 2
   lower_ci upper_ci
      &lt;dbl&gt;    &lt;dbl&gt;
-1  -0.0692  -0.0209</code></pre>
+1  -0.0705  -0.0217</code></pre>
 </div>
 </div>
-<p><strong>We are 95% confident that</strong> for each additional $1,000 of family income, we would expect students to receive $69.23 to $20.9 less in gift aid, on average.</p>
+<p><strong>We are 95% confident that</strong> for each additional $1,000 of family income, we would expect students to receive $70.48 to $21.68 less in gift aid, on average.</p>
 
 
 </section></section>
