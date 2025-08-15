@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.14">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="author" content="Mine Çetinkaya-Rundel + Elijah Meyer">
-<title> Modeling and inference – Modeling and inference</title>
+<title>Bootstrapping Duke Forest houses – Modeling and inference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -18,34 +17,65 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a931dd857d6747ccdb56a861fbe4dae6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ec6159c15e6857df5152624db4f186e3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-ba4ef2b1cf4c3f31ce5f270efef9ba36.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-ec6159c15e6857df5152624db4f186e3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-a931dd857d6747ccdb56a861fbe4dae6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6189859f80153d0aeab70023af215a12.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ec6159c15e6857df5152624db4f186e3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-ba4ef2b1cf4c3f31ce5f270efef9ba36.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ec6159c15e6857df5152624db4f186e3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -71,116 +101,7 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-slides .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-slides'] = new List('listing-slides', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-code-alongs .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-code-alongs'] = new List('listing-code-alongs', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-exercises .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] }],
-      
-      searchColumns: [],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-exercises'] = new List('listing-exercises', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
+}</script>
 </head>
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
@@ -349,7 +270,7 @@ window.Quarto = {
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Modeling and inference</span>
     </a>
   </div>
@@ -360,7 +281,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
 </ul>
@@ -377,28 +298,22 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#slides" id="toc-slides" class="nav-link active" data-scroll-target="#slides">Slides</a></li>
-  <li><a href="#code-alongs" id="toc-code-alongs" class="nav-link" data-scroll-target="#code-alongs">Code alongs</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+<li><a href="#packages" id="toc-packages" class="nav-link active" data-scroll-target="#packages">Packages</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a></li>
+  <li><a href="#bootstrap-confidence-interval" id="toc-bootstrap-confidence-interval" class="nav-link" data-scroll-target="#bootstrap-confidence-interval">Bootstrap confidence interval</a></li>
+  <li><a href="#changing-confidence-level" id="toc-changing-confidence-level" class="nav-link" data-scroll-target="#changing-confidence-level">Changing confidence level</a></li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">
-<i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</h1>
-<p class="subtitle lead"><i class="fa-solid fa-book" aria-label="book"></i> Data Science with R</p>
+<h1 class="title">Bootstrapping Duke Forest houses</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Mine Çetinkaya-Rundel + Elijah Meyer </p>
-          </div>
-  </div>
     
   
     
@@ -406,171 +321,91 @@ window.Quarto = {
   
 
 
-</header><section id="slides" class="level2"><h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<div id="listing-slides" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table">
-<thead><tr>
-<th>
-Title
-</th>
-
-</tr></thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1755283024967" data-listing-reading-time-sort="1" data-listing-word-count-sort="52" data-listing-title-sort="Welcome" data-listing-filename-sort="1-1-1-welcome.qmd">
-<td>
-<a href="./slides/1-1-1-welcome/1-1-1-welcome.html" class="title listing-title">Welcome</a>
-</td>
-
-</tr>
-<tr data-index="1" data-listing-file-modified-sort="1755283024972" data-listing-reading-time-sort="10" data-listing-word-count-sort="1999" data-listing-title-sort="Language of models" data-listing-filename-sort="1-1-2-language-of-models.qmd">
-<td>
-<a href="./slides/1-1-2-language-of-models/1-1-2-language-of-models.html" class="title listing-title">Language of models</a>
-</td>
-
-</tr>
-<tr data-index="2" data-listing-file-modified-sort="1755283024973" data-listing-reading-time-sort="5" data-listing-word-count-sort="984" data-listing-title-sort="Linear regression with a numerical predictor" data-listing-filename-sort="1-2-1-linear-model-numerical-predictor.qmd">
-<td>
-<a href="./slides/1-2-1-linear-regression-numerical-predictor/1-2-1-linear-model-numerical-predictor.html" class="title listing-title">Linear regression with a numerical predictor</a>
-</td>
-
-</tr>
-<tr data-index="3" data-listing-file-modified-sort="1755283024973" data-listing-reading-time-sort="4" data-listing-word-count-sort="703" data-listing-title-sort="Linear regression with a categorical predictor" data-listing-filename-sort="1-2-2-linear-model-categorical-predictor.qmd">
-<td>
-<a href="./slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html" class="title listing-title">Linear regression with a categorical predictor</a>
-</td>
-
-</tr>
-<tr data-index="4" data-listing-file-modified-sort="1755283024973" data-listing-reading-time-sort="9" data-listing-word-count-sort="1780" data-listing-title-sort="Outliers in linear regression" data-listing-filename-sort="1-3-outliers-linear-regression.qmd">
-<td>
-<a href="./slides/1-3-outliers-linear-regression/1-3-outliers-linear-regression.html" class="title listing-title">Outliers in linear regression</a>
-</td>
-
-</tr>
-<tr data-index="5" data-listing-file-modified-sort="1755283024973" data-listing-reading-time-sort="3" data-listing-word-count-sort="529" data-listing-title-sort="Linear regression with multiple predictors" data-listing-filename-sort="2-1-linear-regression-multiple-predictors.qmd">
-<td>
-<a href="./slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html" class="title listing-title">Linear regression with multiple predictors</a>
-</td>
-
-</tr>
-<tr data-index="6" data-listing-file-modified-sort="1755283024974" data-listing-reading-time-sort="4" data-listing-word-count-sort="657" data-listing-title-sort="Main and interaction effects" data-listing-filename-sort="2-2-main-interaction-effects.qmd">
-<td>
-<a href="./slides/2-2-main-interaction-effects/2-2-main-interaction-effects.html" class="title listing-title">Main and interaction effects</a>
-</td>
-
-</tr>
-<tr data-index="7" data-listing-file-modified-sort="1755283024974" data-listing-reading-time-sort="11" data-listing-word-count-sort="2039" data-listing-title-sort="Logistic regression" data-listing-filename-sort="3-1-logistic-regression.qmd">
-<td>
-<a href="./slides/3-1-logistic-regression/3-1-logistic-regression.html" class="title listing-title">Logistic regression</a>
-</td>
-
-</tr>
-<tr data-index="8" data-listing-file-modified-sort="1755283025006" data-listing-reading-time-sort="3" data-listing-word-count-sort="467" data-listing-title-sort="Clasification and decision errors" data-listing-filename-sort="3-2-1-classification-decision-errors.qmd">
-<td>
-<a href="./slides/3-2-1-classification-decision-errors/3-2-1-classification-decision-errors.html" class="title listing-title">Clasification and decision errors</a>
-</td>
-
-</tr>
-<tr data-index="9" data-listing-file-modified-sort="1755283025007" data-listing-reading-time-sort="5" data-listing-word-count-sort="976" data-listing-title-sort="Overfitting and spending your data" data-listing-filename-sort="3-2-2-overfitting-spending-data.qmd">
-<td>
-<a href="./slides/3-2-2-overfitting-spending-data/3-2-2-overfitting-spending-data.html" class="title listing-title">Overfitting and spending your data</a>
-</td>
-
-</tr>
-<tr data-index="10" data-listing-file-modified-sort="1755283025008" data-listing-reading-time-sort="12" data-listing-word-count-sort="2209" data-listing-title-sort="Quantifying uncertainty" data-listing-filename-sort="4-1-1-quantifying-uncertainty.qmd">
-<td>
-<a href="./slides/4-1-1-quantifying-uncertainty/4-1-1-quantifying-uncertainty.html" class="title listing-title">Quantifying uncertainty</a>
-</td>
-
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
+</header><p>In this code along, we will use bootstrapping to construct confidence intervals.</p>
+<section id="packages" class="level2"><h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<p>We will use <strong>tidyverse</strong> and <strong>tidymodels</strong> for data exploration and modeling, respectively, and the <strong>openintro</strong> package for the data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openintrostat.github.io/openintro/">openintro</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="code-alongs" class="level2"><h2 class="anchored" data-anchor-id="code-alongs">Code alongs</h2>
-<div id="listing-code-alongs" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table">
-<thead><tr>
-<th>
-Title
-</th>
-
-</tr></thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1755283024965" data-listing-reading-time-sort="5" data-listing-word-count-sort="925" data-listing-title-sort="Modeling fish (Complete)" data-listing-filename-sort="1-2-modeling-fish-complete.qmd">
-<td>
-<a href="./code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html" class="title listing-title">Modeling fish (Complete)</a>
-</td>
-
-</tr>
-<tr data-index="1" data-listing-file-modified-sort="1755283024965" data-listing-reading-time-sort="3" data-listing-word-count-sort="589" data-listing-title-sort="Modeling fish" data-listing-filename-sort="1-2-modeling-fish.qmd">
-<td>
-<a href="./code-alongs/1-2-modeling-fish/1-2-modeling-fish.html" class="title listing-title">Modeling fish</a>
-</td>
-
-</tr>
-<tr data-index="2" data-listing-file-modified-sort="1755283024965" data-listing-reading-time-sort="5" data-listing-word-count-sort="961" data-listing-title-sort="Modeling loan interest rates (Complete)" data-listing-filename-sort="2-2-modeling-loan-interest-rates-complete.qmd">
-<td>
-<a href="./code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html" class="title listing-title">Modeling loan interest rates (Complete)</a>
-</td>
-
-</tr>
-<tr data-index="3" data-listing-file-modified-sort="1755283024965" data-listing-reading-time-sort="4" data-listing-word-count-sort="663" data-listing-title-sort="Modeling loan interest rates" data-listing-filename-sort="2-2-modeling-loan-interest-rates.qmd">
-<td>
-<a href="./code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html" class="title listing-title">Modeling loan interest rates</a>
-</td>
-
-</tr>
-<tr data-index="4" data-listing-file-modified-sort="1755283024965" data-listing-reading-time-sort="4" data-listing-word-count-sort="667" data-listing-title-sort="Building a spam filter (Complete)" data-listing-filename-sort="3-1-building-a-spam-filter-complete.qmd">
-<td>
-<a href="./code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html" class="title listing-title">Building a spam filter (Complete)</a>
-</td>
-
-</tr>
-<tr data-index="5" data-listing-file-modified-sort="1755283024965" data-listing-reading-time-sort="3" data-listing-word-count-sort="552" data-listing-title-sort="Building a spam filter" data-listing-filename-sort="3-1-building-a-spam-filter.qmd">
-<td>
-<a href="./code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html" class="title listing-title">Building a spam filter</a>
-</td>
-
-</tr>
-<tr data-index="6" data-listing-file-modified-sort="1755283024965" data-listing-reading-time-sort="5" data-listing-word-count-sort="899" data-listing-title-sort="Forest classification (Complete)" data-listing-filename-sort="3-2-forest-classification-complete.qmd">
-<td>
-<a href="./code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html" class="title listing-title">Forest classification (Complete)</a>
-</td>
-
-</tr>
-<tr data-index="7" data-listing-file-modified-sort="1755283024966" data-listing-reading-time-sort="3" data-listing-word-count-sort="477" data-listing-title-sort="Forest classification" data-listing-filename-sort="3-2-forest-classification.qmd">
-<td>
-<a href="./code-alongs/3-2-forest-classification/3-2-forest-classification.html" class="title listing-title">Forest classification</a>
-</td>
-
-</tr>
-<tr data-index="8" data-listing-file-modified-sort="1755283024966" data-listing-reading-time-sort="2" data-listing-word-count-sort="379" data-listing-title-sort="Bootstrapping Duke Forest houses (Complete)" data-listing-filename-sort="4-1-bootstrapping-duke-forest-houses-complete.qmd">
-<td>
-<a href="./code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html" class="title listing-title">Bootstrapping Duke Forest houses (Complete)</a>
-</td>
-
-</tr>
-<tr data-index="9" data-listing-file-modified-sort="1755283024966" data-listing-reading-time-sort="2" data-listing-word-count-sort="298" data-listing-title-sort="Bootstrapping Duke Forest houses" data-listing-filename-sort="4-1-bootstrapping-duke-forest-houses.qmd">
-<td>
-<a href="./code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html" class="title listing-title">Bootstrapping Duke Forest houses</a>
-</td>
-
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
+</section><section id="data" class="level2"><h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The data are on houses that were sold in the Duke Forest neighborhood of Durham, NC around November 2020. It was originally scraped from Zillow, and can be found in the <code>duke_forest</code> data set in the <strong>openintro</strong> R package.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">duke_forest</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 98
+Columns: 13
+$ address    &lt;chr&gt; "1 Learned Pl, Durham, NC 27705", "1616 Pinecrest Rd, Durha…
+$ price      &lt;dbl&gt; 1520000, 1030000, 420000, 680000, 428500, 456000, 1270000, …
+$ bed        &lt;dbl&gt; 3, 5, 2, 4, 4, 3, 5, 4, 4, 3, 4, 4, 3, 5, 4, 5, 3, 4, 4, 3,…
+$ bath       &lt;dbl&gt; 4.0, 4.0, 3.0, 3.0, 3.0, 3.0, 5.0, 3.0, 5.0, 2.0, 3.0, 3.0,…
+$ area       &lt;dbl&gt; 6040, 4475, 1745, 2091, 1772, 1950, 3909, 2841, 3924, 2173,…
+$ type       &lt;chr&gt; "Single Family", "Single Family", "Single Family", "Single …
+$ year_built &lt;dbl&gt; 1972, 1969, 1959, 1961, 2020, 2014, 1968, 1973, 1972, 1964,…
+$ heating    &lt;chr&gt; "Other, Gas", "Forced air, Gas", "Forced air, Gas", "Heat p…
+$ cooling    &lt;fct&gt; central, central, central, central, central, central, centr…
+$ parking    &lt;chr&gt; "0 spaces", "Carport, Covered", "Garage - Attached, Covered…
+$ lot        &lt;dbl&gt; 0.97, 1.38, 0.51, 0.84, 0.16, 0.45, 0.94, 0.79, 0.53, 0.73,…
+$ hoa        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ url        &lt;chr&gt; "https://www.zillow.com/homedetails/1-Learned-Pl-Durham-NC-…</code></pre>
 </div>
-</section><section id="exercises" class="level2"><h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
-<div id="listing-exercises" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table caption-top">
-<thead><tr class="header">
-<th data-quarto-table-cell-role="th">Title</th>
-</tr></thead>
-<tbody class="list"></tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
 </div>
-
+</section><section id="model" class="level2"><h2 class="anchored" data-anchor-id="model">Model</h2>
+<p>Fit a linear model predicting price of houses from their area.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="bootstrap-confidence-interval" class="level2"><h2 class="anchored" data-anchor-id="bootstrap-confidence-interval">Bootstrap confidence interval</h2>
+<ol type="1">
+<li>Calculate the observed fit (slope):</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>Take <em>n</em> bootstrap samples and fit models to each one:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Why do we set a seed before taking the bootstrap samples?</li>
+</ul>
+<p>To get the same random samples each time we run the code / render the document.</p>
+<ul>
+<li>Make a histogram of the bootstrap samples to visualize the bootstrap distribution.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Compute the 95% confidence interval as the middle 95% of the bootstrap distribution:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="changing-confidence-level" class="level2"><h2 class="anchored" data-anchor-id="changing-confidence-level">Changing confidence level</h2>
+<p>Modify the code from Step 3 to create a 90% confidence interval.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Modify the code from Step 3 to create a 99% confidence interval.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Which confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain.</li>
+</ul>
+<p>Add response here.</p>
+<ul>
+<li>Which confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain</li>
+</ul>
+<p>Add response here.</p>
+<ul>
+<li>If we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?</li>
+</ul>
+<p>Add response here.</p>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
