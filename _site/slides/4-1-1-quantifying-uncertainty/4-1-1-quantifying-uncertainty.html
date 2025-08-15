@@ -295,8 +295,14 @@
 </section></section><section><section id="inference" class="title-slide slide level1 center"><h1>Inference</h1>
 
 </section><section id="statistical-inference" class="slide level2"><h2>Statistical inference</h2>
-<p>… is the process of using sample data to make conclusions about the underlying population the sample came from</p>
-<p><img data-src="images/photo-1571942676516-bcab84649e44.png"></p>
+<ul>
+<li>Statistical inference provides methods and tools so we can use the single observed sample to make valid statements (inferences) about the population it comes from.</li>
+<li>For our inferences to be valid, the sample should be random and representative of the population we’re interested in.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure><p><img data-src="images/photo-1571942676516-bcab84649e44.png" class="quarto-figure quarto-figure-center" width="700"></p>
+</figure>
+</div>
 </section><section id="estimation" class="slide level2"><h2>Estimation</h2>
 <p>So far we have done lots of estimation (mean, median, slope, etc.), i.e. - used data from samples to calculate sample statistics - which can then be used as estimates for population parameters</p>
 </section><section id="spear-or-net" class="slide level2"><h2>Spear or net?</h2>
@@ -332,7 +338,7 @@
 <li class="fragment"><p>In order to construct a confidence interval we need to quantify the variability of our sample statistic</p></li>
 <li class="fragment"><p>For example, if we want to construct a confidence interval for a population slope, we need to come up with a plausible range of values around our observed sample slope</p></li>
 <li class="fragment"><p>This range will depend on how precise and how accurate our sample mean is as an estimate of the population mean</p></li>
-<li class="fragment"><p>Quantifying this requires a measurement of how much we would expect the sample population to vary from sample to sample</p></li>
+<li class="fragment"><p>Quantifying this requires a measurement of how much we would expect the sample statistic to vary from sample to sample</p></li>
 </ul></section><section id="sample-to-sample" class="slide level2"><h2>Sample to sample…</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
@@ -511,10 +517,10 @@
 <pre><code># A tibble: 1 × 2
   lower_ci upper_ci
      &lt;dbl&gt;    &lt;dbl&gt;
-1  -0.0705  -0.0217</code></pre>
+1  -0.0684  -0.0222</code></pre>
 </div>
 </div>
-<p><strong>We are 95% confident that</strong> for each additional $1,000 of family income, we would expect students to receive $70.48 to $21.68 less in gift aid, on average.</p>
+<p><strong>We are 95% confident that</strong> for each additional $1,000 of family income, we would expect students to receive $68.41 to $22.23 less in gift aid, on average.</p>
 
 
 </section></section>

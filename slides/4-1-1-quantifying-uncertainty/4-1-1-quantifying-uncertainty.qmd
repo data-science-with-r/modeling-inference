@@ -124,9 +124,10 @@ exactly $43.10 for all students at this school?!
 
 ## Statistical inference 
 
-... is the process of using sample data to make conclusions about the underlying population the sample came from
+- Statistical inference provides methods and tools so we can use the single observed sample to make valid statements (inferences) about the population it comes from.
+- For our inferences to be valid, the sample should be random and representative of the population we’re interested in.
 
-![](images/photo-1571942676516-bcab84649e44.png)
+![](images/photo-1571942676516-bcab84649e44.png){width="700px" fig-align="center"}
 
 ## Estimation
 
@@ -178,7 +179,7 @@ A plausible range of values for the population parameter is a **confidence inter
 
 - This range will depend on how precise and how accurate our sample mean is as an estimate of the population mean
 
-- Quantifying this requires a measurement of how much we would expect the sample population to vary from sample to sample
+- Quantifying this requires a measurement of how much we would expect the sample statistic to vary from sample to sample
 :::
 
 ## Sample to sample...
