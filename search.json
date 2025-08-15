@@ -4,14 +4,14 @@
     "href": "index.html",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nQuantifying uncertainty\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#slides",
     "href": "index.html#slides",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nQuantifying uncertainty\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#code-alongs",
@@ -385,321 +385,6 @@
     "text": "Choosing between models\nThe model with the interaction effects has more predictors, and remember that when comparing models with different numbers of predictors, we use adjusted \\(R^2\\) for model selection:\n\n\n\\(R^2\\):\n\nglance(allbacks_main_fit)$r.squared\n\n[1] 0.9274776\n\nglance(allbacks_int_fit)$r.squared\n\n[1] 0.9297137\n\n\n\nAdjusted \\(R^2\\):\n\nglance(allbacks_main_fit)$adj.r.squared\n\n[1] 0.9153905\n\nglance(allbacks_int_fit)$adj.r.squared\n\n[1] 0.9105447\n\n\n\n\n\n\\(R^2\\) is higher for the model with the interaction effect.\nAdjusted \\(R^2\\) is not higher for the model with the interaction effect, therefore we do not need the interaction effect, the main effects model is good enough!"
   },
   {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#packages",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#packages",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Packages",
-    "text": "Packages\n\n\npalmerpenguins for data\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(palmerpenguins)\nlibrary(tidyverse)\nlibrary(tidymodels)"
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#data-penguins",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#data-penguins",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Data: penguins\n",
-    "text": "Data: penguins\n\nWe’ll work with the penguins dataset from the palmerpenguins package, which contains information on body measurements of three species of Antarctic penguins:\n\npenguins\n\n# A tibble: 344 × 7\n   species island    bill_length_mm bill_depth_mm\n   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;\n 1 Adelie  Torgersen           39.1          18.7\n 2 Adelie  Torgersen           39.5          17.4\n 3 Adelie  Torgersen           40.3          18  \n 4 Adelie  Torgersen           NA            NA  \n 5 Adelie  Torgersen           36.7          19.3\n 6 Adelie  Torgersen           39.3          20.6\n 7 Adelie  Torgersen           38.9          17.8\n 8 Adelie  Torgersen           39.2          19.6\n 9 Adelie  Torgersen           34.1          18.1\n10 Adelie  Torgersen           42            20.2\n# ℹ 334 more rows\n# ℹ 3 more variables: flipper_length_mm &lt;int&gt;,\n#   body_mass_g &lt;int&gt;, sex &lt;fct&gt;"
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#variables",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#variables",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Variables",
-    "text": "Variables\n\nA researcher wants to study the relationship between body weights of penguins based on the island they were recorded on. How are the variables involved in this analysis different?\n\n\n\nOutcome: body weight (numerical)\nPredictor: island (categorical)"
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#body-weight-vs.-island",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#body-weight-vs.-island",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Body weight vs. island",
-    "text": "Body weight vs. island\n\nDetermine whether each of the following plot types would be an appropriate choice for visualizing the relationship between body weight and island of penguins.\n\n\nScatterplot ❌\nBox plot ✅\nViolin plot ✅\nDensity plot ✅\nBar plot ❌\nStacked bar plot ❌"
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#body-weight-vs.-island-1",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#body-weight-vs.-island-1",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Body weight vs. island",
-    "text": "Body weight vs. island\n\nggplot(\n  penguins, \n  aes(x = body_mass_g, y = island, color = island)\n  ) +\n  geom_boxplot(show.legend = FALSE)\n\nWarning: Removed 2 rows containing non-finite outside the scale\nrange (`stat_boxplot()`)."
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#fitting-the-model",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#fitting-the-model",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Fitting the model",
-    "text": "Fitting the model\n\nFit:\n\n\nbm_island_fit &lt;- linear_reg() |&gt;\n  fit(body_mass_g ~ island, data = penguins)\n\n\n\nTidy:\n\n\ntidy(bm_island_fit)\n\n# A tibble: 3 × 5\n  term            estimate std.error statistic   p.value\n  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)        4716.      48.5      97.3 8.93e-250\n2 islandDream       -1003.      74.2     -13.5 1.42e- 33\n3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21"
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#inspecting-the-model-output",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#inspecting-the-model-output",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Inspecting the model output",
-    "text": "Inspecting the model output\n\nWhy is Biscoe not on the output?\n\n\n\n# A tibble: 3 × 5\n  term            estimate std.error statistic   p.value\n  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)        4716.      48.5      97.3 8.93e-250\n2 islandDream       -1003.      74.2     -13.5 1.42e- 33\n3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21\n\n\n\n\nWhen fitting a model with a categorical predictor, the levels of the categorical predictor are encoded to dummy variables, except for one of the levels, the baseline level.\nIn this case Biscoe is the is the baseline level.\nEach slope coefficient describes the predicted difference between heights in that particular school compared to the baseline level."
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#dummy-variables",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#dummy-variables",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Dummy variables",
-    "text": "Dummy variables\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nisland\n\nDummy variable\n\n\n\nDream\nTorgersen\n\n\n\n\nBiscoe\n0\n0\n\n\nDream\n1\n0\n\n\ntorgersen\n0\n1\n\n\n\n\n\n\n\nFor a categorical predictor with \\(k\\) levels, we only need \\(k - 1\\) dummy variables to describe all of its levels:\n\n\nDream = 1 and Torgersen = 0, the penguin is from Dream island.\n\nDream = 0 and Torgersen = 1, the penguin is from Torgersen island.\n\nDream = 0 and Torgersen = 0, the penguin is from Biscoe island, we don’t need a third dummy variable to identify these penguins."
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#dummy-coding",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#dummy-coding",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Dummy coding",
-    "text": "Dummy coding\n\n\n\n\n\n\n\n\nNote\n\n\nYou do not need to do anything (i.e., write code) to do the “dummy coding”, R does this under the hood for you when you have a predictor that is categorical (a character or a factor)."
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#interpreting-the-model-output",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#interpreting-the-model-output",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Interpreting the model output",
-    "text": "Interpreting the model output\n\\[\n\\widehat{body~mass} = 4716 - 1003 \\times islandDream - 1010 \\times islandTorgersen\n\\]\n\nIntercept: Penguins from Biscoe island are expected to weigh, on average, 4,716 grams.\nSlope - islandDream: Penguins from Dream island are expected to weigh, on average, 1,003 grams less than those from Biscoe island.\nSlope - islandTorgersen: Penguins from Torgersen island are expected to weigh, on average, 1,010 grams less than those from Biscoe island."
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#predicting-based-on-the-model",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#predicting-based-on-the-model",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Predicting based on the model",
-    "text": "Predicting based on the model\n\\[\n\\widehat{body~mass} = 4716 - 1003 \\times islandDream - 1010 \\times islandTorgersen\n\\]\n\n\nBiscoe: \\(\\widehat{body~mass} = 4716 - 1003 \\times 0 - 1010 \\times 0 = 4716\\)\n\n\n\n\n\nDream: \\(\\widehat{body~mass} = 4716 - 1003 \\times 1 - 1010 \\times 0 = 3713\\)\n\n\n\n\n\nTorgersen: \\(\\widehat{body~mass} = 4716 - 1003 \\times 0 - 1010 \\times 1 = 3706\\)"
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#predicting-based-on-the-model---again",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#predicting-based-on-the-model---again",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Predicting based on the model - again",
-    "text": "Predicting based on the model - again\n\nthree_penguins &lt;- tibble(\n  island = c(\"Biscoe\", \"Dream\", \"Torgersen\")\n  )\n\naugment(bm_island_fit, new_data = three_penguins)\n\n# A tibble: 3 × 2\n  .pred island   \n  &lt;dbl&gt; &lt;chr&gt;    \n1 4716. Biscoe   \n2 3713. Dream    \n3 3706. Torgersen"
-  },
-  {
-    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#models-with-categorical-predictors",
-    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#models-with-categorical-predictors",
-    "title": "Linear regression with a categorical predictor",
-    "section": "Models with categorical predictors",
-    "text": "Models with categorical predictors\n\nWhen the categorical predictor has many levels, they’re encoded to dummy variables.\nThe first level of the categorical variable is the baseline level. In a model with one categorical predictor, the intercept is the predicted value of the outcome for the baseline level (x = 0).\nEach slope coefficient describes the difference between the predicted value of the outcome for that level of the categorical variable compared to the baseline level."
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling",
-    "title": "Language of models",
-    "section": "Modeling",
-    "text": "Modeling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but remember there are many many other types of models too!)"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-cars",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-cars",
-    "title": "Language of models",
-    "section": "Modeling cars",
-    "text": "Modeling cars\n\n\nWhat is the relationship between cars’ weights and their mileage?\nWhat is your best guess for a car’s MPG that weighs 3,500 pounds?"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars",
-    "title": "Language of models",
-    "section": "Modelling cars",
-    "text": "Modelling cars\n\nDescribe: What is the relationship between cars’ weights and their mileage?"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars-1",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars-1",
-    "title": "Language of models",
-    "section": "Modelling cars",
-    "text": "Modelling cars\n\nPredict: What is your best guess for a car’s MPG that weighs 3,500 pounds?"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-2",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-2",
-    "title": "Language of models",
-    "section": "Modeling",
-    "text": "Modeling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but there are many many other types of models too!)"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-vocabulary",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-vocabulary",
-    "title": "Language of models",
-    "section": "Modeling vocabulary",
-    "text": "Modeling vocabulary\n\nOutcome: Variable whose behavior or variation you are trying to understand, on the y-axis (aka response variable, dependent variable)\nPredictor(s): Other variable(s) that you want to use to explain the variation in the outcome, on the x-axis (aka explanatory variable(s), independent variable(s))\nModel function: The regression line for predicting the outcome variable from the predictor variable(s), comprised generally of an intercept and a slope for each predictor\nPredicted value: Output of the model function, which gives the typical (expected) value of the outcome conditioning on the predictor\n\nResiduals: A measure of how far each case’s observed value is from its predicted value (based on a particular model)\n\nResidual = Observed value - Predicted value\nTells how far above/below the expected value each case is"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predictor",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predictor",
-    "title": "Language of models",
-    "section": "Predictor",
-    "text": "Predictor\n\n\n\n\n\n\n\n\nmpg\nwt\n\n\n\n21\n2.62\n\n\n21\n2.875\n\n\n22.8\n2.32\n\n\n21.4\n3.215\n\n\n18.7\n3.44\n\n\n18.1\n3.46\n\n\n...\n..."
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#outcome",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#outcome",
-    "title": "Language of models",
-    "section": "Outcome",
-    "text": "Outcome\n\n\n\n\n\n\n\n\nmpg\nwt\n\n\n\n21\n2.62\n\n\n21\n2.875\n\n\n22.8\n2.32\n\n\n21.4\n3.215\n\n\n18.7\n3.44\n\n\n18.1\n3.46\n\n\n...\n..."
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line",
-    "title": "Language of models",
-    "section": "Regression line",
-    "text": "Regression line"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-slope",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-slope",
-    "title": "Language of models",
-    "section": "Regression line: slope",
-    "text": "Regression line: slope"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-intercept",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-intercept",
-    "title": "Language of models",
-    "section": "Regression line: intercept",
-    "text": "Regression line: intercept"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation",
-    "title": "Language of models",
-    "section": "Correlation",
-    "text": "Correlation"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation-1",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation-1",
-    "title": "Language of models",
-    "section": "Correlation",
-    "text": "Correlation\n\nRanges between -1 and 1.\nSame sign as the slope."
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#visualizing-the-model",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#visualizing-the-model",
-    "title": "Language of models",
-    "section": "Visualizing the model",
-    "text": "Visualizing the model\n\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point() +\n  geom_smooth(method = \"lm\")"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#residuals",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#residuals",
-    "title": "Language of models",
-    "section": "Residuals",
-    "text": "Residuals"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#extending-regression-lines",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#extending-regression-lines",
-    "title": "Language of models",
-    "section": "Extending regression lines",
-    "text": "Extending regression lines"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#models---upsides-and-downsides",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#models---upsides-and-downsides",
-    "title": "Language of models",
-    "section": "Models - upsides and downsides",
-    "text": "Models - upsides and downsides\n\nModels can sometimes reveal patterns that are not evident in a graph of the data. This is a great advantage of modeling over simple visual inspection of data.\nThere is a real risk, however, that a model is imposing structure that is not really there on the scatter of data, just as people imagine animal shapes in the stars. A skeptical approach is always warranted."
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#variation-around-the-model",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#variation-around-the-model",
-    "title": "Language of models",
-    "section": "Variation around the model…",
-    "text": "Variation around the model…\nis just as important as the model, if not more!\nStatistics is the explanation of variation in the context of what remains unexplained.\n\nThe scatter suggests that there might be other factors that account for large parts of painting-to-painting variability, or perhaps just that randomness plays a big role.\nAdding more explanatory variables to a model can sometimes usefully reduce the size of the scatter around the model. (We’ll talk more about this later.)"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#how-do-we-use-models",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#how-do-we-use-models",
-    "title": "Language of models",
-    "section": "How do we use models?",
-    "text": "How do we use models?\n\nPredict / classify: Plug in the value(s) of predictor(s) to the model to obtain the predicted value of the outcome\nDescribe: Quantify the relationship between predictor(s) and outcome with slopes"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predict-classify-1",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predict-classify-1",
-    "title": "Language of models",
-    "section": "Predict / classify",
-    "text": "Predict / classify\n\nHow do self-driving cars decide whether an object in front of them is a human, another car, or a trash can?\nHow does an online shopping website decide which ad to serve to you for the next item you might purchase?\nWhat happens if either of these get it wrong?"
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp",
-    "title": "Language of models",
-    "section": "Leisure, commute, physical activity and BP",
-    "text": "Leisure, commute, physical activity and BP\n\nRelation Between Leisure Time, Commuting, and Occupational Physical Activity With Blood Pressure in 125,402 Adults: The Lifelines Cohort\nByambasukh, Oyuntugs, Harold Snieder, and Eva Corpeleijn. “Relation between leisure time, commuting, and occupational physical activity with blood pressure in 125 402 adults: the lifelines cohort.” Journal of the American Heart Association 9.4 (2020): e014313."
-  },
-  {
-    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp-1",
-    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp-1",
-    "title": "Language of models",
-    "section": "Leisure, commute, physical activity and BP",
-    "text": "Leisure, commute, physical activity and BP\nBackground: Whether all domains of daily‐life moderate‐to‐vigorous physical activity (MVPA) are associated with lower blood pressure (BP) and how this association depends on age and body mass index remains unclear.\nMethods and Results: In the population‐based Lifelines cohort (N=125,402), MVPA was assessed by the Short Questionnaire to Assess Health‐Enhancing Physical Activity, a validated questionnaire in different domains such as commuting, leisure‐time, and occupational PA. BP was assessed using the last 3 of 10 measurements after 10 minutes’ rest in the supine position. Hypertension was defined as systolic BP ≥140 mm Hg and/or diastolic BP ≥90 mm Hg and/or use of antihypertensives. In regression analysis, higher commuting and leisure‐time but not occupational MVPA related to lower BP and lower hypertension risk. Commuting‐and‐leisure‐time MVPA was associated with BP in a dose‐dependent manner. β Coefficients (95% CI) from linear regression analyses were −1.64 (−2.03 to −1.24), −2.29 (−2.68 to −1.90), and finally −2.90 (−3.29 to −2.50) mm Hg systolic BP for the low, middle, and highest tertile of MVPA compared with “No MVPA” as the reference group after adjusting for age, sex, education, smoking and alcohol use. Further adjustment for body mass index attenuated the associations by 30% to 50%, but more MVPA remained significantly associated with lower BP and lower risk of hypertension. This association was age dependent. β Coefficients (95% CI) for the highest tertiles of commuting‐and‐leisure‐time MVPA were −1.67 (−2.20 to −1.15), −3.39 (−3.94 to −2.82) and −4.64 (−6.15 to −3.14) mm Hg systolic BP in adults &lt;40, 40 to 60, and &gt;60 years, respectively.\nConclusions: Higher commuting and leisure‐time but not occupational MVPA were significantly associated with lower BP and lower hypertension risk at all ages, but these associations were stronger in older adults."
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#packages",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#packages",
-    "title": "Linear regression with multiple predictors",
-    "section": "Packages",
-    "text": "Packages\n\n\nDAAG for data\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(DAAG)\nlibrary(tidyverse)\nlibrary(tidymodels)"
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#data-book-weight-and-volume",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#data-book-weight-and-volume",
-    "title": "Linear regression with multiple predictors",
-    "section": "Data: Book weight and volume",
-    "text": "Data: Book weight and volume\nThe allbacks data frame gives measurements on the volume and weight of 15 books, some of which are paperback and some of which are hardback\n\n\n- volume - cubic centimetres\n- area - square centimetres\n- weight - grams\n- cover - hb or pb\n\n\n\n# A tibble: 15 × 4\n   volume  area weight cover\n    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;\n 1    885   382    800 hb   \n 2   1016   468    950 hb   \n 3   1125   387   1050 hb   \n 4    239   371    350 hb   \n 5    701   371    750 hb   \n 6    641   367    600 hb   \n 7   1228   396   1075 hb   \n 8    412     0    250 pb   \n 9    953     0    700 pb   \n10    929     0    650 pb   \n11   1492     0    975 pb   \n12    419     0    350 pb   \n13   1010     0    950 pb   \n14    595     0    425 pb   \n15   1034     0    725 pb   \n\n\n\n\n\nThese books are from the bookshelf of J. H. Maindonald at Australian National University."
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#book-weight-vs.-volume",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#book-weight-vs.-volume",
-    "title": "Linear regression with multiple predictors",
-    "section": "Book weight vs. volume",
-    "text": "Book weight vs. volume\n\n\n\nallbacks_1_fit &lt;- linear_reg() |&gt;\n  fit(weight ~ volume, data = allbacks)\n\ntidy(allbacks_1_fit)\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic    p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;\n1 (Intercept)  108.      88.4         1.22 0.245     \n2 volume         0.709    0.0975      7.27 0.00000626"
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#book-weight-vs.-volume-and-cover",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#book-weight-vs.-volume-and-cover",
-    "title": "Linear regression with multiple predictors",
-    "section": "Book weight vs. volume and cover",
-    "text": "Book weight vs. volume and cover\n\n\n\nallbacks_2_fit &lt;- linear_reg() |&gt;\n  fit(weight ~ volume + cover, data = allbacks)\n\ntidy(allbacks_2_fit)\n\n# A tibble: 3 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)  198.      59.2         3.34 0.00584     \n2 volume         0.718    0.0615     11.7  0.0000000660\n3 coverpb     -184.      40.5        -4.55 0.000672"
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#interpretation-of-estimates",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#interpretation-of-estimates",
-    "title": "Linear regression with multiple predictors",
-    "section": "Interpretation of estimates",
-    "text": "Interpretation of estimates\n\ntidy(allbacks_2_fit)\n\n# A tibble: 3 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)  198.      59.2         3.34 0.00584     \n2 volume         0.718    0.0615     11.7  0.0000000660\n3 coverpb     -184.      40.5        -4.55 0.000672    \n\n\n\n\nSlope - volume: Keeping cover constant, for each additional cubic centimetre books are larger in volume, the model predicts the weight to be higher, on average, by 0.718 grams.\nSlope - cover: Keeping volume constant, the model predicts that paperback books weigh, on average, by 184 grams less than hardback books.\nIntercept: The model predicts that hardback books with 0 volume are expected to weigh 198 grams, on average. (Doesn’t make sense in context.)"
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#r2",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#r2",
-    "title": "Linear regression with multiple predictors",
-    "section": "\\(R^2\\)",
-    "text": "\\(R^2\\)\n\\(R^2\\) is the percentage of variability in the outcome explained by the regression model.\n\n\nModel 1: weight ~ volume\n\n\n\nglance(allbacks_1_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic    p.value    df\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;\n1     0.803         0.787  124.      52.9 0.00000626     1\n# ℹ 6 more variables: logLik &lt;dbl&gt;, AIC &lt;dbl&gt;, BIC &lt;dbl&gt;,\n#   deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\nModel 2: weight ~ volume + cover\n\n\n\nglance(allbacks_2_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic     p.value    df\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;\n1     0.927         0.915  78.2      76.7 0.000000145     2\n# ℹ 6 more variables: logLik &lt;dbl&gt;, AIC &lt;dbl&gt;, BIC &lt;dbl&gt;,\n#   deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\n\n\\(R^2\\) increases when any predictor is added to the model."
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#adjusted-r2",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#adjusted-r2",
-    "title": "Linear regression with multiple predictors",
-    "section": "Adjusted \\(R^2\\)\n",
-    "text": "Adjusted \\(R^2\\)\n\nAdjusted \\(R^2\\) adds a penalty to \\(R^2\\) for additional predictors in the model, and is therefore a (more) objective measure for comparing models with different numbers of predictors.\n\n\nModel 1: weight ~ volume\n\n\n\nglance(allbacks_1_fit)$adj.r.squared\n\n[1] 0.7874526\n\n\n\n\n\nModel 2: weight ~ volume + cover\n\n\n\nglance(allbacks_2_fit)$adj.r.squared\n\n[1] 0.9153905\n\n\n\n\n\nAdjusted \\(R^2\\) is higher for the model with volume and cover as predictors, and it is therefore the preferable model for predicting weight."
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-1---visualized",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-1---visualized",
-    "title": "Linear regression with multiple predictors",
-    "section": "Model 1 - visualized",
-    "text": "Model 1 - visualized\n\nglance(allbacks_1_fit) |&gt;\n  select(r.squared, adj.r.squared)\n\n# A tibble: 1 × 2\n  r.squared adj.r.squared\n      &lt;dbl&gt;         &lt;dbl&gt;\n1     0.803         0.787"
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-2---visualized",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-2---visualized",
-    "title": "Linear regression with multiple predictors",
-    "section": "Model 2 - visualized",
-    "text": "Model 2 - visualized\n\nglance(allbacks_2_fit) |&gt;\n  select(r.squared, adj.r.squared)\n\n# A tibble: 1 × 2\n  r.squared adj.r.squared\n      &lt;dbl&gt;         &lt;dbl&gt;\n1     0.927         0.915"
-  },
-  {
-    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#takeaways",
-    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#takeaways",
-    "title": "Linear regression with multiple predictors",
-    "section": "Takeaways",
-    "text": "Takeaways\n\nWhen interpreting slope coefficients for multiple regression models we need to state that one predictor is kept constant while the other increases.\nAdjusted R-squared is useful when comparing models with different numbers of predictors - it helps you balance model complexity with explanatory power."
-  },
-  {
     "objectID": "slides/3-2-2-overfitting-spending-data/3-2-2-overfitting-spending-data.html#packages",
     "href": "slides/3-2-2-overfitting-spending-data/3-2-2-overfitting-spending-data.html#packages",
     "title": "Overfitting and spending your data",
@@ -901,6 +586,503 @@
     "title": "Overfitting and spending your data",
     "section": "Next steps",
     "text": "Next steps\n\nFit models on training data\nMake predictions on testing data\n\nEvaluate predictions on testing data:\n\nLinear models: R-squared, adjusted R-squared, RMSE (root mean squared error), etc.\nLogistic models: False negative and positive rates, AUC (area under the curve), etc.\n\n\nMake decisions based on model predictive performance, validity across various testing/training splits (aka “cross validation”), explainability"
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#packages",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#packages",
+    "title": "Linear regression with multiple predictors",
+    "section": "Packages",
+    "text": "Packages\n\n\nDAAG for data\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(DAAG)\nlibrary(tidyverse)\nlibrary(tidymodels)"
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#data-book-weight-and-volume",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#data-book-weight-and-volume",
+    "title": "Linear regression with multiple predictors",
+    "section": "Data: Book weight and volume",
+    "text": "Data: Book weight and volume\nThe allbacks data frame gives measurements on the volume and weight of 15 books, some of which are paperback and some of which are hardback\n\n\n- volume - cubic centimetres\n- area - square centimetres\n- weight - grams\n- cover - hb or pb\n\n\n\n# A tibble: 15 × 4\n   volume  area weight cover\n    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;\n 1    885   382    800 hb   \n 2   1016   468    950 hb   \n 3   1125   387   1050 hb   \n 4    239   371    350 hb   \n 5    701   371    750 hb   \n 6    641   367    600 hb   \n 7   1228   396   1075 hb   \n 8    412     0    250 pb   \n 9    953     0    700 pb   \n10    929     0    650 pb   \n11   1492     0    975 pb   \n12    419     0    350 pb   \n13   1010     0    950 pb   \n14    595     0    425 pb   \n15   1034     0    725 pb   \n\n\n\n\n\nThese books are from the bookshelf of J. H. Maindonald at Australian National University."
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#book-weight-vs.-volume",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#book-weight-vs.-volume",
+    "title": "Linear regression with multiple predictors",
+    "section": "Book weight vs. volume",
+    "text": "Book weight vs. volume\n\n\n\nallbacks_1_fit &lt;- linear_reg() |&gt;\n  fit(weight ~ volume, data = allbacks)\n\ntidy(allbacks_1_fit)\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic    p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;\n1 (Intercept)  108.      88.4         1.22 0.245     \n2 volume         0.709    0.0975      7.27 0.00000626"
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#book-weight-vs.-volume-and-cover",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#book-weight-vs.-volume-and-cover",
+    "title": "Linear regression with multiple predictors",
+    "section": "Book weight vs. volume and cover",
+    "text": "Book weight vs. volume and cover\n\n\n\nallbacks_2_fit &lt;- linear_reg() |&gt;\n  fit(weight ~ volume + cover, data = allbacks)\n\ntidy(allbacks_2_fit)\n\n# A tibble: 3 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)  198.      59.2         3.34 0.00584     \n2 volume         0.718    0.0615     11.7  0.0000000660\n3 coverpb     -184.      40.5        -4.55 0.000672"
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#interpretation-of-estimates",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#interpretation-of-estimates",
+    "title": "Linear regression with multiple predictors",
+    "section": "Interpretation of estimates",
+    "text": "Interpretation of estimates\n\ntidy(allbacks_2_fit)\n\n# A tibble: 3 × 5\n  term        estimate std.error statistic      p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n1 (Intercept)  198.      59.2         3.34 0.00584     \n2 volume         0.718    0.0615     11.7  0.0000000660\n3 coverpb     -184.      40.5        -4.55 0.000672    \n\n\n\n\nSlope - volume: Keeping cover constant, for each additional cubic centimetre books are larger in volume, the model predicts the weight to be higher, on average, by 0.718 grams.\nSlope - cover: Keeping volume constant, the model predicts that paperback books weigh, on average, by 184 grams less than hardback books.\nIntercept: The model predicts that hardback books with 0 volume are expected to weigh 198 grams, on average. (Doesn’t make sense in context.)"
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#r2",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#r2",
+    "title": "Linear regression with multiple predictors",
+    "section": "\\(R^2\\)",
+    "text": "\\(R^2\\)\n\\(R^2\\) is the percentage of variability in the outcome explained by the regression model.\n\n\nModel 1: weight ~ volume\n\n\n\nglance(allbacks_1_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic    p.value    df\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;\n1     0.803         0.787  124.      52.9 0.00000626     1\n# ℹ 6 more variables: logLik &lt;dbl&gt;, AIC &lt;dbl&gt;, BIC &lt;dbl&gt;,\n#   deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\nModel 2: weight ~ volume + cover\n\n\n\nglance(allbacks_2_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic     p.value    df\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;\n1     0.927         0.915  78.2      76.7 0.000000145     2\n# ℹ 6 more variables: logLik &lt;dbl&gt;, AIC &lt;dbl&gt;, BIC &lt;dbl&gt;,\n#   deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\n\n\\(R^2\\) increases when any predictor is added to the model."
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#adjusted-r2",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#adjusted-r2",
+    "title": "Linear regression with multiple predictors",
+    "section": "Adjusted \\(R^2\\)\n",
+    "text": "Adjusted \\(R^2\\)\n\nAdjusted \\(R^2\\) adds a penalty to \\(R^2\\) for additional predictors in the model, and is therefore a (more) objective measure for comparing models with different numbers of predictors.\n\n\nModel 1: weight ~ volume\n\n\n\nglance(allbacks_1_fit)$adj.r.squared\n\n[1] 0.7874526\n\n\n\n\n\nModel 2: weight ~ volume + cover\n\n\n\nglance(allbacks_2_fit)$adj.r.squared\n\n[1] 0.9153905\n\n\n\n\n\nAdjusted \\(R^2\\) is higher for the model with volume and cover as predictors, and it is therefore the preferable model for predicting weight."
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-1---visualized",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-1---visualized",
+    "title": "Linear regression with multiple predictors",
+    "section": "Model 1 - visualized",
+    "text": "Model 1 - visualized\n\nglance(allbacks_1_fit) |&gt;\n  select(r.squared, adj.r.squared)\n\n# A tibble: 1 × 2\n  r.squared adj.r.squared\n      &lt;dbl&gt;         &lt;dbl&gt;\n1     0.803         0.787"
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-2---visualized",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#model-2---visualized",
+    "title": "Linear regression with multiple predictors",
+    "section": "Model 2 - visualized",
+    "text": "Model 2 - visualized\n\nglance(allbacks_2_fit) |&gt;\n  select(r.squared, adj.r.squared)\n\n# A tibble: 1 × 2\n  r.squared adj.r.squared\n      &lt;dbl&gt;         &lt;dbl&gt;\n1     0.927         0.915"
+  },
+  {
+    "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#takeaways",
+    "href": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#takeaways",
+    "title": "Linear regression with multiple predictors",
+    "section": "Takeaways",
+    "text": "Takeaways\n\nWhen interpreting slope coefficients for multiple regression models we need to state that one predictor is kept constant while the other increases.\nAdjusted R-squared is useful when comparing models with different numbers of predictors - it helps you balance model complexity with explanatory power."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling",
+    "title": "Language of models",
+    "section": "Modeling",
+    "text": "Modeling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but remember there are many many other types of models too!)"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-cars",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-cars",
+    "title": "Language of models",
+    "section": "Modeling cars",
+    "text": "Modeling cars\n\n\nWhat is the relationship between cars’ weights and their mileage?\nWhat is your best guess for a car’s MPG that weighs 3,500 pounds?"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars",
+    "title": "Language of models",
+    "section": "Modelling cars",
+    "text": "Modelling cars\n\nDescribe: What is the relationship between cars’ weights and their mileage?"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modelling-cars-1",
+    "title": "Language of models",
+    "section": "Modelling cars",
+    "text": "Modelling cars\n\nPredict: What is your best guess for a car’s MPG that weighs 3,500 pounds?"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-2",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-2",
+    "title": "Language of models",
+    "section": "Modeling",
+    "text": "Modeling\n\nUse models to explain the relationship between variables and to make predictions\nFor now we will focus on linear models (but there are many many other types of models too!)"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-vocabulary",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#modeling-vocabulary",
+    "title": "Language of models",
+    "section": "Modeling vocabulary",
+    "text": "Modeling vocabulary\n\nOutcome: Variable whose behavior or variation you are trying to understand, on the y-axis (aka response variable, dependent variable)\nPredictor(s): Other variable(s) that you want to use to explain the variation in the outcome, on the x-axis (aka explanatory variable(s), independent variable(s))\nModel function: The regression line for predicting the outcome variable from the predictor variable(s), comprised generally of an intercept and a slope for each predictor\nPredicted value: Output of the model function, which gives the typical (expected) value of the outcome conditioning on the predictor\n\nResiduals: A measure of how far each case’s observed value is from its predicted value (based on a particular model)\n\nResidual = Observed value - Predicted value\nTells how far above/below the expected value each case is"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predictor",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predictor",
+    "title": "Language of models",
+    "section": "Predictor",
+    "text": "Predictor\n\n\n\n\n\n\n\n\nmpg\nwt\n\n\n\n21\n2.62\n\n\n21\n2.875\n\n\n22.8\n2.32\n\n\n21.4\n3.215\n\n\n18.7\n3.44\n\n\n18.1\n3.46\n\n\n...\n..."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#outcome",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#outcome",
+    "title": "Language of models",
+    "section": "Outcome",
+    "text": "Outcome\n\n\n\n\n\n\n\n\nmpg\nwt\n\n\n\n21\n2.62\n\n\n21\n2.875\n\n\n22.8\n2.32\n\n\n21.4\n3.215\n\n\n18.7\n3.44\n\n\n18.1\n3.46\n\n\n...\n..."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line",
+    "title": "Language of models",
+    "section": "Regression line",
+    "text": "Regression line"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-slope",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-slope",
+    "title": "Language of models",
+    "section": "Regression line: slope",
+    "text": "Regression line: slope"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-intercept",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#regression-line-intercept",
+    "title": "Language of models",
+    "section": "Regression line: intercept",
+    "text": "Regression line: intercept"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation",
+    "title": "Language of models",
+    "section": "Correlation",
+    "text": "Correlation"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#correlation-1",
+    "title": "Language of models",
+    "section": "Correlation",
+    "text": "Correlation\n\nRanges between -1 and 1.\nSame sign as the slope."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#visualizing-the-model",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#visualizing-the-model",
+    "title": "Language of models",
+    "section": "Visualizing the model",
+    "text": "Visualizing the model\n\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point() +\n  geom_smooth(method = \"lm\")"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#residuals",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#residuals",
+    "title": "Language of models",
+    "section": "Residuals",
+    "text": "Residuals"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#extending-regression-lines",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#extending-regression-lines",
+    "title": "Language of models",
+    "section": "Extending regression lines",
+    "text": "Extending regression lines"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#models---upsides-and-downsides",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#models---upsides-and-downsides",
+    "title": "Language of models",
+    "section": "Models - upsides and downsides",
+    "text": "Models - upsides and downsides\n\nModels can sometimes reveal patterns that are not evident in a graph of the data. This is a great advantage of modeling over simple visual inspection of data.\nThere is a real risk, however, that a model is imposing structure that is not really there on the scatter of data, just as people imagine animal shapes in the stars. A skeptical approach is always warranted."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#variation-around-the-model",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#variation-around-the-model",
+    "title": "Language of models",
+    "section": "Variation around the model…",
+    "text": "Variation around the model…\nis just as important as the model, if not more!\nStatistics is the explanation of variation in the context of what remains unexplained.\n\nThe scatter suggests that there might be other factors that account for large parts of painting-to-painting variability, or perhaps just that randomness plays a big role.\nAdding more explanatory variables to a model can sometimes usefully reduce the size of the scatter around the model. (We’ll talk more about this later.)"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#how-do-we-use-models",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#how-do-we-use-models",
+    "title": "Language of models",
+    "section": "How do we use models?",
+    "text": "How do we use models?\n\nPredict / classify: Plug in the value(s) of predictor(s) to the model to obtain the predicted value of the outcome\nDescribe: Quantify the relationship between predictor(s) and outcome with slopes"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predict-classify-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#predict-classify-1",
+    "title": "Language of models",
+    "section": "Predict / classify",
+    "text": "Predict / classify\n\nHow do self-driving cars decide whether an object in front of them is a human, another car, or a trash can?\nHow does an online shopping website decide which ad to serve to you for the next item you might purchase?\nWhat happens if either of these get it wrong?"
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp",
+    "title": "Language of models",
+    "section": "Leisure, commute, physical activity and BP",
+    "text": "Leisure, commute, physical activity and BP\n\nRelation Between Leisure Time, Commuting, and Occupational Physical Activity With Blood Pressure in 125,402 Adults: The Lifelines Cohort\nByambasukh, Oyuntugs, Harold Snieder, and Eva Corpeleijn. “Relation between leisure time, commuting, and occupational physical activity with blood pressure in 125 402 adults: the lifelines cohort.” Journal of the American Heart Association 9.4 (2020): e014313."
+  },
+  {
+    "objectID": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp-1",
+    "href": "slides/1-1-2-language-of-models/1-1-2-language-of-models.html#leisure-commute-physical-activity-and-bp-1",
+    "title": "Language of models",
+    "section": "Leisure, commute, physical activity and BP",
+    "text": "Leisure, commute, physical activity and BP\nBackground: Whether all domains of daily‐life moderate‐to‐vigorous physical activity (MVPA) are associated with lower blood pressure (BP) and how this association depends on age and body mass index remains unclear.\nMethods and Results: In the population‐based Lifelines cohort (N=125,402), MVPA was assessed by the Short Questionnaire to Assess Health‐Enhancing Physical Activity, a validated questionnaire in different domains such as commuting, leisure‐time, and occupational PA. BP was assessed using the last 3 of 10 measurements after 10 minutes’ rest in the supine position. Hypertension was defined as systolic BP ≥140 mm Hg and/or diastolic BP ≥90 mm Hg and/or use of antihypertensives. In regression analysis, higher commuting and leisure‐time but not occupational MVPA related to lower BP and lower hypertension risk. Commuting‐and‐leisure‐time MVPA was associated with BP in a dose‐dependent manner. β Coefficients (95% CI) from linear regression analyses were −1.64 (−2.03 to −1.24), −2.29 (−2.68 to −1.90), and finally −2.90 (−3.29 to −2.50) mm Hg systolic BP for the low, middle, and highest tertile of MVPA compared with “No MVPA” as the reference group after adjusting for age, sex, education, smoking and alcohol use. Further adjustment for body mass index attenuated the associations by 30% to 50%, but more MVPA remained significantly associated with lower BP and lower risk of hypertension. This association was age dependent. β Coefficients (95% CI) for the highest tertiles of commuting‐and‐leisure‐time MVPA were −1.67 (−2.20 to −1.15), −3.39 (−3.94 to −2.82) and −4.64 (−6.15 to −3.14) mm Hg systolic BP in adults &lt;40, 40 to 60, and &gt;60 years, respectively.\nConclusions: Higher commuting and leisure‐time but not occupational MVPA were significantly associated with lower BP and lower hypertension risk at all ages, but these associations were stronger in older adults."
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#packages",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#packages",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Packages",
+    "text": "Packages\n\n\npalmerpenguins for data\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(palmerpenguins)\nlibrary(tidyverse)\nlibrary(tidymodels)"
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#data-penguins",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#data-penguins",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Data: penguins\n",
+    "text": "Data: penguins\n\nWe’ll work with the penguins dataset from the palmerpenguins package, which contains information on body measurements of three species of Antarctic penguins:\n\npenguins\n\n# A tibble: 344 × 7\n   species island    bill_length_mm bill_depth_mm\n   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;\n 1 Adelie  Torgersen           39.1          18.7\n 2 Adelie  Torgersen           39.5          17.4\n 3 Adelie  Torgersen           40.3          18  \n 4 Adelie  Torgersen           NA            NA  \n 5 Adelie  Torgersen           36.7          19.3\n 6 Adelie  Torgersen           39.3          20.6\n 7 Adelie  Torgersen           38.9          17.8\n 8 Adelie  Torgersen           39.2          19.6\n 9 Adelie  Torgersen           34.1          18.1\n10 Adelie  Torgersen           42            20.2\n# ℹ 334 more rows\n# ℹ 3 more variables: flipper_length_mm &lt;int&gt;,\n#   body_mass_g &lt;int&gt;, sex &lt;fct&gt;"
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#variables",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#variables",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Variables",
+    "text": "Variables\n\nA researcher wants to study the relationship between body weights of penguins based on the island they were recorded on. How are the variables involved in this analysis different?\n\n\n\nOutcome: body weight (numerical)\nPredictor: island (categorical)"
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#body-weight-vs.-island",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#body-weight-vs.-island",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Body weight vs. island",
+    "text": "Body weight vs. island\n\nDetermine whether each of the following plot types would be an appropriate choice for visualizing the relationship between body weight and island of penguins.\n\n\nScatterplot ❌\nBox plot ✅\nViolin plot ✅\nDensity plot ✅\nBar plot ❌\nStacked bar plot ❌"
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#body-weight-vs.-island-1",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#body-weight-vs.-island-1",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Body weight vs. island",
+    "text": "Body weight vs. island\n\nggplot(\n  penguins, \n  aes(x = body_mass_g, y = island, color = island)\n  ) +\n  geom_boxplot(show.legend = FALSE)\n\nWarning: Removed 2 rows containing non-finite outside the scale\nrange (`stat_boxplot()`)."
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#fitting-the-model",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#fitting-the-model",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Fitting the model",
+    "text": "Fitting the model\n\nFit:\n\n\nbm_island_fit &lt;- linear_reg() |&gt;\n  fit(body_mass_g ~ island, data = penguins)\n\n\n\nTidy:\n\n\ntidy(bm_island_fit)\n\n# A tibble: 3 × 5\n  term            estimate std.error statistic   p.value\n  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)        4716.      48.5      97.3 8.93e-250\n2 islandDream       -1003.      74.2     -13.5 1.42e- 33\n3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21"
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#inspecting-the-model-output",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#inspecting-the-model-output",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Inspecting the model output",
+    "text": "Inspecting the model output\n\nWhy is Biscoe not on the output?\n\n\n\n# A tibble: 3 × 5\n  term            estimate std.error statistic   p.value\n  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)        4716.      48.5      97.3 8.93e-250\n2 islandDream       -1003.      74.2     -13.5 1.42e- 33\n3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21\n\n\n\n\nWhen fitting a model with a categorical predictor, the levels of the categorical predictor are encoded to dummy variables, except for one of the levels, the baseline level.\nIn this case Biscoe is the is the baseline level.\nEach slope coefficient describes the predicted difference between heights in that particular school compared to the baseline level."
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#dummy-variables",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#dummy-variables",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Dummy variables",
+    "text": "Dummy variables\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nisland\n\nDummy variable\n\n\n\nDream\nTorgersen\n\n\n\n\nBiscoe\n0\n0\n\n\nDream\n1\n0\n\n\ntorgersen\n0\n1\n\n\n\n\n\n\n\nFor a categorical predictor with \\(k\\) levels, we only need \\(k - 1\\) dummy variables to describe all of its levels:\n\n\nDream = 1 and Torgersen = 0, the penguin is from Dream island.\n\nDream = 0 and Torgersen = 1, the penguin is from Torgersen island.\n\nDream = 0 and Torgersen = 0, the penguin is from Biscoe island, we don’t need a third dummy variable to identify these penguins."
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#dummy-coding",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#dummy-coding",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Dummy coding",
+    "text": "Dummy coding\n\n\n\n\n\n\n\n\nNote\n\n\nYou do not need to do anything (i.e., write code) to do the “dummy coding”, R does this under the hood for you when you have a predictor that is categorical (a character or a factor)."
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#interpreting-the-model-output",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#interpreting-the-model-output",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Interpreting the model output",
+    "text": "Interpreting the model output\n\\[\n\\widehat{body~mass} = 4716 - 1003 \\times islandDream - 1010 \\times islandTorgersen\n\\]\n\nIntercept: Penguins from Biscoe island are expected to weigh, on average, 4,716 grams.\nSlope - islandDream: Penguins from Dream island are expected to weigh, on average, 1,003 grams less than those from Biscoe island.\nSlope - islandTorgersen: Penguins from Torgersen island are expected to weigh, on average, 1,010 grams less than those from Biscoe island."
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#predicting-based-on-the-model",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#predicting-based-on-the-model",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Predicting based on the model",
+    "text": "Predicting based on the model\n\\[\n\\widehat{body~mass} = 4716 - 1003 \\times islandDream - 1010 \\times islandTorgersen\n\\]\n\n\nBiscoe: \\(\\widehat{body~mass} = 4716 - 1003 \\times 0 - 1010 \\times 0 = 4716\\)\n\n\n\n\n\nDream: \\(\\widehat{body~mass} = 4716 - 1003 \\times 1 - 1010 \\times 0 = 3713\\)\n\n\n\n\n\nTorgersen: \\(\\widehat{body~mass} = 4716 - 1003 \\times 0 - 1010 \\times 1 = 3706\\)"
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#predicting-based-on-the-model---again",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#predicting-based-on-the-model---again",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Predicting based on the model - again",
+    "text": "Predicting based on the model - again\n\nthree_penguins &lt;- tibble(\n  island = c(\"Biscoe\", \"Dream\", \"Torgersen\")\n  )\n\naugment(bm_island_fit, new_data = three_penguins)\n\n# A tibble: 3 × 2\n  .pred island   \n  &lt;dbl&gt; &lt;chr&gt;    \n1 4716. Biscoe   \n2 3713. Dream    \n3 3706. Torgersen"
+  },
+  {
+    "objectID": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#models-with-categorical-predictors",
+    "href": "slides/1-2-2-linear-regression-categorical-predictor/1-2-2-linear-model-categorical-predictor.html#models-with-categorical-predictors",
+    "title": "Linear regression with a categorical predictor",
+    "section": "Models with categorical predictors",
+    "text": "Models with categorical predictors\n\nWhen the categorical predictor has many levels, they’re encoded to dummy variables.\nThe first level of the categorical variable is the baseline level. In a model with one categorical predictor, the intercept is the predicted value of the outcome for the baseline level (x = 0).\nEach slope coefficient describes the difference between the predicted value of the outcome for that level of the categorical variable compared to the baseline level."
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#packages",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#packages",
+    "title": "Quantifying uncertainty",
+    "section": "Packages",
+    "text": "Packages\n\n\ntidyverse for data wrangling and visualization\n\nscales for better axis labels\n\ntidymodels for modeling\n\nopenintro for data\n\n\nlibrary(tidyverse)\nlibrary(scales)\nlibrary(tidymodels)\nlibrary(openintro)"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#data",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#data",
+    "title": "Quantifying uncertainty",
+    "section": "Data",
+    "text": "Data\n\nFamily income and gift aid data from a random sample of fifty students in the freshman class of Elmhurst College in Illinois, USA\nGift aid is financial aid that does not need to be paid back, as opposed to a loan"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#linear-model",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#linear-model",
+    "title": "Quantifying uncertainty",
+    "section": "Linear model",
+    "text": "Linear model\n\n\n\nlinear_reg() |&gt;\n  fit(gift_aid ~ family_income, data = elmhurst) |&gt;\n  tidy()\n\n# A tibble: 2 × 5\n  term          estimate std.error statistic  p.value\n  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)    24.3       1.29       18.8  8.28e-24\n2 family_income  -0.0431    0.0108     -3.98 2.29e- 4"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#interpreting-the-slope",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#interpreting-the-slope",
+    "title": "Quantifying uncertainty",
+    "section": "Interpreting the slope",
+    "text": "Interpreting the slope\n\n\n\n\n# A tibble: 2 × 5\n  term          estimate std.error statistic  p.value\n  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)    24.3       1.29       18.8  8.28e-24\n2 family_income  -0.0431    0.0108     -3.98 2.29e- 4\n\n\n\nFor each additional $1,000 of family income, we would expect students to receive a net difference of 1,000 * (-0.0431) = -$43.10 in aid on average, i.e. $43.10 less in gift aid, on average."
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#section",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#section",
+    "title": "Quantifying uncertainty",
+    "section": "",
+    "text": "exactly $43.10 for all students at this school?!"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#statistical-inference",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#statistical-inference",
+    "title": "Quantifying uncertainty",
+    "section": "Statistical inference",
+    "text": "Statistical inference\n… is the process of using sample data to make conclusions about the underlying population the sample came from"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#estimation",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#estimation",
+    "title": "Quantifying uncertainty",
+    "section": "Estimation",
+    "text": "Estimation\nSo far we have done lots of estimation (mean, median, slope, etc.), i.e. - used data from samples to calculate sample statistics - which can then be used as estimates for population parameters"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#spear-or-net",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#spear-or-net",
+    "title": "Quantifying uncertainty",
+    "section": "Spear or net?",
+    "text": "Spear or net?\n\n\n\nIf you want to catch a fish, do you prefer a spear or a net?"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#interval-or-point",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#interval-or-point",
+    "title": "Quantifying uncertainty",
+    "section": "Interval or point?",
+    "text": "Interval or point?\n\n\n\nIf you want to estimate a population parameter, do you prefer to report a range of values the parameter might be in, or a single value?\n\n\n\n\n\n\nIf we report a point estimate, we probably won’t hit the exact population parameter\nIf we report a range of plausible values we have a good shot at capturing the parameter"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#confidence-intervals-1",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#confidence-intervals-1",
+    "title": "Quantifying uncertainty",
+    "section": "Confidence intervals",
+    "text": "Confidence intervals\nA plausible range of values for the population parameter is a confidence interval.\n\nIn order to construct a confidence interval we need to quantify the variability of our sample statistic\nFor example, if we want to construct a confidence interval for a population slope, we need to come up with a plausible range of values around our observed sample slope\nThis range will depend on how precise and how accurate our sample mean is as an estimate of the population mean\nQuantifying this requires a measurement of how much we would expect the sample population to vary from sample to sample"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#sample-to-sample",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#sample-to-sample",
+    "title": "Quantifying uncertainty",
+    "section": "Sample to sample…",
+    "text": "Sample to sample…\n\n\n\nSuppose we split a classroom in half down the middle of the classroom and ask each student their heights. Then, we calculate the mean height of students on each side of the classroom. Would you expect these two means to be exactly equal, close but not equal, or wildly different?\n\n\n\nSuppose you randomly sample 50 students and 5 of them are left handed. If you were to take another random sample of 50 students, how many would you expect to be left handed? Would you be surprised if only 3 of them were left handed? Would you be surprised if 40 of them were left handed?"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#quantifying-the-variability-of-slopes",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#quantifying-the-variability-of-slopes",
+    "title": "Quantifying uncertainty",
+    "section": "Quantifying the variability of slopes",
+    "text": "Quantifying the variability of slopes\nWe can quantify the variability of sample statistics using\n\nsimulation: via bootstrapping (in this course)\n\nor\n\ntheory: via Central Limit Theorem (in future stat courses!)\n\n\n\n# A tibble: 2 × 5\n  term          estimate std.error statistic  p.value\n  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)    24.3       1.29       18.8  8.28e-24\n2 family_income  -0.0431    0.0108     -3.98 2.29e- 4"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrapping-1",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrapping-1",
+    "title": "Quantifying uncertainty",
+    "section": "Bootstrapping",
+    "text": "Bootstrapping\n\n\n\n\n“pulling oneself up by one’s bootstraps”: accomplishing an impossible task without any outside help\n\nImpossible task: estimating a population parameter using data from only the given sample\n\nNote: Notion of saying something about a population parameter using only information from an observed sample is the crux of statistical inference\n\n\n\n🥾"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#observed-sample",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#observed-sample",
+    "title": "Quantifying uncertainty",
+    "section": "Observed sample",
+    "text": "Observed sample"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-population",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-population",
+    "title": "Quantifying uncertainty",
+    "section": "Bootstrap population",
+    "text": "Bootstrap population\nGenerated assuming there are more students like the ones in the observed sample…"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrapping-scheme",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrapping-scheme",
+    "title": "Quantifying uncertainty",
+    "section": "Bootstrapping scheme",
+    "text": "Bootstrapping scheme\n\nTake a bootstrap sample - a random sample taken with replacement from the original sample, of the same size as the original sample\nCalculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples\nRepeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics\nCalculate the bounds of the XX% confidence interval as the middle XX% of the bootstrap distribution"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-sample-1",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-sample-1",
+    "title": "Quantifying uncertainty",
+    "section": "Bootstrap sample 1",
+    "text": "Bootstrap sample 1\n\nelmhurtst_boot_1 &lt;- elmhurst |&gt;\n  slice_sample(n = 50, replace = TRUE)"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-sample-2",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-sample-2",
+    "title": "Quantifying uncertainty",
+    "section": "Bootstrap sample 2",
+    "text": "Bootstrap sample 2\n\nelmhurtst_boot_2 &lt;- elmhurst |&gt;\n  slice_sample(n = 50, replace = TRUE)"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-sample-3",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-sample-3",
+    "title": "Quantifying uncertainty",
+    "section": "Bootstrap sample 3",
+    "text": "Bootstrap sample 3\n\nelmhurtst_boot_3 &lt;- elmhurst |&gt;\n  slice_sample(n = 50, replace = TRUE)"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-sample-4",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-sample-4",
+    "title": "Quantifying uncertainty",
+    "section": "Bootstrap sample 4",
+    "text": "Bootstrap sample 4\n\nelmhurtst_boot_4 &lt;- elmhurst |&gt;\n  slice_sample(n = 50, replace = TRUE)"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-samples-1---4",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#bootstrap-samples-1---4",
+    "title": "Quantifying uncertainty",
+    "section": "Bootstrap samples 1 - 4",
+    "text": "Bootstrap samples 1 - 4"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#section-1",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#section-1",
+    "title": "Quantifying uncertainty",
+    "section": "",
+    "text": "we could keep going…"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#many-many-samples",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#many-many-samples",
+    "title": "Quantifying uncertainty",
+    "section": "Many many samples…",
+    "text": "Many many samples…"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#slopes-of-bootstrap-samples",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#slopes-of-bootstrap-samples",
+    "title": "Quantifying uncertainty",
+    "section": "Slopes of bootstrap samples",
+    "text": "Slopes of bootstrap samples"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#confidence-interval",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#confidence-interval",
+    "title": "Quantifying uncertainty",
+    "section": "95% confidence interval",
+    "text": "95% confidence interval"
+  },
+  {
+    "objectID": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#interpreting-the-slope-take-two",
+    "href": "slides/4-1-1/4-1-1-quantifying-uncertainty.html#interpreting-the-slope-take-two",
+    "title": "Quantifying uncertainty",
+    "section": "Interpreting the slope, take two",
+    "text": "Interpreting the slope, take two\n\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1  -0.0692  -0.0209\n\n\nWe are 95% confident that for each additional $1,000 of family income, we would expect students to receive $69.23 to $20.9 less in gift aid, on average."
   },
   {
     "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#packages",

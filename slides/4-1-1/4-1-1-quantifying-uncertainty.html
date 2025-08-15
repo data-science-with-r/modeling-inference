@@ -12,7 +12,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.14">
 <meta name="author" content=" Data Science with R">
-<title>Modeling and inference – Linear regression with a categorical predictor</title>
+<title>Modeling and inference – Quantifying uncertainty</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -194,7 +194,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center"><h1 class="title">Linear regression with a categorical predictor</h1>
+<section id="title-slide" class="quarto-title-block center"><h1 class="title">Quantifying uncertainty</h1>
   <p class="subtitle"><br><br><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</p>
 
 <div class="quarto-title-authors">
@@ -205,705 +205,312 @@
 </div>
 </div>
 
-</section><section><section id="packages-data-variables" class="title-slide slide level1 center"><h1>Packages, data, variables</h1>
+</section><section><section id="setup" class="title-slide slide level1 center"><h1>Setup</h1>
 
 </section><section id="packages" class="slide level2"><h2>Packages</h2>
 <ul>
 <li>
-<strong>palmerpenguins</strong> for data</li>
-<li>
 <strong>tidyverse</strong> for data wrangling and visualization</li>
 <li>
+<strong>scales</strong> for better axis labels</li>
+<li>
 <strong>tidymodels</strong> for modeling</li>
+<li>
+<strong>openintro</strong> for data</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(palmerpenguins)</span>
-<span id="cb1-2"><a></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a></a><span class="fu">library</span>(scales)</span>
+<span id="cb1-3"><a></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-4"><a></a><span class="fu">library</span>(openintro)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="data-penguins" class="slide level2"><h2>Data: <code>penguins</code>
-</h2>
-<p>We’ll work with the <code>penguins</code> dataset from the <strong>palmerpenguins</strong> package, which contains information on body measurements of three species of Antarctic penguins:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 344 × 7
-   species island    bill_length_mm bill_depth_mm
-   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;
- 1 Adelie  Torgersen           39.1          18.7
- 2 Adelie  Torgersen           39.5          17.4
- 3 Adelie  Torgersen           40.3          18  
- 4 Adelie  Torgersen           NA            NA  
- 5 Adelie  Torgersen           36.7          19.3
- 6 Adelie  Torgersen           39.3          20.6
- 7 Adelie  Torgersen           38.9          17.8
- 8 Adelie  Torgersen           39.2          19.6
- 9 Adelie  Torgersen           34.1          18.1
-10 Adelie  Torgersen           42            20.2
-# ℹ 334 more rows
-# ℹ 3 more variables: flipper_length_mm &lt;int&gt;,
-#   body_mass_g &lt;int&gt;, sex &lt;fct&gt;</code></pre>
-</div>
-</div>
-</section><section id="variables" class="slide level2"><h2>Variables</h2>
-<div class="task">
-<p>A researcher wants to study the relationship between body weights of penguins based on the island they were recorded on. How are the variables involved in this analysis different?</p>
-</div>
-<div class="fragment">
+</section><section id="data" class="slide level2"><h2>Data</h2>
 <ul>
-<li>Outcome: body weight (numerical)</li>
-<li>Predictor: island (categorical)</li>
+<li>Family income and gift aid data from a random sample of fifty students in the freshman class of Elmhurst College in Illinois, USA</li>
+<li>Gift aid is financial aid that does not need to be paid back, as opposed to a loan</li>
 </ul>
-</div>
-</section><section id="body-weight-vs.-island" class="slide level2"><h2>Body weight vs.&nbsp;island</h2>
-<div class="task">
-<p>Determine whether each of the following plot types would be an appropriate choice for visualizing the relationship between body weight and island of penguins.</p>
-</div>
-<ul>
-<li><p>Scatterplot <span class="fragment">❌</span></p></li>
-<li><p>Box plot <span class="fragment">✅</span></p></li>
-<li><p>Violin plot <span class="fragment">✅</span></p></li>
-<li><p>Density plot <span class="fragment">✅</span></p></li>
-<li><p>Bar plot <span class="fragment">❌</span></p></li>
-<li><p>Stacked bar plot <span class="fragment">❌</span></p></li>
-</ul></section><section id="body-weight-vs.-island-1" class="slide level2"><h2>Body weight vs.&nbsp;island</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">ggplot</span>(</span>
-<span id="cb4-2"><a></a>  penguins, </span>
-<span id="cb4-3"><a></a>  <span class="fu">aes</span>(<span class="at">x =</span> body_mass_g, <span class="at">y =</span> island, <span class="at">color =</span> island)</span>
-<span id="cb4-4"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb4-5"><a></a>  <span class="fu">geom_boxplot</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale
-range (`stat_boxplot()`).</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="1-2-2-linear-model-categorical-predictor_files/figure-revealjs/bm-island-plot-1.png" width="768"></p>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-1-1.png" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section></section><section><section id="modeling" class="title-slide slide level1 center"><h1>Modeling</h1>
-
-</section><section id="fitting-the-model" class="slide level2"><h2>Fitting the model</h2>
-<ul>
-<li>Fit:</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>bm_island_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a></a>  <span class="fu">fit</span>(body_mass_g <span class="sc">~</span> island, <span class="at">data =</span> penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="fragment">
-<ul>
-<li>Tidy:</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">tidy</span>(bm_island_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-  term            estimate std.error statistic   p.value
-  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)        4716.      48.5      97.3 8.93e-250
-2 islandDream       -1003.      74.2     -13.5 1.42e- 33
-3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21</code></pre>
-</div>
-</div>
-</div>
-</section><section id="inspecting-the-model-output" class="slide level2"><h2>Inspecting the model output</h2>
-<div class="task">
-<p>Why is Biscoe not on the output?</p>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-  term            estimate std.error statistic   p.value
-  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)        4716.      48.5      97.3 8.93e-250
-2 islandDream       -1003.      74.2     -13.5 1.42e- 33
-3 islandTorgersen   -1010.     100.      -10.1 4.66e- 21</code></pre>
-</div>
-</div>
-<div class="fragment">
-<ul>
-<li class="fragment"><p>When fitting a model with a categorical predictor, the levels of the categorical predictor are encoded to <strong>dummy variables</strong>, except for one of the levels, the <strong>baseline level</strong>.</p></li>
-<li class="fragment"><p>In this case Biscoe is the is the baseline level.</p></li>
-<li class="fragment"><p>Each slope coefficient describes the predicted difference between heights in that particular school compared to the baseline level.</p></li>
-</ul>
-</div>
-</section><section id="dummy-variables" class="slide level2"><h2>Dummy variables</h2>
+</section><section id="linear-model" class="slide level2 smaller"><h2>Linear model</h2>
 <div class="columns">
-<div class="column" style="width:30%;">
+<div class="column" style="width:45%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a></a>  <span class="fu">fit</span>(gift_aid <span class="sc">~</span> family_income, <span class="at">data =</span> elmhurst) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term          estimate std.error statistic  p.value
+  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    24.3       1.29       18.8  8.28e-24
+2 family_income  -0.0431    0.0108     -3.98 2.29e- 4</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:25%;">
 <div class="cell">
 <div class="cell-output-display">
-<div id="wnpkxcvogn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wnpkxcvogn table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#wnpkxcvogn thead, #wnpkxcvogn tbody, #wnpkxcvogn tfoot, #wnpkxcvogn tr, #wnpkxcvogn td, #wnpkxcvogn th {
-  border-style: none;
-}
-
-#wnpkxcvogn p {
-  margin: 0;
-  padding: 0;
-}
-
-#wnpkxcvogn .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 24px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#wnpkxcvogn .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#wnpkxcvogn .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#wnpkxcvogn .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#wnpkxcvogn .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#wnpkxcvogn .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#wnpkxcvogn .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#wnpkxcvogn .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#wnpkxcvogn .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#wnpkxcvogn .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#wnpkxcvogn .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#wnpkxcvogn .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#wnpkxcvogn .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#wnpkxcvogn .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#wnpkxcvogn .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#wnpkxcvogn .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#wnpkxcvogn .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#wnpkxcvogn .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#wnpkxcvogn .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#wnpkxcvogn .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#wnpkxcvogn .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#wnpkxcvogn .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#wnpkxcvogn .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#wnpkxcvogn .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#wnpkxcvogn .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#wnpkxcvogn .gt_left {
-  text-align: left;
-}
-
-#wnpkxcvogn .gt_center {
-  text-align: center;
-}
-
-#wnpkxcvogn .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#wnpkxcvogn .gt_font_normal {
-  font-weight: normal;
-}
-
-#wnpkxcvogn .gt_font_bold {
-  font-weight: bold;
-}
-
-#wnpkxcvogn .gt_font_italic {
-  font-style: italic;
-}
-
-#wnpkxcvogn .gt_super {
-  font-size: 65%;
-}
-
-#wnpkxcvogn .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#wnpkxcvogn .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#wnpkxcvogn .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#wnpkxcvogn .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#wnpkxcvogn .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#wnpkxcvogn .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#wnpkxcvogn .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#wnpkxcvogn .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#wnpkxcvogn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="gt_table caption-top" data-quarto-bootstrap="false">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="gt_col_headings gt_spanner_row header">
-<th rowspan="2" id="island" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">island</th>
-<th colspan="2" id="Dummy variable" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
-Dummy variable
-</div></th>
-</tr>
-<tr class="gt_col_headings even">
-<th id="Dream" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Dream</th>
-<th id="Torgersen" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Torgersen</th>
-</tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="odd">
-<td class="gt_row gt_left" headers="island">Biscoe</td>
-<td class="gt_row gt_right" headers="Dream">0</td>
-<td class="gt_row gt_right" headers="Torgersen">0</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="island">Dream</td>
-<td class="gt_row gt_right" headers="Dream">1</td>
-<td class="gt_row gt_right" headers="Torgersen">0</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="island">torgersen</td>
-<td class="gt_row gt_right" headers="Dream">0</td>
-<td class="gt_row gt_right" headers="Torgersen">1</td>
-</tr>
-</tbody>
-</table>
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-2-1.png" width="768"></p>
+</figure>
 </div>
 </div>
 </div>
-</div><div class="column fragment" style="width:70%;">
-<p>For a categorical predictor with <span class="math inline">\(k\)</span> levels, we only need <span class="math inline">\(k - 1\)</span> dummy variables to describe all of its levels:</p>
-<ul>
-<li>
-<code>Dream = 1</code> and <code>Torgersen = 0</code>, the penguin is from Dream island.</li>
-<li>
-<code>Dream = 0</code> and <code>Torgersen = 1</code>, the penguin is from Torgersen island.</li>
-<li>
-<code>Dream = 0</code> and <code>Torgersen = 0</code>, the penguin is from Biscoe island, we don’t need a third dummy variable to identify these penguins.</li>
-</ul>
 </div></div>
-</section><section id="dummy-coding" class="slide level2"><h2>Dummy coding</h2>
+</section><section id="interpreting-the-slope" class="slide level2 smaller"><h2>Interpreting the slope</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term          estimate std.error statistic  p.value
+  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    24.3       1.29       18.8  8.28e-24
+2 family_income  -0.0431    0.0108     -3.98 2.29e- 4</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><span class="fragment">For each additional $1,000 of family income, we would expect students to receive a net difference of 1,000 * (-0.0431) = -$43.10 in aid on average, i.e.&nbsp;$43.10 less in gift aid, on average.</span></p>
+</div><div class="column" style="width:25%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-4-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section><section id="section" class="slide level2 center"><h2></h2>
+<div class="large">
+<div class="hand">
+<p>exactly $43.10 for all students at this school?!</p>
+</div>
+</div>
+</section></section><section><section id="inference" class="title-slide slide level1 center"><h1>Inference</h1>
+
+</section><section id="statistical-inference" class="slide level2"><h2>Statistical inference</h2>
+<p>… is the process of using sample data to make conclusions about the underlying population the sample came from</p>
+<p><img data-src="images/photo-1571942676516-bcab84649e44.png"></p>
+</section><section id="estimation" class="slide level2"><h2>Estimation</h2>
+<p>So far we have done lots of estimation (mean, median, slope, etc.), i.e. - used data from samples to calculate sample statistics - which can then be used as estimates for population parameters</p>
+</section><section id="spear-or-net" class="slide level2"><h2>Spear or net?</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="task">
+<p>If you want to catch a fish, do you prefer a spear or a net?</p>
 </div>
-<p><strong>Note</strong></p>
+</div><div class="column">
+
+</div></div>
+<p><img data-src="images/spear.png" width="500"><img data-src="images/net.png" width="500"></p>
+</section><section id="interval-or-point" class="slide level2"><h2>Interval or point?</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="task">
+<p>If you want to estimate a population parameter, do you prefer to report a range of values the parameter might be in, or a single value?</p>
 </div>
-<div class="callout-content">
-<p>You do not need to do anything (i.e., write code) to do the “dummy coding”, R does this under the hood for you when you have a predictor that is categorical (a character or a factor).</p>
+</div><div class="column">
+
+</div></div>
+<div class="fragment">
+<ul>
+<li>If we report a point estimate, we probably won’t hit the exact population parameter</li>
+<li>If we report a range of plausible values we have a good shot at capturing the parameter</li>
+</ul>
+</div>
+</section></section><section><section id="confidence-intervals" class="title-slide slide level1 center"><h1>Confidence intervals</h1>
+
+</section><section id="confidence-intervals-1" class="slide level2"><h2>Confidence intervals</h2>
+<p>A plausible range of values for the population parameter is a <strong>confidence interval</strong>.</p>
+<ul>
+<li class="fragment"><p>In order to construct a confidence interval we need to quantify the variability of our sample statistic</p></li>
+<li class="fragment"><p>For example, if we want to construct a confidence interval for a population slope, we need to come up with a plausible range of values around our observed sample slope</p></li>
+<li class="fragment"><p>This range will depend on how precise and how accurate our sample mean is as an estimate of the population mean</p></li>
+<li class="fragment"><p>Quantifying this requires a measurement of how much we would expect the sample population to vary from sample to sample</p></li>
+</ul></section><section id="sample-to-sample" class="slide level2"><h2>Sample to sample…</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="task">
+<p>Suppose we split a classroom in half down the middle of the classroom and ask each student their heights. Then, we calculate the mean height of students on each side of the classroom. Would you expect these two means to be exactly equal, close but not equal, or wildly different?</p>
+</div>
+<p><br></p>
+<div class="task fragment">
+<p>Suppose you randomly sample 50 students and 5 of them are left handed. If you were to take another random sample of 50 students, how many would you expect to be left handed? Would you be surprised if only 3 of them were left handed? Would you be surprised if 40 of them were left handed?</p>
+</div>
+</div><div class="column">
+
+</div></div>
+</section><section id="quantifying-the-variability-of-slopes" class="slide level2"><h2>Quantifying the variability of slopes</h2>
+<p>We can quantify the variability of sample statistics using</p>
+<ul>
+<li>simulation: via bootstrapping (in this course)</li>
+</ul>
+<p>or</p>
+<ul>
+<li>theory: via Central Limit Theorem (in future stat courses!)</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term          estimate std.error statistic  p.value
+  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    24.3       1.29       18.8  8.28e-24
+2 family_income  -0.0431    0.0108     -3.98 2.29e- 4</code></pre>
 </div>
 </div>
+</section></section><section><section id="bootstrapping" class="title-slide slide level1 center"><h1>Bootstrapping</h1>
+
+</section><section id="bootstrapping-1" class="slide level2"><h2>Bootstrapping</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>
+<em>“pulling oneself up by one’s bootstraps”</em>: accomplishing an impossible task without any outside help</li>
+<li>
+<strong>Impossible task:</strong> estimating a population parameter using data from only the given sample</li>
+<li>
+<strong>Note:</strong> Notion of saying something about a population parameter using only information from an observed sample is the crux of statistical inference</li>
+</ul>
+</div><div class="column" style="width:10%;">
+<div class="huge">
+<p>🥾</p>
 </div>
 </div></div>
-</section><section id="interpreting-the-model-output" class="slide level2"><h2>Interpreting the model output</h2>
-<p><span class="math display">\[
-\widehat{body~mass} = 4716 - 1003 \times islandDream - 1010 \times islandTorgersen
-\]</span></p>
-<ul>
-<li><p>Intercept: <span class="fragment">Penguins from Biscoe island are expected to weigh, on average, 4,716 grams.</span></p></li>
-<li><p>Slope - islandDream: <span class="fragment">Penguins from Dream island are expected to weigh, on average, 1,003 grams less than those from Biscoe island.</span></p></li>
-<li><p>Slope - islandTorgersen: <span class="fragment">Penguins from Torgersen island are expected to weigh, on average, 1,010 grams less than those from Biscoe island.</span></p></li>
-</ul></section><section id="predicting-based-on-the-model" class="slide level2"><h2>Predicting based on the model</h2>
-<p><span class="math display">\[
-\widehat{body~mass} = 4716 - 1003 \times islandDream - 1010 \times islandTorgersen
-\]</span></p>
-<div class="fragment">
-<ul>
-<li>Biscoe: <span class="math inline">\(\widehat{body~mass} = 4716 - 1003 \times 0 - 1010 \times 0 = 4716\)</span>
-</li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li>Dream: <span class="math inline">\(\widehat{body~mass} = 4716 - 1003 \times 1 - 1010 \times 0 = 3713\)</span>
-</li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li>Torgersen: <span class="math inline">\(\widehat{body~mass} = 4716 - 1003 \times 0 - 1010 \times 1 = 3706\)</span>
-</li>
-</ul>
-</div>
-</section><section id="predicting-based-on-the-model---again" class="slide level2"><h2>Predicting based on the model - again</h2>
+</section><section id="observed-sample" class="slide level2"><h2>Observed sample</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="|1-3|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>three_penguins <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb10-2"><a></a>  <span class="at">island =</span> <span class="fu">c</span>(<span class="st">"Biscoe"</span>, <span class="st">"Dream"</span>, <span class="st">"Torgersen"</span>)</span>
-<span id="cb10-3"><a></a>  )</span>
-<span id="cb10-4"><a></a></span>
-<span id="cb10-5"><a></a><span class="fu">augment</span>(bm_island_fit, <span class="at">new_data =</span> three_penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-7-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="bootstrap-population" class="slide level2"><h2>Bootstrap population</h2>
+<p>Generated assuming there are more students like the ones in the observed sample…</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-8-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="bootstrapping-scheme" class="slide level2"><h2>Bootstrapping scheme</h2>
+<ol type="1">
+<li><p>Take a bootstrap sample - a random sample taken <strong>with replacement</strong> from the original sample, of the same size as the original sample</p></li>
+<li><p>Calculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples</p></li>
+<li><p>Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics</p></li>
+<li><p>Calculate the bounds of the XX% confidence interval as the middle XX% of the bootstrap distribution</p></li>
+</ol></section><section id="bootstrap-sample-1" class="slide level2"><h2>Bootstrap sample 1</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>elmhurtst_boot_1 <span class="ot">&lt;-</span> elmhurst <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-10-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="bootstrap-sample-2" class="slide level2"><h2>Bootstrap sample 2</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>elmhurtst_boot_2 <span class="ot">&lt;-</span> elmhurst <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-12-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="bootstrap-sample-3" class="slide level2"><h2>Bootstrap sample 3</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>elmhurtst_boot_3 <span class="ot">&lt;-</span> elmhurst <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-14-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="bootstrap-sample-4" class="slide level2"><h2>Bootstrap sample 4</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>elmhurtst_boot_4 <span class="ot">&lt;-</span> elmhurst <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-16-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="bootstrap-samples-1---4" class="slide level2"><h2>Bootstrap samples 1 - 4</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-17-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="section-1" class="slide level2 center"><h2></h2>
+<div class="large">
+<div class="hand">
+<p>we could keep going…</p>
+</div>
+</div>
+</section><section id="many-many-samples" class="slide level2"><h2>Many many samples…</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-18-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="slopes-of-bootstrap-samples" class="slide level2"><h2>Slopes of bootstrap samples</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-19-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="confidence-interval" class="slide level2"><h2>95% confidence interval</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure><p><img data-src="4-1-1-quantifying-uncertainty_files/figure-revealjs/unnamed-chunk-20-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="interpreting-the-slope-take-two" class="slide level2"><h2>Interpreting the slope, take two</h2>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 2
-  .pred island   
-  &lt;dbl&gt; &lt;chr&gt;    
-1 4716. Biscoe   
-2 3713. Dream    
-3 3706. Torgersen</code></pre>
+<pre><code># A tibble: 1 × 2
+  lower_ci upper_ci
+     &lt;dbl&gt;    &lt;dbl&gt;
+1  -0.0692  -0.0209</code></pre>
 </div>
 </div>
-</section><section id="models-with-categorical-predictors" class="slide level2"><h2>Models with categorical predictors</h2>
-<ul>
-<li class="fragment"><p>When the categorical predictor has many levels, they’re encoded to <strong>dummy variables</strong>.</p></li>
-<li class="fragment"><p>The first level of the categorical variable is the baseline level. In a model with one categorical predictor, the intercept is the predicted value of the outcome for the baseline level (x = 0).</p></li>
-<li class="fragment"><p>Each slope coefficient describes the difference between the predicted value of the outcome for that level of the categorical variable compared to the baseline level.</p></li>
-</ul>
+<p><strong>We are 95% confident that</strong> for each additional $1,000 of family income, we would expect students to receive $69.23 to $20.9 less in gift aid, on average.</p>
 
 
 </section></section>
