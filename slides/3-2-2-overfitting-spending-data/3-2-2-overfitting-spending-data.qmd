@@ -53,7 +53,7 @@ glimpse(forested)
 names(forested)
 ```
 
-## Outcome and predictors {.smaller}
+## Outcome and predictors 
 
 -   Outcome: `forested` - Factor, `Yes` or `No`
 
@@ -61,7 +61,9 @@ names(forested)
 levels(forested$forested)
 ```
 
--   Predictors: 18 remotely-sensed and easily-accessible predictors:
+. . .
+
+-   Predictors: 18 remotely-sensed and easily-accessible variables:
 
     -   numeric variables based on weather and topography
 
@@ -101,15 +103,23 @@ For predictive models (used primarily in machine learning), we typically split d
 
 ![](images/test-train-split.png){fig-align="center"}
 
+. . .
+
 -   The **training set** is used to estimate model parameters.
 
 -   The **test set** is used to find an independent assessment of model performance.
 
 . . .
 
+::: {.columns}
+::: {.column width=70%}
 ::: callout-warning
 Do not use, or even peek at, the test set during training.
 :::
+:::
+::: {.column}
+:::
+::: 
 
 ## How much to spend?
 
@@ -184,7 +194,7 @@ dim(forested_test)
 
 # Exploratory data analysis
 
-## Initial questions {.smaller}
+## Initial questions
 
 -   What’s the distribution of the outcome, `forested`?
 
@@ -247,7 +257,6 @@ ggplot(
 ## `forested` and `precip_annual` {.smaller}
 
 ```{r}
-#| code-line-numbers: "|5"
 #| warning: false
 ggplot(
   forested_train,
@@ -324,7 +333,7 @@ Which corner of the plot indicates the best model performance?
 
 # Next steps
 
-## Next steps {.smaller}
+## Next steps
 
 ::: incremental
 -   Fit models on training data
@@ -337,10 +346,4 @@ Which corner of the plot indicates the best model performance?
     -   Logistic models: False negative and positive rates, AUC (area under the curve), etc.
 
 -   Make decisions based on model predictive performance, validity across various testing/training splits (aka "cross validation"), explainability
-:::
-
-. . .
-
-::: callout-note
-We will only learn about a subset of these in this course, but you can go further into these ideas in other regression and machine learning courses.
 :::

@@ -1,0 +1,121 @@
+>> So, we've been fitting models, but have we been overfitting them? What do we mean by overfitting? And how can we properly "spend" our data? That's what this video is all about.
+
+>> Let's set things up...
+
+>> In thi video we're working with a dataset from the U.S. Forest Service. The data are in the `forested` package. We'll also use the tidyverse and tidymodels packages as usual.
+
+>> The US Forest service maintains machine learning models to predict whether a plot of land is “forested.” And this isn't just academic curiosity. This information is critical for research, legislation, and land management decisions. Plots are typically remeasured every 10 years and the forested dataset in the packaged with the same name contains the most recent measurement per plot.
+
+>> We have over 7 thousand observations and 19 variables. Our outcome variable is "forested" - Yes or No. And the remaining 18 variables are available to use as predictors, including weather data, topography, and classifications from other government agencies.
+
+>> Here is another peek at the data with glimpse().
+
+>> And a list of all the variables in the data frame.
+
+>> Once again outcome is the forested variable, with levels yes or no.
+> Predictor are 18 remotely-sensed and easily-accessible variables including numeric variables based on weather and topography and categorical variables based on classifications from other governmental organizations.
+
+>> You can find out more about this package and the data frame in its documentation, which you can access with question mark, forested.
+
+>> Before we dive into modeling, let's pause for an important question that every data scientist should ask: Should we include a predictor in our model? Here are three fundamental questions:
+> **Is it ethical to use this variable?** Sometimes it's not just about ethics - it might actually be illegal to use certain variables.
+> **Will this variable be available at prediction time?** There's no point building a model with data you won't have when you need to make predictions.
+> **Does this variable contribute to explainability?** Can you explain to stakeholders why and how your model works?
+
+>> Now that we've familiarized ourselves with the data, let's split and spend it!
+
+>> I regret to inform you that we have been cheating! In our previous videos, we've been using ALL of our data to build models, then evaluating those same models on the exact same data. 
+> In predictive modeling contexts, evaluating model performance for predicting outcomes that were used when building the models is like studying for a test with the answer key, then taking that same test and claiming you're a genius. 
+
+Why is this a problem? We are not actually interested in models that overfit our observed data, we want model that will perform just as well for new data so we can make predictions before there are outcomes to observe.
+
+>> The solution is something we call "data splitting" or "spending your data wisely."
+
+Here's how it works: We split our data into two parts:
+> A **training set** - this is where we build our model, estimate parameters, and make all our modeling decisions
+> A **test set** - this stays locked away, untouched, until we're ready for our final evaluation
+> Think of the test set as your final exam - you don't peek at it during your study session if you want the final exam to be a true measure of what you've learned.
+
+>> So how much of our data should we "spend" on training versus testing?
+It's a classic trade-off:
+> Spending too much data in training prevents us from computing a good assessment of predictive performance.
+> Spending too much data in testing prevents us from computing a good estimate of model parameters.
+
+>> The 75-25 split is a good starting point, but like many things in data science, the "best" choice depends on your specific situation.
+
+The default split is usually 75% for training and 25% for testing. This is the default for the initial_split() function too, so you can split your data with just this function.
+
+>> A Quick Note on reproducibility... You'll notice we use `set.seed()` before splitting our data. This isn't just good practice - it's essential for reproducible science.
+> R generates "pseudo-random" numbers - they look random, but they're actually deterministic if you know the seed. 
+> This means anyone can run our code and get exactly the same results. 
+> Just pick any number you like - it doesn't matter which seed you choose, as long as you don't try multiple seeds and cherry-pick the one that gives the best results. That would be cheating again!
+
+>> Next let's use the training() and testing() functions to store these splits as two separate data frames.
+
+>> We have 5,330 observations in our training data, and all original variables.
+
+Shall we look at the testing data too? 
+
+>> Nope! 
+> We can check how many observations it has though, 1777...
+
+>> Alright, let's explore a bit.
+
+>> Some good initial questions might include
+- What’s the distribution of the outcome, forested?
+- What’s the distribution of numeric variables like precip_annual?
+- How does the distribution of forested differ across the categorical and numerical variables?
+
+> Which dataset should we use for the exploration? The entire data forested, the training data forested_train, or the testing data forested_test?
+
+If you said training, you're right! No peeking at the testing data!
+
+>> A simple count and proportion table tells us 54.7% of plots are forested and the remainder are not, in our training data. We expect a similar distribution in the testing data, but we won't look.
+
+>> Looking at annual precipitation, we see a right-skewed distribution. Fewer years with very high mean annual precipitation.
+
+>> Now let's see how these two variables might be related. Forested areas tend to have higher precipitation, which makes sense, trees need water!
+
+>> This filled histogram makes the relationship even clearer - as precipitation increases, the proportion of forested land increases dramatically, until the very end where the relationship appears reversed but that's likely due to very few observations of high annual precipitation rates.
+
+>> And here is another example with the `tree_no_tree` variable - this is from satellite imagery classification. As expected, areas classified as having trees are more likely to be forested in our ground-truth data. But notice it's not perfect - that's why we need multiple predictors!
+
+>> Finally we can look at geographic patterns. You can actually see the outline of  Washington State! The green dots are forested areas, and yellow or gold represents non-forested. Forested areas are more likely to be in the north west than the south east of the state, which makes sense geographically.
+
+>> Let's do a quick recap on terminology and then introduce some new ones.
+
+>> False negative rate is the proportion of actual positives that were classified as negatives.
+
+False positive rate is the proportion of actual negatives that were classified as positives.
+
+>> Sensitivity is the proportion of actual positives that were correctly classified as positive.
+
+Also known as true positive rate, and another term for this is recall
+
+Sensitivity is 1 minus the False negative rate
+
+This is useful when false negatives are more “expensive” than false positives
+
+>> Specificity is the proportion of actual negatives that were correctly classified as negative
+
+Also known as true negative rate
+
+Specificity is 1 minus the False positive rate
+
+>> And here is something new -- a way to see sensitivity and specificity summarized visually. This is a receiver operating characteristic curve, commonly referred to as an ROC curve.
+
+The ROC curve plots sensitivity versus 1 minus specificity across different thresholds. 
+
+>> The perfect model would hit the top-left corner where all positives are classified as positive and all negatives are classified as negative. The diagonal line represents random guessing, so we want to be as far above that line as possible.
+
+>> So what's next?
+
+>> We will
+> Fit models on training data
+> Make predictions on testing data
+> Evaluate predictions on testing data:
+> For lineaer models these were R-squared, adjusted R-squared, RMSE (root mean squared error), etc.
+> For logistic models these are False negative and positive rates, AUC (area under the curve), etc.
+> Then we Make decisions based on model predictive performance, validity across various testing/training splits (aka “cross validation”), explainability
+
+In this course, we will only learn about a subset of these, but you can go further into these ideas in other regression and machine learning courses.

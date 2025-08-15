@@ -299,7 +299,7 @@ $ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tre…</code></pre>
 [19] "land_type"       </code></pre>
 </div>
 </div>
-</section><section id="outcome-and-predictors" class="slide level2 smaller"><h2>Outcome and predictors</h2>
+</section><section id="outcome-and-predictors" class="slide level2"><h2>Outcome and predictors</h2>
 <ul>
 <li>Outcome: <code>forested</code> - Factor, <code>Yes</code> or <code>No</code>
 </li>
@@ -310,15 +310,18 @@ $ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tre…</code></pre>
 <pre><code>[1] "Yes" "No" </code></pre>
 </div>
 </div>
+<div class="fragment">
 <ul>
 <li>
-<p>Predictors: 18 remotely-sensed and easily-accessible predictors:</p>
+<p>Predictors: 18 remotely-sensed and easily-accessible variables:</p>
 <ul>
 <li><p>numeric variables based on weather and topography</p></li>
 <li><p>categorical variables based on classifications from other governmental organizations</p></li>
 </ul>
 </li>
-</ul></section><section id="forested" class="slide level2"><h2><code>?forested</code></h2>
+</ul>
+</div>
+</section><section id="forested" class="slide level2"><h2><code>?forested</code></h2>
 <iframe width="900" height="500" src="https://simonpcouch.github.io/forested/reference/forested.html" title="forested" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
 </iframe>
 </section><section id="should-we-include-a-predictor" class="slide level2"><h2>Should we include a predictor?</h2>
@@ -339,11 +342,15 @@ $ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tre…</code></pre>
 <figure><p><img data-src="images/test-train-split.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
+<div class="fragment">
 <ul>
 <li><p>The <strong>training set</strong> is used to estimate model parameters.</p></li>
 <li><p>The <strong>test set</strong> is used to find an independent assessment of model performance.</p></li>
 </ul>
+</div>
 <div class="fragment">
+<div class="columns">
+<div class="column" style="width:70%;">
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -357,6 +364,9 @@ $ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tre…</code></pre>
 </div>
 </div>
 </div>
+</div><div class="column">
+
+</div></div>
 </div>
 </section><section id="how-much-to-spend" class="slide level2"><h2>How much to spend?</h2>
 <ul>
@@ -433,7 +443,7 @@ $ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tre…</code></pre>
 </div>
 </section></section><section><section id="exploratory-data-analysis" class="title-slide slide level1 center"><h1>Exploratory data analysis</h1>
 
-</section><section id="initial-questions" class="slide level2 smaller"><h2>Initial questions</h2>
+</section><section id="initial-questions" class="slide level2"><h2>Initial questions</h2>
 <ul>
 <li><p>What’s the distribution of the outcome, <code>forested</code>?</p></li>
 <li><p>What’s the distribution of numeric variables like <code>precip_annual</code>?</p></li>
@@ -504,7 +514,7 @@ $ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tre…</code></pre>
 <code>forested</code> and <code>precip_annual</code>
 </h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22" data-code-line-numbers="|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a><span class="fu">ggplot</span>(</span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a><span class="fu">ggplot</span>(</span>
 <span id="cb22-2"><a></a>  forested_train,</span>
 <span id="cb22-3"><a></a>  <span class="fu">aes</span>(<span class="at">x =</span> precip_annual, <span class="at">fill =</span> forested, <span class="at">group =</span> forested)</span>
 <span id="cb22-4"><a></a>  ) <span class="sc">+</span></span>
@@ -580,7 +590,7 @@ $ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tre…</code></pre>
 <p><img data-src="images/roc-curve-annotated.png"></p>
 </section></section><section><section id="next-steps" class="title-slide slide level1 center"><h1>Next steps</h1>
 
-</section><section id="next-steps-1" class="slide level2 smaller"><h2>Next steps</h2>
+</section><section id="next-steps-1" class="slide level2"><h2>Next steps</h2>
 <ul>
 <li class="fragment"><p>Fit models on training data</p></li>
 <li class="fragment"><p>Make predictions on testing data</p></li>
@@ -593,23 +603,8 @@ $ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tre…</code></pre>
 </li>
 <li class="fragment"><p>Make decisions based on model predictive performance, validity across various testing/training splits (aka “cross validation”), explainability</p></li>
 </ul>
-<div class="fragment">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>We will only learn about a subset of these in this course, but you can go further into these ideas in other regression and machine learning courses.</p>
-</div>
-</div>
-</div>
 
 
-</div>
 </section></section>
 </div>
   <div class="quarto-auto-generated-content" style="display: none;">
