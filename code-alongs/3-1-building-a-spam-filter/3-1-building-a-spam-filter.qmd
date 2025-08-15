@@ -4,8 +4,7 @@ title: "Building a spam filter"
 
 In this code along, we will
 
--   Use logistic regression to fit a model for a binary response variable
--   Fit a logistic regression model in R
+-   Fit a logistic regression model in R for a binary response variable
 -   Use a logistic regression model for classification
 
 To illustrate logistic regression, we will build a spam filter from email data.
