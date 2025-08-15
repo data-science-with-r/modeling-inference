@@ -223,7 +223,7 @@
 </section><section><section id="regression-so-far" class="title-slide slide level1 center"><h1>Regression so far</h1>
 
 </section><section id="recap-simple-linear-regression" class="slide level2 smaller"><h2>Recap: Simple linear regression</h2>
-<p>Numerical response and one numerical predictor:</p>
+<p>Numerical outcome and one numerical predictor:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -252,9 +252,9 @@
 </div>
 </div>
 </div>
-</section></section><section><section id="new-scenario-binary-response" class="title-slide slide level1 center"><h1>New scenario: <em>binary</em> response</h1>
+</section></section><section><section id="new-scenario-binary-outcome" class="title-slide slide level1 center"><h1>New scenario: <em>binary</em> outcome</h1>
 
-</section><section id="a-binary-response" class="slide level2 smaller"><h2>A <em>binary</em> response</h2>
+</section><section id="a-binary-outcome" class="slide level2 smaller"><h2>A <em>binary</em> outcome</h2>
 <p><span class="math display">\[
 y =
 \begin{cases}
@@ -271,7 +271,7 @@ y =
 </div>
 </div>
 </section><section id="who-cares" class="slide level2"><h2>Who cares?</h2>
-<p>If we can model the relationship between predictors (<span class="math inline">\(x\)</span>) and a binary response (<span class="math inline">\(y\)</span>), we can use the model to do a special kind of prediction called <em>classification</em>.</p>
+<p>If we can model the relationship between predictors (<span class="math inline">\(x\)</span>) and a binary outcome (<span class="math inline">\(y\)</span>), we can use the model to do a special kind of prediction called <em>classification</em>.</p>
 </section><section id="example-is-the-e-mail-spam-or-not" class="slide level2 smaller"><h2>Example: Is the e-mail spam or not?</h2>
 <div class="columns">
 <div class="column" style="width:20%;">
@@ -394,30 +394,36 @@ y
 </div>
 </div>
 <ul>
-<li>“Given new email, what’s the probability that it’s spam?’’</li>
-<li>“Given new image, what’s the probability that it’s cancer?’’</li>
-<li>“Given new loan application, what’s the probability that they default?’’</li>
+<li class="fragment">“Given new email, what’s the probability that it’s spam?”</li>
+<li class="fragment">“Given new image, what’s the probability that it’s cancer?”</li>
+<li class="fragment">“Given new loan application, what’s the probability that applicant defaults?”</li>
 </ul></section><section id="why-dont-we-model-y-directly" class="slide level2"><h2>Why don’t we model y directly?</h2>
 <ul>
 <li>
-<p><strong>Recall regression with a numerical response</strong>:</p>
+<p><strong>Recall regression with a numerical outcome</strong>:</p>
 <ul>
 <li>Our models do not output <em>guarantees</em> for <span class="math inline">\(y\)</span>, they output predictions that describe behavior <em>on average</em>;</li>
 </ul>
 </li>
-<li>
-<p><strong>Similar when modeling a binary response</strong>:</p>
+</ul>
+<div class="fragment">
 <ul>
-<li>Our models cannot directly guarantee that <span class="math inline">\(y\)</span> will be zero or one. The correct analog to “on average” for a 0/1 response is “what’s the probability?”</li>
+<li>
+<p><strong>Similar when modeling a binary outcome</strong>:</p>
+<ul>
+<li>Our models cannot directly guarantee that <span class="math inline">\(y\)</span> will be zero or one. The correct analog to “on average” for a 0/1 outcome is “what’s the probability?”</li>
 </ul>
 </li>
-</ul></section><section id="so-what-is-this-s-curve-anyway" class="slide level2"><h2>So, what is this S-curve, anyway?</h2>
+</ul>
+</div>
+</section><section id="so-what-is-this-s-curve-anyway" class="slide level2"><h2>So, what is this S-curve, anyway?</h2>
 <p>It’s the <strong>logistic function</strong>:</p>
 <p><span class="math display">\[
 \text{Prob}(y = 1)
 =
 \frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}.
 \]</span></p>
+<div class="fragment">
 <p>If you set p = Prob(y = 1) and do some algebra, you get the simple linear model for the <em>log-odds</em>:</p>
 <p><span class="math display">\[
 \log\left(\frac{p}{1-p}\right)
@@ -425,11 +431,12 @@ y
 \beta_0+\beta_1x.
 \]</span></p>
 <p>This is called the <em>logistic regression</em> model.</p>
+</div>
 </section><section id="log-odds" class="slide level2"><h2>Log-odds?</h2>
 <ul>
-<li><p><span class="math inline">\(p = Prob(y = 1)\)</span> is a probability – A number between 0 and 1</p></li>
-<li><p><span class="math inline">\(p / (1 - p)\)</span> is the odds – A number between 0 and <span class="math inline">\(\infty\)</span></p></li>
-<li><p>The log odds <span class="math inline">\(log(p / (1 - p))\)</span> is a number between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(\infty\)</span>, which is suitable for the linear model</p></li>
+<li class="fragment"><p><span class="math inline">\(p = Prob(y = 1)\)</span> is a probability – A number between 0 and 1</p></li>
+<li class="fragment"><p><span class="math inline">\(p / (1 - p)\)</span> is the odds – A number between 0 and <span class="math inline">\(\infty\)</span></p></li>
+<li class="fragment"><p>The log odds <span class="math inline">\(log(p / (1 - p))\)</span> is a number between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(\infty\)</span>, which is suitable for the linear model</p></li>
 </ul></section><section id="logistic-regression" class="slide level2"><h2>Logistic regression</h2>
 <p><span class="math display">\[
 \log\left(\frac{p}{1-p}\right)
@@ -441,7 +448,7 @@ y
 <li><p>This is an example of a <strong>generalized linear model</strong></p></li>
 </ul></section><section id="estimation" class="slide level2"><h2>Estimation</h2>
 <ul>
-<li><p>We estimate the parameters <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span>, etc. using <em>maximum likelihood</em> (don’t worry about it) to get the “best fitting” S-curve;</p></li>
+<li><p>We estimate the parameters <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span>, etc. using <em>maximum likelihood</em> (don’t worry about it) to get the “best fitting” S-curve</p></li>
 <li><p>The fitted model is</p></li>
 </ul>
 <p><span class="math display">\[
@@ -456,7 +463,7 @@ b_0+b_1x
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/step-1-1.png" width="768"></p>
+<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/step-1-1.png" width="672"></p>
 </figure>
 </div>
 </div>
@@ -466,51 +473,53 @@ b_0+b_1x
 </li>
 <li>if <span class="math inline">\(\text{Prob}(y=1)&gt; p^*\)</span>, then predict <span class="math inline">\(\widehat{y}=1\)</span>
 </li>
-</ul></section><section id="step-2-find-the-decision-boundary" class="slide level2 smaller"><h2>Step 2: Find the “decision boundary”</h2>
+</ul></section><section id="step-2-find-the-decision-boundary" class="slide level2 smaller"><h2>Step 2: Find the decision boundary</h2>
 <p>Solve for the x-value that matches the threshold:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/step-2-1.png" width="768"></p>
+<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/step-2-1.png" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <ul>
-<li>if <span class="math inline">\(\text{Prob}(y=1)\leq p^*\)</span>, then predict <span class="math inline">\(\widehat{y}=0\)</span>;</li>
-<li>if <span class="math inline">\(\text{Prob}(y=1)&gt; p^*\)</span>, then predict <span class="math inline">\(\widehat{y}=1\)</span>.</li>
+<li>if <span class="math inline">\(\text{Prob}(y=1)\leq p^*\)</span>, then predict <span class="math inline">\(\widehat{y}=0\)</span>
+</li>
+<li>if <span class="math inline">\(\text{Prob}(y=1)&gt; p^*\)</span>, then predict <span class="math inline">\(\widehat{y}=1\)</span>
+</li>
 </ul></section><section id="step-3-classify-a-new-arrival" class="slide level2 smaller"><h2>Step 3: Classify a new arrival</h2>
-<p>A new person shows up with <span class="math inline">\(x_{\text{new}}\)</span>. Which side of the boundary are they on?</p>
+<p>A new data point is observed up with <span class="math inline">\(x_{\text{new}}\)</span>. Which side of the boundary is it on?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/step-3-1.png" width="768"></p>
+<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/step-3-1.png" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <ul>
-<li>if <span class="math inline">\(x_{\text{new}} \leq x^\star\)</span>, then <span class="math inline">\(\text{Prob}(y=1)\leq p^*\)</span>, so predict <span class="math inline">\(\widehat{y}=0\)</span> for the new person;</li>
-<li>if <span class="math inline">\(x_{\text{new}} &gt; x^\star\)</span>, then <span class="math inline">\(\text{Prob}(y=1)&gt; p^*\)</span>, so predict <span class="math inline">\(\widehat{y}=1\)</span> for the new person.</li>
+<li>if <span class="math inline">\(x_{\text{new}} \leq x^\star\)</span>, then <span class="math inline">\(\text{Prob}(y=1)\leq p^*\)</span>, so predict <span class="math inline">\(\widehat{y}=0\)</span> for the new observation</li>
+<li>if <span class="math inline">\(x_{\text{new}} &gt; x^\star\)</span>, then <span class="math inline">\(\text{Prob}(y=1)&gt; p^*\)</span>, so predict <span class="math inline">\(\widehat{y}=1\)</span> for the new observation</li>
 </ul></section><section id="lets-change-the-threshold" class="slide level2 smaller"><h2>Let’s change the threshold</h2>
-<p>A new person shows up with <span class="math inline">\(x_{\text{new}}\)</span>. Which side of the boundary are they on?</p>
+<p>A new data point is observed with <span class="math inline">\(x_{\text{new}}\)</span>. Which side of the boundary are they on?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/lower-threshold-1.png" width="768"></p>
+<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/lower-threshold-1.png" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <ul>
-<li>if <span class="math inline">\(x_{\text{new}} \leq x^\star\)</span>, then <span class="math inline">\(\text{Prob}(y=1)\leq p^*\)</span>, so predict <span class="math inline">\(\widehat{y}=0\)</span> for the new person;</li>
-<li>if <span class="math inline">\(x_{\text{new}} &gt; x^\star\)</span>, then <span class="math inline">\(\text{Prob}(y=1)&gt; p^*\)</span>, so predict <span class="math inline">\(\widehat{y}=1\)</span> for the new person.</li>
+<li>if <span class="math inline">\(x_{\text{new}} \leq x^\star\)</span>, then <span class="math inline">\(\text{Prob}(y=1)\leq p^*\)</span>, so predict <span class="math inline">\(\widehat{y}=0\)</span> for the new observation</li>
+<li>if <span class="math inline">\(x_{\text{new}} &gt; x^\star\)</span>, then <span class="math inline">\(\text{Prob}(y=1)&gt; p^*\)</span>, so predict <span class="math inline">\(\widehat{y}=1\)</span> for the new observation</li>
 </ul></section><section id="nothing-special-about-one-predictor" class="slide level2 smaller"><h2>Nothing special about one predictor…</h2>
-<p>Two numerical predictors and one binary response:</p>
+<p>Two numerical predictors and one binary outcome:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/unnamed-chunk-1-1.png" width="768"></p>
+<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/unnamed-chunk-1-1.png" width="672"></p>
 </figure>
 </div>
 </div>
@@ -531,21 +540,16 @@ b_0+b_1x
 </section><section id="decision-boundary-again" class="slide level2 smaller"><h2>Decision boundary, again</h2>
 <p>It’s linear! Consider two numerical predictors:</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in geom_abline(yintercept = bd_incpt, slope =
-bd_slp, color = "blue", : Ignoring unknown parameters:
-`yintercept`</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
-<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/unnamed-chunk-2-1.png" width="768"></p>
+<figure><p><img data-src="3-1-logistic-regression_files/figure-revealjs/unnamed-chunk-2-1.png" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <ul>
-<li>if new <span class="math inline">\((x_1,\,x_2)\)</span> below, <span class="math inline">\(\text{Prob}(y=1)\leq p^*\)</span>. Predict <span class="math inline">\(\widehat{y}=0\)</span> for the new person;</li>
-<li>if new <span class="math inline">\((x_1,\,x_2)\)</span> above, <span class="math inline">\(\text{Prob}(y=1)&gt; p^*\)</span>. Predict <span class="math inline">\(\widehat{y}=1\)</span> for the new person.</li>
+<li>if new <span class="math inline">\((x_1,\,x_2)\)</span> below, <span class="math inline">\(\text{Prob}(y=1)\leq p^*\)</span>. Predict <span class="math inline">\(\widehat{y}=0\)</span> for the new observation</li>
+<li>if new <span class="math inline">\((x_1,\,x_2)\)</span> above, <span class="math inline">\(\text{Prob}(y=1)&gt; p^*\)</span>. Predict <span class="math inline">\(\widehat{y}=1\)</span> for the new observation</li>
 </ul>
 
 
