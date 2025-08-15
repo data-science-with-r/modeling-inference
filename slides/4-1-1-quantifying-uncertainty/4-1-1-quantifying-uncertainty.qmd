@@ -30,7 +30,7 @@ library(openintro)
 ## Data
 
 - Family income and gift aid data from a random sample of fifty students in the freshman class of Elmhurst College in Illinois, USA
-- Gift aid is financial aid that does not need to be paid back, as opposed to a loan
+- Gift aid is financial aid that doesn't need to be paid back, unlike loans
 
 ```{r}
 #| echo: false
@@ -199,15 +199,19 @@ Suppose you randomly sample 50 students and 5 of them are left handed. If you we
 :::
 ::: 
 
-## Quantifying the variability of slopes
+## Quantifying the variability of sample statistics
 
 We can quantify the variability of sample statistics using
 
 - simulation: via bootstrapping (in this course)
 
+. . .
+
 or
 
 - theory: via Central Limit Theorem (in future stat courses!)
+
+. . .
 
 ```{r}
 #| ref-label: "elmhurst-fit"
@@ -287,6 +291,7 @@ elmhurst |>
 
 ## Bootstrapping scheme
 
+::: incremental
 1. Take a bootstrap sample - a random sample taken **with replacement** from the original sample, of the same size as the original sample
 
 2. Calculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples
@@ -294,6 +299,7 @@ elmhurst |>
 3. Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics
 
 4. Calculate the bounds of the XX% confidence interval as the middle XX% of the bootstrap distribution
+::: 
 
 ## Bootstrap sample 1
 
