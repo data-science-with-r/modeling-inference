@@ -423,26 +423,14 @@ $ number       &lt;fct&gt; big, small, small, small, none, none, big, small, sma
 </section><section id="linear-model-a-false-start" class="level1"><h1>Linear model – a false start</h1>
 <p>Suppose we try using a linear model to describe the relationship between the number of exclamation points and whether an email is spam.</p>
 <section id="fit" class="level2"><h2 class="anchored" data-anchor-id="fit">Fit</h2>
-<p>Fit a linear model that models spam by exclamation marks.</p>
+<p>Fit a linear regression model to whether an email is spam from the number of exclamation points in the email.</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fit</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">spam</span><span class="op">)</span> <span class="op">~</span> <span class="va">exclaim_mess</span>, data <span class="op">=</span> <span class="va">email</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = as.numeric(spam) ~ exclaim_mess, data = data)
-
-Coefficients:
- (Intercept)  exclaim_mess  
-   1.093e+00     2.604e-05  </code></pre>
-</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="visualize" class="level2"><h2 class="anchored" data-anchor-id="visualize">Visualize</h2>
 <p>Visualizate the linear model.</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Is the linear model a good fit for the data? Why or why not?</li>
@@ -462,9 +450,9 @@ Coefficients:
 <p><span class="math display">\[p = \frac{\exp\{\beta_0 + \beta_1 \times exclaim\_mess\}}{1 + \exp\{\beta_0 + \beta_1 \times exclaim\_mess\}}\]</span></p>
 </section><section id="model-1-one-predictor" class="level1"><h1>Model 1: One predictor</h1>
 <section id="fit-1" class="level2"><h2 class="anchored" data-anchor-id="fit-1">Fit</h2>
-<p>Fit the logistic regression model using the number of exclamation points to predict the probability an email is spam.</p>
+<p>Fit a logistic regression model to predict the probability an email is spam from the number of exclamation points in the email.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="summarize" class="level2"><h2 class="anchored" data-anchor-id="summarize">Summarize</h2>
 <p>Write the estimated model.</p>
@@ -472,7 +460,7 @@ Coefficients:
 </section></section><section id="predict" class="level1"><h1>Predict</h1>
 <p>What is the probability the email is spam if it contains 10 exclamation points? Answer the question using the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="classify" class="level1"><h1>Classify</h1>
 <p>We have the probability an email is spam, but ultimately we want to use the probability to classify an email as spam or not spam. Therefore, we need to set a <strong>decision-making threshold</strong>, such that an email is classified as spam if the predicted probability is greater than the threshold and not spam otherwise.</p>
@@ -482,12 +470,12 @@ Coefficients:
 </section><section id="do" class="level2"><h2 class="anchored" data-anchor-id="do">Do</h2>
 <p>Classify the emails in this dataset as spam or not spam.</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section><section id="model-2-all-predictors" class="level1"><h1>Model 2: All predictors</h1>
 <p>Fit a model with <strong>all</strong> variables in the dataset as predictors and receate the visualization above for this model.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
