@@ -23,7 +23,6 @@ library(ggthemes)
 library(openintro)
 library(fivethirtyeight)
 library(palmerpenguins)
-library(MASS)
 ```
 
 # Regression so far
@@ -531,6 +530,7 @@ Two numerical predictors and one binary response:
 ```{r}
 #| message: false
 #| echo: false
+library(MASS)
 set.seed(20)
 n <- 20
 cloud1 <- mvrnorm(n, c(-0.5, -0.5), matrix(c(1, 0.5, 0.5, 1), 2, 2))

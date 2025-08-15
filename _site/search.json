@@ -459,14 +459,14 @@
     "href": "index.html",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#slides",
     "href": "index.html#slides",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#code-alongs",
@@ -858,7 +858,7 @@
     "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#packages",
     "title": "Logistic regression",
     "section": "Packages",
-    "text": "Packages\n\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(ggthemes)\nlibrary(openintro)\nlibrary(fivethirtyeight)\nlibrary(palmerpenguins)\nlibrary(MASS)"
+    "text": "Packages\n\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(ggthemes)\nlibrary(openintro)\nlibrary(fivethirtyeight)\nlibrary(palmerpenguins)"
   },
   {
     "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#recap-simple-linear-regression",
@@ -1034,5 +1034,33 @@
     "title": "Logistic regression",
     "section": "Decision boundary, again",
     "text": "Decision boundary, again\nIt’s linear! Consider two numerical predictors:\n\n\nWarning in geom_abline(yintercept = bd_incpt, slope =\nbd_slp, color = \"blue\", : Ignoring unknown parameters:\n`yintercept`\n\n\n\n\n\n\n\n\n\nif new \\((x_1,\\,x_2)\\) below, \\(\\text{Prob}(y=1)\\leq p^*\\). Predict \\(\\widehat{y}=0\\) for the new person;\nif new \\((x_1,\\,x_2)\\) above, \\(\\text{Prob}(y=1)&gt; p^*\\). Predict \\(\\widehat{y}=1\\) for the new person."
+  },
+  {
+    "objectID": "slides/3-2-classification-decision-errors/3-2-classification-decision-errors.html#packages",
+    "href": "slides/3-2-classification-decision-errors/3-2-classification-decision-errors.html#packages",
+    "title": "Clasification and decision errors",
+    "section": "Packages",
+    "text": "Packages\n\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(tidyverse)\nlibrary(tidymodels)"
+  },
+  {
+    "objectID": "slides/3-2-classification-decision-errors/3-2-classification-decision-errors.html#is-the-e-mail-spam-or-not",
+    "href": "slides/3-2-classification-decision-errors/3-2-classification-decision-errors.html#is-the-e-mail-spam-or-not",
+    "title": "Clasification and decision errors",
+    "section": "Is the e-mail spam or not?",
+    "text": "Is the e-mail spam or not?\n\n\n\\(\\mathbf{x}\\): Word and character counts in an e-mail\n\n\\[\ny\n=\n\\begin{cases}\n1 & \\text{it's spam}\\\\\n0 & \\text{it's legit}\n\\end{cases}\n\\]\n\n\n\n\nSubject: Congratulations! You’ve Been Selected for an Exclusive Reward 🎁\nDear Customer,\nYou have been chosen as one of our preferred recipients to receive a special complimentary gift. This is our way of thanking you for your continued interest in our services.\nTo claim your reward, simply complete our short survey. Your participation takes only 60 seconds, and your prize will be shipped at no cost to you.\nClick here to start your survey and claim your reward [Claim Reward Link]\nThis exclusive offer is available for the next 48 hours only. Don’t miss your chance to enjoy this limited opportunity.\nWarm regards,\nPromotions Team\nExclusive Rewards Center\n\n\n\n\n\n\nSample spam email language generated by Chat GPT with the prompt “Generate a fake “promotional” style spam email that doesn’t contain any explicit words.”"
+  },
+  {
+    "objectID": "slides/3-2-classification-decision-errors/3-2-classification-decision-errors.html#prediction",
+    "href": "slides/3-2-classification-decision-errors/3-2-classification-decision-errors.html#prediction",
+    "title": "Clasification and decision errors",
+    "section": "Prediction",
+    "text": "Prediction\n\n\n\n\n\n\n\n\nEmail is spam\nEmail is not spam\n\n\n\nEmail labelled spam\nTrue positive\nFalse positive (Type 1 error)\n\n\nEmail labelled not spam\nFalse negative (Type 2 error)\nTrue negative"
+  },
+  {
+    "objectID": "slides/3-2-classification-decision-errors/3-2-classification-decision-errors.html#prediction-clssification",
+    "href": "slides/3-2-classification-decision-errors/3-2-classification-decision-errors.html#prediction-clssification",
+    "title": "Clasification and decision errors",
+    "section": "Prediction / clssification",
+    "text": "Prediction / clssification\n\n\n\n\n\n\n\n\nEmail is spam\nEmail is not spam\n\n\n\nEmail labelled spam\nTrue positive\nFalse positive (Type 1 error)\n\n\nEmail labelled not spam\nFalse negative (Type 2 error)\nTrue negative\n\n\n\n\n\nFalse negative rate = P(Labelled not spam | Email spam) = FN / (TP + FN)\nFalse positive rate = P(Labelled spam | Email not spam) = FP / (FP + TN)"
   }
 ]
