@@ -440,7 +440,7 @@ $ number       &lt;fct&gt; big, small, small, small, none, none, big, small, sma
 </section><section id="linear-model-a-false-start" class="level1"><h1>Linear model – a false start</h1>
 <p>Suppose we try using a linear model to describe the relationship between the number of exclamation points and whether an email is spam.</p>
 <section id="fit" class="level2"><h2 class="anchored" data-anchor-id="fit">Fit</h2>
-<p>Fit a linear model that models spam by exclamation marks.</p>
+<p>Fit a linear regression model to whether an email is spam from the number of exclamation points in the email.</p>
 <div class="cell">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fit</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">spam</span><span class="op">)</span> <span class="op">~</span> <span class="va">exclaim_mess</span>, data <span class="op">=</span> <span class="va">email</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -490,7 +490,7 @@ Coefficients:
 <p><span class="math display">\[p = \frac{\exp\{\beta_0 + \beta_1 \times exclaim\_mess\}}{1 + \exp\{\beta_0 + \beta_1 \times exclaim\_mess\}}\]</span></p>
 </section><section id="model-1-one-predictor" class="level1"><h1>Model 1: One predictor</h1>
 <section id="fit-1" class="level2"><h2 class="anchored" data-anchor-id="fit-1">Fit</h2>
-<p>Fit the logistic regression model using the number of exclamation points to predict the probability an email is spam.</p>
+<p>Fit a logistic regression model to predict the probability an email is spam from the number of exclamation points in the email.</p>
 <div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">log_fit</span> <span class="op">&lt;-</span> <span class="fu">logistic_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fit</span><span class="op">(</span><span class="va">spam</span> <span class="op">~</span> <span class="va">exclaim_mess</span>, data <span class="op">=</span> <span class="va">email</span><span class="op">)</span></span>

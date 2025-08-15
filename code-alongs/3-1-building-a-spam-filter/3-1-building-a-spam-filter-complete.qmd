@@ -54,7 +54,7 @@ Suppose we try using a linear model to describe the relationship between the num
 
 ## Fit
 
-Fit a linear model that models spam by exclamation marks.
+Fit a linear regression model to whether an email is spam from the number of exclamation points in the email.
 
 ```{r}
 #| label: lm-fit
@@ -96,7 +96,7 @@ $$p = \frac{\exp\{\beta_0 + \beta_1 \times exclaim\_mess\}}{1 + \exp\{\beta_0 + 
 
 ## Fit
 
-Fit the logistic regression model using the number of exclamation points to predict the probability an email is spam.
+Fit a logistic regression model to predict the probability an email is spam from the number of exclamation points in the email.
 
 ```{r}
 #| label: log-fit

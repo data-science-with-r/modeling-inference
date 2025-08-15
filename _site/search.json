@@ -137,7 +137,7 @@
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit",
     "title": "Building a spam filter (Complete)",
     "section": "Fit",
-    "text": "Fit\nFit a linear model that models spam by exclamation marks.\n\nlinear_reg() |&gt;\n  fit(as.numeric(spam) ~ exclaim_mess, data = email)\n\nparsnip model object\n\n\nCall:\nstats::lm(formula = as.numeric(spam) ~ exclaim_mess, data = data)\n\nCoefficients:\n (Intercept)  exclaim_mess  \n   1.093e+00     2.604e-05"
+    "text": "Fit\nFit a linear regression model to whether an email is spam from the number of exclamation points in the email.\n\nlinear_reg() |&gt;\n  fit(as.numeric(spam) ~ exclaim_mess, data = email)\n\nparsnip model object\n\n\nCall:\nstats::lm(formula = as.numeric(spam) ~ exclaim_mess, data = data)\n\nCoefficients:\n (Intercept)  exclaim_mess  \n   1.093e+00     2.604e-05"
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#visualize",
@@ -151,7 +151,7 @@
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit-1",
     "title": "Building a spam filter (Complete)",
     "section": "Fit",
-    "text": "Fit\nFit the logistic regression model using the number of exclamation points to predict the probability an email is spam.\n\nlog_fit &lt;- logistic_reg() |&gt;\n  fit(spam ~ exclaim_mess, data = email)\n\ntidy(log_fit)\n\n# A tibble: 2 × 5\n  term          estimate std.error statistic p.value\n  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 (Intercept)  -2.27      0.0553     -41.1     0    \n2 exclaim_mess  0.000272  0.000949     0.287   0.774"
+    "text": "Fit\nFit a logistic regression model to predict the probability an email is spam from the number of exclamation points in the email.\n\nlog_fit &lt;- logistic_reg() |&gt;\n  fit(spam ~ exclaim_mess, data = email)\n\ntidy(log_fit)\n\n# A tibble: 2 × 5\n  term          estimate std.error statistic p.value\n  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 (Intercept)  -2.27      0.0553     -41.1     0    \n2 exclaim_mess  0.000272  0.000949     0.287   0.774"
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#summarize",
@@ -1313,7 +1313,7 @@
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit",
     "title": "Building a spam filter",
     "section": "Fit",
-    "text": "Fit\nFit a linear model that models spam by exclamation marks.\n\nlinear_reg() |&gt;\n  fit(as.numeric(spam) ~ exclaim_mess, data = email)\n\nparsnip model object\n\n\nCall:\nstats::lm(formula = as.numeric(spam) ~ exclaim_mess, data = data)\n\nCoefficients:\n (Intercept)  exclaim_mess  \n   1.093e+00     2.604e-05"
+    "text": "Fit\nFit a linear regression model to whether an email is spam from the number of exclamation points in the email.\n\n# add code here"
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#visualize",
@@ -1327,7 +1327,7 @@
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit-1",
     "title": "Building a spam filter",
     "section": "Fit",
-    "text": "Fit\nFit the logistic regression model using the number of exclamation points to predict the probability an email is spam.\n\n# add code here"
+    "text": "Fit\nFit a logistic regression model to predict the probability an email is spam from the number of exclamation points in the email.\n\n# add code here"
   },
   {
     "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#summarize",
