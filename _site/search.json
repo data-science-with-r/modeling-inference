@@ -459,14 +459,14 @@
     "href": "index.html",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#slides",
     "href": "index.html#slides",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#code-alongs",
@@ -852,5 +852,187 @@
     "title": "Modeling loan interest rates (Complete)",
     "section": "Another model to consider",
     "text": "Another model to consider\n\nLet’s add one more model to the variable – issue month. Should we add this variable to the interaction effects model from earlier?\n\n\nlinear_reg() |&gt;\n  fit(interest_rate ~ credit_util * homeownership + issue_month, data = loans) |&gt;\n  glance()\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic   p.value    df  logLik    AIC    BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1    0.0694        0.0688  4.83      106. 5.62e-151     7 -29919. 59856. 59921.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\nNo, the adjusted R-squared goes down."
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#packages",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#packages",
+    "title": "Logistic regression",
+    "section": "Packages",
+    "text": "Packages\n\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(ggthemes)\nlibrary(openintro)\nlibrary(fivethirtyeight)\nlibrary(palmerpenguins)\nlibrary(MASS)"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#recap-simple-linear-regression",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#recap-simple-linear-regression",
+    "title": "Logistic regression",
+    "section": "Recap: Simple linear regression",
+    "text": "Recap: Simple linear regression\nNumerical response and one numerical predictor:"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#recap-multiple-linear-regression",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#recap-multiple-linear-regression",
+    "title": "Logistic regression",
+    "section": "Recap: Multiple linear regression",
+    "text": "Recap: Multiple linear regression\nNumerical outcome and one categorical predictor (two levels):"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#recap-multiple-linear-regression-1",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#recap-multiple-linear-regression-1",
+    "title": "Logistic regression",
+    "section": "Recap: multiple linear regression",
+    "text": "Recap: multiple linear regression\nNumerical outcome, numerical and categorical predictors:"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#another-scenario-a-binary-response",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#another-scenario-a-binary-response",
+    "title": "Logistic regression",
+    "section": "Another scenario: a binary response",
+    "text": "Another scenario: a binary response\n\\[\ny =\n\\begin{cases}\n1 & &&\\text{eg. Yes, Win, True, Heads, Success}\\\\\n0 & &&\\text{eg. No, Lose, False, Tails, Failure}.\n\\end{cases}\n\\]"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#who-cares",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#who-cares",
+    "title": "Logistic regression",
+    "section": "Who cares?",
+    "text": "Who cares?\nIf we can model the relationship between predictors (\\(x\\)) and a binary response (\\(y\\)), we can use the model to do a special kind of prediction called classification."
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#example-is-the-e-mail-spam-or-not",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#example-is-the-e-mail-spam-or-not",
+    "title": "Logistic regression",
+    "section": "Example: Is the e-mail spam or not?",
+    "text": "Example: Is the e-mail spam or not?\n\n\n\\(\\mathbf{x}\\): Word and character counts in an e-mail\n\n\\[\ny\n=\n\\begin{cases}\n1 & \\text{it's spam}\\\\\n0 & \\text{it's legit}\n\\end{cases}\n\\]\n\n\n\n\nSubject: Congratulations! You’ve Been Selected for an Exclusive Reward 🎁\nDear Customer,\nYou have been chosen as one of our preferred recipients to receive a special complimentary gift. This is our way of thanking you for your continued interest in our services.\nTo claim your reward, simply complete our short survey. Your participation takes only 60 seconds, and your prize will be shipped at no cost to you.\nClick here to start your survey and claim your reward [Claim Reward Link]\nThis exclusive offer is available for the next 48 hours only. Don’t miss your chance to enjoy this limited opportunity.\nWarm regards,\nPromotions Team\nExclusive Rewards Center\n\n\n\n\n\n\nSample spam email language generated by Chat GPT with the prompt “Generate a fake “promotional” style spam email that doesn’t contain any explicit words.”"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#example-is-it-cancer-or-not",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#example-is-it-cancer-or-not",
+    "title": "Logistic regression",
+    "section": "Example: Is it cancer or not?",
+    "text": "Example: Is it cancer or not?\n\n\n\\(\\mathbf{x}\\): features in a medical image\n\n\\[\ny\n=\n\\begin{cases}\n1 & \\text{it's cancer}\\\\\n0 & \\text{it's healthy}\n\\end{cases}\n\\]\n\n\n\n\n\n\n\nPhoto by National Cancer Institute on Unsplash."
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#example-will-they-default",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#example-will-they-default",
+    "title": "Logistic regression",
+    "section": "Example: Will they default?",
+    "text": "Example: Will they default?\n\n\n\\(\\mathbf{x}\\): financial and demographic info about a loan applicant\n\n\\[\ny\n=\n\\begin{cases}\n1 & \\text{applicant is at risk of defaulting on loan}\\\\\n0 & \\text{applicant is safe}\n\\end{cases}\n\\]\n\n\n\n\n\n\n\nPhoto by PabitraKaity on Pixabay."
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#example-will-they-reoffend",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#example-will-they-reoffend",
+    "title": "Logistic regression",
+    "section": "Example: Will they reoffend?",
+    "text": "Example: Will they reoffend?\n\n\n\\(\\mathbf{x}\\): info about a criminal suspect and their case\n\n\\[\ny\n=\n\\begin{cases}\n1 & \\text{suspect is at risk of re-offending pre-trial}\\\\\n0 & \\text{suspect is safe}\n\\end{cases}\n\\]\n\n\n\n\nMachine Bias on ProPublica."
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#how-do-we-model-this-type-of-data",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#how-do-we-model-this-type-of-data",
+    "title": "Logistic regression",
+    "section": "How do we model this type of data?",
+    "text": "How do we model this type of data?"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#straight-line-of-best-fit-is-a-little-silly",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#straight-line-of-best-fit-is-a-little-silly",
+    "title": "Logistic regression",
+    "section": "Straight line of best fit is a little silly",
+    "text": "Straight line of best fit is a little silly"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#instead-s-curve-of-best-fit",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#instead-s-curve-of-best-fit",
+    "title": "Logistic regression",
+    "section": "Instead: S-curve of best fit",
+    "text": "Instead: S-curve of best fit\nInstead of modeling \\(y\\) directly, we model the probability that \\(y=1\\):\n\n\n\n\n\n\n\n\n\n“Given new email, what’s the probability that it’s spam?’’\n“Given new image, what’s the probability that it’s cancer?’’\n“Given new loan application, what’s the probability that they default?’’"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#why-dont-we-model-y-directly",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#why-dont-we-model-y-directly",
+    "title": "Logistic regression",
+    "section": "Why don’t we model y directly?",
+    "text": "Why don’t we model y directly?\n\n\nRecall regression with a numerical response:\n\nOur models do not output guarantees for \\(y\\), they output predictions that describe behavior on average;\n\n\n\nSimilar when modeling a binary response:\n\nOur models cannot directly guarantee that \\(y\\) will be zero or one. The correct analog to “on average” for a 0/1 response is “what’s the probability?”"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#so-what-is-this-s-curve-anyway",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#so-what-is-this-s-curve-anyway",
+    "title": "Logistic regression",
+    "section": "So, what is this S-curve, anyway?",
+    "text": "So, what is this S-curve, anyway?\nIt’s the logistic function:\n\\[\n\\text{Prob}(y = 1)\n=\n\\frac{e^{\\beta_0+\\beta_1x}}{1+e^{\\beta_0+\\beta_1x}}.\n\\]\nIf you set p = Prob(y = 1) and do some algebra, you get the simple linear model for the log-odds:\n\\[\n\\log\\left(\\frac{p}{1-p}\\right)\n=\n\\beta_0+\\beta_1x.\n\\]\nThis is called the logistic regression model."
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#log-odds",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#log-odds",
+    "title": "Logistic regression",
+    "section": "Log-odds?",
+    "text": "Log-odds?\n\n\\(p = Prob(y = 1)\\) is a probability – A number between 0 and 1\n\\(p / (1 - p)\\) is the odds – A number between 0 and \\(\\infty\\)\nThe log odds \\(log(p / (1 - p))\\) is a number between \\(-\\infty\\) and \\(\\infty\\), which is suitable for the linear model"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#logistic-regression",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#logistic-regression",
+    "title": "Logistic regression",
+    "section": "Logistic regression",
+    "text": "Logistic regression\n\\[\n\\log\\left(\\frac{p}{1-p}\\right)\n=\n\\beta_0+\\beta_1x\n\\]\n\nThe logit function \\(log(p / (1-p))\\) is an example of a link function that transforms the linear model to have an appropriate range\nThis is an example of a generalized linear model"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#estimation",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#estimation",
+    "title": "Logistic regression",
+    "section": "Estimation",
+    "text": "Estimation\n\nWe estimate the parameters \\(\\beta_0\\), \\(\\beta_1\\), etc. using maximum likelihood (don’t worry about it) to get the “best fitting” S-curve;\nThe fitted model is\n\n\\[\n\\log\\left(\\frac{\\widehat{p}}{1-\\widehat{p}}\\right)\n=\nb_0+b_1x\n\\]"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#a-binary-response",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#a-binary-response",
+    "title": "Logistic regression",
+    "section": "A binary response",
+    "text": "A binary response\n\\[\ny =\n\\begin{cases}\n1 & &&\\text{eg. Yes, Win, True, Heads, Success}\\\\\n0 & &&\\text{eg. No, Lose, False, Tails, Failure}.\n\\end{cases}\n\\]"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#step-1-pick-a-threshold",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#step-1-pick-a-threshold",
+    "title": "Logistic regression",
+    "section": "Step 1: Pick a threshold",
+    "text": "Step 1: Pick a threshold\nSelect a number \\(0 &lt; p^* &lt; 1\\):\n\n\n\n\n\n\n\n\n\nif \\(\\text{Prob}(y=1)\\leq p^*\\), then predict \\(\\widehat{y}=0\\)\n\nif \\(\\text{Prob}(y=1)&gt; p^*\\), then predict \\(\\widehat{y}=1\\)"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#step-2-find-the-decision-boundary",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#step-2-find-the-decision-boundary",
+    "title": "Logistic regression",
+    "section": "Step 2: Find the “decision boundary”",
+    "text": "Step 2: Find the “decision boundary”\nSolve for the x-value that matches the threshold:\n\n\n\n\n\n\n\n\n\nif \\(\\text{Prob}(y=1)\\leq p^*\\), then predict \\(\\widehat{y}=0\\);\nif \\(\\text{Prob}(y=1)&gt; p^*\\), then predict \\(\\widehat{y}=1\\)."
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#step-3-classify-a-new-arrival",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#step-3-classify-a-new-arrival",
+    "title": "Logistic regression",
+    "section": "Step 3: Classify a new arrival",
+    "text": "Step 3: Classify a new arrival\nA new person shows up with \\(x_{\\text{new}}\\). Which side of the boundary are they on?\n\n\n\n\n\n\n\n\n\nif \\(x_{\\text{new}} \\leq x^\\star\\), then \\(\\text{Prob}(y=1)\\leq p^*\\), so predict \\(\\widehat{y}=0\\) for the new person;\nif \\(x_{\\text{new}} &gt; x^\\star\\), then \\(\\text{Prob}(y=1)&gt; p^*\\), so predict \\(\\widehat{y}=1\\) for the new person."
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#lets-change-the-threshold",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#lets-change-the-threshold",
+    "title": "Logistic regression",
+    "section": "Let’s change the threshold",
+    "text": "Let’s change the threshold\nA new person shows up with \\(x_{\\text{new}}\\). Which side of the boundary are they on?\n\n\n\n\n\n\n\n\n\nif \\(x_{\\text{new}} \\leq x^\\star\\), then \\(\\text{Prob}(y=1)\\leq p^*\\), so predict \\(\\widehat{y}=0\\) for the new person;\nif \\(x_{\\text{new}} &gt; x^\\star\\), then \\(\\text{Prob}(y=1)&gt; p^*\\), so predict \\(\\widehat{y}=1\\) for the new person."
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#nothing-special-about-one-predictor",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#nothing-special-about-one-predictor",
+    "title": "Logistic regression",
+    "section": "Nothing special about one predictor…",
+    "text": "Nothing special about one predictor…\nTwo numerical predictors and one binary response:"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#multiple-logistic-regression",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#multiple-logistic-regression",
+    "title": "Logistic regression",
+    "section": "“Multiple” logistic regression",
+    "text": "“Multiple” logistic regression\nOn the probability scale:\n\\[\n\\text{Prob}(y = 1)\n=\n\\frac{e^{\\beta_0+\\beta_1x_1+\\beta_2x_2+...+\\beta_mx_m}}{1+e^{\\beta_0+\\beta_1x_1+\\beta_2x_2+...+\\beta_mx_m}}.\n\\]\nFor the log-odds, a multiple linear regression:\n\\[\n\\log\\left(\\frac{p}{1-p}\\right)\n=\n\\beta_0+\\beta_1x_1+\\beta_2x_2+...+\\beta_mx_m.\n\\]"
+  },
+  {
+    "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#decision-boundary-again",
+    "href": "slides/3-1-logistic-regression/3-1-logistic-regression.html#decision-boundary-again",
+    "title": "Logistic regression",
+    "section": "Decision boundary, again",
+    "text": "Decision boundary, again\nIt’s linear! Consider two numerical predictors:\n\n\nWarning in geom_abline(yintercept = bd_incpt, slope =\nbd_slp, color = \"blue\", : Ignoring unknown parameters:\n`yintercept`\n\n\n\n\n\n\n\n\n\nif new \\((x_1,\\,x_2)\\) below, \\(\\text{Prob}(y=1)\\leq p^*\\). Predict \\(\\widehat{y}=0\\) for the new person;\nif new \\((x_1,\\,x_2)\\) above, \\(\\text{Prob}(y=1)&gt; p^*\\). Predict \\(\\widehat{y}=1\\) for the new person."
   }
 ]
