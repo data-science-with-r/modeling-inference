@@ -172,7 +172,7 @@
     "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#do",
     "title": "Building a spam filter (Complete)",
     "section": "Do",
-    "text": "Do\nClassify the emails in this dataset as spam or not spam.\n\nlog_aug &lt;- augment(log_fit, email)\n\nggplot(log_aug, aes(x = exclaim_mess, y = spam, color = .pred_class)) +\n  geom_jitter(alpha = 0.5)"
+    "text": "Do\nClassify the emails in this dataset as spam or not spam.\n\nlog_aug &lt;- augment(log_fit, new_data = email)\n\nggplot(log_aug, aes(x = exclaim_mess, y = spam, color = .pred_class)) +\n  geom_jitter(alpha = 0.5)"
   },
   {
     "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html",
@@ -606,7 +606,7 @@
     "href": "index.html#code-alongs",
     "title": "\n Modeling and inference",
     "section": "Code alongs",
-    "text": "Code alongs\n\n\n\n\nTitle\n\n\n\n\n\n\nModeling fish (Complete)\n\n\n\n\n\nModeling fish\n\n\n\n\n\nModeling loan interest rates (Complete)\n\n\n\n\n\nModeling loan interest rates\n\n\n\n\n\nBuilding a spam filter (Complete)\n\n\n\n\n\nBuilding a spam filter\n\n\n\n\n\nForest classification (Complete)\n\n\n\n\n\nForest classification\n\n\n\n\n\nNo matching items"
+    "text": "Code alongs\n\n\n\n\nTitle\n\n\n\n\n\n\nModeling fish (Complete)\n\n\n\n\n\nModeling fish\n\n\n\n\n\nModeling loan interest rates (Complete)\n\n\n\n\n\nModeling loan interest rates\n\n\n\n\n\nBuilding a spam filter (Complete)\n\n\n\n\n\nBuilding a spam filter\n\n\n\n\n\nForest classification (Complete)\n\n\n\n\n\nForest classification\n\n\n\n\n\nBootstrapping Duke Forest houses (Complete)\n\n\n\n\n\nBootstrapping Duke Forest houses\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#exercises",
@@ -1888,5 +1888,131 @@
     "title": "Quantifying uncertainty",
     "section": "Interpreting the slope, take two",
     "text": "Interpreting the slope, take two\n\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1  -0.0705  -0.0217\n\n\nWe are 95% confident that for each additional $1,000 of family income, we would expect students to receive $70.48 to $21.68 less in gift aid, on average."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "",
+    "text": "In this code along, we will use bootstrapping to construct confidence intervals."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#packages",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#packages",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Packages",
+    "text": "Packages\nWe will use tidyverse and tidymodels for data exploration and modeling, respectively, and the openintro package for the data.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#data",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#data",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Data",
+    "text": "Data\nThe data are on houses that were sold in the Duke Forest neighborhood of Durham, NC around November 2020. It was originally scraped from Zillow, and can be found in the duke_forest data set in the openintro R package.\n\nglimpse(duke_forest)\n\nRows: 98\nColumns: 13\n$ address    &lt;chr&gt; \"1 Learned Pl, Durham, NC 27705\", \"1616 Pinecrest Rd, Durha…\n$ price      &lt;dbl&gt; 1520000, 1030000, 420000, 680000, 428500, 456000, 1270000, …\n$ bed        &lt;dbl&gt; 3, 5, 2, 4, 4, 3, 5, 4, 4, 3, 4, 4, 3, 5, 4, 5, 3, 4, 4, 3,…\n$ bath       &lt;dbl&gt; 4.0, 4.0, 3.0, 3.0, 3.0, 3.0, 5.0, 3.0, 5.0, 2.0, 3.0, 3.0,…\n$ area       &lt;dbl&gt; 6040, 4475, 1745, 2091, 1772, 1950, 3909, 2841, 3924, 2173,…\n$ type       &lt;chr&gt; \"Single Family\", \"Single Family\", \"Single Family\", \"Single …\n$ year_built &lt;dbl&gt; 1972, 1969, 1959, 1961, 2020, 2014, 1968, 1973, 1972, 1964,…\n$ heating    &lt;chr&gt; \"Other, Gas\", \"Forced air, Gas\", \"Forced air, Gas\", \"Heat p…\n$ cooling    &lt;fct&gt; central, central, central, central, central, central, centr…\n$ parking    &lt;chr&gt; \"0 spaces\", \"Carport, Covered\", \"Garage - Attached, Covered…\n$ lot        &lt;dbl&gt; 0.97, 1.38, 0.51, 0.84, 0.16, 0.45, 0.94, 0.79, 0.53, 0.73,…\n$ hoa        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ url        &lt;chr&gt; \"https://www.zillow.com/homedetails/1-Learned-Pl-Durham-NC-…"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#model",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#model",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Model",
+    "text": "Model\nFit a linear model predicting price of houses from their area.\n\ndf_fit &lt;- linear_reg() |&gt;\n  fit(price ~ area, data = duke_forest)\n\ntidy(df_fit)\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)  116652.   53302.       2.19 3.11e- 2\n2 area            159.      18.2      8.78 6.29e-14"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#bootstrap-confidence-interval",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#bootstrap-confidence-interval",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Bootstrap confidence interval",
+    "text": "Bootstrap confidence interval\n\nCalculate the observed fit (slope):\n\n\nobserved_fit &lt;- duke_forest |&gt;\n  specify(price ~ area) |&gt;\n  fit()\n\nobserved_fit\n\n# A tibble: 2 × 2\n  term      estimate\n  &lt;chr&gt;        &lt;dbl&gt;\n1 intercept  116652.\n2 area          159.\n\n\n\nTake n bootstrap samples and fit models to each one:\n\n\nn = 100\nset.seed(20241115)\n\nboot_fits &lt;- duke_forest |&gt;\n  specify(price ~ area) |&gt;\n  generate(reps = n, type = \"bootstrap\") |&gt;\n  fit()\n\nboot_fits\n\n# A tibble: 200 × 3\n# Groups:   replicate [100]\n   replicate term      estimate\n       &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;\n 1         1 intercept  149083.\n 2         1 area          143.\n 3         2 intercept  226037.\n 4         2 area          110.\n 5         3 intercept   37464.\n 6         3 area          188.\n 7         4 intercept    7631.\n 8         4 area          208.\n 9         5 intercept  245406.\n10         5 area          104.\n# ℹ 190 more rows\n\n\n\nWhy do we set a seed before taking the bootstrap samples?\n\nTo get the same random samples each time we run the code / render the document.\n\nMake a histogram of the bootstrap samples to visualize the bootstrap distribution.\n\n\nboot_fits |&gt;\n  filter(term == \"area\") |&gt;\n  ggplot(aes(x = estimate)) +\n  geom_histogram()\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\n\n\nCompute the 95% confidence interval as the middle 95% of the bootstrap distribution:\n\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.95,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          79.9     207.\n2 intercept  -3694.   316939."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#changing-confidence-level",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#changing-confidence-level",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Changing confidence level",
+    "text": "Changing confidence level\nModify the code from Step 3 to create a 90% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.90,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          94.7     203.\n2 intercept   8234.   284161.\n\n\nModify the code from Step 3 to create a 99% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.99,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          64.2     211.\n2 intercept -19831.   370166.\n\n\n\nWhich confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain.\n\n99%, widest.\n\nWhich confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain\n\n90%, narrowest.\n\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?\n\nWider, but then it’s less informative."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html",
+    "title": "AE 18: Houses in Duke Forest",
+    "section": "",
+    "text": "Important\n\n\n\nThese are suggested answers. This document should be used as reference only, it’s not designed to be an exhaustive key.\nIn this application exercise, we will use bootstrapping to construct confidence intervals."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#packages",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#packages",
+    "title": "AE 18: Houses in Duke Forest",
+    "section": "Packages",
+    "text": "Packages\nWe will use tidyverse and tidymodels for data exploration and modeling, respectively, and the openintro package for the data, and the knitr package for formatting tables.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)\nlibrary(knitr)"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#data",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#data",
+    "title": "AE 18: Houses in Duke Forest",
+    "section": "Data",
+    "text": "Data\nThe data are on houses that were sold in the Duke Forest neighborhood of Durham, NC around November 2020. It was originally scraped from Zillow, and can be found in the duke_forest data set in the openintro R package.\n\nglimpse(duke_forest)\n\nRows: 98\nColumns: 13\n$ address    &lt;chr&gt; \"1 Learned Pl, Durham, NC 27705\", \"1616 Pinecrest Rd, Durha…\n$ price      &lt;dbl&gt; 1520000, 1030000, 420000, 680000, 428500, 456000, 1270000, …\n$ bed        &lt;dbl&gt; 3, 5, 2, 4, 4, 3, 5, 4, 4, 3, 4, 4, 3, 5, 4, 5, 3, 4, 4, 3,…\n$ bath       &lt;dbl&gt; 4.0, 4.0, 3.0, 3.0, 3.0, 3.0, 5.0, 3.0, 5.0, 2.0, 3.0, 3.0,…\n$ area       &lt;dbl&gt; 6040, 4475, 1745, 2091, 1772, 1950, 3909, 2841, 3924, 2173,…\n$ type       &lt;chr&gt; \"Single Family\", \"Single Family\", \"Single Family\", \"Single …\n$ year_built &lt;dbl&gt; 1972, 1969, 1959, 1961, 2020, 2014, 1968, 1973, 1972, 1964,…\n$ heating    &lt;chr&gt; \"Other, Gas\", \"Forced air, Gas\", \"Forced air, Gas\", \"Heat p…\n$ cooling    &lt;fct&gt; central, central, central, central, central, central, centr…\n$ parking    &lt;chr&gt; \"0 spaces\", \"Carport, Covered\", \"Garage - Attached, Covered…\n$ lot        &lt;dbl&gt; 0.97, 1.38, 0.51, 0.84, 0.16, 0.45, 0.94, 0.79, 0.53, 0.73,…\n$ hoa        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ url        &lt;chr&gt; \"https://www.zillow.com/homedetails/1-Learned-Pl-Durham-NC-…"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#model",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#model",
+    "title": "AE 18: Houses in Duke Forest",
+    "section": "Model",
+    "text": "Model\n\ndf_fit &lt;- linear_reg() |&gt;\n  set_engine(\"lm\") |&gt;\n  fit(price ~ area, data = duke_forest)\n\ntidy(df_fit) |&gt;\n  kable(digits = 2)\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n(Intercept)\n116652.33\n53302.46\n2.19\n0.03\n\n\narea\n159.48\n18.17\n8.78\n0.00"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#bootstrap-confidence-interval",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#bootstrap-confidence-interval",
+    "title": "AE 18: Houses in Duke Forest",
+    "section": "Bootstrap confidence interval",
+    "text": "Bootstrap confidence interval\n1. Calculate the observed fit (slope)\n\nobserved_fit &lt;- duke_forest |&gt;\n  specify(price ~ area) |&gt;\n  fit()\n\nobserved_fit\n\n# A tibble: 2 × 2\n  term      estimate\n  &lt;chr&gt;        &lt;dbl&gt;\n1 intercept  116652.\n2 area          159.\n\n\n2. Take n bootstrap samples and fit models to each one.\nFill in the code, then set eval: true .\n\nn = 100\nset.seed(20241115)\n\nboot_fits &lt;- duke_forest |&gt;\n  specify(price ~ area) |&gt;\n  generate(reps = n, type = \"bootstrap\") |&gt;\n  fit()\n\nboot_fits\n\n# A tibble: 200 × 3\n# Groups:   replicate [100]\n   replicate term      estimate\n       &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;\n 1         1 intercept  149083.\n 2         1 area          143.\n 3         2 intercept  226037.\n 4         2 area          110.\n 5         3 intercept   37464.\n 6         3 area          188.\n 7         4 intercept    7631.\n 8         4 area          208.\n 9         5 intercept  245406.\n10         5 area          104.\n# ℹ 190 more rows\n\n\n\nWhy do we set a seed before taking the bootstrap samples?\nMake a histogram of the bootstrap samples to visualize the bootstrap distribution.\n\n\nboot_fits |&gt;\n  filter(term == \"area\") |&gt;\n  ggplot(aes(x = estimate)) +\n  geom_histogram()\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\n\n3. Compute the 95% confidence interval as the middle 95% of the bootstrap distribution\nFill in the code, then set eval: true .\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.95,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          79.9     207.\n2 intercept  -3694.   316939."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#changing-confidence-level",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/ae-18-duke-forest-bootstrap-A.html#changing-confidence-level",
+    "title": "AE 18: Houses in Duke Forest",
+    "section": "Changing confidence level",
+    "text": "Changing confidence level\nModify the code from Step 3 to create a 90% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.90,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          94.7     203.\n2 intercept   8234.   284161.\n\n\nModify the code from Step 3 to create a 99% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.99,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          64.2     211.\n2 intercept -19831.   370166.\n\n\n\nWhich confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain\nWhich confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "",
+    "text": "In this code along, we will use bootstrapping to construct confidence intervals."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#packages",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#packages",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Packages",
+    "text": "Packages\nWe will use tidyverse and tidymodels for data exploration and modeling, respectively, and the openintro package for the data.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#data",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#data",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Data",
+    "text": "Data\nThe data are on houses that were sold in the Duke Forest neighborhood of Durham, NC around November 2020. It was originally scraped from Zillow, and can be found in the duke_forest data set in the openintro R package.\n\nglimpse(duke_forest)\n\nRows: 98\nColumns: 13\n$ address    &lt;chr&gt; \"1 Learned Pl, Durham, NC 27705\", \"1616 Pinecrest Rd, Durha…\n$ price      &lt;dbl&gt; 1520000, 1030000, 420000, 680000, 428500, 456000, 1270000, …\n$ bed        &lt;dbl&gt; 3, 5, 2, 4, 4, 3, 5, 4, 4, 3, 4, 4, 3, 5, 4, 5, 3, 4, 4, 3,…\n$ bath       &lt;dbl&gt; 4.0, 4.0, 3.0, 3.0, 3.0, 3.0, 5.0, 3.0, 5.0, 2.0, 3.0, 3.0,…\n$ area       &lt;dbl&gt; 6040, 4475, 1745, 2091, 1772, 1950, 3909, 2841, 3924, 2173,…\n$ type       &lt;chr&gt; \"Single Family\", \"Single Family\", \"Single Family\", \"Single …\n$ year_built &lt;dbl&gt; 1972, 1969, 1959, 1961, 2020, 2014, 1968, 1973, 1972, 1964,…\n$ heating    &lt;chr&gt; \"Other, Gas\", \"Forced air, Gas\", \"Forced air, Gas\", \"Heat p…\n$ cooling    &lt;fct&gt; central, central, central, central, central, central, centr…\n$ parking    &lt;chr&gt; \"0 spaces\", \"Carport, Covered\", \"Garage - Attached, Covered…\n$ lot        &lt;dbl&gt; 0.97, 1.38, 0.51, 0.84, 0.16, 0.45, 0.94, 0.79, 0.53, 0.73,…\n$ hoa        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ url        &lt;chr&gt; \"https://www.zillow.com/homedetails/1-Learned-Pl-Durham-NC-…"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#model",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#model",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Model",
+    "text": "Model\nFit a linear model predicting price of houses from their area.\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#bootstrap-confidence-interval",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#bootstrap-confidence-interval",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Bootstrap confidence interval",
+    "text": "Bootstrap confidence interval\n\nCalculate the observed fit (slope):\n\n\n# add code here\n\n\nTake n bootstrap samples and fit models to each one:\n\n\n# add code here\n\n\nWhy do we set a seed before taking the bootstrap samples?\n\nTo get the same random samples each time we run the code / render the document.\n\nMake a histogram of the bootstrap samples to visualize the bootstrap distribution.\n\n\n# add code here\n\n\nCompute the 95% confidence interval as the middle 95% of the bootstrap distribution:\n\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#changing-confidence-level",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#changing-confidence-level",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Changing confidence level",
+    "text": "Changing confidence level\nModify the code from Step 3 to create a 90% confidence interval.\n\n# add code here\n\nModify the code from Step 3 to create a 99% confidence interval.\n\n# add code here\n\n\nWhich confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain.\n\nAdd response here.\n\nWhich confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain\n\nAdd response here.\n\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?\n\nAdd response here."
   }
 ]
