@@ -459,14 +459,14 @@
     "href": "index.html",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#slides",
     "href": "index.html#slides",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#code-alongs",
@@ -1062,5 +1062,229 @@
     "title": "Clasification and decision errors",
     "section": "Prediction / clssification",
     "text": "Prediction / clssification\n\n\n\n\n\n\n\n\nEmail is spam\nEmail is not spam\n\n\n\nEmail labelled spam\nTrue positive\nFalse positive (Type 1 error)\n\n\nEmail labelled not spam\nFalse negative (Type 2 error)\nTrue negative\n\n\n\n\n\nFalse negative rate = P(Labelled not spam | Email spam) = FN / (TP + FN)\nFalse positive rate = P(Labelled spam | Email not spam) = FP / (FP + TN)"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#packages",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#packages",
+    "title": "Overfitting and spending your data",
+    "section": "Packages",
+    "text": "Packages\n\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\nforested for data\n\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(forested)"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#data",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#data",
+    "title": "Overfitting and spending your data",
+    "section": "Data",
+    "text": "Data\n\nThe U.S. Forest Service maintains machine learning models to predict whether a plot of land is “forested.”\nThis classification is important for research, legislation, land management, etc. purposes.\nPlots are typically remeasured every 10 years.\nThe forested dataset contains the most recent measurement per plot."
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#data-forested",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#data-forested",
+    "title": "Overfitting and spending your data",
+    "section": "Data: forested\n",
+    "text": "Data: forested\n\n\nforested\n\n# A tibble: 7,107 × 19\n   forested  year elevation eastness northness roughness\n   &lt;fct&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n 1 Yes       2005       881       90        43        63\n 2 Yes       2005       113      -25        96        30\n 3 No        2005       164      -84        53        13\n 4 Yes       2005       299       93        34         6\n 5 Yes       2005       806       47       -88        35\n 6 Yes       2005       736      -27       -96        53\n 7 Yes       2005       636      -48        87         3\n 8 Yes       2005       224      -65       -75         9\n 9 Yes       2005        52      -62        78        42\n10 Yes       2005      2240      -67       -74        99\n# ℹ 7,097 more rows\n# ℹ 13 more variables: tree_no_tree &lt;fct&gt;, dew_temp &lt;dbl&gt;,\n#   precip_annual &lt;dbl&gt;, temp_annual_mean &lt;dbl&gt;,\n#   temp_annual_min &lt;dbl&gt;, temp_annual_max &lt;dbl&gt;,\n#   temp_january_min &lt;dbl&gt;, vapor_min &lt;dbl&gt;,\n#   vapor_max &lt;dbl&gt;, canopy_cover &lt;dbl&gt;, lon &lt;dbl&gt;,\n#   lat &lt;dbl&gt;, land_type &lt;fct&gt;"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#data-forested-1",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#data-forested-1",
+    "title": "Overfitting and spending your data",
+    "section": "Data: forested\n",
+    "text": "Data: forested\n\n\nglimpse(forested)\n\nRows: 7,107\nColumns: 19\n$ forested         &lt;fct&gt; Yes, Yes, No, Yes, Yes, Yes, Yes,…\n$ year             &lt;dbl&gt; 2005, 2005, 2005, 2005, 2005, 200…\n$ elevation        &lt;dbl&gt; 881, 113, 164, 299, 806, 736, 636…\n$ eastness         &lt;dbl&gt; 90, -25, -84, 93, 47, -27, -48, -…\n$ northness        &lt;dbl&gt; 43, 96, 53, 34, -88, -96, 87, -75…\n$ roughness        &lt;dbl&gt; 63, 30, 13, 6, 35, 53, 3, 9, 42, …\n$ tree_no_tree     &lt;fct&gt; Tree, Tree, Tree, No tree, Tree, …\n$ dew_temp         &lt;dbl&gt; 0.04, 6.40, 6.06, 4.43, 1.06, 1.3…\n$ precip_annual    &lt;dbl&gt; 466, 1710, 1297, 2545, 609, 539, …\n$ temp_annual_mean &lt;dbl&gt; 6.42, 10.64, 10.07, 9.86, 7.72, 7…\n$ temp_annual_min  &lt;dbl&gt; -8.32, 1.40, 0.19, -1.20, -5.98, …\n$ temp_annual_max  &lt;dbl&gt; 12.91, 15.84, 14.42, 15.78, 13.84…\n$ temp_january_min &lt;dbl&gt; -0.08, 5.44, 5.72, 3.95, 1.60, 1.…\n$ vapor_min        &lt;dbl&gt; 78, 34, 49, 67, 114, 67, 67, 31, …\n$ vapor_max        &lt;dbl&gt; 1194, 938, 754, 1164, 1254, 1331,…\n$ canopy_cover     &lt;dbl&gt; 50, 79, 47, 42, 59, 36, 14, 27, 8…\n$ lon              &lt;dbl&gt; -118.6865, -123.0825, -122.3468, …\n$ lat              &lt;dbl&gt; 48.69537, 47.07991, 48.77132, 45.…\n$ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tre…"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#outcome-and-predictors",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#outcome-and-predictors",
+    "title": "Overfitting and spending your data",
+    "section": "Outcome and predictors",
+    "text": "Outcome and predictors\n\nOutcome: forested - Factor, Yes or No\n\n\n\nlevels(forested$forested)\n\n[1] \"Yes\" \"No\" \n\n\n\n\nPredictors: 18 remotely-sensed and easily-accessible predictors:\n\nnumeric variables based on weather and topography\ncategorical variables based on classifications from other governmental organizations"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested",
+    "title": "Overfitting and spending your data",
+    "section": "?forested",
+    "text": "?forested"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#should-we-include-a-predictor",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#should-we-include-a-predictor",
+    "title": "Overfitting and spending your data",
+    "section": "Should we include a predictor?",
+    "text": "Should we include a predictor?\nTo determine whether we should include a predictor in a model, we should start by asking:\n\nIs it ethical to use this variable? (Or even legal?)\nWill this variable be available at prediction time?\nDoes this variable contribute to explainability?"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#weve-been-cheating",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#weve-been-cheating",
+    "title": "Overfitting and spending your data",
+    "section": "We’ve been cheating!",
+    "text": "We’ve been cheating!\n\nSo far, we’ve been using all the data we have for building models. In predictive contexts, this would be considered cheating.\nEvaluating model performance for predicting outcomes that were used when building the models is like evaluating your learning with questions whose answers you’ve already seen."
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#spending-your-data",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#spending-your-data",
+    "title": "Overfitting and spending your data",
+    "section": "Spending your data",
+    "text": "Spending your data\nFor predictive models (used primarily in machine learning), we typically split data into training and test sets:\n\n\n\n\n\nThe training set is used to estimate model parameters.\nThe test set is used to find an independent assessment of model performance.\n\n\n\n\n\n\n\n\nWarning\n\n\nDo not use, or even peek at, the test set during training."
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#how-much-to-spend",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#how-much-to-spend",
+    "title": "Overfitting and spending your data",
+    "section": "How much to spend?",
+    "text": "How much to spend?\n\nThe more data we spend (use in training), the better estimates we’ll get.\nSpending too much data in training prevents us from computing a good assessment of predictive performance.\nSpending too much data in testing prevents us from computing a good estimate of model parameters."
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#the-initial-split",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#the-initial-split",
+    "title": "Overfitting and spending your data",
+    "section": "The initial split",
+    "text": "The initial split\nThe default split is 75% training, 25% testing.\n\nset.seed(20241112)\nforested_split &lt;- initial_split(forested)\nforested_split\n\n&lt;Training/Testing/Total&gt;\n&lt;5330/1777/7107&gt;"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#setting-a-seed",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#setting-a-seed",
+    "title": "Overfitting and spending your data",
+    "section": "Setting a seed",
+    "text": "Setting a seed\n\n\n\nWhat does set.seed() do?\n\n\n\n\n\nTo create that split of the data, R generates “pseudo-random” numbers: while they are made to behave like random numbers, their generation is deterministic given a “seed”.\nThis allows us to reproduce results by setting that seed.\nWhich seed you pick doesn’t matter, as long as you don’t try a bunch of seeds and pick the one that gives you the best performance."
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#accessing-the-data",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#accessing-the-data",
+    "title": "Overfitting and spending your data",
+    "section": "Accessing the data",
+    "text": "Accessing the data\n\nforested_train &lt;- training(forested_split)\nforested_test &lt;- testing(forested_split)"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#the-training-set",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#the-training-set",
+    "title": "Overfitting and spending your data",
+    "section": "The training set",
+    "text": "The training set\n\nforested_train\n\n# A tibble: 5,330 × 19\n   forested  year elevation eastness northness roughness\n   &lt;fct&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n 1 Yes       2013       315      -17        98        92\n 2 No        2018       374       93       -34        23\n 3 No        2017       377       44       -89         1\n 4 Yes       2013       541       31       -94       139\n 5 Yes       2017       680       14       -98        20\n 6 Yes       2017      1482       76       -64        43\n 7 No        2020        84       42       -90        12\n 8 Yes       2011       210       34        93        16\n 9 No        2020       766       14        98        20\n10 Yes       2013      1559       98        16        79\n# ℹ 5,320 more rows\n# ℹ 13 more variables: tree_no_tree &lt;fct&gt;, dew_temp &lt;dbl&gt;,\n#   precip_annual &lt;dbl&gt;, temp_annual_mean &lt;dbl&gt;,\n#   temp_annual_min &lt;dbl&gt;, temp_annual_max &lt;dbl&gt;,\n#   temp_january_min &lt;dbl&gt;, vapor_min &lt;dbl&gt;,\n#   vapor_max &lt;dbl&gt;, canopy_cover &lt;dbl&gt;, lon &lt;dbl&gt;,\n#   lat &lt;dbl&gt;, land_type &lt;fct&gt;"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#the-testing-data",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#the-testing-data",
+    "title": "Overfitting and spending your data",
+    "section": "The testing data",
+    "text": "The testing data\n\nforested_test\n\n🙈\n\n\ndim(forested_test)\n\n[1] 1777   19"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#initial-questions",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#initial-questions",
+    "title": "Overfitting and spending your data",
+    "section": "Initial questions",
+    "text": "Initial questions\n\nWhat’s the distribution of the outcome, forested?\nWhat’s the distribution of numeric variables like precip_annual?\nHow does the distribution of forested differ across the categorical and numerical variables?\n\n\n\n\n\nWhich dataset should we use for the exploration? The entire data forested, the training data forested_train, or the testing data forested_test?"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-1",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-1",
+    "title": "Overfitting and spending your data",
+    "section": "forested",
+    "text": "forested\n\n\n\nWhat’s the distribution of the outcome, forested?\n\n\n\n\n\nforested_train |&gt;\n  count(forested) |&gt;\n  mutate(p = n / sum(n))\n\n# A tibble: 2 × 3\n  forested     n     p\n  &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;\n1 Yes       2917 0.547\n2 No        2413 0.453"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#precip_annual",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#precip_annual",
+    "title": "Overfitting and spending your data",
+    "section": "precip_annual",
+    "text": "precip_annual\nWhat’s the distribution of precip_annual?\n\nggplot(forested_train, aes(x = precip_annual)) +\n  geom_histogram(binwidth = 200)"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-and-precip_annual",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-and-precip_annual",
+    "title": "Overfitting and spending your data",
+    "section": "\nforested and precip_annual\n",
+    "text": "forested and precip_annual\n\n\nggplot(\n  forested_train,\n  aes(x = precip_annual, fill = forested, group = forested)\n  ) +\n  geom_histogram(binwidth = 200, position = \"identity\", alpha = 0.7) +\n  scale_fill_manual(values = c(\"Yes\" = \"forestgreen\", \"No\" = \"gold2\")) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-and-precip_annual-1",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-and-precip_annual-1",
+    "title": "Overfitting and spending your data",
+    "section": "\nforested and precip_annual\n",
+    "text": "forested and precip_annual\n\n\nggplot(\n  forested_train,\n  aes(x = precip_annual, fill = forested, group = forested)\n  ) +\n  geom_histogram(binwidth = 200, position = \"fill\", alpha = 0.7) +\n  scale_fill_manual(values = c(\"Yes\" = \"forestgreen\", \"No\" = \"gold2\")) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-and-tree_no_tree",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-and-tree_no_tree",
+    "title": "Overfitting and spending your data",
+    "section": "\nforested and tree_no_tree\n",
+    "text": "forested and tree_no_tree\n\n\nggplot(forested_train, aes(x = tree_no_tree, fill = forested)) +\n  geom_bar(position = \"fill\") +\n  scale_fill_manual(values = c(\"Yes\" = \"forestgreen\", \"No\" = \"gold2\")) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-and-lat-lon",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#forested-and-lat-lon",
+    "title": "Overfitting and spending your data",
+    "section": "\nforested and lat / lon\n",
+    "text": "forested and lat / lon\n\n\nggplot(forested_train, aes(x = lon, y = lat, color = forested)) +\n  geom_point(alpha = 0.7) +\n  scale_color_manual(values = c(\"Yes\" = \"forestgreen\", \"No\" = \"gold2\")) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#false-negative-and-positive",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#false-negative-and-positive",
+    "title": "Overfitting and spending your data",
+    "section": "False negative and positive",
+    "text": "False negative and positive\n\nFalse negative rate is the proportion of actual positives that were classified as negatives.\nFalse positive rate is the proportion of actual negatives that were classified as positives."
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#sensitivity",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#sensitivity",
+    "title": "Overfitting and spending your data",
+    "section": "Sensitivity",
+    "text": "Sensitivity\nSensitivity is the proportion of actual positives that were correctly classified as positive.\n\nAlso known as true positive rate and recall\nSensitivity = 1 − False negative rate\nUseful when false negatives are more “expensive” than false positives"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#specificity",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#specificity",
+    "title": "Overfitting and spending your data",
+    "section": "Specificity",
+    "text": "Specificity\nSpecificity is the proportion of actual negatives that were correctly classified as negative\n\nAlso known as true negative rate\nSpecificity = 1 − False positive rate"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#roc-curve",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#roc-curve",
+    "title": "Overfitting and spending your data",
+    "section": "ROC curve",
+    "text": "ROC curve\nThe receiver operating characteristic (ROC) curve allows to assess the model performance across a range of thresholds."
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#roc-curve-1",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#roc-curve-1",
+    "title": "Overfitting and spending your data",
+    "section": "ROC curve",
+    "text": "ROC curve\n\n\n\nWhich corner of the plot indicates the best model performance?"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#next-steps-1",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#next-steps-1",
+    "title": "Overfitting and spending your data",
+    "section": "Next steps",
+    "text": "Next steps\n\nFit models on training data\nMake predictions on testing data\n\nEvaluate predictions on testing data:\n\nLinear models: R-squared, adjusted R-squared, RMSE (root mean squared error), etc.\nLogistic models: False negative and positive rates, AUC (area under the curve), etc.\n\n\nMake decisions based on model predictive performance, validity across various testing/training splits (aka “cross validation”), explainability\n\n\n\n\n\n\n\n\nNote\n\n\nWe will only learn about a subset of these in this course, but you can go further into these ideas in other regression and machine learning courses."
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#data-forested-2",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#data-forested-2",
+    "title": "Overfitting and spending your data",
+    "section": "Data: forested\n",
+    "text": "Data: forested\n\n\nnames(forested)\n\n [1] \"forested\"         \"year\"            \n [3] \"elevation\"        \"eastness\"        \n [5] \"northness\"        \"roughness\"       \n [7] \"tree_no_tree\"     \"dew_temp\"        \n [9] \"precip_annual\"    \"temp_annual_mean\"\n[11] \"temp_annual_min\"  \"temp_annual_max\" \n[13] \"temp_january_min\" \"vapor_min\"       \n[15] \"vapor_max\"        \"canopy_cover\"    \n[17] \"lon\"              \"lat\"             \n[19] \"land_type\""
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#recap-false-negative-and-positive",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#recap-false-negative-and-positive",
+    "title": "Overfitting and spending your data",
+    "section": "Recap: False negative and positive",
+    "text": "Recap: False negative and positive\n\nFalse negative rate is the proportion of actual positives that were classified as negatives.\nFalse positive rate is the proportion of actual negatives that were classified as positives."
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#recap-sensitivity",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#recap-sensitivity",
+    "title": "Overfitting and spending your data",
+    "section": "Recap: Sensitivity",
+    "text": "Recap: Sensitivity\nSensitivity is the proportion of actual positives that were correctly classified as positive.\n\nAlso known as true positive rate and recall\nSensitivity = 1 − False negative rate\nUseful when false negatives are more “expensive” than false positives"
+  },
+  {
+    "objectID": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#recap-specificity",
+    "href": "slides/3-3-overfitting-spending-data/3-3-overfitting-spending-data.html#recap-specificity",
+    "title": "Overfitting and spending your data",
+    "section": "Recap: Specificity",
+    "text": "Recap: Specificity\nSpecificity is the proportion of actual negatives that were correctly classified as negative\n\nAlso known as true negative rate\nSpecificity = 1 − False positive rate"
   }
 ]
