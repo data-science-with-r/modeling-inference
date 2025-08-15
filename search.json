@@ -739,7 +739,7 @@
     "href": "slides/3-2-2-overfitting-spending-data/3-2-2-overfitting-spending-data.html#outcome-and-predictors",
     "title": "Overfitting and spending your data",
     "section": "Outcome and predictors",
-    "text": "Outcome and predictors\n\nOutcome: forested - Factor, Yes or No\n\n\n\nlevels(forested$forested)\n\n[1] \"Yes\" \"No\" \n\n\n\n\nPredictors: 18 remotely-sensed and easily-accessible predictors:\n\nnumeric variables based on weather and topography\ncategorical variables based on classifications from other governmental organizations"
+    "text": "Outcome and predictors\n\nOutcome: forested - Factor, Yes or No\n\n\n\nlevels(forested$forested)\n\n[1] \"Yes\" \"No\" \n\n\n\n\n\nPredictors: 18 remotely-sensed and easily-accessible variables:\n\nnumeric variables based on weather and topography\ncategorical variables based on classifications from other governmental organizations"
   },
   {
     "objectID": "slides/3-2-2-overfitting-spending-data/3-2-2-overfitting-spending-data.html#forested",
@@ -767,7 +767,7 @@
     "href": "slides/3-2-2-overfitting-spending-data/3-2-2-overfitting-spending-data.html#spending-your-data",
     "title": "Overfitting and spending your data",
     "section": "Spending your data",
-    "text": "Spending your data\nFor predictive models (used primarily in machine learning), we typically split data into training and test sets:\n\n\n\n\n\nThe training set is used to estimate model parameters.\nThe test set is used to find an independent assessment of model performance.\n\n\n\n\n\n\n\n\nWarning\n\n\nDo not use, or even peek at, the test set during training."
+    "text": "Spending your data\nFor predictive models (used primarily in machine learning), we typically split data into training and test sets:\n\n\n\n\n\n\nThe training set is used to estimate model parameters.\nThe test set is used to find an independent assessment of model performance.\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\nDo not use, or even peek at, the test set during training."
   },
   {
     "objectID": "slides/3-2-2-overfitting-spending-data/3-2-2-overfitting-spending-data.html#how-much-to-spend",
@@ -900,7 +900,7 @@
     "href": "slides/3-2-2-overfitting-spending-data/3-2-2-overfitting-spending-data.html#next-steps-1",
     "title": "Overfitting and spending your data",
     "section": "Next steps",
-    "text": "Next steps\n\nFit models on training data\nMake predictions on testing data\n\nEvaluate predictions on testing data:\n\nLinear models: R-squared, adjusted R-squared, RMSE (root mean squared error), etc.\nLogistic models: False negative and positive rates, AUC (area under the curve), etc.\n\n\nMake decisions based on model predictive performance, validity across various testing/training splits (aka “cross validation”), explainability\n\n\n\n\n\n\n\n\nNote\n\n\nWe will only learn about a subset of these in this course, but you can go further into these ideas in other regression and machine learning courses."
+    "text": "Next steps\n\nFit models on training data\nMake predictions on testing data\n\nEvaluate predictions on testing data:\n\nLinear models: R-squared, adjusted R-squared, RMSE (root mean squared error), etc.\nLogistic models: False negative and positive rates, AUC (area under the curve), etc.\n\n\nMake decisions based on model predictive performance, validity across various testing/training splits (aka “cross validation”), explainability"
   },
   {
     "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#packages",
