@@ -5,7 +5,7 @@ title: "Forest classification (Complete)"
 In this code along, we will
 
 -   Split our data into testing and training
--   Fit logistic regression regression models to testing data to classify outcomes
+-   Fit logistic regression regression models to training data to classify outcomes
 -   Evaluate performance of models on testing data
 
 We will use **tidyverse** and **tidymodels** for data exploration and modeling, respectively, and the **forested** package for the data.
