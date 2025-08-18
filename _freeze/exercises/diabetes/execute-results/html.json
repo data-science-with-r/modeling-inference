@@ -1,0 +1,15 @@
+{
+  "hash": "d347fc3ad98d5377d470b4ffd403c875",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Simple linear regression\nsubtitle: \"{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R\"\nformat: live-html\nengine: knitr\n# bibliography: reference.bib\nwebr:\n  packages: \n    - tidyverse\n    - faraway\n    - scales\n    - ggridges\n  cell-options:\n    autorun: false\n---\n\n\n<!-- begin: webr fodder -->\n\n::: {.cell}\n\n:::\n\n\n\n<!-- end: webr fodder -->\n\n# Getting Started\n\nProgramming exercises are designed to provide an opportunity for you to put what you learn in the videos and readings. These exercises feature interactive code cells which allow you to write, edit, and run R code without leaving your browser.\n\nWhen the ▶️ Run Code button turns to a solid color (with no flashing bubble indicating that the document is still loading), you can interact with the code cells!\n\nWe invite you to think critically about the ethics questions associated with each graph before opening the solution box so you get the most out of this exercise.\n\n## Packages\n\nWe’ll use the **tidyverse** and **scales** packages to create and improve plots in this programming exercise. These are already installed for you to use in this programming exercise, run the following code cell to load these packages.\n\n\n::: {.cell}\n```{webr}\n#| label: load-packages\nlibrary(tidyverse)\nlibrary(faraway)\n```\n:::\n\n\n## Motivation \n\nIt's important to learn statistical modeling, as it provides us the tools necessary to answer complex questions in a responsible, insightful manner. \n\nIn this programming exercise, we are going to be working with data that were published in the *Preventive Medicine* journal in 1997. These data can be found in the `faraway` package, and the dataset is called `diabetes`. In this dataset, 403 African Americans were interviewed in a study to understand the prevalence of obesity, diabetes, and other cardiovascular risk factors in central Virginia. We will fit simple linear regression models with different types of predictors to help best understand total cholesterol. \n\n\n## References \n\n(I'll get this in .bib. Just putting here for now) \n\nSchorling JB, Roach J, Siegel M, Baturka N, Hunt DE, Guterbock TM, Stewart HL: A trial of church-based smoking cessation interventions for rural African Americans. Preventive Medicine 26:92-101; 1997",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
