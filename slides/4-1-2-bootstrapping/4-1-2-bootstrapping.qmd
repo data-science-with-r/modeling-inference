@@ -230,8 +230,14 @@ The 95% confidence interval for the mean rent of three bedroom flats in Edinburg
 
 ## Commonly used confidence levels
 
+::: {.columns}
+::: {.column width=70%}
+
 ::: task
 Which line (orange dash/dot, blue dash, green dot) represents which confidence level?
+:::
+
+:::
 :::
 
 ```{r}
@@ -247,23 +253,41 @@ visualize(boot_df) +
 
 ## Precision vs. accuracy
 
+::: {.columns}
+::: {.column width=70%}
+
 ::: task
 If we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?
+:::
+
+:::
 :::
 
 ![](images/garfield.png)
 
 . . .
 
+::: {.columns}
+::: {.column width=70%}
+
 ::: task
 How can we get best of both worlds -- high precision and high accuracy?
 :::
 
+:::
+:::
+
 ## Changing confidence level
+
+::: {.columns}
+::: {.column width=70%}
 
 ::: task
 How would you modify the following code to calculate a 90% confidence interval? 
 How would you modify it for a 99% confidence interval?
+:::
+
+:::
 :::
 
 ```{r}
@@ -277,9 +301,15 @@ edi_3br |>
 
 ## Changing confidence level
 
+::: {.columns}
+::: {.column width=70%}
+
 ::: task
 How would you modify the following code to calculate a 90% confidence interval? 
 How would you modify it for a 99% confidence interval?
+:::
+
+:::
 :::
 
 ```{r}
@@ -294,9 +324,15 @@ edi_3br |>
 
 ## Changing confidence level
 
+::: {.columns}
+::: {.column width=70%}
+
 ::: task
 How would you modify the following code to calculate a 90% confidence interval? 
 How would you modify it for a 99% confidence interval?
+:::
+
+:::
 :::
 
 ```{r}
@@ -309,7 +345,7 @@ edi_3br |>
   get_ci(level = 0.99)
 ```
 
-## Recap
+## Recap {.smaller}
 
 ::: incremental
 - Sample statistic $\ne$ population parameter, but if the sample is good, it can be a good estimate
@@ -321,5 +357,5 @@ edi_3br |>
 - We can do this for any sample statistic:
   - For a mean: `calculate(stat = "mean")`
   - For a median: `calculate(stat = "median")`
-  - Learn about calculating bootstrap intervals for other statistics in your homework
+  - ... and so on
 :::

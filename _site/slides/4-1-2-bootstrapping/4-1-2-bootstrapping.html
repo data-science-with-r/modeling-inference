@@ -460,9 +460,12 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <li>Suppose we took many samples from the original population and built a 95% confidence interval based on each sample.</li>
 <li>Then about 95% of those intervals would contain the true population parameter.</li>
 </ul></section><section id="commonly-used-confidence-levels" class="slide level2"><h2>Commonly used confidence levels</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
 <div class="task">
 <p>Which line (orange dash/dot, blue dash, green dot) represents which confidence level?</p>
 </div>
+</div></div>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -472,19 +475,28 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </div>
 </section><section id="precision-vs.-accuracy" class="slide level2"><h2>Precision vs.&nbsp;accuracy</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
 <div class="task">
 <p>If we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?</p>
 </div>
+</div></div>
 <p><img data-src="images/garfield.png"></p>
 <div class="fragment">
+<div class="columns">
+<div class="column" style="width:70%;">
 <div class="task">
 <p>How can we get best of both worlds – high precision and high accuracy?</p>
 </div>
+</div></div>
 </div>
 </section><section id="changing-confidence-level" class="slide level2"><h2>Changing confidence level</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
 <div class="task">
 <p>How would you modify the following code to calculate a 90% confidence interval? How would you modify it for a 99% confidence interval?</p>
 </div>
+</div></div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a>edi_3br <span class="sc">|&gt;</span></span>
 <span id="cb19-2"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
@@ -493,9 +505,12 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <span id="cb19-5"><a></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="changing-confidence-level-1" class="slide level2"><h2>Changing confidence level</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
 <div class="task">
 <p>How would you modify the following code to calculate a 90% confidence interval? How would you modify it for a 99% confidence interval?</p>
 </div>
+</div></div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>edi_3br <span class="sc">|&gt;</span></span>
 <span id="cb20-2"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
@@ -504,9 +519,12 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <span id="cb20-5"><a></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="changing-confidence-level-2" class="slide level2"><h2>Changing confidence level</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
 <div class="task">
 <p>How would you modify the following code to calculate a 90% confidence interval? How would you modify it for a 99% confidence interval?</p>
 </div>
+</div></div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a>edi_3br <span class="sc">|&gt;</span></span>
 <span id="cb21-2"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
@@ -514,7 +532,7 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <span id="cb21-4"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb21-5"><a></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="recap" class="slide level2"><h2>Recap</h2>
+</section><section id="recap" class="slide level2 smaller"><h2>Recap</h2>
 <ul>
 <li class="fragment"><p>Sample statistic <span class="math inline">\(\ne\)</span> population parameter, but if the sample is good, it can be a good estimate</p></li>
 <li class="fragment"><p>We report the estimate with a confidence interval, and the width of this interval depends on the variability of sample statistics from different samples from the population</p></li>
@@ -526,7 +544,7 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </li>
 <li class="fragment">For a median: <code>calculate(stat = "median")</code>
 </li>
-<li class="fragment">Learn about calculating bootstrap intervals for other statistics in your homework</li>
+<li class="fragment">… and so on</li>
 </ul>
 </li>
 </ul>
