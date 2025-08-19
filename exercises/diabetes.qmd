@@ -1,0 +1,52 @@
+---
+title: Simple linear regression
+subtitle: "{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R"
+format: live-html
+engine: knitr
+# bibliography: reference.bib
+webr:
+  packages: 
+    - tidyverse
+    - faraway
+    - scales
+    - ggridges
+  cell-options:
+    autorun: false
+---
+
+<!-- begin: webr fodder -->
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+<!-- end: webr fodder -->
+
+# Getting Started
+
+Programming exercises are designed to provide an opportunity for you to put what you learn in the videos and readings. These exercises feature interactive code cells which allow you to write, edit, and run R code without leaving your browser.
+
+When the ▶️ Run Code button turns to a solid color (with no flashing bubble indicating that the document is still loading), you can interact with the code cells!
+
+We invite you to think critically about the ethics questions associated with each graph before opening the solution box so you get the most out of this exercise.
+
+## Packages
+
+We’ll use the **tidyverse** and **scales** packages to create and improve plots in this programming exercise. These are already installed for you to use in this programming exercise, run the following code cell to load these packages.
+
+```{webr}
+#| label: load-packages
+library(tidyverse)
+library(faraway)
+```
+
+## Motivation 
+
+It's important to learn statistical modeling, as it provides us the tools necessary to answer complex questions in a responsible, insightful manner. 
+
+In this programming exercise, we are going to be working with data that were published in the *Preventive Medicine* journal in 1997. These data can be found in the `faraway` package, and the dataset is called `diabetes`. In this dataset, 403 African Americans were interviewed in a study to understand the prevalence of obesity, diabetes, and other cardiovascular risk factors in central Virginia. We will fit simple linear regression models with different types of predictors to help best understand total cholesterol. 
+
+
+## References 
+
+(I'll get this in .bib. Just putting here for now) 
+
+Schorling JB, Roach J, Siegel M, Baturka N, Hunt DE, Guterbock TM, Stewart HL: A trial of church-based smoking cessation interventions for rural African Americans. Preventive Medicine 26:92-101; 1997

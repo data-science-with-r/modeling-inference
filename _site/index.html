@@ -137,9 +137,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] }],
+      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
       
-      searchColumns: [],
+      searchColumns: ["listing-title","listing-author"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -482,7 +482,7 @@ Title
 </td>
 
 </tr>
-<tr data-index="11" data-listing-file-modified-sort="1755577127432" data-listing-reading-time-sort="6" data-listing-word-count-sort="1054" data-listing-title-sort="Bootstrapping" data-listing-filename-sort="4-1-2-bootstrapping.qmd">
+<tr data-index="11" data-listing-file-modified-sort="1755577294015" data-listing-reading-time-sort="6" data-listing-word-count-sort="1066" data-listing-title-sort="Bootstrapping" data-listing-filename-sort="4-1-2-bootstrapping.qmd">
 <td>
 <a href="./slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html" class="title listing-title">Bootstrapping</a>
 </td>
@@ -568,11 +568,19 @@ Title
 </div>
 </section><section id="exercises" class="level2"><h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
 <div id="listing-exercises" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table caption-top">
-<thead><tr class="header">
-<th data-quarto-table-cell-role="th">Title</th>
+<table class="quarto-listing-table table">
+<thead><tr>
+<th>
+Title
+</th>
+
 </tr></thead>
-<tbody class="list"></tbody>
+<tbody class="list"><tr data-index="0" data-listing-file-modified-sort="1755577165745" data-listing-reading-time-sort="2" data-listing-word-count-sort="290" data-listing-title-sort="Simple linear regression" data-listing-filename-sort="diabetes.qmd">
+<td>
+<a href="./exercises/diabetes.html" class="title listing-title">Simple linear regression</a>
+</td>
+
+</tr></tbody>
 </table>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
