@@ -1,0 +1,325 @@
+---
+title: "Bootstrapping"
+format: revealjs
+---
+
+```{r}
+#| label: setup
+#| include: false
+ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
+```
+
+# Setup
+
+## Packages
+
+- **tidyverse** for data wrangling and visualization
+- **tidymodels** for modeling
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(tidymodels)
+```
+
+## Data: Rent in Edinburgh {.smaller}
+
+Fifteen 3 bedroom flats in Edinburgh, Scotland were randomly selected on [rightmove.co.uk](https://www.rightmove.co.uk).
+
+```
+flat_id; rent; title; address
+flat_01; 825 ; 3 bedroom apartment to rent; Burnhead Grove, Edinburgh, Midlothian, EH16
+flat_02; 2400; 3 bedroom flat to rent; Simpson Loan, Quartermile, Edinburgh, EH3
+flat_03; 1900; 3 bedroom flat to rent; FETTES ROW, NEW TOWN, EH3 6SE
+flat_04; 1500; 3 bedroom apartment to rent; Eyre Crescent, Edinburgh, Midlothian
+flat_05; 3250; 3 bedroom flat to rent; Walker Street, Edinburgh
+flat_06; 2145; 3 bedroom flat to rent; George Street, City Centre, Edinburgh, EH2
+flat_07; 1500; 3 bedroom flat to rent; Waverley Place , Edinburgh EH7 5SA
+flat_08; 1950; 3 bedroom flat to rent; Drumsheugh Place, Edinburgh
+flat_09; 1725; 3 bedroom flat to rent; Crighton Place, Leith, Edinburgh, EH7
+flat_10; 2995; 3 bedroom flat to rent; Simpson Loan, Meadows, Edinburgh, EH3
+flat_11; 1400; 3 bedroom flat to rent; 42, Learmonth Court, Edinburgh EH4 1PD
+flat_12; 1995; 3 bedroom apartment to rent; Chester Street, Edinburgh, Midlothian
+flat_13; 1250; 3 bedroom duplex to rent; Elmwood Terrace, Lochend, Edinburgh, EH6
+flat_14; 1995; 3 bedroom apartment to rent; Great King Street, Edinburgh, EH3
+flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,EH9
+```
+
+## Load data
+
+```{r}
+#| message: false
+edi_3br <- read_csv2("data/edi-3br.csv") # ; separated
+edi_3br
+```
+
+## Observed sample
+
+```{r}
+#| echo: false
+ggplot(edi_3br, aes(x = rent)) +
+  geom_histogram(binwidth = 200) +
+  labs(title = "Rent of 3 BR flats in Edinburgh")
+```
+
+## Observed sample
+
+```{r}
+#| include: false
+obs_mean <- edi_3br |>
+  summarise(mean_rent = mean(rent)) |>
+  pull() |>
+  round()
+```
+
+Sample mean ≈ £`{r} obs_mean`
+
+<br>
+
+![](images/rent-bootsamp.png)
+
+## Bootstrap population
+
+Generated assuming there are more flats like the ones in the observed sample... Population mean = ?
+
+![](images/rent-bootpop.png)
+
+## Bootstrapping scheme
+
+::: incremental
+1. Take a bootstrap sample - a random sample taken **with replacement** from the 
+original sample, of the same size as the original sample
+2. Calculate the bootstrap statistic - a statistic such as mean, median, 
+proportion, slope, etc. computed on the bootstrap samples
+3. Repeat steps (1) and (2) many times to create a bootstrap distribution - 
+a distribution of bootstrap statistics
+4. Calculate the bounds of the XX% confidence interval as the middle XX% 
+of the bootstrap distribution
+:::
+
+# Bootstrapping with tidymodels
+
+## Set a seed
+
+```{r}
+set.seed(12345)
+```
+
+## Specify the variable of interest
+
+```{r}
+#| code-line-numbers: "|4"
+set.seed(12345)
+
+edi_3br |>
+  specify(response = rent)
+```
+
+## Generate 15000 bootstrap samples
+
+```{r}
+#| code-line-numbers: "5"
+set.seed(12345)
+
+edi_3br |>
+  specify(response = rent) |>
+  generate(reps = 15000, type = "bootstrap")
+```
+
+## Calculate the mean of each bootstrap sample
+
+```{r}
+#| code-line-numbers: "6"
+set.seed(12345)
+
+edi_3br |>
+  specify(response = rent) |>
+  generate(reps = 15000, type = "bootstrap") |>
+  calculate(stat = "mean")
+```
+
+## Save resulting bootstrap distribution
+
+```{r}
+#| code-line-numbers: "3"
+set.seed(12345)
+
+boot_df <- edi_3br |>
+  specify(response = rent) |>
+  generate(reps = 15000, type = "bootstrap") |>
+  calculate(stat = "mean")
+```
+
+## The bootstrap sample
+
+::: {.columns}
+::: {.column width=70%}
+
+::: task
+How many observations are there in `boot_df`? What does each observation represent?
+:::
+
+:::
+::: 
+
+```{r}
+boot_df
+```
+
+## Visualize the bootstrap distribution
+
+```{r}
+visualize(boot_df)
+```
+
+## Calculate the confidence interval
+
+A 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.
+
+```{r}
+ci_95 <- get_ci(
+  boot_df,
+  level = 0.95
+)
+ci_95
+```
+
+## Visualize the confidence interval
+
+```{r}
+visualize(boot_df) +
+  shade_ci(ci_95)
+```
+
+## Interpret the confidence interval
+
+```{r}
+#| include: false
+lower_bound <- ci_95 |> pull(lower_ci) |> round()
+upper_bound <- ci_95 |> pull(upper_ci) |> round()
+```
+
+
+::: {.columns}
+::: {.column width=70%}
+
+::: task
+The 95% confidence interval for the mean rent of three bedroom flats in Edinburgh was calculated as (`{r} lower_bound`, `{r} upper_bound`). Which of the following is the correct interpretation of this interval?
+:::
+
+:::
+:::
+
+**(a)** 95% of the time the mean rent of three bedroom flats in this sample is between £`{r} lower_bound` and £`{r} upper_bound`.
+
+**(b)** 95% of all three bedroom flats in Edinburgh have rents between £`{r} lower_bound` and £`{r} upper_bound`.
+
+**(c)** We are 95% confident that the mean rent of all three bedroom flats is between £`{r} lower_bound` and £`{r} upper_bound`.
+
+**(d)** We are 95% confident that the mean rent of three bedroom flats in this sample is between £`{r} lower_bound` and £`{r} upper_bound`.
+
+# Accuracy vs. precision
+
+## Confidence level
+
+**We are 95% confident that ...**
+
+- Suppose we took many samples from the original population and built a 95% confidence interval based on each sample.
+- Then about 95% of those intervals would contain the true population parameter.
+
+## Commonly used confidence levels
+
+::: task
+Which line (orange dash/dot, blue dash, green dot) represents which confidence level?
+:::
+
+```{r}
+#| echo: false
+ci_90 <- get_ci(boot_df, level = 0.90)
+ci_99 <- get_ci(boot_df, level = 0.99)
+
+visualize(boot_df) +
+  shade_ci(ci_95, color = "blue", linetype = "dashed", fill = NULL, linewidth = 1) +
+  shade_ci(ci_90, color = "chartreuse4", linetype = "dotted", fill = NULL, linewidth = 1) +
+  shade_ci(ci_99, color = "orange", linetype = "dotdash", fill = NULL, linewidth = 1)
+```
+
+## Precision vs. accuracy
+
+::: task
+If we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?
+:::
+
+![](images/garfield.png)
+
+. . .
+
+::: task
+How can we get best of both worlds -- high precision and high accuracy?
+:::
+
+## Changing confidence level
+
+::: task
+How would you modify the following code to calculate a 90% confidence interval? 
+How would you modify it for a 99% confidence interval?
+:::
+
+```{r}
+#| eval: false
+edi_3br |>
+  specify(response = rent) |>
+  generate(reps = 15000, type = "bootstrap") |>
+  calculate(stat = "mean") |>
+  get_ci(level = 0.95)
+```
+
+## Changing confidence level
+
+::: task
+How would you modify the following code to calculate a 90% confidence interval? 
+How would you modify it for a 99% confidence interval?
+:::
+
+```{r}
+#| eval: false
+#| code-line-numbers: "5"
+edi_3br |>
+  specify(response = rent) |>
+  generate(reps = 15000, type = "bootstrap") |>
+  calculate(stat = "mean") |>
+  get_ci(level = 0.90)
+```
+
+## Changing confidence level
+
+::: task
+How would you modify the following code to calculate a 90% confidence interval? 
+How would you modify it for a 99% confidence interval?
+:::
+
+```{r}
+#| eval: false
+#| code-line-numbers: "5"
+edi_3br |>
+  specify(response = rent) |>
+  generate(reps = 15000, type = "bootstrap") |>
+  calculate(stat = "mean") |>
+  get_ci(level = 0.99)
+```
+
+## Recap
+
+::: incremental
+- Sample statistic $\ne$ population parameter, but if the sample is good, it can be a good estimate
+
+- We report the estimate with a confidence interval, and the width of this interval depends on the variability of sample statistics from different samples from the population
+
+- Since we can't continue sampling from the population, we bootstrap from the one sample we have to estimate sampling variability
+
+- We can do this for any sample statistic:
+  - For a mean: `calculate(stat = "mean")`
+  - For a median: `calculate(stat = "median")`
+  - Learn about calculating bootstrap intervals for other statistics in your homework
+:::

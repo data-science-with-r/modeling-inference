@@ -592,14 +592,14 @@
     "href": "index.html",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nQuantifying uncertainty\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nQuantifying uncertainty\n\n\n\n\n\nBootstrapping\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#slides",
     "href": "index.html#slides",
     "title": "\n Modeling and inference",
     "section": "",
-    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nQuantifying uncertainty\n\n\n\n\n\nNo matching items"
+    "text": "Title\n\n\n\n\n\n\nWelcome\n\n\n\n\n\nLanguage of models\n\n\n\n\n\nLinear regression with a numerical predictor\n\n\n\n\n\nLinear regression with a categorical predictor\n\n\n\n\n\nOutliers in linear regression\n\n\n\n\n\nLinear regression with multiple predictors\n\n\n\n\n\nMain and interaction effects\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nClasification and decision errors\n\n\n\n\n\nOverfitting and spending your data\n\n\n\n\n\nQuantifying uncertainty\n\n\n\n\n\nBootstrapping\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#code-alongs",
@@ -2014,5 +2014,201 @@
     "title": "Bootstrapping Duke Forest houses",
     "section": "Changing confidence level",
     "text": "Changing confidence level\nModify the code from Step 3 to create a 90% confidence interval.\n\n# add code here\n\nModify the code from Step 3 to create a 99% confidence interval.\n\n# add code here\n\n\nWhich confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain.\n\nAdd response here.\n\nWhich confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain\n\nAdd response here.\n\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?\n\nAdd response here."
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#packages",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#packages",
+    "title": "Bootstrapping",
+    "section": "Packages",
+    "text": "Packages\n\n\ntidyverse for data wrangling and visualization\n\ntidymodels for modeling\n\n\nlibrary(tidyverse)\nlibrary(tidymodels)"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#data-rent-in-edinburgh",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#data-rent-in-edinburgh",
+    "title": "Bootstrapping",
+    "section": "Data: Rent in Edinburgh",
+    "text": "Data: Rent in Edinburgh\nFifteen 3 bedroom flats in Edinburgh, Scotland were randomly selected on rightmove.co.uk.\nflat_id; rent; title; address\nflat_01; 825 ; 3 bedroom apartment to rent; Burnhead Grove, Edinburgh, Midlothian, EH16\nflat_02; 2400; 3 bedroom flat to rent; Simpson Loan, Quartermile, Edinburgh, EH3\nflat_03; 1900; 3 bedroom flat to rent; FETTES ROW, NEW TOWN, EH3 6SE\nflat_04; 1500; 3 bedroom apartment to rent; Eyre Crescent, Edinburgh, Midlothian\nflat_05; 3250; 3 bedroom flat to rent; Walker Street, Edinburgh\nflat_06; 2145; 3 bedroom flat to rent; George Street, City Centre, Edinburgh, EH2\nflat_07; 1500; 3 bedroom flat to rent; Waverley Place , Edinburgh EH7 5SA\nflat_08; 1950; 3 bedroom flat to rent; Drumsheugh Place, Edinburgh\nflat_09; 1725; 3 bedroom flat to rent; Crighton Place, Leith, Edinburgh, EH7\nflat_10; 2995; 3 bedroom flat to rent; Simpson Loan, Meadows, Edinburgh, EH3\nflat_11; 1400; 3 bedroom flat to rent; 42, Learmonth Court, Edinburgh EH4 1PD\nflat_12; 1995; 3 bedroom apartment to rent; Chester Street, Edinburgh, Midlothian\nflat_13; 1250; 3 bedroom duplex to rent; Elmwood Terrace, Lochend, Edinburgh, EH6\nflat_14; 1995; 3 bedroom apartment to rent; Great King Street, Edinburgh, EH3\nflat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,EH9"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#load-data",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#load-data",
+    "title": "Bootstrapping",
+    "section": "Load data",
+    "text": "Load data\n\nedi_3br &lt;- read_csv2(\"data/edi-3br.csv\") # ; separated\nedi_3br\n\n# A tibble: 15 × 4\n   flat_id  rent title                               address\n   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                               &lt;chr&gt;  \n 1 flat_01   825 3 bedroom apartment to rent         Burnhe…\n 2 flat_02  2400 3 bedroom flat to rent              Simpso…\n 3 flat_03  1900 3 bedroom flat to rent              FETTES…\n 4 flat_04  1500 3 bedroom apartment to rent         Eyre C…\n 5 flat_05  3250 3 bedroom flat to rent              Walker…\n 6 flat_06  2145 3 bedroom flat to rent              George…\n 7 flat_07  1500 3 bedroom flat to rent              Waverl…\n 8 flat_08  1950 3 bedroom flat to rent              Drumsh…\n 9 flat_09  1725 3 bedroom flat to rent              Cright…\n10 flat_10  2995 3 bedroom flat to rent              Simpso…\n11 flat_11  1400 3 bedroom flat to rent              42, Le…\n12 flat_12  1995 3 bedroom apartment to rent         Cheste…\n13 flat_13  1250 3 bedroom duplex to rent            Elmwoo…\n14 flat_14  1995 3 bedroom apartment to rent         Great …\n15 flat_15  1600 3 bedroom ground floor flat to rent Rosene…"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#observed-sample",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#observed-sample",
+    "title": "Bootstrapping",
+    "section": "Observed sample",
+    "text": "Observed sample"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#observed-sample-1",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#observed-sample-1",
+    "title": "Bootstrapping",
+    "section": "Observed sample",
+    "text": "Observed sample\nSample mean ≈ £1895"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#bootstrap-population",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#bootstrap-population",
+    "title": "Bootstrapping",
+    "section": "Bootstrap population",
+    "text": "Bootstrap population\nGenerated assuming there are more flats like the ones in the observed sample… Population mean = ?"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#bootstrapping-scheme",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#bootstrapping-scheme",
+    "title": "Bootstrapping",
+    "section": "Bootstrapping scheme",
+    "text": "Bootstrapping scheme\n\nTake a bootstrap sample - a random sample taken with replacement from the original sample, of the same size as the original sample\nCalculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples\nRepeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics\nCalculate the bounds of the XX% confidence interval as the middle XX% of the bootstrap distribution"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-bootstrap-means",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-bootstrap-means",
+    "title": "Bootstrapping",
+    "section": "Generate bootstrap means",
+    "text": "Generate bootstrap means\nedi_3br |&gt;\n  # specify the variable of interest\n  specify(response = rent)"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-bootstrap-means-1",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-bootstrap-means-1",
+    "title": "Bootstrapping",
+    "section": "Generate bootstrap means",
+    "text": "Generate bootstrap means\n\nedi_3br |&gt;\n  # specify the variable of interest\n  specify(response = rent) |&gt;\n  # generate 15000 bootstrap samples\n  generate(reps = 15000, type = \"bootstrap\")\n\nResponse: rent (numeric)\n# A tibble: 225,000 × 2\n# Groups:   replicate [15,000]\n   replicate  rent\n       &lt;int&gt; &lt;dbl&gt;\n 1         1  1995\n 2         1  1500\n 3         1  2145\n 4         1  2400\n 5         1  1400\n 6         1  1995\n 7         1  2145\n 8         1  1250\n 9         1  3250\n10         1  1950\n# ℹ 224,990 more rows"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-bootstrap-means-2",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-bootstrap-means-2",
+    "title": "Bootstrapping",
+    "section": "Generate bootstrap means",
+    "text": "Generate bootstrap means\n\nedi_3br |&gt;\n  # specify the variable of interest\n  specify(response = rent) |&gt;\n  # generate 15000 bootstrap samples\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  # calculate the mean of each bootstrap sample\n  calculate(stat = \"mean\")\n\nResponse: rent (numeric)\n# A tibble: 15,000 × 2\n   replicate  stat\n       &lt;int&gt; &lt;dbl&gt;\n 1         1 1890 \n 2         2 1686.\n 3         3 2017 \n 4         4 1840.\n 5         5 1608.\n 6         6 1785.\n 7         7 2003 \n 8         8 1864.\n 9         9 1912 \n10        10 1959 \n# ℹ 14,990 more rows"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-bootstrap-means-3",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-bootstrap-means-3",
+    "title": "Bootstrapping",
+    "section": "Generate bootstrap means",
+    "text": "Generate bootstrap means\n\nset.seed(834782)\n\n\n# save resulting bootstrap distribution\nboot_df &lt;- edi_3br |&gt;\n  # specify the variable of interest\n  specify(response = rent) |&gt;\n  # generate 15000 bootstrap samples\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  # calculate the mean of each bootstrap sample\n  calculate(stat = \"mean\")"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#the-bootstrap-sample",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#the-bootstrap-sample",
+    "title": "Bootstrapping",
+    "section": "The bootstrap sample",
+    "text": "The bootstrap sample\n\n\n\nHow many observations are there in boot_df? What does each observation represent?\n\n\n\nboot_df\n\nResponse: rent (numeric)\n# A tibble: 15,000 × 2\n   replicate  stat\n       &lt;int&gt; &lt;dbl&gt;\n 1         1 2001 \n 2         2 1886 \n 3         3 1799.\n 4         4 1968.\n 5         5 1789 \n 6         6 2018 \n 7         7 1995.\n 8         8 1867.\n 9         9 2042 \n10        10 1776.\n# ℹ 14,990 more rows"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#visualize-the-bootstrap-distribution",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#visualize-the-bootstrap-distribution",
+    "title": "Bootstrapping",
+    "section": "Visualize the bootstrap distribution",
+    "text": "Visualize the bootstrap distribution\n\nvisualize(boot_df)"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#calculate-the-confidence-interval",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#calculate-the-confidence-interval",
+    "title": "Bootstrapping",
+    "section": "Calculate the confidence interval",
+    "text": "Calculate the confidence interval\nA 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.\n\nci_95 &lt;- get_ci(\n  boot_df,\n  level = 0.95\n)\nci_95\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1     1601    2216."
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#visualize-the-confidence-interval",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#visualize-the-confidence-interval",
+    "title": "Bootstrapping",
+    "section": "Visualize the confidence interval",
+    "text": "Visualize the confidence interval\n\nvisualize(boot_df) +\n  shade_ci(ci_95)"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#interpret-the-confidence-interval",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#interpret-the-confidence-interval",
+    "title": "Bootstrapping",
+    "section": "Interpret the confidence interval",
+    "text": "Interpret the confidence interval\n\n\n\nThe 95% confidence interval for the mean rent of three bedroom flats in Edinburgh was calculated as (1601, 2216). Which of the following is the correct interpretation of this interval?\n\n\n(a) 95% of the time the mean rent of three bedroom flats in this sample is between £1601 and £2216.\n(b) 95% of all three bedroom flats in Edinburgh have rents between £1601 and £2216.\n(c) We are 95% confident that the mean rent of all three bedroom flats is between £1601 and £2216.\n(d) We are 95% confident that the mean rent of three bedroom flats in this sample is between £1601 and £2216."
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#confidence-level",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#confidence-level",
+    "title": "Bootstrapping",
+    "section": "Confidence level",
+    "text": "Confidence level\nWe are 95% confident that …\n\nSuppose we took many samples from the original population and built a 95% confidence interval based on each sample.\nThen about 95% of those intervals would contain the true population parameter."
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#commonly-used-confidence-levels",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#commonly-used-confidence-levels",
+    "title": "Bootstrapping",
+    "section": "Commonly used confidence levels",
+    "text": "Commonly used confidence levels\n\nWhich line (orange dash/dot, blue dash, green dot) represents which confidence level?"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#precision-vs.-accuracy",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#precision-vs.-accuracy",
+    "title": "Bootstrapping",
+    "section": "Precision vs. accuracy",
+    "text": "Precision vs. accuracy\n\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?\n\n\n\n\nHow can we get best of both worlds – high precision and high accuracy?"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#changing-confidence-level",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#changing-confidence-level",
+    "title": "Bootstrapping",
+    "section": "Changing confidence level",
+    "text": "Changing confidence level\n\nHow would you modify the following code to calculate a 90% confidence interval? How would you modify it for a 99% confidence interval?\n\n\nedi_3br |&gt;\n  specify(response = rent) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\") |&gt;\n  get_ci(level = 0.95)"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#recap",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#recap",
+    "title": "Bootstrapping",
+    "section": "Recap",
+    "text": "Recap\n\nSample statistic \\(\\ne\\) population parameter, but if the sample is good, it can be a good estimate\nWe report the estimate with a confidence interval, and the width of this interval depends on the variability of sample statistics from different samples from the population\nSince we can’t continue sampling from the population, we bootstrap from the one sample we have to estimate sampling variability\n\nWe can do this for any sample statistic:\n\nFor a mean: calculate(stat = \"mean\")\n\nFor a median: calculate(stat = \"median\")\n\nLearn about calculating bootstrap intervals for other statistics in your homework"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#set-a-seed",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#set-a-seed",
+    "title": "Bootstrapping",
+    "section": "Set a seed",
+    "text": "Set a seed\n\nset.seed(12345)"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#specify-the-variable-of-interest",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#specify-the-variable-of-interest",
+    "title": "Bootstrapping",
+    "section": "Specify the variable of interest",
+    "text": "Specify the variable of interest\n\nset.seed(12345)\n\nedi_3br |&gt;\n  specify(response = rent)\n\nResponse: rent (numeric)\n# A tibble: 15 × 1\n    rent\n   &lt;dbl&gt;\n 1   825\n 2  2400\n 3  1900\n 4  1500\n 5  3250\n 6  2145\n 7  1500\n 8  1950\n 9  1725\n10  2995\n11  1400\n12  1995\n13  1250\n14  1995\n15  1600"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-15000-bootstrap-samples",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#generate-15000-bootstrap-samples",
+    "title": "Bootstrapping",
+    "section": "Generate 15000 bootstrap samples",
+    "text": "Generate 15000 bootstrap samples\n\nset.seed(12345)\n\nedi_3br |&gt;\n  specify(response = rent) |&gt;\n  generate(reps = 15000, type = \"bootstrap\")\n\nResponse: rent (numeric)\n# A tibble: 225,000 × 2\n# Groups:   replicate [15,000]\n   replicate  rent\n       &lt;int&gt; &lt;dbl&gt;\n 1         1  1995\n 2         1  1900\n 3         1  2995\n 4         1  1995\n 5         1  1950\n 6         1  2995\n 7         1  1250\n 8         1  1400\n 9         1  1950\n10         1  2400\n# ℹ 224,990 more rows"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#calculate-the-mean-of-each-bootstrap-sample",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#calculate-the-mean-of-each-bootstrap-sample",
+    "title": "Bootstrapping",
+    "section": "Calculate the mean of each bootstrap sample",
+    "text": "Calculate the mean of each bootstrap sample\n\nset.seed(12345)\n\nedi_3br |&gt;\n  specify(response = rent) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\")\n\nResponse: rent (numeric)\n# A tibble: 15,000 × 2\n   replicate  stat\n       &lt;int&gt; &lt;dbl&gt;\n 1         1 2001 \n 2         2 1886 \n 3         3 1799.\n 4         4 1968.\n 5         5 1789 \n 6         6 2018 \n 7         7 1995.\n 8         8 1867.\n 9         9 2042 \n10        10 1776.\n# ℹ 14,990 more rows"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#save-resulting-bootstrap-distribution",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#save-resulting-bootstrap-distribution",
+    "title": "Bootstrapping",
+    "section": "Save resulting bootstrap distribution",
+    "text": "Save resulting bootstrap distribution\n\nset.seed(12345)\n\nboot_df &lt;- edi_3br |&gt;\n  specify(response = rent) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\")"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#changing-confidence-level-1",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#changing-confidence-level-1",
+    "title": "Bootstrapping",
+    "section": "Changing confidence level",
+    "text": "Changing confidence level\n\nHow would you modify the following code to calculate a 90% confidence interval? How would you modify it for a 99% confidence interval?\n\n\nedi_3br |&gt;\n  specify(response = rent) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\") |&gt;\n  get_ci(level = 0.90)"
+  },
+  {
+    "objectID": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#changing-confidence-level-2",
+    "href": "slides/4-1-2-bootstrapping/4-1-2-bootstrapping.html#changing-confidence-level-2",
+    "title": "Bootstrapping",
+    "section": "Changing confidence level",
+    "text": "Changing confidence level\n\nHow would you modify the following code to calculate a 90% confidence interval? How would you modify it for a 99% confidence interval?\n\n\nedi_3br |&gt;\n  specify(response = rent) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\") |&gt;\n  get_ci(level = 0.99)"
   }
 ]
