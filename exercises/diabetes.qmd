@@ -8,19 +8,32 @@ webr:
   packages: 
     - tidyverse
     - tidymodels
-    - faraway
+    # - faraway
     #- scales
     #- ggridges
     # - kableExtra
   cell-options:
     autorun: false
   resources:
-    - https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv
+    - https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv?token=GHSAT0AAAAAAC7ZGKFKE27CWZQTYYADWCEE2FLMPJA
 ---
+
+** I can't get the data to load in for webr
 
 <!-- begin: webr fodder -->
 
 {{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| edit: false
+#| echo: false
+#| output: false
+options("readr.edition" = 1)
+library(tidyverse)
+# Read the CSV file directly from the URL
+diabetes <- read_csv("https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv?token=GHSAT0AAAAAAC7ZGKFKE27CWZQTYYADWCEE2FLMPJA")
+
+```
 
 <!-- end: webr fodder -->
 
@@ -42,9 +55,17 @@ We’ll use the **tidyverse** and **scales** packages to create and improve plot
 #| warning: false
 
 library(tidyverse)
-library(faraway)
+# library(faraway)
 library(tidymodels)
 library(kableExtra)
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+diabetes <- read_csv("data/diabetes.csv")
 ```
 
 
@@ -64,7 +85,7 @@ diabetes
 
 ## Dataset information
 
-Below is a subset of the data key to help us best understand the variables in the dataset that we are going to work with for this programming exercise. If you would like to see the entire data key, please expand the `data key` menu.
+Below is a data key regarding a subset of the original data set in the `faraway` package to help us best understand the variables in the dataset that we are going to work with for this programming exercise.
 
 | Variable Name | Description                                         |
 |---------------|-----------------------------------------------------|
