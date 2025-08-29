@@ -337,10 +337,10 @@ ggplot(mtcars_aug) +
     title = "MPG vs. weights of cars"
   ) +
   guides(color = "none", shape = "none") +
-  scale_color_manual(values = c("#fec926", "#fe265b")) +
+  scale_color_manual(values = c("#d7a201", "#fe265b")) +
   scale_shape_manual(values = c("circle", "triangle")) +
   annotate("label", x = 2.5, y = 30, label = "Positive residual", color = "#fe265b", hjust = 0, size = 8) +
-  annotate("label", x = 1, y = 15, label = "Negative residual", color = "#fec926", hjust = 0, size = 8)
+  annotate("label", x = 1, y = 15, label = "Negative residual", color = "#d7a201", hjust = 0, size = 8)
 ```
 
 ## Extending regression lines

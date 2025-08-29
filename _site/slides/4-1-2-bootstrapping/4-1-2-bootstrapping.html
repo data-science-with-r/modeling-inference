@@ -373,7 +373,7 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12" data-code-line-numbers="3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb12-2"><a></a></span>
-<span id="cb12-3"><a></a>boot_df <span class="ot">&lt;-</span> edi_3br <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a></a>boot_dist <span class="ot">&lt;-</span> edi_3br <span class="sc">|&gt;</span></span>
 <span id="cb12-4"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
 <span id="cb12-5"><a></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb12-6"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -382,11 +382,11 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
-<p>How many observations are there in <code>boot_df</code>? What does each observation represent?</p>
+<p>How many observations are there in <code>boot_dist</code>? What does each observation represent?</p>
 </div>
 </div></div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>boot_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>boot_dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response: rent (numeric)
 # A tibble: 15,000 × 2
@@ -407,7 +407,7 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </section><section id="visualize-the-bootstrap-distribution" class="slide level2"><h2>Visualize the bootstrap distribution</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">visualize</span>(boot_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">visualize</span>(boot_dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure><p><img data-src="4-1-2-bootstrapping_files/figure-revealjs/unnamed-chunk-10-1.png" width="768"></p>
@@ -419,7 +419,7 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <p>A 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>ci_95 <span class="ot">&lt;-</span> <span class="fu">get_ci</span>(</span>
-<span id="cb16-2"><a></a>  boot_df,</span>
+<span id="cb16-2"><a></a>  boot_dist,</span>
 <span id="cb16-3"><a></a>  <span class="at">level =</span> <span class="fl">0.95</span></span>
 <span id="cb16-4"><a></a>)</span>
 <span id="cb16-5"><a></a>ci_95</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -432,7 +432,7 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </section><section id="visualize-the-confidence-interval" class="slide level2"><h2>Visualize the confidence interval</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">visualize</span>(boot_df) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">visualize</span>(boot_dist) <span class="sc">+</span></span>
 <span id="cb18-2"><a></a>  <span class="fu">shade_ci</span>(ci_95)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -445,14 +445,15 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
-<p>The 95% confidence interval for the mean rent of three bedroom flats in Edinburgh was calculated as (1601, 2216). Which of the following is the correct interpretation of this interval?</p>
+<p>What do the bounds og the confidence interval for the mean rent of three bedroom flats in Edinburgh (1601, 2216) represent?</p>
 </div>
 </div></div>
-<p><strong>(a)</strong> 95% of the time the mean rent of three bedroom flats in this sample is between £1601 and £2216.</p>
-<p><strong>(b)</strong> 95% of all three bedroom flats in Edinburgh have rents between £1601 and £2216.</p>
-<p><strong>(c)</strong> We are 95% confident that the mean rent of all three bedroom flats is between £1601 and £2216.</p>
-<p><strong>(d)</strong> We are 95% confident that the mean rent of three bedroom flats in this sample is between £1601 and £2216.</p>
-</section></section><section><section id="accuracy-vs.-precision" class="title-slide slide level1 center"><h1>Accuracy vs.&nbsp;precision</h1>
+<ul>
+<li class="fragment"><p>95% of the time the mean rent of three bedroom flats in this sample is between £1601 and £2216.</p></li>
+<li class="fragment"><p>95% of all three bedroom flats in Edinburgh have rents between £1601 and £2216.</p></li>
+<li class="fragment"><p>We are 95% confident that the mean rent of all three bedroom flats is between £1601 and £2216.</p></li>
+<li class="fragment"><p>We are 95% confident that the mean rent of three bedroom flats in this sample is between £1601 and £2216.</p></li>
+</ul></section></section><section><section id="accuracy-vs.-precision" class="title-slide slide level1 center"><h1>Accuracy vs.&nbsp;precision</h1>
 
 </section><section id="confidence-level" class="slide level2"><h2>Confidence level</h2>
 <p><strong>We are 95% confident that …</strong></p>
@@ -490,7 +491,7 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </div></div>
 </div>
-</section><section id="changing-confidence-level" class="slide level2"><h2>Changing confidence level</h2>
+</section><section id="changing-confidence-level" class="slide level2 smaller"><h2>Changing confidence level</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -498,13 +499,21 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </div></div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a>edi_3br <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
-<span id="cb19-3"><a></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-4"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-5"><a></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb19-2"><a></a></span>
+<span id="cb19-3"><a></a>edi_3br <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
+<span id="cb19-5"><a></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-6"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  lower_ci upper_ci
+     &lt;dbl&gt;    &lt;dbl&gt;
+1     1601    2216.</code></pre>
 </div>
-</section><section id="changing-confidence-level-1" class="slide level2"><h2>Changing confidence level</h2>
+</div>
+</section><section id="changing-confidence-level-1" class="slide level2 smaller"><h2>Changing confidence level</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -512,13 +521,21 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </div></div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>edi_3br <span class="sc">|&gt;</span></span>
-<span id="cb20-2"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb20-4"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb20-5"><a></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21" data-code-line-numbers="7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a>edi_3br <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
+<span id="cb21-5"><a></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-6"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-7"><a></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  lower_ci upper_ci
+     &lt;dbl&gt;    &lt;dbl&gt;
+1    1644.    2162.</code></pre>
 </div>
-</section><section id="changing-confidence-level-2" class="slide level2"><h2>Changing confidence level</h2>
+</div>
+</section><section id="changing-confidence-level-2" class="slide level2 smaller"><h2>Changing confidence level</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -526,13 +543,21 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </div></div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a>edi_3br <span class="sc">|&gt;</span></span>
-<span id="cb21-2"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
-<span id="cb21-3"><a></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-4"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-5"><a></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23" data-code-line-numbers="7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb23-2"><a></a></span>
+<span id="cb23-3"><a></a>edi_3br <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-6"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  lower_ci upper_ci
+     &lt;dbl&gt;    &lt;dbl&gt;
+1    1512.    2323.</code></pre>
 </div>
-</section><section id="recap" class="slide level2 smaller"><h2>Recap</h2>
+</div>
+</section><section id="recap" class="slide level2"><h2>Recap</h2>
 <ul>
 <li class="fragment"><p>Sample statistic <span class="math inline">\(\ne\)</span> population parameter, but if the sample is good, it can be a good estimate</p></li>
 <li class="fragment"><p>We report the estimate with a confidence interval, and the width of this interval depends on the variability of sample statistics from different samples from the population</p></li>

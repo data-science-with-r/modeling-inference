@@ -1,0 +1,96 @@
+>> We have discussed the motivation for uncertainty quantification and introduced the idea of building confidence intervals to quantify the variability of sampling statistics in the previous video. In this video we revisit bootstrapping with a new example.
+
+>> Let's start with our setup. 
+
+>> For this analysis, we'll use tidyverse for data wrangling and visualization and tidymodels for modeling tasks, and openintro for the dataset.
+
+>> Our dataset consists of rental prices for 15 three-bedroom flats in Edinburgh, Scotland. These were randomly selected from rightmove.co.uk, one of the UK's major property websites.
+Looking at this data, we can see quite a range of prices - from £825 per month up to £3,250. This variation reflects different neighborhoods, property conditions, and amenities across Edinburgh.
+Notice the variety in locations: some flats are in pricier areas like New Town and George Street, while others are in more affordable neighborhoods like Lochend and Burnhead Grove. Another thing to note is that the columns are separated by semi-columns.
+
+>> Therefore we'll use read_csv2() to load the data. The resulting data frame has 15 observations with information about rent prices, titles, and addresses for each flat.
+
+>> This histogram shows the distribution of our sample data. We can see that most flats are priced between £1,500 and £2,000, with a few higher-priced outliers.
+
+>> Our sample mean is approximately £1,875. But here's the crucial question: if we had randomly selected a different set of 15 flats from Edinburgh, would we get exactly the same mean?
+Almost certainly not! This sample mean is our best estimate of the population mean, but it comes with uncertainty. The question is: how much uncertainty?
+
+>> This is where bootstrapping comes in. We create a hypothetical bootstrap population by imagining there are many more flats out there just like the ones in our sample. If we could sample repeatedly from this larger population, we'd get different sample means each time. The variability of these sample means would tell us about the precision of our original estimate. But we don't actually have this population - we're going to simulate it using our sample data.
+
+>> Here's the step-by-step process for doing so:
+
+1. Take a bootstrap sample - a random sample taken with replacement from the original sample, of the same size as the original sample
+
+2. Calculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples
+
+3. Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics
+
+4. Use the middle whatever percentage of this distribution to create our confidence interval.
+
+The key insight is that sampling "with replacement" allows us to simulate the process of drawing different samples from the population.
+
+>> Now let's see how to implement this in R using the tidymodels framework. We'll build up our bootstrap analysis step by step.
+
+>> First, we set a seed to ensure our results are reproducible. Since bootstrapping involves random sampling, setting a seed means we'll get the same "random" samples every time we run our code. This is crucial for reproducibility of our results.
+
+>> Then we use the specify() function to specify our model. In this case we're only interested in estimating a single population parameter though, 
+> so we set response to the rent variable. Note that the output is the same data frame but it has some metadata associated with it.
+
+>> The generate() function is where the magic happens. We're creating 15,000 bootstrap samples, each of size 15 (same as our original sample). Each bootstrap sample is created by sampling with replacement from our original 15 observations. So bootstrap sample 1 might contain flat_03 twice, flat_07 three times, and be missing flat_12 entirely. Why 15,000 repetitions? More bootstrap samples give us a more stable estimate of the sampling distribution, but there are diminishing returns beyond a certain point.
+
+>> Then, for each of our 15,000 bootstrap samples, we calculate the mean using calculate(stat = "mean"). Now we have 15,000 different sample means, each based on a different bootstrap sample. This collection of means approximates what we would see if we could actually draw 15,000 different samples from the population.
+
+>> We save our bootstrap distribution as boot_dist for further analysis. 
+
+>> Let's pause and think about what we have. How many observations are in boot_dist? 15,000. Each observation represents one bootstrap sample mean. So we started with 15 rental prices, and now we have 15,000 estimates of what the population mean might be, based on different possible samples we might have drawn.
+
+>> The visualize() function creates a histogram of our bootstrap distribution. We could have done this from first principles with ggplot2, but tidymodels, or specifically the infer package in tidymodels, has these handy shortcuts. This shows us the bootstrap distribution of sample means. Notice that the distribution is roughly centered around our original sample mean of £1,875, but it shows the variability we might expect from sample to sample. The range of this distribution tells us about the precision of our estimate - a narrower distribution means our sample mean is more precise. It's also worth noting that the distribution is unimodal and symmetic. That's an idea we'll revisit!
+
+>> A 95% confidence interval is bounded by the middle 95% of our bootstrap distribution. The get_ci() function with level set to 0.95 finds the 2.5th and 97.5th percentiles of our bootstrap sample means.
+
+>> The shade_ci() overlays the bounds of the confidence interval we just calculated on our bootstrap distribution and shades it.
+
+>> But let's finally talk about what these bounds -- 1601 to 2216 represent. Let's go through a few plausible sounding inerpretations and identify if they're correct or not.
+
+> 95% of the time the mean rent of three bedroom flats in this sample is between £1601 and £2216. This makes it sound like the sample mean of this one sample changes from time to time, which is not true. We know what the sample mean is, we've calculated it.
+
+> 95% of all three bedroom flats in Edinburgh have rents between £1601 and £2216.  This is about individual flats, not the mean. Our confidence interval is about the average rent, not the range of individual rents.
+
+> We are 95% confident that the mean rent of all three bedroom flats is between £1601 and £2216. Correct! We are 95% confident that the true population mean (the average rent of ALL three-bedroom flats in Edinburgh) falls within this interval.
+
+> We are 95% confident that the mean rent of three bedroom flats in this sample is between £1601 and £2216. Incorrect - Again, our sample mean is fixed. We know exactly what our sample mean is.
+
+>> Now let's take a step back and say a few words about accuracy and precision of our estimates.
+
+>> "We are 95% confident" has a very specific meaning in statistics. If we repeated our entire study many times - collecting new samples of 15 flats and constructing 95% confidence intervals each time - then about 95% of those intervals would contain the true population mean. This doesn't mean there's a 95% probability that the true mean is in our specific interval. Rather, it means 95% of the intervals produced by our method would contain the true population parameter in the long run.
+
+>> Commonly used confidence intervals are 90%, 95%, and 99%. Here they are all overlaid on the bootstrap distribution. Which line represents which confidence level? I'll give you a second to think about it.
+
+[pause]
+
+The green dotted line (narrowest) represents the 90% confidence interval
+The blue dashed line (middle) represents the 95% confidence interval
+The orange dash-dot line (widest) represents the 99% confidence interval
+
+Higher confidence levels require wider intervals. To be more certain of capturing the true parameter, we need to cast a wider net.
+
+>> If we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? If we want to be very certain of capturing the population parameter, we need a wider interval. But wider intervals are less precise - they give us less specific information about where the parameter might be. It's like in this comic: if you predict everything might happen, you'll never be wrong, but your predictions aren't very useful!
+
+> How can we get the best of both worlds? Increase our sample size! Larger samples lead to less variable sample statistics, which means narrower confidence intervals for the same confidence level.
+
+>> So, how do we actually change the confidence level when calculating the bounds of the confidence interval? Take a look at this code.
+
+> We just need to change the level argument in the get_ci function
+
+>> Let's summarize the key concepts:
+
+> A sample statistic is not equal to a population parameter but if the sample is good, it can be a good estimate
+
+> We report the estimate with a confidence interval, and the width of this interval depends on the variability of sample statistics from different samples from the population
+
+> Since we can’t continue sampling from the population, we bootstrap from the one sample we have to estimate sampling variability
+
+> We can do this for any sample statistic:
+> For a mean we set stat equal to mean in the calculate function
+> For a median we set it to median
+> And the function, just like the bootstrapping method itself, works with many other statistics too, just check out the function documentation for more information on how to specify them.

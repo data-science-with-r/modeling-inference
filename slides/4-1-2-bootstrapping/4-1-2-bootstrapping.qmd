@@ -59,7 +59,7 @@ edi_3br
 ```{r}
 #| echo: false
 ggplot(edi_3br, aes(x = rent)) +
-  geom_histogram(binwidth = 200) +
+  geom_histogram(binwidth = 300) +
   labs(title = "Rent of 3 BR flats in Edinburgh")
 ```
 
@@ -145,7 +145,7 @@ edi_3br |>
 #| code-line-numbers: "3"
 set.seed(12345)
 
-boot_df <- edi_3br |>
+boot_dist <- edi_3br |>
   specify(response = rent) |>
   generate(reps = 15000, type = "bootstrap") |>
   calculate(stat = "mean")
@@ -157,20 +157,20 @@ boot_df <- edi_3br |>
 ::: {.column width=70%}
 
 ::: task
-How many observations are there in `boot_df`? What does each observation represent?
+How many observations are there in `boot_dist`? What does each observation represent?
 :::
 
 :::
 ::: 
 
 ```{r}
-boot_df
+boot_dist
 ```
 
 ## Visualize the bootstrap distribution
 
 ```{r}
-visualize(boot_df)
+visualize(boot_dist)
 ```
 
 ## Calculate the confidence interval
@@ -179,7 +179,7 @@ A 95% confidence interval is bounded by the middle 95% of the bootstrap distribu
 
 ```{r}
 ci_95 <- get_ci(
-  boot_df,
+  boot_dist,
   level = 0.95
 )
 ci_95
@@ -188,7 +188,7 @@ ci_95
 ## Visualize the confidence interval
 
 ```{r}
-visualize(boot_df) +
+visualize(boot_dist) +
   shade_ci(ci_95)
 ```
 
@@ -205,19 +205,21 @@ upper_bound <- ci_95 |> pull(upper_ci) |> round()
 ::: {.column width=70%}
 
 ::: task
-The 95% confidence interval for the mean rent of three bedroom flats in Edinburgh was calculated as (`{r} lower_bound`, `{r} upper_bound`). Which of the following is the correct interpretation of this interval?
+What do the bounds og the confidence interval for the mean rent of three bedroom flats in Edinburgh (`{r} lower_bound`, `{r} upper_bound`) represent?
 :::
 
 :::
 :::
 
-**(a)** 95% of the time the mean rent of three bedroom flats in this sample is between £`{r} lower_bound` and £`{r} upper_bound`.
+::: incremental
+- 95% of the time the mean rent of three bedroom flats in this sample is between £`{r} lower_bound` and £`{r} upper_bound`.
 
-**(b)** 95% of all three bedroom flats in Edinburgh have rents between £`{r} lower_bound` and £`{r} upper_bound`.
+- 95% of all three bedroom flats in Edinburgh have rents between £`{r} lower_bound` and £`{r} upper_bound`.
 
-**(c)** We are 95% confident that the mean rent of all three bedroom flats is between £`{r} lower_bound` and £`{r} upper_bound`.
+- We are 95% confident that the mean rent of all three bedroom flats is between £`{r} lower_bound` and £`{r} upper_bound`.
 
-**(d)** We are 95% confident that the mean rent of three bedroom flats in this sample is between £`{r} lower_bound` and £`{r} upper_bound`.
+- We are 95% confident that the mean rent of three bedroom flats in this sample is between £`{r} lower_bound` and £`{r} upper_bound`.
+:::
 
 # Accuracy vs. precision
 
@@ -242,10 +244,10 @@ Which line (orange dash/dot, blue dash, green dot) represents which confidence l
 
 ```{r}
 #| echo: false
-ci_90 <- get_ci(boot_df, level = 0.90)
-ci_99 <- get_ci(boot_df, level = 0.99)
+ci_90 <- get_ci(boot_dist, level = 0.90)
+ci_99 <- get_ci(boot_dist, level = 0.99)
 
-visualize(boot_df) +
+visualize(boot_dist) +
   shade_ci(ci_95, color = "blue", linetype = "dashed", fill = NULL, linewidth = 1) +
   shade_ci(ci_90, color = "chartreuse4", linetype = "dotted", fill = NULL, linewidth = 1) +
   shade_ci(ci_99, color = "orange", linetype = "dotdash", fill = NULL, linewidth = 1)
@@ -277,7 +279,7 @@ How can we get best of both worlds -- high precision and high accuracy?
 :::
 :::
 
-## Changing confidence level
+## Changing confidence level {.smaller}
 
 ::: {.columns}
 ::: {.column width=70%}
@@ -291,7 +293,8 @@ How would you modify it for a 99% confidence interval?
 :::
 
 ```{r}
-#| eval: false
+set.seed(12345)
+
 edi_3br |>
   specify(response = rent) |>
   generate(reps = 15000, type = "bootstrap") |>
@@ -299,7 +302,7 @@ edi_3br |>
   get_ci(level = 0.95)
 ```
 
-## Changing confidence level
+## Changing confidence level {.smaller}
 
 ::: {.columns}
 ::: {.column width=70%}
@@ -313,8 +316,9 @@ How would you modify it for a 99% confidence interval?
 :::
 
 ```{r}
-#| eval: false
-#| code-line-numbers: "5"
+#| code-line-numbers: "7"
+set.seed(12345)
+
 edi_3br |>
   specify(response = rent) |>
   generate(reps = 15000, type = "bootstrap") |>
@@ -322,7 +326,7 @@ edi_3br |>
   get_ci(level = 0.90)
 ```
 
-## Changing confidence level
+## Changing confidence level {.smaller}
 
 ::: {.columns}
 ::: {.column width=70%}
@@ -336,8 +340,9 @@ How would you modify it for a 99% confidence interval?
 :::
 
 ```{r}
-#| eval: false
-#| code-line-numbers: "5"
+#| code-line-numbers: "7"
+set.seed(12345)
+
 edi_3br |>
   specify(response = rent) |>
   generate(reps = 15000, type = "bootstrap") |>
@@ -345,7 +350,7 @@ edi_3br |>
   get_ci(level = 0.99)
 ```
 
-## Recap {.smaller}
+## Recap
 
 ::: incremental
 - Sample statistic $\ne$ population parameter, but if the sample is good, it can be a good estimate

@@ -1,5 +1,5 @@
 ---
-title: "Bootstrapping"
+title: "Hypothesis testing"
 format: revealjs
 ---
 
@@ -54,9 +54,9 @@ Note: Hypotheses are always at the population level!
 
 -   Assume you live in a world where null hypothesis is true: $\beta_1 = 0$.
 
--   Ask yourself how likely you are to observe the sample statistic, or something even more extreme, in this world: $P(b_1 \leq 159.48~or~b_1 \geq 159.48 | \beta_1 = 0)$ = ?
+-   Ask yourself how likely you are to observe the sample statistic, or something even more extreme, in this world: $P(b_1 \leq -159~or~b_1 \geq 159 | \beta_1 = 0)$ = ?
 
-## Hypothesis testing as a court trial {.smaller}
+## Hypothesis testing as a court trial
 
 -   **Null hypothesis**, $H_0$: Defendant is innocent
 
@@ -72,7 +72,7 @@ Note: Hypotheses are always at the population level!
     -   Yes: Fail to reject $H_0$
     -   No: Reject $H_0$
 
-## Hypothesis testing framework {.smaller}
+## Hypothesis testing framework
 
 ::: incremental
 -   Start with a null hypothesis, $H_0$, that represents the status quo

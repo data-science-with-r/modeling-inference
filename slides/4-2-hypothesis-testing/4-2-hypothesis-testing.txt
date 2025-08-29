@@ -1,0 +1,70 @@
+>> In this video we're building on uncertainty quantification a bit more, this time for making decisions via hypothesis testing instead of estimation via confidence interbals.
+
+>> Let's set things up.
+
+>> We'll use three packages: tidyverse for  data wrangling and visualization, tidymodels for our modeling and hypothesis testing functions, and openintro which contains our dataset - the Duke Forest housing data
+
+>> Let's dive in.
+
+>> A hypothesis test is a statistical technique used to evaluate competing claims using data. This is different from estimation - instead of asking "what is the value of a parameter?", we're asking "is a specific claim about a parameter supported by our data?"
+We always have two competing hypotheses:
+
+> Null hypothesis (H₀): This represents the status quo or "nothing is happening" position. It's an assumption about the population that we'll test.
+
+> Alternative hypothesis (Hₐ): This represents our research question or "something is happening" position. It's what we're trying to find evidence for.
+
+An important note -- hypotheses are always about population parameters, not sample statistics, which we can calculate directly.
+
+>> Let's make this concrete with an example. Suppose we want to know if house area is related to price in the Duke Forest neighborhood. The null hypothesis would state "There is nothing going on." The slope of the relationship between house area and price is zero, in other words β₁ = 0. This would mean area doesn't help predict price.
+Alternative hypothesis says "There is something going on." The slope is different from zero, so β₁ ≠ 0. This would mean area does help predict price. This is called a two-sided test because we're testing whether the slope is different from zero in either direction. We might have some beliefs about whether the slope should be positive or negative going in (bigger house, more expensive, right?) but we don't bring those into the hypothesis testing framework and tend to prefer to set our alternative hypotheses as the relationship could go in either direction.
+
+>> Here's the key mindset for hypothesis testing: Assume you live in a world where null hypothesis is true, beta 1 is 0. Then, we ask ourselves, how likely you are to observe the sample statistic, or something even more extreme, in this world. In other words, what is the probability of observing a sample slope that is 159 dollars or lower or positive 159 dollars or higher if in fact the true population slope is 0. Remember the 159 comes from a previous video where we calculated the sample slope.
+
+>> This might sound like a counter-intuitive way to make a decision, if you think so, I agree with you. But it's also a commonly used approach. It's much like a court trial in the US actually. 
+
+The null hypothesis is that Defendant is innocent -- until proven guilty, right? And the alternative hypothesis is that the Defendant is guilty.
+
+> Then we present the evidence: We collect data (like we collect evidence in a trial).
+
+> And then we judge the evidence: We ask "Could this evidence plausibly have occurred by chance if the defendant were really innocent?"
+If yes: We fail to reject H₀ and come back with a not guilty verdict
+If no: We reject H₀ in favor of Hₐ and come back with a guilty verdict.
+
+Just like in court, we don't "prove innocence" - we either find sufficient evidence of guilt or we don't.
+
+>> So in the hypothesis testing framework
+
+> We start with a null hypothesis, 𝐻0
+, that represents the status quo
+> Set an alternative hypothesis, 𝐻𝐴
+, that represents the research question, i.e. what we’re testing for
+> Conduct a hypothesis test under the assumption that the null hypothesis is true and calculate a p-value (probability of observed or more extreme outcome given that the null hypothesis is true)
+> if the test results suggest that the data do not provide convincing evidence for the alternative hypothesis, stick with the null hypothesis
+> if they do, then reject the null hypothesis in favor of the alternative
+
+>> We had already calculated the observed slope before -- 159 dollars.
+
+>> We then simulate the null distribution
+> we first set a seed
+> then we start with our data frame duke_forest
+> specify the model price vs. area
+> our null hypothesis says "independence" -- price and area are not related, or beta 1 is 0
+> then we generate random samples, let's do 1000 of those, and the method of generation this time is permutation.  permutation shuffles the y-values (prices) while keeping the x-values (areas) fixed. This breaks any relationship between them, simulating what we'd see if H₀ were true.
+> and finally we fit models to each of these randomly generated 1000 samples
+
+>> The object null_dist that we assigned this pipeline's result to contains 2000 rows, 1000 slopes and 1000 intercepts.
+
+>> We're really interested in the slopes only, so let's filter for them and visualize them. We can do this with geom_histogram()
+
+>> or using the handy visualize() shortcut function designed for inference pipelines. We're focusing on the top histogram -- the null distribution of slopes, centered at 0, unimodal and symmertic (again, just like bootstrap distributions). The red line is at 159, our observed sample slope. Our observed slope appears to be way out in the tail of this distribution! And remember, we want to ask ourselves the question: if in fact we live in a land where the null hypothesis is true -- there is no relationship between areas and prices of houses and the slope is 0, how likely is it to get a random sample of 98 Duke forest houses where the observed sample statistic is $159 or something more extreme, in either direction. In other words, in how many simulations out of the 1000 did we observe sample statistics beyond the observed value in either direction just by chance. None of them!
+
+>> We can ask R to calculate this probability, called the p-value, explicitly as well. And it gives us 0, but also an important warning, saying that this 0 is an approximation based on the number of replicates we set. Chances are if we had a higher number of replicates we could observe a few samples with more extreme sample statistics, but we expect that number to be very low.
+
+>> Then, Based on the p-value calculated, what is the conclusion of the hypothesis test?
+
+If p-value is small -- and we usually use a threshold of 0.05 to determine small -- We reject H₀. Our p-value was approximately 0, so small indeed. We conclude there is convincing or statistically discernible evidence that house area is related to price.
+The relationship we observed in our sample is unlikely to be due to chance alone.
+
+If, on the other hand p-value was large, larger than the discernibility level of 5%, we would fail to reject the null hypothesis and say we don't have discernible evidence to conclude there's a relationship and that the observed relationship could plausibly be due to chance.
+
+The beauty of this approach is that we've used the same simulation techniques from bootstrapping, but now we're simulating under a specific assumption, the null hypothesis.
