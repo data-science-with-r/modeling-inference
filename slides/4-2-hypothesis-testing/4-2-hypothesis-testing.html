@@ -12,7 +12,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.14">
 <meta name="author" content=" Data Science with R">
-<title>Modeling and inference – Bootstrapping</title>
+<title>Modeling and inference – Hypothesis testing</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -194,7 +194,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center"><h1 class="title">Bootstrapping</h1>
+<section id="title-slide" class="quarto-title-block center"><h1 class="title">Hypothesis testing</h1>
   <p class="subtitle"><br><br><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</p>
 
 <div class="quarto-title-authors">
@@ -239,8 +239,8 @@
 </ul></section><section id="hypothesis-testing-mindset" class="slide level2"><h2>Hypothesis testing “mindset”</h2>
 <ul>
 <li><p>Assume you live in a world where null hypothesis is true: <span class="math inline">\(\beta_1 = 0\)</span>.</p></li>
-<li><p>Ask yourself how likely you are to observe the sample statistic, or something even more extreme, in this world: <span class="math inline">\(P(b_1 \leq 159.48~or~b_1 \geq 159.48 | \beta_1 = 0)\)</span> = ?</p></li>
-</ul></section><section id="hypothesis-testing-as-a-court-trial" class="slide level2 smaller"><h2>Hypothesis testing as a court trial</h2>
+<li><p>Ask yourself how likely you are to observe the sample statistic, or something even more extreme, in this world: <span class="math inline">\(P(b_1 \leq -159~or~b_1 \geq 159 | \beta_1 = 0)\)</span> = ?</p></li>
+</ul></section><section id="hypothesis-testing-as-a-court-trial" class="slide level2"><h2>Hypothesis testing as a court trial</h2>
 <ul>
 <li><p><strong>Null hypothesis</strong>, <span class="math inline">\(H_0\)</span>: Defendant is innocent</p></li>
 <li><p><strong>Alternative hypothesis</strong>, <span class="math inline">\(H_A\)</span>: Defendant is guilty</p></li>
@@ -264,7 +264,7 @@
 </li>
 </ul>
 </div>
-</section><section id="hypothesis-testing-framework" class="slide level2 smaller"><h2>Hypothesis testing framework</h2>
+</section><section id="hypothesis-testing-framework" class="slide level2"><h2>Hypothesis testing framework</h2>
 <ul>
 <li class="fragment"><p>Start with a null hypothesis, <span class="math inline">\(H_0\)</span>, that represents the status quo</p></li>
 <li class="fragment"><p>Set an alternative hypothesis, <span class="math inline">\(H_A\)</span>, that represents the research question, i.e.&nbsp;what we’re testing for</p></li>
