@@ -3,20 +3,37 @@ title: Simple linear regression
 subtitle: "{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R"
 format: live-html
 engine: knitr
-# bibliography: reference.bib
+bibliography: references.bib
 webr:
   packages: 
     - tidyverse
-    - faraway
-    - scales
-    - ggridges
+    - tidymodels
+    # - faraway
+    #- scales
+    #- ggridges
+    # - kableExtra
   cell-options:
     autorun: false
+  resources:
+    - https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv?token=GHSAT0AAAAAAC7ZGKFKE27CWZQTYYADWCEE2FLMPJA
 ---
+
+** I can't get the data to load in for webr
 
 <!-- begin: webr fodder -->
 
 {{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| edit: false
+#| echo: false
+#| output: false
+options("readr.edition" = 1)
+library(tidyverse)
+# Read the CSV file directly from the URL
+diabetes <- read_csv("https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv?token=GHSAT0AAAAAAC7ZGKFKE27CWZQTYYADWCEE2FLMPJA")
+
+```
 
 <!-- end: webr fodder -->
 
@@ -32,21 +49,329 @@ We invite you to think critically about the ethics questions associated with eac
 
 We’ll use the **tidyverse** and **scales** packages to create and improve plots in this programming exercise. These are already installed for you to use in this programming exercise, run the following code cell to load these packages.
 
-```{webr}
-#| label: load-packages
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
 library(tidyverse)
-library(faraway)
+# library(faraway)
+library(tidymodels)
+library(kableExtra)
 ```
 
-## Motivation 
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+diabetes <- read_csv("data/diabetes.csv")
+```
 
-It's important to learn statistical modeling, as it provides us the tools necessary to answer complex questions in a responsible, insightful manner. 
 
-In this programming exercise, we are going to be working with data that were published in the *Preventive Medicine* journal in 1997. These data can be found in the `faraway` package, and the dataset is called `diabetes`. In this dataset, 403 African Americans were interviewed in a study to understand the prevalence of obesity, diabetes, and other cardiovascular risk factors in central Virginia. We will fit simple linear regression models with different types of predictors to help best understand total cholesterol. 
+## Motivation
+
+It's important to learn statistical modeling, as it provides us the tools necessary to answer complex questions in a responsible, insightful manner.
+
+In this programming exercise, we are going to be working with data that were published in the *Preventive Medicine* journal in 1997 [@SCHORLING199792]. In this dataset, 403 African Americans were interviewed in a study to understand the prevalence of obesity, diabetes, and other cardiovascular risk factors in central Virginia. We will fit simple linear regression models with different types of predictors to help best understand total cholesterol. Please read the data in below. 
+
+```{webr}
+#| label: load-kansas-data
+diabetes <- read_csv("diabetes.csv")
+
+diabetes
+```
 
 
-## References 
+## Dataset information
 
-(I'll get this in .bib. Just putting here for now) 
+Below is a data key regarding a subset of the original data set in the `faraway` package to help us best understand the variables in the dataset that we are going to work with for this programming exercise.
 
-Schorling JB, Roach J, Siegel M, Baturka N, Hunt DE, Guterbock TM, Stewart HL: A trial of church-based smoking cessation interventions for rural African Americans. Preventive Medicine 26:92-101; 1997
+| Variable Name | Description                                         |
+|---------------|-----------------------------------------------------|
+| chol          | Total Cholesterol                                   |
+| weight        | weight in pounds                                    |
+| frame         | factor with levels small, medium, large             |
+
+
+
+Now, let's explore these data!
+
+## Exploratory Data Analysis
+
+::: exercise
+
+Before we fit a linear regression model, we are going to explore the data. Let' start with exploring our response variable of interest, cholesterol (`chol`). Find the mean and sd of the variable `chol` below. Note: the variable `chol` does have missing values.
+
+```{webr}
+
+```
+
+:::
+
+::: {.callout-caution collapse="true"}
+## Hint
+
+Think about the following code structure below, and what you want to be taking the mean of!
+
+```{r}
+#| eval: false
+
+diabetes |>
+  summarize(mean = mean(___, na.rm = ___), 
+            sd = sd(___ , na.rm = ___))
+```
+:::
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r}
+#| eval: true
+
+diabetes |>
+  summarize(mean = mean(chol, na.rm = TRUE), 
+            sd = sd(chol , na.rm = TRUE))
+```
+
+:::
+
+
+
+::: exercise
+
+Next, let's create a histogram of our response. What is the shape of the distribution?
+
+```{webr}
+
+```
+
+:::
+
+::: {.callout-caution collapse="true"}
+## Hint
+
+```{r}
+#| eval: false
+diabetes |>
+  ggplot(
+    aes(x = ___)
+  ) +
+  geom______()
+```
+:::
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r}
+#| eval: true
+
+diabetes |>
+  ggplot(
+    aes(x = chol)
+  ) +
+  geom_histogram()
+```
+
+The distribution of cholesterol responses is roughly symmetric, with a couple additional observations out on the right tail.
+
+:::
+
+## Question of interest 
+
+Now, we are going to explore the relationship between weight, and an individual's cholesterol. For this exercise, cholesterol (`chol`) is going to be our response, and our explanatory variable is going to be weight (`weight`).
+
+::: exercise
+
+First, let's create a scatterplot between cholesterol and weight. We also want to fit a least squares simple linear regression line through our data. Once we create the plot, what can we say about the relationship? 
+
+```{webr}
+
+```
+
+:::
+
+::: {.callout-caution collapse="true"}
+## Hint
+
+```{r}
+#| eval: false
+diabetes |>
+  ggplot(
+    aes(x = ___, y = ____)
+  ) +
+  geom______() + 
+  geom______(method = "lm" , se = F)
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r}
+diabetes |>
+  ggplot(
+    aes(x = weight, y = chol)
+  ) +
+  geom_point() + 
+  geom_smooth(method = "lm", se = F)
+```
+
+It appears that the relationship between weight and cholesterol is slightly positive. That is, as someone's weight increases, on average, their cholesterol increases according to these data. 
+:::
+
+## Estimating the line of best fit. 
+
+Now, let's use R to calculate the coefficients associated with the line of best fit your created above. See the R code and output below. 
+
+```{r}
+lm_fit <- linear_reg() |> 
+  fit(chol ~ weight, data = diabetes)
+```
+
+```{r}
+#| echo: false
+tidy(lm_fit) |>
+  select(term, estimate) |>
+  kable(digits = 3)
+```
+
+::: exercise
+
+How would you interpret the intercept?
+
+How would you interpret the weight coefficient?
+
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+Intercept: For a person who weighs 0 pounds, we would estimate their mean cholesterol to be 194.986 milligrams per deciliter.
+
+Weight: For a one pound increase in a person, we estimate on average, a 0.074 milligrams per deciliter increase in their cholesterol.
+
+:::
+
+## Outliers 
+
+We are going to investigate how adding outliers influences the line of best fit. First, we want you to: 
+
+-- Create a new observation that has a value of 200 pounds, and a cholesterol value of 600. 
+
+-- Create a new observation that has a value of 500 pounds, and a cholesterol value of 600. 
+
+We are going to re-estimate our line of best fit for each of these added observations. To create a new observation, please fill in the ____ with the appropriate values. Next, add this value to the exsisting data set using the `bind_rows()` function.
+
+::: exercise
+```{webr}
+new_obs <- tibble(
+  weight = ___,
+  chol = ____
+)
+
+diabetes_new <- bind_rows(diabetes, new_obs)   
+```
+
+Now, re-run the following code below to see how your line has changed from above. Try this activity with at least our two suggested new observations. You are encouraged to explore more!
+
+```{webr}
+lm_fit <- linear_reg() |> 
+  fit(chol ~ weight, data = diabetes_new)
+
+tidy(lm_fit) |>
+  select(term, estimate) |>
+  kable(digits = 3)
+```
+:::
+
+
+::: {.callout-tip collapse="true"}
+## Takeaways
+
+-- Outliers that are more towards the middle of the data have less influence on the estimated slope coefficient
+
+-- Outliers that are more towards the ends of the data have higher influence of the estimated slope coefficient
+:::
+
+## Modeling with a categorical variable 
+
+Simple linear regression is not limited to using a single quantitative explanatory variable. We can also use a categorical variable. In this exercise, we are going to model our response variable cholesterol by a person's frame. 
+
+::: exercise
+
+Fit the appropriate simple linear regression model, and produce the estimates for the model.
+
+```{webr}
+lm_fit <- linear_reg() |> 
+  fit()
+
+tidy(lm_fit) |>
+  select(term, estimate) |>
+  kable(digits = 3)
+```
+
+
+Why are some estimates so small?
+:::
+
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r}
+lm_fit <- linear_reg() |> 
+  fit(chol ~ frame, data = diabetes)
+
+tidy(lm_fit) |>
+  select(term, estimate) |>
+  kable(digits = 3)
+```
+
+Some estimates are small because the estimates that are associated with levels of the categorical variable `frame` are **deviations** from the baseline group! Notice how we see estimates for medium and large, but not small. Small has been chosen to be the baseline group, and the other estimates are deviations from the baseline.
+
+:::
+
+
+When working with a single categorical variable, the estimates for cholesterol correspond to the sample mean cholesterol for each group!
+
+::: exercise 
+To verify this, please see the calculate the sample mean cholesterol for each frame group below, and relate these sample means to the deviations from the baseline above.
+
+```{r}
+diabetes |>
+  filter(!is.na(frame)) |>
+  group_by(frame) |>
+  summarise(mean_chol = mean(chol, na.rm = T))
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+Our baseline estimated mean cholesterol for someone with a small frame is ~ 197 in both summary outputs. The baseline deviation for the medium group is 16.043. The calculated sample mean cholesterol for someone with a medium build is ~214, which is roughly 16 units away (not exact due to rounding). This relationship holds for the large frame group as well. 
+::: 
+
+With this information in-mind, what is the appropriate interpretation for the 16.403 estimate? 
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+For someone with a medium frame, we estimate on average a 16.043 increase in cholesterol from those who have a small frame.
+
+:::
+
+## In Summary 
+
+-- Simple linear regression can be used when our response variable is quantitative, and we have a single explanatory variable.
+
+-- Outliers have the ability to drastically influence our line of best fit. 
+
+## References
+
+
+
