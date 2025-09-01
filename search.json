@@ -1302,6 +1302,34 @@
     "text": "Another model to consider\n\nLet’s add one more model to the variable – issue month. Should we add this variable to the interaction effects model from earlier?\n\n\n# add code here\n\nAdd response here."
   },
   {
+    "objectID": "exercises/nba.html#packages",
+    "href": "exercises/nba.html#packages",
+    "title": "Multiple linear regression",
+    "section": "Packages",
+    "text": "Packages\nWe’ll use the tidyverse and tidymodels packages to make plots and fit models. We will also use the kableExtra package to put our output into nice and neat tables. These are already installed for you to use in this programming exercise, run the following code cell to load these packages."
+  },
+  {
+    "objectID": "exercises/nba.html#motivation",
+    "href": "exercises/nba.html#motivation",
+    "title": "Multiple linear regression",
+    "section": "Motivation",
+    "text": "Motivation\nThe National Basketball Assocciation (NBA) is a professional sports league that that consists of 30 teams across the United States and Canada. In the early 2000s, NBA teams started to use advanced analytics to gain a competitive edge over their opponents. The goal being to use NBA data to to uncover complex relationships, helping those involved to make data driven decisions on game strategy and business operations. In this programming exercise, we are going to work with NBA data to try and better understand the salary NBA players make."
+  },
+  {
+    "objectID": "exercises/nba.html#dataset-information",
+    "href": "exercises/nba.html#dataset-information",
+    "title": "Multiple linear regression",
+    "section": "Dataset information",
+    "text": "Dataset information\nThis dataset consists of player per-game statistics for the NBA’s 2022-23 season with player salary data. You can load the data in below and reveal the data key for the many variables in this data set. We are going to use just a subset of these variables in this programming exercise.\n\n\n\n\n\n\n\n\n** put in a long key here **\nNow, let’s explore these data!"
+  },
+  {
+    "objectID": "exercises/nba.html#exploratory-data-analysis",
+    "href": "exercises/nba.html#exploratory-data-analysis",
+    "title": "Multiple linear regression",
+    "section": "Exploratory Data Analysis",
+    "text": "Exploratory Data Analysis\n\nBefore we fit a linear regression model, we are going to explore the data. Let’ start with exploring our response variable of interest, cholesterol (Salary). Specifically, we are interested in the relationship between Salary, Age, and Position. Below, calculate the mean and standard deviation for your quantitative variables. In the same code, produce the count of each position.\n\n\n\n\n\n\n\n\n\nAdditive models: The relationship between x and y does not change based on z\nInteraction models: The relationship between x and y does change by z"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "\n Modeling and inference",
