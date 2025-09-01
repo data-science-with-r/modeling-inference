@@ -18,6 +18,8 @@ webr:
     - 
 ---
 
+** need to remove duel positions ** 
+
 <!-- begin: webr fodder -->
 
 {{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
@@ -72,7 +74,7 @@ This dataset consists of player per-game statistics for the NBA's 2022-23 season
 
 ```{webr}
 #| label: load-kansas-data
-nba <- read_csv("exercises/data/nba20222023.csv")
+nba <- read_csv("exercises/data/nba20222023.csv") 
 
 glimpse(nba)
 ```
@@ -93,9 +95,150 @@ Before we fit a linear regression model, we are going to explore the data. Let' 
 
 :::
 
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+nba <- read_csv("data/nba20222023.csv") 
+```
+
+
+```{r}
+#| eval: true
+
+nba |>
+  group_by(Position) |>
+  summarize(mean_salary = mean(Salary, na.rm = TRUE), 
+            sd_salary = sd(Salary , na.rm = TRUE),
+            mean_age = mean(Age, na.rm = TRUE),
+            sd_age = sd(Age, na.rm = TRUE),
+            position_n = n())
+```
+:::
+
+
+## Visualizing the data
+
+We are now going to plot our response variable `Salary` vs `Age` using a scatterplot. We are also going to color the points based on `Position`. The plot can be seen below. 
+
+
+```{r}
+#| echo: false 
+#| message: false
+
+nba |>
+  ggplot(
+    aes(x = Age, y = Salary, color = Position)) +
+      geom_point() +
+      geom_smooth(method = "lm" , se = F) +
+  labs(title = "Salary by Age and Position",
+       subtitle = "2022-2023 Season")
+```
+
+From the videos, we learned about two different times of multiple linear regression models that we could fit: 
+
+**Additive models**: The relationship between x and y does not change based on z
+
+**Interaction models**: The relationship between x and y does change by z
+
+::: exercise
+
+(Thought exercise) Based on these definitions, do you think it would be appropriate to fit an additive or interaction model?
+
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+It is justifiable to fit an interaction model instead of an additive model. Based on the scatterplot, we can see that the relationship between Salary and Age changes depending on the position the player plays.
+:::
+
+For completeness, we are first going to fit an additive model. We are going to this to: 
+
+-- Show that R will still fit the model, desipte it not being the most appropriate
+-- Practice fitting additive models 
+-- Practice interpreting additive model output
+
+::: exercise
+Fit the additive model below. Name this model `m1`, and wrap this object in the `tidy()` function. Next, interpret the estimate for `PositionPF` in the context of the problem.
+
+```{webr}
+
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r}
+m1 <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Salary ~ Age + Position, data = nba)
+
+tidy(m1) |>
+  select(term, estimate)
+```
+
+As an NBA player ages one year, we estimate a mean salary increase of 1,307,286 usd if they play PF.
+:::
+
+::: exercise
+(Thought exercise) What position do you not see a term for? Where is it? 
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+We don't see a specific term for `C`. That is because it's our `(Intercept)` term! We can interpret the intercept as: For an age of, we estimate the mean salary of an NBA C to be -2,0019,456 usd. Each other position estimate is the estimated difference in `Salary` relative to the C, after controlling for Age!
+:::
+
+We can change the intercept. See the following code that changes the intercept to `PG`, and notice how the estimates change based on what our intercept term is! Note: `Age` does not change, because the relationship between Salary and Age does not depend on Position. 
+
+```{r}
+nba_diff <- nba |>
+  mutate(Position = fct_relevel(Position, "PG"))
+
+m2 <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Salary ~ Age + Position, data = nba_diff)
+
+tidy(m2) |>
+  select(term, estimate)
+```
+
+#### Interaction model 
+
+::: exercise
+
+Now, it's time to fit the interaction model between `Salary`, `Age`, and `Position`. Please do so below, and interpret the Age:PositionPF interaction term.  
+
+```{webr}
+
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r}
+m3 <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Salary ~ Age * Position, data = nba)
+
+tidy(m3) |>
+  select(term, estimate)
+```
+
+
+For a Power Forward, a one-year increase in age, we estimate on average an increase in salary of approximately 970,334 usd.
+
+Why 970,334? The term Age:PositionPF has a coefficient of 556,044. This is the estiamted difference in the slope coefficient vs the Center position. Thus, the slope coefficient specifically for the PF position is estimated to be 414,290 larger than the baseline.
+:::
+
+#### Your Turn 
 
 
 
-Additive models: The relationship between x and y does not change based on z
-
-Interaction models: The relationship between x and y does change by z
