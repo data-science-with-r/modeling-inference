@@ -728,382 +728,130 @@
     "text": "References"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html",
-    "title": "Modeling loan interest rates",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html",
+    "title": "Modeling loan interest rates (Complete)",
     "section": "",
     "text": "Practice modeling with multiple predictors using the data on loan interest rates.\n\nThe dataset is about loans from the peer-to-peer lender, Lending Club, from the openintro package. We will use tidyverse and tidymodels for data exploration and modeling, respectively.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)\n\n\nBefore we use the dataset, we’ll make a few transformations to it.\n\nReview the code below with your neighbor and write a summary of the data transformation pipeline.\n\nAdd response here.\n\nloans &lt;- loans_full_schema |&gt;\n  mutate(\n    credit_util = total_credit_utilized / total_credit_limit,\n    bankruptcy = as.factor(if_else(public_record_bankrupt == 0, 0, 1)),\n    verified_income = droplevels(verified_income),\n    homeownership = str_to_title(homeownership),\n    homeownership = fct_relevel(homeownership, \"Rent\", \"Mortgage\", \"Own\")\n  ) |&gt;\n  rename(credit_checks = inquiries_last_12m) |&gt;\n  select(\n    interest_rate, loan_amount, verified_income, \n    debt_to_income, credit_util, bankruptcy, term, \n    credit_checks, issue_month, homeownership\n  )\n\nHere is a glimpse at the data:\n\nglimpse(loans)\n\nRows: 10,000\nColumns: 10\n$ interest_rate   &lt;dbl&gt; 14.07, 12.61, 17.09, 6.72, 14.07, 6.72, 13.59, 11.99, …\n$ loan_amount     &lt;int&gt; 28000, 5000, 2000, 21600, 23000, 5000, 24000, 20000, 2…\n$ verified_income &lt;fct&gt; Verified, Not Verified, Source Verified, Not Verified,…\n$ debt_to_income  &lt;dbl&gt; 18.01, 5.04, 21.15, 10.16, 57.96, 6.46, 23.66, 16.19, …\n$ credit_util     &lt;dbl&gt; 0.54759517, 0.15003472, 0.66134832, 0.19673228, 0.7549…\n$ bankruptcy      &lt;fct&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, …\n$ term            &lt;dbl&gt; 60, 36, 36, 36, 36, 36, 60, 60, 36, 36, 60, 60, 36, 60…\n$ credit_checks   &lt;int&gt; 6, 1, 4, 0, 7, 6, 1, 1, 3, 0, 4, 4, 8, 6, 0, 0, 4, 6, …\n$ issue_month     &lt;fct&gt; Mar-2018, Feb-2018, Feb-2018, Jan-2018, Mar-2018, Jan-…\n$ homeownership   &lt;fct&gt; Mortgage, Rent, Rent, Rent, Rent, Own, Mortgage, Mortg…"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#goal",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#goal",
-    "title": "Modeling loan interest rates",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#goal",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#goal",
+    "title": "Modeling loan interest rates (Complete)",
     "section": "",
     "text": "Practice modeling with multiple predictors using the data on loan interest rates."
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#packages",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#packages",
-    "title": "Modeling loan interest rates",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#packages",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#packages",
+    "title": "Modeling loan interest rates (Complete)",
     "section": "",
     "text": "The dataset is about loans from the peer-to-peer lender, Lending Club, from the openintro package. We will use tidyverse and tidymodels for data exploration and modeling, respectively.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#data-prep",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#data-prep",
-    "title": "Modeling loan interest rates",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#data-prep",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#data-prep",
+    "title": "Modeling loan interest rates (Complete)",
     "section": "",
     "text": "Before we use the dataset, we’ll make a few transformations to it.\n\nReview the code below with your neighbor and write a summary of the data transformation pipeline.\n\nAdd response here.\n\nloans &lt;- loans_full_schema |&gt;\n  mutate(\n    credit_util = total_credit_utilized / total_credit_limit,\n    bankruptcy = as.factor(if_else(public_record_bankrupt == 0, 0, 1)),\n    verified_income = droplevels(verified_income),\n    homeownership = str_to_title(homeownership),\n    homeownership = fct_relevel(homeownership, \"Rent\", \"Mortgage\", \"Own\")\n  ) |&gt;\n  rename(credit_checks = inquiries_last_12m) |&gt;\n  select(\n    interest_rate, loan_amount, verified_income, \n    debt_to_income, credit_util, bankruptcy, term, \n    credit_checks, issue_month, homeownership\n  )\n\nHere is a glimpse at the data:\n\nglimpse(loans)\n\nRows: 10,000\nColumns: 10\n$ interest_rate   &lt;dbl&gt; 14.07, 12.61, 17.09, 6.72, 14.07, 6.72, 13.59, 11.99, …\n$ loan_amount     &lt;int&gt; 28000, 5000, 2000, 21600, 23000, 5000, 24000, 20000, 2…\n$ verified_income &lt;fct&gt; Verified, Not Verified, Source Verified, Not Verified,…\n$ debt_to_income  &lt;dbl&gt; 18.01, 5.04, 21.15, 10.16, 57.96, 6.46, 23.66, 16.19, …\n$ credit_util     &lt;dbl&gt; 0.54759517, 0.15003472, 0.66134832, 0.19673228, 0.7549…\n$ bankruptcy      &lt;fct&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, …\n$ term            &lt;dbl&gt; 60, 36, 36, 36, 36, 36, 60, 60, 36, 36, 60, 60, 36, 60…\n$ credit_checks   &lt;int&gt; 6, 1, 4, 0, 7, 6, 1, 1, 3, 0, 4, 4, 8, 6, 0, 0, 4, 6, …\n$ issue_month     &lt;fct&gt; Mar-2018, Feb-2018, Feb-2018, Jan-2018, Mar-2018, Jan-…\n$ homeownership   &lt;fct&gt; Mortgage, Rent, Rent, Rent, Rent, Own, Mortgage, Mortg…"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#get-to-know-the-data",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#get-to-know-the-data",
-    "title": "Modeling loan interest rates",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#get-to-know-the-data",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#get-to-know-the-data",
+    "title": "Modeling loan interest rates (Complete)",
     "section": "Get to know the data",
-    "text": "Get to know the data\n\nWhat is a typical interest rate in this dataset? What are some attributes of a typical loan and a typical borrower. Give yourself no more than 5 minutes for this exploration and share 1-2 findings.\n\n\n# add code here\n\n\n# add code here"
+    "text": "Get to know the data\n\nWhat is a typical interest rate in this dataset? What are some attributes of a typical loan and a typical borrower. Give yourself no more than 5 minutes for this exploration and share 1-2 findings.\n\nggplot(loans, aes(x = interest_rate)) +\n  geom_histogram(binwidth = 1)\nggplot(loans, aes(x = loan_amount)) +\n  geom_histogram(binwidth = 5000)\nggplot(loans, aes(x = term)) +\n  geom_bar()\nggplot(loans, aes(x = issue_month)) +\n  geom_bar()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(loans, aes(x = credit_util)) +\n  geom_histogram(binwidth = 0.1)\nggplot(loans, aes(x = verified_income)) +\n  geom_bar()\nggplot(loans, aes(x = debt_to_income)) +\n  geom_histogram(binwidth = 10)\nggplot(loans, aes(x = bankruptcy)) +\n  geom_bar()\nggplot(loans, aes(x = credit_checks)) +\n  geom_bar()\nggplot(loans, aes(x = homeownership)) +\n  geom_bar()"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-credit-utilization",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-credit-utilization",
-    "title": "Modeling loan interest rates",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-credit-utilization",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-credit-utilization",
+    "title": "Modeling loan interest rates (Complete)",
     "section": "Interest rate vs. credit utilization",
-    "text": "Interest rate vs. credit utilization\n\nFor a regression model for predicting interest rate from credit utilization. Display the summary output.\n\n\n# add code here\n\n\nVisualize the model.\n\n\n# add code here\n\n\nInterpret the intercept and the slope.\n\nIntercept: Add response here.\nSlope: Add response here."
+    "text": "Interest rate vs. credit utilization\n\nFor a regression model for predicting interest rate from credit utilization. Display the summary output.\n\n\nrate_util_fit &lt;- linear_reg() |&gt;\n  fit(interest_rate ~ credit_util, data = loans)\n\ntidy(rate_util_fit)\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic   p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)    10.5     0.0871     121.  0        \n2 credit_util     4.73    0.180       26.3 1.18e-147\n\n\n\nVisualize the model.\n\n\nggplot(loans, aes(x = credit_util, y = interest_rate)) +\n  geom_point(alpha = 0.5) +\n  geom_smooth(method = \"lm\")\n\n\n\n\n\n\n\n\nInterpret the intercept and the slope.\n\nIntercept: Borrowers with 0 credit utilization are predicted, on average, to get an interest rate of 10.5%.\nSlope: For each additional point credit utilization is higher, interest rate is predicted to be higher, on average, by 4.73%."
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-homeownership",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-homeownership",
-    "title": "Modeling loan interest rates",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-homeownership",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-homeownership",
+    "title": "Modeling loan interest rates (Complete)",
     "section": "Interest rate vs. homeownership",
-    "text": "Interest rate vs. homeownership\n\nFit a regression model for predicting interest rate from homeownership and display the summary output.\n\n\n# add code here\n\n\n\nInterpret each coefficient in context of the problem.\n\nIntercept: Add response here.\n\nSlopes:\n\nAdd response here.\nAdd response here."
+    "text": "Interest rate vs. homeownership\n\nFit a regression model for predicting interest rate from homeownership and display the summary output.\n\n\nrate_home_fit &lt;- linear_reg() |&gt;\n  fit(interest_rate ~ homeownership, data = loans)\n\ntidy(rate_home_fit)\n\n# A tibble: 3 × 5\n  term                  estimate std.error statistic  p.value\n  &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)             12.9      0.0803    161.   0       \n2 homeownershipMortgage   -0.866    0.108      -8.03 1.08e-15\n3 homeownershipOwn        -0.611    0.158      -3.88 1.06e- 4\n\n\n\n\nInterpret each coefficient in context of the problem.\n\nIntercept: Loan applicants who rent are predicted to receive an interest rate of 12.9%, on average.\n\nSlopes:\n\nThe model predicts that loan applicants who have a mortgage for their home receive 0.866% lower interest rate than those who rent their home, on average.\nThe model predicts that loan applicants who own their home receive 0.611% lower interest rate than those who rent their home, on average."
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-credit-utilization-and-homeownership",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-credit-utilization-and-homeownership",
-    "title": "Modeling loan interest rates",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-credit-utilization-and-homeownership",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-credit-utilization-and-homeownership",
+    "title": "Modeling loan interest rates (Complete)",
     "section": "Interest rate vs. credit utilization and homeownership",
-    "text": "Interest rate vs. credit utilization and homeownership\nMain effects model\n\nFit a regression model to predict interest rate from credit utilization and homeownership, without an interaction effect between the two predictors. Display the summary output.\n\n\n# add code here\n\n\nWrite the estimated regression equation for loan applications from each of the homeownership groups separately.\n\nRent: \\(add~math~text~here\\)\n\nMortgage: \\(add~math~text~here\\)\n\nOwn: \\(add~math~text~here\\)\n\n\n\nHow does the model predict the interest rate to vary as credit utilization varies for loan applicants with different homeownership status. Are the rates the same or different?\n\nAdd response here.\nInteraction effects model\n\nFit a regression model to predict interest rate from credit utilization and homeownership, with an interaction effect between the two predictors. Display the summary output.\n\n\n# add code here\n\n\nWrite the estimated regression equation for loan applications from each of the homeownership groups separately.\n\nRent: \\(add~math~text~here\\)\n\nMortgage: \\(add~math~text~here\\)\n\nOwn: \\(add~math~text~here\\)\n\n\n\nHow does the model predict the interest rate to vary as credit utilization varies for loan applicants with different homeownership status. Are the rates the same or different?\n\nAdd response here.\nChoosing a model\nRule of thumb: Occam’s Razor - Don’t over-complicate the situation! We prefer the simplest best model.\n\nDisplay model level summary statistics.\n\n\n# add code here\n\n\nWhat is R-squared? What is adjusted R-squared?\n\nAdd response here.\n\nBased on the adjusted \\(R^2\\)s of these two models, which one do we prefer?\n\nAdd response here."
+    "text": "Interest rate vs. credit utilization and homeownership\nMain effects model\n\nFit a regression model to predict interest rate from credit utilization and homeownership, without an interaction effect between the two predictors. Display the summary output.\n\n\nrate_util_home_fit &lt;- linear_reg() |&gt;\n  fit(interest_rate ~ credit_util + homeownership, data = loans)\n\ntidy(rate_util_home_fit)\n\n# A tibble: 4 × 5\n  term                  estimate std.error statistic   p.value\n  &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)              9.93      0.140    70.8   0        \n2 credit_util              5.34      0.207    25.7   2.20e-141\n3 homeownershipMortgage    0.696     0.121     5.76  8.71e-  9\n4 homeownershipOwn         0.128     0.155     0.827 4.08e-  1\n\n\n\nWrite the estimated regression equation for loan applications from each of the homeownership groups separately.\n\nRent: \\(\\widehat{interest~rate} = 9.93 + 5.34 \\times credit~util\\)\n\nMortgage: \\(\\widehat{interest~rate} = 10.626 + 5.34 \\times credit~util\\)\n\nOwn: \\(\\widehat{interest~rate} = 10.058 + 5.34 \\times credit~util\\)\n\n\n\nHow does the model predict the interest rate to vary as credit utilization varies for loan applicants with different homeownership status. Are the rates the same or different?\n\nThe same.\nInteraction effects model\n\nFit a regression model to predict interest rate from credit utilization and homeownership, with an interaction effect between the two predictors. Display the summary output.\n\n\nrate_util_home_int_fit &lt;- linear_reg() |&gt;\n  fit(interest_rate ~ credit_util * homeownership, data = loans)\n\ntidy(rate_util_home_int_fit)\n\n# A tibble: 6 × 5\n  term                              estimate std.error statistic  p.value\n  &lt;chr&gt;                                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)                          9.44      0.199     47.5  0       \n2 credit_util                          6.20      0.325     19.1  1.01e-79\n3 homeownershipMortgage                1.39      0.228      6.11 1.04e- 9\n4 homeownershipOwn                     0.697     0.316      2.20 2.75e- 2\n5 credit_util:homeownershipMortgage   -1.64      0.457     -3.58 3.49e- 4\n6 credit_util:homeownershipOwn        -1.06      0.590     -1.80 7.24e- 2\n\n\n\nWrite the estimated regression equation for loan applications from each of the homeownership groups separately.\n\nRent: \\(\\widehat{interest~rate} = 9.44 + 6.20 \\times credit~util\\)\n\nMortgage: \\(\\widehat{interest~rate} = 10.83 + 4.56 \\times credit~util\\)\n\nOwn: \\(\\widehat{interest~rate} = 10.137 + 5.14 \\times credit~util\\)\n\n\n\nHow does the model predict the interest rate to vary as credit utilization varies for loan applicants with different homeownership status. Are the rates the same or different?\n\nDifferent.\nChoosing a model\nRule of thumb: Occam’s Razor - Don’t over-complicate the situation! We prefer the simplest best model.\n\nDisplay model level summary statistics.\n\n\nglance(rate_util_home_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic   p.value    df  logLik    AIC    BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1    0.0682        0.0679  4.83      244. 1.25e-152     3 -29926. 59861. 59897.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\nglance(rate_util_home_int_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic   p.value    df  logLik    AIC    BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1    0.0694        0.0689  4.83      149. 4.79e-153     5 -29919. 59852. 59903.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\nWhat is R-squared? What is adjusted R-squared?\n\nR-squared is the percent variability in the response that is explained by our model. (Can use when models have same number of variables for model selection)\nAdjusted R-squared is similar, but has a penalty for the number of variables in the model. (Should use for model selection when models have different numbers of variables).\n\nBased on the adjusted \\(R^2\\)s of these two models, which one do we prefer?\n\nThe interaction effects model, though just barely."
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#another-model-to-consider",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#another-model-to-consider",
-    "title": "Modeling loan interest rates",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#another-model-to-consider",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#another-model-to-consider",
+    "title": "Modeling loan interest rates (Complete)",
     "section": "Another model to consider",
-    "text": "Another model to consider\n\nLet’s add one more model to the variable – issue month. Should we add this variable to the interaction effects model from earlier?\n\n\n# add code here\n\nAdd response here."
+    "text": "Another model to consider\n\nLet’s add one more model to the variable – issue month. Should we add this variable to the interaction effects model from earlier?\n\n\nlinear_reg() |&gt;\n  fit(interest_rate ~ credit_util * homeownership + issue_month, data = loans) |&gt;\n  glance()\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic   p.value    df  logLik    AIC    BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1    0.0694        0.0688  4.83      106. 5.62e-151     7 -29919. 59856. 59921.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\nNo, the adjusted R-squared goes down."
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html",
-    "title": "Forest classification (Complete)",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html",
+    "title": "Forest classification",
     "section": "",
     "text": "In this code along, we will\nWe will use tidyverse and tidymodels for data exploration and modeling, respectively, and the forested package for the data.\nlibrary(tidyverse)\n\nWarning: package 'ggplot2' was built under R version 4.4.3\n\n\nWarning: package 'tibble' was built under R version 4.4.3\n\n\nWarning: package 'purrr' was built under R version 4.4.3\n\n\nWarning: package 'lubridate' was built under R version 4.4.3\n\nlibrary(tidymodels)\n\nWarning: package 'tidymodels' was built under R version 4.4.3\n\n\nWarning: package 'broom' was built under R version 4.4.3\n\n\nWarning: package 'dials' was built under R version 4.4.3\n\n\nWarning: package 'scales' was built under R version 4.4.3\n\n\nWarning: package 'infer' was built under R version 4.4.3\n\n\nWarning: package 'modeldata' was built under R version 4.4.3\n\n\nWarning: package 'parsnip' was built under R version 4.4.3\n\n\nWarning: package 'recipes' was built under R version 4.4.3\n\n\nWarning: package 'rsample' was built under R version 4.4.3\n\n\nWarning: package 'tune' was built under R version 4.4.3\n\n\nWarning: package 'workflows' was built under R version 4.4.3\n\n\nWarning: package 'workflowsets' was built under R version 4.4.3\n\n\nWarning: package 'yardstick' was built under R version 4.4.3\n\nlibrary(forested)\n\nWarning: package 'forested' was built under R version 4.4.3\nRemember from the video that the forested dataset contains information on whether a plot is forested (Yes) or not (No) as well as numerical and categorical features of that plot.\nglimpse(forested)\n\nRows: 7,107\nColumns: 19\n$ forested         &lt;fct&gt; Yes, Yes, No, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes,…\n$ year             &lt;dbl&gt; 2005, 2005, 2005, 2005, 2005, 2005, 2005, 2005, 2005,…\n$ elevation        &lt;dbl&gt; 881, 113, 164, 299, 806, 736, 636, 224, 52, 2240, 104…\n$ eastness         &lt;dbl&gt; 90, -25, -84, 93, 47, -27, -48, -65, -62, -67, 96, -4…\n$ northness        &lt;dbl&gt; 43, 96, 53, 34, -88, -96, 87, -75, 78, -74, -26, 86, …\n$ roughness        &lt;dbl&gt; 63, 30, 13, 6, 35, 53, 3, 9, 42, 99, 51, 190, 95, 212…\n$ tree_no_tree     &lt;fct&gt; Tree, Tree, Tree, No tree, Tree, Tree, No tree, Tree,…\n$ dew_temp         &lt;dbl&gt; 0.04, 6.40, 6.06, 4.43, 1.06, 1.35, 1.42, 6.39, 6.50,…\n$ precip_annual    &lt;dbl&gt; 466, 1710, 1297, 2545, 609, 539, 702, 1195, 1312, 103…\n$ temp_annual_mean &lt;dbl&gt; 6.42, 10.64, 10.07, 9.86, 7.72, 7.89, 7.61, 10.45, 10…\n$ temp_annual_min  &lt;dbl&gt; -8.32, 1.40, 0.19, -1.20, -5.98, -6.00, -5.76, 1.11, …\n$ temp_annual_max  &lt;dbl&gt; 12.91, 15.84, 14.42, 15.78, 13.84, 14.66, 14.23, 15.3…\n$ temp_january_min &lt;dbl&gt; -0.08, 5.44, 5.72, 3.95, 1.60, 1.12, 0.99, 5.54, 6.20…\n$ vapor_min        &lt;dbl&gt; 78, 34, 49, 67, 114, 67, 67, 31, 60, 79, 172, 162, 70…\n$ vapor_max        &lt;dbl&gt; 1194, 938, 754, 1164, 1254, 1331, 1275, 944, 892, 549…\n$ canopy_cover     &lt;dbl&gt; 50, 79, 47, 42, 59, 36, 14, 27, 82, 12, 74, 66, 83, 6…\n$ lon              &lt;dbl&gt; -118.6865, -123.0825, -122.3468, -121.9144, -117.8841…\n$ lat              &lt;dbl&gt; 48.69537, 47.07991, 48.77132, 45.80776, 48.07396, 48.…\n$ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tree, Non-tree vegetati…"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#fit",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#fit",
-    "title": "Forest classification (Complete)",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#fit",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#fit",
+    "title": "Forest classification",
     "section": "Fit",
-    "text": "Fit\nFit a model for classifying plots as forested or not based on a subset of predictors of your choice. Name the model forested_custom_fit and display a tidy output of the model.\n\nforested_custom_fit &lt;- logistic_reg() |&gt;\n  fit(forested ~ elevation + tree_no_tree + lat + lon + temp_annual_mean, data = forested_train)\ntidy(forested_custom_fit)\n\n# A tibble: 6 × 5\n  term                 estimate std.error statistic   p.value\n  &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)         48.2       6.06         7.96  1.71e- 15\n2 elevation           -0.000311  0.000384    -0.811 4.17e-  1\n3 tree_no_treeNo tree  3.35      0.0925      36.3   4.02e-288\n4 lat                 -0.313     0.0642      -4.87  1.09e-  6\n5 lon                  0.311     0.0288      10.8   3.81e- 27\n6 temp_annual_mean     0.270     0.0819       3.30  9.78e-  4"
+    "text": "Fit\nFit a model for classifying plots as forested or not based on a subset of predictors of your choice. Name the model forested_custom_fit and display a tidy output of the model.\n\n# add code here"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#predict",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#predict",
-    "title": "Forest classification (Complete)",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#predict",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#predict",
+    "title": "Forest classification",
     "section": "Predict",
-    "text": "Predict\nPredict for the testing data using this model.\n\nforested_custom_aug &lt;- augment(forested_custom_fit, new_data = forested_test)\nforested_custom_aug\n\n# A tibble: 1,777 × 22\n   .pred_class .pred_Yes .pred_No forested  year elevation eastness northness\n   &lt;fct&gt;           &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;\n 1 Yes            0.877    0.123  Yes       2005       113      -25        96\n 2 Yes            0.829    0.171  Yes       2005       736      -27       -96\n 3 Yes            0.855    0.145  Yes       2005       224      -65       -75\n 4 Yes            0.957    0.0431 Yes       2003      1031      -49        86\n 5 Yes            0.728    0.272  No        2005      1713      -66        75\n 6 Yes            0.982    0.0175 Yes       2014      1612       30       -95\n 7 No             0.0765   0.924  No        2014       507       44       -89\n 8 Yes            0.889    0.111  Yes       2014       940      -93        35\n 9 Yes            0.659    0.341  No        2014       246       22       -97\n10 No             0.0877   0.912  No        2014       419       86       -49\n# ℹ 1,767 more rows\n# ℹ 14 more variables: roughness &lt;dbl&gt;, tree_no_tree &lt;fct&gt;, dew_temp &lt;dbl&gt;,\n#   precip_annual &lt;dbl&gt;, temp_annual_mean &lt;dbl&gt;, temp_annual_min &lt;dbl&gt;,\n#   temp_annual_max &lt;dbl&gt;, temp_january_min &lt;dbl&gt;, vapor_min &lt;dbl&gt;,\n#   vapor_max &lt;dbl&gt;, canopy_cover &lt;dbl&gt;, lon &lt;dbl&gt;, lat &lt;dbl&gt;, land_type &lt;fct&gt;"
+    "text": "Predict\nPredict for the testing data using this model.\n\n# add code here"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#evaluate",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#evaluate",
-    "title": "Forest classification (Complete)",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#evaluate",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#evaluate",
+    "title": "Forest classification",
     "section": "Evaluate",
-    "text": "Evaluate\nCalculate the false positive and false negative rates for the testing data using this model.\n\nforested_custom_aug |&gt;\n  count(.pred_class, forested) |&gt;\n  arrange(forested) |&gt;\n  group_by(forested) |&gt;\n  mutate(\n    p = round(n / sum(n), 2),\n    decision = case_when(\n      .pred_class == \"Yes\" & forested == \"Yes\" ~ \"True positive\",\n      .pred_class == \"Yes\" & forested == \"No\" ~ \"False positive\",\n      .pred_class == \"No\" & forested == \"Yes\" ~ \"False negative\",\n      .pred_class == \"No\" & forested == \"No\" ~ \"True negative\"\n    )\n  )\n\n# A tibble: 4 × 5\n# Groups:   forested [2]\n  .pred_class forested     n     p decision      \n  &lt;fct&gt;       &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;         \n1 Yes         Yes        864  0.9  True positive \n2 No          Yes         98  0.1  False negative\n3 Yes         No         124  0.15 False positive\n4 No          No         691  0.85 True negative \n\n\nAnother commonly used display of this information is a confusion matrix. Create this using the conf_mat() function. You will need to review the documentation for the function to determine how to use it.\n\nconf_mat(\n  forested_custom_aug, \n  truth = forested, \n  estimate = .pred_class\n)\n\n          Truth\nPrediction Yes  No\n       Yes 864 124\n       No   98 691"
+    "text": "Evaluate\nCalculate the false positive and false negative rates for the testing data using this model.\n\n# add code here\n\nAnother commonly used display of this information is a confusion matrix. Create this using the conf_mat() function. You will need to review the documentation for the function to determine how to use it.\n\n# add code here"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#sensitivity-specificity-roc-curve",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#sensitivity-specificity-roc-curve",
-    "title": "Forest classification (Complete)",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#sensitivity-specificity-roc-curve",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#sensitivity-specificity-roc-curve",
+    "title": "Forest classification",
     "section": "Sensitivity, specificity, ROC curve",
-    "text": "Sensitivity, specificity, ROC curve\nCalculate sensitivity and specificity and draw the ROC curve.\n\nforested_custom_roc &lt;- roc_curve(forested_custom_aug, truth = forested, .pred_Yes)\nforested_custom_roc\n\n# A tibble: 1,779 × 3\n   .threshold specificity sensitivity\n        &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n 1  -Inf          0                 1\n 2     0.0186     0                 1\n 3     0.0202     0.00123           1\n 4     0.0204     0.00245           1\n 5     0.0207     0.00368           1\n 6     0.0227     0.00491           1\n 7     0.0286     0.00613           1\n 8     0.0298     0.00736           1\n 9     0.0299     0.00859           1\n10     0.0300     0.00982           1\n# ℹ 1,769 more rows\n\nggplot(forested_custom_roc, aes(x = 1 - specificity, y = sensitivity)) +\n  geom_path() +\n  geom_abline(lty = 3) +\n  coord_equal()"
+    "text": "Sensitivity, specificity, ROC curve\nCalculate sensitivity and specificity and draw the ROC curve.\n\n# add code here"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#fit-1",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#fit-1",
-    "title": "Forest classification (Complete)",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#fit-1",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#fit-1",
+    "title": "Forest classification",
     "section": "Fit",
-    "text": "Fit\nFit a model for classifying plots as forested or not based on all predictors available. Name the model forested_full_fit and display a tidy output of the model.\n\nforested_full_fit &lt;- logistic_reg() |&gt;\n  fit(forested ~ ., data = forested_train)\ntidy(forested_full_fit)\n\n# A tibble: 20 × 5\n   term                             estimate std.error statistic  p.value\n   &lt;chr&gt;                               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n 1 (Intercept)                  -12.1        32.6       -0.371   7.11e- 1\n 2 year                           0.00456     0.0152     0.299   7.65e- 1\n 3 elevation                     -0.00277     0.000639  -4.33    1.47e- 5\n 4 eastness                      -0.000910    0.000734  -1.24    2.15e- 1\n 5 northness                      0.00208     0.000745   2.79    5.26e- 3\n 6 roughness                     -0.00399     0.00146   -2.73    6.29e- 3\n 7 tree_no_treeNo tree            1.25        0.136      9.23    2.61e-20\n 8 dew_temp                      -0.125       0.176     -0.712   4.76e- 1\n 9 precip_annual                 -0.0000895   0.000100  -0.895   3.71e- 1\n10 temp_annual_mean              -7.30       12.4       -0.587   5.57e- 1\n11 temp_annual_min                0.819       0.103      7.93    2.20e-15\n12 temp_annual_max                2.59        6.22       0.417   6.77e- 1\n13 temp_january_min               3.34        6.21       0.538   5.91e- 1\n14 vapor_min                      0.00000990  0.00353    0.00280 9.98e- 1\n15 vapor_max                      0.00925     0.00132    7.00    2.62e-12\n16 canopy_cover                  -0.0446      0.00366  -12.2     4.18e-34\n17 lon                           -0.0953      0.0559    -1.71    8.80e- 2\n18 lat                            0.0748      0.109      0.683   4.94e- 1\n19 land_typeNon-tree vegetation  -0.735       0.282     -2.61    9.05e- 3\n20 land_typeTree                 -1.58        0.297     -5.33    9.93e- 8"
+    "text": "Fit\nFit a model for classifying plots as forested or not based on all predictors available. Name the model forested_full_fit and display a tidy output of the model.\n\n# add code here"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#predict-1",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#predict-1",
-    "title": "Forest classification (Complete)",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#predict-1",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#predict-1",
+    "title": "Forest classification",
     "section": "Predict",
-    "text": "Predict\nPredict for the testing data using this model.\n\nforested_full_aug &lt;- augment(forested_full_fit, new_data = forested_test)\nforested_full_aug\n\n# A tibble: 1,777 × 22\n   .pred_class .pred_Yes .pred_No forested  year elevation eastness northness\n   &lt;fct&gt;           &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;\n 1 Yes            0.930    0.0700 Yes       2005       113      -25        96\n 2 Yes            0.918    0.0822 Yes       2005       736      -27       -96\n 3 No             0.428    0.572  Yes       2005       224      -65       -75\n 4 Yes            0.972    0.0280 Yes       2003      1031      -49        86\n 5 Yes            0.633    0.367  No        2005      1713      -66        75\n 6 Yes            0.980    0.0201 Yes       2014      1612       30       -95\n 7 No             0.0436   0.956  No        2014       507       44       -89\n 8 Yes            0.845    0.155  Yes       2014       940      -93        35\n 9 No             0.0141   0.986  No        2014       246       22       -97\n10 No             0.0386   0.961  No        2014       419       86       -49\n# ℹ 1,767 more rows\n# ℹ 14 more variables: roughness &lt;dbl&gt;, tree_no_tree &lt;fct&gt;, dew_temp &lt;dbl&gt;,\n#   precip_annual &lt;dbl&gt;, temp_annual_mean &lt;dbl&gt;, temp_annual_min &lt;dbl&gt;,\n#   temp_annual_max &lt;dbl&gt;, temp_january_min &lt;dbl&gt;, vapor_min &lt;dbl&gt;,\n#   vapor_max &lt;dbl&gt;, canopy_cover &lt;dbl&gt;, lon &lt;dbl&gt;, lat &lt;dbl&gt;, land_type &lt;fct&gt;"
+    "text": "Predict\nPredict for the testing data using this model.\n\n# add code here"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#evaluate-1",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#evaluate-1",
-    "title": "Forest classification (Complete)",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#evaluate-1",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#evaluate-1",
+    "title": "Forest classification",
     "section": "Evaluate",
-    "text": "Evaluate\nCalculate the false positive and false negative rates for the testing data using this model.\n\nforested_full_aug |&gt;\n  count(.pred_class, forested) |&gt;\n  arrange(forested) |&gt;\n  group_by(forested) |&gt;\n  mutate(\n    p = round(n / sum(n), 2),\n    decision = case_when(\n      .pred_class == \"Yes\" & forested == \"Yes\" ~ \"True positive\",\n      .pred_class == \"Yes\" & forested == \"No\" ~ \"False positive\",\n      .pred_class == \"No\" & forested == \"Yes\" ~ \"False negative\",\n      .pred_class == \"No\" & forested == \"No\" ~ \"True negative\"\n    )\n  )\n\n# A tibble: 4 × 5\n# Groups:   forested [2]\n  .pred_class forested     n     p decision      \n  &lt;fct&gt;       &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;         \n1 Yes         Yes        876  0.91 True positive \n2 No          Yes         86  0.09 False negative\n3 Yes         No          85  0.1  False positive\n4 No          No         730  0.9  True negative"
+    "text": "Evaluate\nCalculate the false positive and false negative rates for the testing data using this model.\n\n# add code here"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#sensitivity-specificity-roc-curve-1",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#sensitivity-specificity-roc-curve-1",
-    "title": "Forest classification (Complete)",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#sensitivity-specificity-roc-curve-1",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#sensitivity-specificity-roc-curve-1",
+    "title": "Forest classification",
     "section": "Sensitivity, specificity, ROC curve",
-    "text": "Sensitivity, specificity, ROC curve\nCalculate sensitivity and specificity and draw the ROC curve.\n\nforested_full_roc &lt;- roc_curve(forested_full_aug, truth = forested, .pred_Yes)\nforested_full_roc\n\n# A tibble: 1,779 × 3\n   .threshold specificity sensitivity\n        &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n 1 -Inf           0                 1\n 2    0.00106     0                 1\n 3    0.00107     0.00123           1\n 4    0.00217     0.00245           1\n 5    0.00287     0.00368           1\n 6    0.00290     0.00491           1\n 7    0.00290     0.00613           1\n 8    0.00309     0.00736           1\n 9    0.00321     0.00859           1\n10    0.00323     0.00982           1\n# ℹ 1,769 more rows\n\nggplot(forested_full_roc, aes(x = 1 - specificity, y = sensitivity)) +\n  geom_path() +\n  geom_abline(lty = 3) +\n  coord_equal()"
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html",
-    "title": "Modeling fish (Complete)",
-    "section": "",
-    "text": "Practice modeling using the fish dataset on two common fish species in fish market sales.\n\nWe will use the tidyverse package for data wrangling and visualization and the tidymodels package for modeling.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\n\n\nThese data come from Kaggle and is commonly used in machine learning examples.\n\nfish &lt;- read_csv(\"https://data-science-with-r.github.io/data/fish.csv\")\n\nThe data dictionary is below:\n\n\nvariable\ndescription\n\n\n\nspecies\nSpecies name of fish\n\n\nweight\nWeight, in grams\n\n\nlength_vertical\nVertical length, in cm\n\n\nlength_diagonal\nDiagonal length, in cm\n\n\nlength_cross\nCross length, in cm\n\n\nheight\nHeight, in cm\n\n\nwidth\nDiagonal width, in cm\n\n\n\nLet’s take a look at the data.\n\nfish\n\n# A tibble: 55 × 7\n   species weight length_vertical length_diagonal length_cross height width\n   &lt;chr&gt;    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n 1 Bream      242            23.2            25.4         30     11.5  4.02\n 2 Bream      290            24              26.3         31.2   12.5  4.31\n 3 Bream      340            23.9            26.5         31.1   12.4  4.70\n 4 Bream      363            26.3            29           33.5   12.7  4.46\n 5 Bream      430            26.5            29           34     12.4  5.13\n 6 Bream      450            26.8            29.7         34.7   13.6  4.93\n 7 Bream      500            26.8            29.7         34.5   14.2  5.28\n 8 Bream      390            27.6            30           35     12.7  4.69\n 9 Bream      450            27.6            30           35.1   14.0  4.84\n10 Bream      500            28.5            30.7         36.2   14.2  4.96\n# ℹ 45 more rows"
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#goal",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#goal",
-    "title": "Modeling fish (Complete)",
-    "section": "",
-    "text": "Practice modeling using the fish dataset on two common fish species in fish market sales."
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#packages",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#packages",
-    "title": "Modeling fish (Complete)",
-    "section": "",
-    "text": "We will use the tidyverse package for data wrangling and visualization and the tidymodels package for modeling.\n\nlibrary(tidyverse)\nlibrary(tidymodels)"
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#data",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#data",
-    "title": "Modeling fish (Complete)",
-    "section": "",
-    "text": "These data come from Kaggle and is commonly used in machine learning examples.\n\nfish &lt;- read_csv(\"https://data-science-with-r.github.io/data/fish.csv\")\n\nThe data dictionary is below:\n\n\nvariable\ndescription\n\n\n\nspecies\nSpecies name of fish\n\n\nweight\nWeight, in grams\n\n\nlength_vertical\nVertical length, in cm\n\n\nlength_diagonal\nDiagonal length, in cm\n\n\nlength_cross\nCross length, in cm\n\n\nheight\nHeight, in cm\n\n\nwidth\nDiagonal width, in cm\n\n\n\nLet’s take a look at the data.\n\nfish\n\n# A tibble: 55 × 7\n   species weight length_vertical length_diagonal length_cross height width\n   &lt;chr&gt;    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n 1 Bream      242            23.2            25.4         30     11.5  4.02\n 2 Bream      290            24              26.3         31.2   12.5  4.31\n 3 Bream      340            23.9            26.5         31.1   12.4  4.70\n 4 Bream      363            26.3            29           33.5   12.7  4.46\n 5 Bream      430            26.5            29           34     12.4  5.13\n 6 Bream      450            26.8            29.7         34.7   13.6  4.93\n 7 Bream      500            26.8            29.7         34.5   14.2  5.28\n 8 Bream      390            27.6            30           35     12.7  4.69\n 9 Bream      450            27.6            30           35.1   14.0  4.84\n10 Bream      500            28.5            30.7         36.2   14.2  4.96\n# ℹ 45 more rows"
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#visualizing-the-model",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#visualizing-the-model",
-    "title": "Modeling fish (Complete)",
-    "section": "Visualizing the model",
-    "text": "Visualizing the model\nWe’re going to investigate the relationship between the weights and heights of fish, predicting weight from height.\n\nCreate an appropriate plot to investigate this relationship. Add appropriate labels to the plot.\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n\n\n\n\n\n\n\nIf you were to draw a a straight line to best represent the relationship between the heights and weights of fish, where would it go? Why?\n\nStart from the bottom and go up. Identify the first and last point and draw a line through most the others.\n\nNow, let R draw the line for you! Hint: Use geom_smooth().\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  geom_smooth(method = \"lm\") +\n  labs(\n    title = \"Weights vs. lengths of fish\",\n    x = \"Head-to-tail lentgh (cm)\",\n    y = \"Weight of fish (grams)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nWhat types of questions can this plot help answer?\n\nIs there a relationship between fish heights and weights of fish?\n\nWe can use this line to make predictions. Predict what you think the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm. Which prediction is considered extrapolation?\n\nAt 10 cm, we estimate a weight of 375 grams. At 15 cm, we estimate a weight of 600 grams At 20 cm, we estimate a weight of 975 grams. 20 cm would be considered extrapolation.\n\nWhat is a residual?\n\nDifference between predicted and observed."
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-fitting",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-fitting",
-    "title": "Modeling fish (Complete)",
-    "section": "Model fitting",
-    "text": "Model fitting\n\nFit a model to predict fish weights from their heights.\n\n\nfish_hw_fit &lt;- linear_reg() |&gt;\n  fit(weight ~ height, data = fish)\n\nfish_hw_fit\n\nparsnip model object\n\n\nCall:\nstats::lm(formula = weight ~ height, data = data)\n\nCoefficients:\n(Intercept)       height  \n    -288.42        60.92  \n\n\n\nPredict what the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm using this model.\n\n\nx &lt;- c(10, 15, 20)\n-288 + 60.92 * x\n\n[1] 321.2 625.8 930.4\n\n\n\nCalculate predicted weights for all fish in the data and visualize the residuals under this model.\n\n\nfish_hw_aug &lt;- augment(fish_hw_fit, new_data = fish)\n\nggplot(fish_hw_aug, aes(x = height, y = weight)) + \n  geom_point() + \n  geom_smooth(method = \"lm\", se = FALSE, color = \"lightgrey\") +  \n  geom_segment(aes(xend = height, yend = .pred), color = \"gray\") +  \n  geom_point(aes(y = .pred), shape = \"circle open\") + \n  theme_minimal() +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    subtitle = \"Residuals\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-summary",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-summary",
-    "title": "Modeling fish (Complete)",
-    "section": "Model summary",
-    "text": "Model summary\n\nDisplay the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.\n\n\nfish_hw_tidy &lt;- tidy(fish_hw_fit)\nfish_hw_tidy\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -288.      34.0      -8.49 1.83e-11\n2 height          60.9      2.64     23.1  2.40e-29\n\n\n\nWrite out your model using mathematical notation.\n\n\\(\\widehat{weight} = -288 + 60.9 \\times height\\)"
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#correlation",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#correlation",
-    "title": "Modeling fish (Complete)",
-    "section": "Correlation",
-    "text": "Correlation\nWe can also assess correlation between two quantitative variables.\n\nWhat is correlation? What are values correlation can take?\n\nStrength and direction of a linear relationship. It’s bounded by -1 and 1.\n\nAre you good at guessing correlation? Give it a try! https://www.rossmanchance.com/applets/2021/guesscorrelation/GuessCorrelation.html\nWhat is the correlation between heights and weights of fish?\n\n\nfish |&gt;\n  summarize(r = cor(height, weight))\n\n# A tibble: 1 × 1\n      r\n  &lt;dbl&gt;\n1 0.954"
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#adding-a-third-variable",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#adding-a-third-variable",
-    "title": "Modeling fish (Complete)",
-    "section": "Adding a third variable",
-    "text": "Adding a third variable\n\nDoes the relationship between heights and weights of fish change if we take into consideration species? Plot two separate straight lines for the Bream and Roach species.\n\n\nggplot(fish, aes(x = height, y = weight, color = species)) +\n  geom_point() +\n  geom_smooth(method = \"lm\") +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#fitting-other-models",
-    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#fitting-other-models",
-    "title": "Modeling fish (Complete)",
-    "section": "Fitting other models",
-    "text": "Fitting other models\n\nWe can fit more models than just a straight line. Use method = \"loess\". What is different from the plot created before?\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  geom_smooth(method = \"loess\") +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html",
-    "title": "Building a spam filter",
-    "section": "",
-    "text": "In this code along, we will\nTo illustrate logistic regression, we will build a spam filter from email data.\nThe data come from incoming emails in David Diez’s (one of the authors of OpenIntro textbooks) Gmail account for the first three months of 2012. All personally identifiable information has been removed.\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)\nglimpse(email)\n\nRows: 3,921\nColumns: 21\n$ spam         &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ to_multiple  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ from         &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …\n$ cc           &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2, 1, 0, 2, 0, …\n$ sent_email   &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, …\n$ time         &lt;dttm&gt; 2012-01-01 01:16:41, 2012-01-01 02:03:59, 2012-01-01 11:…\n$ image        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ attach       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ dollar       &lt;dbl&gt; 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 5, 0, 0, …\n$ winner       &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, no, n…\n$ inherit      &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ viagra       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ password     &lt;dbl&gt; 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ num_char     &lt;dbl&gt; 11.370, 10.504, 7.773, 13.256, 1.231, 1.091, 4.837, 7.421…\n$ line_breaks  &lt;int&gt; 202, 202, 192, 255, 29, 25, 193, 237, 69, 68, 25, 79, 191…\n$ format       &lt;fct&gt; 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, …\n$ re_subj      &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, …\n$ exclaim_subj &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ urgent_subj  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ exclaim_mess &lt;dbl&gt; 0, 1, 6, 48, 1, 1, 1, 18, 1, 0, 2, 1, 0, 10, 4, 10, 20, 0…\n$ number       &lt;fct&gt; big, small, small, small, none, none, big, small, small, …\nThe variables we’ll use in this analysis are\nGoal: Use the number of exclamation points in an email to predict whether or not it is spam."
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit",
-    "title": "Building a spam filter",
-    "section": "Fit",
-    "text": "Fit\nFit a linear regression model to whether an email is spam from the number of exclamation points in the email.\n\n# add code here"
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#visualize",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#visualize",
-    "title": "Building a spam filter",
-    "section": "Visualize",
-    "text": "Visualize\nVisualizate the linear model.\n\n# add code here\n\n\nIs the linear model a good fit for the data? Why or why not?\n\nAdd response here."
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit-1",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit-1",
-    "title": "Building a spam filter",
-    "section": "Fit",
-    "text": "Fit\nFit a logistic regression model to predict the probability an email is spam from the number of exclamation points in the email.\n\n# add code here"
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#summarize",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#summarize",
-    "title": "Building a spam filter",
-    "section": "Summarize",
-    "text": "Summarize\nWrite the estimated model.\n\\[\\log\\Big(\\frac{p}{1-p}\\Big) = -2.27 - 0.000272 \\times exclaim\\_mess\\]"
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#think",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#think",
-    "title": "Building a spam filter",
-    "section": "Think",
-    "text": "Think\nSuppose you are a data scientist working on a spam filter. You must determine how high the predicted probability must be before you think it would be reasonable to call it spam and put it in the junk folder (which the user is unlikely to check). What are some trade offs you would consider as you set the decision-making threshold?\nAdd response here."
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#do",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#do",
-    "title": "Building a spam filter",
-    "section": "Do",
-    "text": "Do\nClassify the emails in this dataset as spam or not spam.\n\n# add code here"
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html",
-    "title": "Bootstrapping Duke Forest houses",
-    "section": "",
-    "text": "In this code along, we will use bootstrapping to construct confidence intervals."
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#packages",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#packages",
-    "title": "Bootstrapping Duke Forest houses",
-    "section": "Packages",
-    "text": "Packages\nWe will use tidyverse and tidymodels for data exploration and modeling, respectively, and the openintro package for the data.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)"
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#data",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#data",
-    "title": "Bootstrapping Duke Forest houses",
-    "section": "Data",
-    "text": "Data\nThe data are on houses that were sold in the Duke Forest neighborhood of Durham, NC around November 2020. It was originally scraped from Zillow, and can be found in the duke_forest data set in the openintro R package.\n\nglimpse(duke_forest)\n\nRows: 98\nColumns: 13\n$ address    &lt;chr&gt; \"1 Learned Pl, Durham, NC 27705\", \"1616 Pinecrest Rd, Durha…\n$ price      &lt;dbl&gt; 1520000, 1030000, 420000, 680000, 428500, 456000, 1270000, …\n$ bed        &lt;dbl&gt; 3, 5, 2, 4, 4, 3, 5, 4, 4, 3, 4, 4, 3, 5, 4, 5, 3, 4, 4, 3,…\n$ bath       &lt;dbl&gt; 4.0, 4.0, 3.0, 3.0, 3.0, 3.0, 5.0, 3.0, 5.0, 2.0, 3.0, 3.0,…\n$ area       &lt;dbl&gt; 6040, 4475, 1745, 2091, 1772, 1950, 3909, 2841, 3924, 2173,…\n$ type       &lt;chr&gt; \"Single Family\", \"Single Family\", \"Single Family\", \"Single …\n$ year_built &lt;dbl&gt; 1972, 1969, 1959, 1961, 2020, 2014, 1968, 1973, 1972, 1964,…\n$ heating    &lt;chr&gt; \"Other, Gas\", \"Forced air, Gas\", \"Forced air, Gas\", \"Heat p…\n$ cooling    &lt;fct&gt; central, central, central, central, central, central, centr…\n$ parking    &lt;chr&gt; \"0 spaces\", \"Carport, Covered\", \"Garage - Attached, Covered…\n$ lot        &lt;dbl&gt; 0.97, 1.38, 0.51, 0.84, 0.16, 0.45, 0.94, 0.79, 0.53, 0.73,…\n$ hoa        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ url        &lt;chr&gt; \"https://www.zillow.com/homedetails/1-Learned-Pl-Durham-NC-…"
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#model",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#model",
-    "title": "Bootstrapping Duke Forest houses",
-    "section": "Model",
-    "text": "Model\nFit a linear model predicting price of houses from their area.\n\n# add code here"
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#bootstrap-confidence-interval",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#bootstrap-confidence-interval",
-    "title": "Bootstrapping Duke Forest houses",
-    "section": "Bootstrap confidence interval",
-    "text": "Bootstrap confidence interval\n\nCalculate the observed fit (slope):\n\n\n# add code here\n\n\nTake n bootstrap samples and fit models to each one:\n\n\n# add code here\n\n\nWhy do we set a seed before taking the bootstrap samples?\n\nTo get the same random samples each time we run the code / render the document.\n\nMake a histogram of the bootstrap samples to visualize the bootstrap distribution.\n\n\n# add code here\n\n\nCompute the 95% confidence interval as the middle 95% of the bootstrap distribution:\n\n\n# add code here"
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#changing-confidence-level",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#changing-confidence-level",
-    "title": "Bootstrapping Duke Forest houses",
-    "section": "Changing confidence level",
-    "text": "Changing confidence level\nModify the code from Step 3 to create a 90% confidence interval.\n\n# add code here\n\nModify the code from Step 3 to create a 99% confidence interval.\n\n# add code here\n\n\nWhich confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain.\n\nAdd response here.\n\nWhich confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain\n\nAdd response here.\n\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?\n\nAdd response here."
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html",
-    "title": "Bootstrapping Duke Forest houses (Complete)",
-    "section": "",
-    "text": "In this code along, we will use bootstrapping to construct confidence intervals."
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#packages",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#packages",
-    "title": "Bootstrapping Duke Forest houses (Complete)",
-    "section": "Packages",
-    "text": "Packages\nWe will use tidyverse and tidymodels for data exploration and modeling, respectively, and the openintro package for the data.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)"
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#data",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#data",
-    "title": "Bootstrapping Duke Forest houses (Complete)",
-    "section": "Data",
-    "text": "Data\nThe data are on houses that were sold in the Duke Forest neighborhood of Durham, NC around November 2020. It was originally scraped from Zillow, and can be found in the duke_forest data set in the openintro R package.\n\nglimpse(duke_forest)\n\nRows: 98\nColumns: 13\n$ address    &lt;chr&gt; \"1 Learned Pl, Durham, NC 27705\", \"1616 Pinecrest Rd, Durha…\n$ price      &lt;dbl&gt; 1520000, 1030000, 420000, 680000, 428500, 456000, 1270000, …\n$ bed        &lt;dbl&gt; 3, 5, 2, 4, 4, 3, 5, 4, 4, 3, 4, 4, 3, 5, 4, 5, 3, 4, 4, 3,…\n$ bath       &lt;dbl&gt; 4.0, 4.0, 3.0, 3.0, 3.0, 3.0, 5.0, 3.0, 5.0, 2.0, 3.0, 3.0,…\n$ area       &lt;dbl&gt; 6040, 4475, 1745, 2091, 1772, 1950, 3909, 2841, 3924, 2173,…\n$ type       &lt;chr&gt; \"Single Family\", \"Single Family\", \"Single Family\", \"Single …\n$ year_built &lt;dbl&gt; 1972, 1969, 1959, 1961, 2020, 2014, 1968, 1973, 1972, 1964,…\n$ heating    &lt;chr&gt; \"Other, Gas\", \"Forced air, Gas\", \"Forced air, Gas\", \"Heat p…\n$ cooling    &lt;fct&gt; central, central, central, central, central, central, centr…\n$ parking    &lt;chr&gt; \"0 spaces\", \"Carport, Covered\", \"Garage - Attached, Covered…\n$ lot        &lt;dbl&gt; 0.97, 1.38, 0.51, 0.84, 0.16, 0.45, 0.94, 0.79, 0.53, 0.73,…\n$ hoa        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ url        &lt;chr&gt; \"https://www.zillow.com/homedetails/1-Learned-Pl-Durham-NC-…"
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#model",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#model",
-    "title": "Bootstrapping Duke Forest houses (Complete)",
-    "section": "Model",
-    "text": "Model\nFit a linear model predicting price of houses from their area.\n\ndf_fit &lt;- linear_reg() |&gt;\n  fit(price ~ area, data = duke_forest)\n\ntidy(df_fit)\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)  116652.   53302.       2.19 3.11e- 2\n2 area            159.      18.2      8.78 6.29e-14"
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#bootstrap-confidence-interval",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#bootstrap-confidence-interval",
-    "title": "Bootstrapping Duke Forest houses (Complete)",
-    "section": "Bootstrap confidence interval",
-    "text": "Bootstrap confidence interval\n\nCalculate the observed fit (slope):\n\n\nobserved_fit &lt;- duke_forest |&gt;\n  specify(price ~ area) |&gt;\n  fit()\n\nobserved_fit\n\n# A tibble: 2 × 2\n  term      estimate\n  &lt;chr&gt;        &lt;dbl&gt;\n1 intercept  116652.\n2 area          159.\n\n\n\nTake n bootstrap samples and fit models to each one:\n\n\nn = 100\nset.seed(20241115)\n\nboot_fits &lt;- duke_forest |&gt;\n  specify(price ~ area) |&gt;\n  generate(reps = n, type = \"bootstrap\") |&gt;\n  fit()\n\nboot_fits\n\n# A tibble: 200 × 3\n# Groups:   replicate [100]\n   replicate term      estimate\n       &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;\n 1         1 intercept  149083.\n 2         1 area          143.\n 3         2 intercept  226037.\n 4         2 area          110.\n 5         3 intercept   37464.\n 6         3 area          188.\n 7         4 intercept    7631.\n 8         4 area          208.\n 9         5 intercept  245406.\n10         5 area          104.\n# ℹ 190 more rows\n\n\n\nWhy do we set a seed before taking the bootstrap samples?\n\nTo get the same random samples each time we run the code / render the document.\n\nMake a histogram of the bootstrap samples to visualize the bootstrap distribution.\n\n\nboot_fits |&gt;\n  filter(term == \"area\") |&gt;\n  ggplot(aes(x = estimate)) +\n  geom_histogram()\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\n\n\nCompute the 95% confidence interval as the middle 95% of the bootstrap distribution:\n\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.95,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          79.9     207.\n2 intercept  -3694.   316939."
-  },
-  {
-    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#changing-confidence-level",
-    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#changing-confidence-level",
-    "title": "Bootstrapping Duke Forest houses (Complete)",
-    "section": "Changing confidence level",
-    "text": "Changing confidence level\nModify the code from Step 3 to create a 90% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.90,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          94.7     203.\n2 intercept   8234.   284161.\n\n\nModify the code from Step 3 to create a 99% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.99,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          64.2     211.\n2 intercept -19831.   370166.\n\n\n\nWhich confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain.\n\n99%, widest.\n\nWhich confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain\n\n90%, narrowest.\n\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?\n\nWider, but then it’s less informative."
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html",
-    "title": "Building a spam filter (Complete)",
-    "section": "",
-    "text": "In this code along, we will\nTo illustrate logistic regression, we will build a spam filter from email data.\nThe data come from incoming emails in David Diez’s (one of the authors of OpenIntro textbooks) Gmail account for the first three months of 2012. All personally identifiable information has been removed.\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)\nglimpse(email)\n\nRows: 3,921\nColumns: 21\n$ spam         &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ to_multiple  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ from         &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …\n$ cc           &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2, 1, 0, 2, 0, …\n$ sent_email   &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, …\n$ time         &lt;dttm&gt; 2012-01-01 01:16:41, 2012-01-01 02:03:59, 2012-01-01 11:…\n$ image        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ attach       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ dollar       &lt;dbl&gt; 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 5, 0, 0, …\n$ winner       &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, no, n…\n$ inherit      &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ viagra       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ password     &lt;dbl&gt; 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ num_char     &lt;dbl&gt; 11.370, 10.504, 7.773, 13.256, 1.231, 1.091, 4.837, 7.421…\n$ line_breaks  &lt;int&gt; 202, 202, 192, 255, 29, 25, 193, 237, 69, 68, 25, 79, 191…\n$ format       &lt;fct&gt; 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, …\n$ re_subj      &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, …\n$ exclaim_subj &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ urgent_subj  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ exclaim_mess &lt;dbl&gt; 0, 1, 6, 48, 1, 1, 1, 18, 1, 0, 2, 1, 0, 10, 4, 10, 20, 0…\n$ number       &lt;fct&gt; big, small, small, small, none, none, big, small, small, …\nThe variables we’ll use in this analysis are\nGoal: Use the number of exclamation points in an email to predict whether or not it is spam."
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit",
-    "title": "Building a spam filter (Complete)",
-    "section": "Fit",
-    "text": "Fit\nFit a linear regression model to whether an email is spam from the number of exclamation points in the email.\n\nlinear_reg() |&gt;\n  fit(as.numeric(spam) ~ exclaim_mess, data = email)\n\nparsnip model object\n\n\nCall:\nstats::lm(formula = as.numeric(spam) ~ exclaim_mess, data = data)\n\nCoefficients:\n (Intercept)  exclaim_mess  \n   1.093e+00     2.604e-05"
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#visualize",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#visualize",
-    "title": "Building a spam filter (Complete)",
-    "section": "Visualize",
-    "text": "Visualize\nVisualizate the linear model.\n\nggplot(email, aes(x = exclaim_mess, y = as.numeric(spam), color = spam)) + \n  geom_jitter(alpha = 0.5) + \n  geom_smooth(method = \"lm\", se = FALSE, color = \"black\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nIs the linear model a good fit for the data? Why or why not?\n\nNo."
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit-1",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit-1",
-    "title": "Building a spam filter (Complete)",
-    "section": "Fit",
-    "text": "Fit\nFit a logistic regression model to predict the probability an email is spam from the number of exclamation points in the email.\n\nlog_fit &lt;- logistic_reg() |&gt;\n  fit(spam ~ exclaim_mess, data = email)\n\ntidy(log_fit)\n\n# A tibble: 2 × 5\n  term          estimate std.error statistic p.value\n  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 (Intercept)  -2.27      0.0553     -41.1     0    \n2 exclaim_mess  0.000272  0.000949     0.287   0.774"
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#summarize",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#summarize",
-    "title": "Building a spam filter (Complete)",
-    "section": "Summarize",
-    "text": "Summarize\nWrite the estimated model.\n\\[\\log\\Big(\\frac{p}{1-p}\\Big) = -2.27 - 0.000272 \\times exclaim\\_mess\\]"
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#think",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#think",
-    "title": "Building a spam filter (Complete)",
-    "section": "Think",
-    "text": "Think\nSuppose you are a data scientist working on a spam filter. You must determine how high the predicted probability must be before you think it would be reasonable to call it spam and put it in the junk folder (which the user is unlikely to check). What are some trade offs you would consider as you set the decision-making threshold?\nAnswers will vary."
-  },
-  {
-    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#do",
-    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#do",
-    "title": "Building a spam filter (Complete)",
-    "section": "Do",
-    "text": "Do\nClassify the emails in this dataset as spam or not spam.\n\nlog_aug &lt;- augment(log_fit, new_data = email)\n\nggplot(log_aug, aes(x = exclaim_mess, y = spam, color = .pred_class)) +\n  geom_jitter(alpha = 0.5)"
+    "text": "Sensitivity, specificity, ROC curve\nCalculate sensitivity and specificity and draw the ROC curve.\n\n# add code here"
   },
   {
     "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish.html",
@@ -1176,130 +924,382 @@
     "text": "Fitting other models\n\nWe can fit more models than just a straight line. Use method = \"loess\". What is different from the plot created before?\n\n\n# add code here"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html",
-    "title": "Forest classification",
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html",
+    "title": "Building a spam filter (Complete)",
+    "section": "",
+    "text": "In this code along, we will\nTo illustrate logistic regression, we will build a spam filter from email data.\nThe data come from incoming emails in David Diez’s (one of the authors of OpenIntro textbooks) Gmail account for the first three months of 2012. All personally identifiable information has been removed.\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)\nglimpse(email)\n\nRows: 3,921\nColumns: 21\n$ spam         &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ to_multiple  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ from         &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …\n$ cc           &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2, 1, 0, 2, 0, …\n$ sent_email   &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, …\n$ time         &lt;dttm&gt; 2012-01-01 01:16:41, 2012-01-01 02:03:59, 2012-01-01 11:…\n$ image        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ attach       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ dollar       &lt;dbl&gt; 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 5, 0, 0, …\n$ winner       &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, no, n…\n$ inherit      &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ viagra       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ password     &lt;dbl&gt; 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ num_char     &lt;dbl&gt; 11.370, 10.504, 7.773, 13.256, 1.231, 1.091, 4.837, 7.421…\n$ line_breaks  &lt;int&gt; 202, 202, 192, 255, 29, 25, 193, 237, 69, 68, 25, 79, 191…\n$ format       &lt;fct&gt; 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, …\n$ re_subj      &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, …\n$ exclaim_subj &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ urgent_subj  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ exclaim_mess &lt;dbl&gt; 0, 1, 6, 48, 1, 1, 1, 18, 1, 0, 2, 1, 0, 10, 4, 10, 20, 0…\n$ number       &lt;fct&gt; big, small, small, small, none, none, big, small, small, …\nThe variables we’ll use in this analysis are\nGoal: Use the number of exclamation points in an email to predict whether or not it is spam."
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit",
+    "title": "Building a spam filter (Complete)",
+    "section": "Fit",
+    "text": "Fit\nFit a linear regression model to whether an email is spam from the number of exclamation points in the email.\n\nlinear_reg() |&gt;\n  fit(as.numeric(spam) ~ exclaim_mess, data = email)\n\nparsnip model object\n\n\nCall:\nstats::lm(formula = as.numeric(spam) ~ exclaim_mess, data = data)\n\nCoefficients:\n (Intercept)  exclaim_mess  \n   1.093e+00     2.604e-05"
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#visualize",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#visualize",
+    "title": "Building a spam filter (Complete)",
+    "section": "Visualize",
+    "text": "Visualize\nVisualizate the linear model.\n\nggplot(email, aes(x = exclaim_mess, y = as.numeric(spam), color = spam)) + \n  geom_jitter(alpha = 0.5) + \n  geom_smooth(method = \"lm\", se = FALSE, color = \"black\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nIs the linear model a good fit for the data? Why or why not?\n\nNo."
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit-1",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#fit-1",
+    "title": "Building a spam filter (Complete)",
+    "section": "Fit",
+    "text": "Fit\nFit a logistic regression model to predict the probability an email is spam from the number of exclamation points in the email.\n\nlog_fit &lt;- logistic_reg() |&gt;\n  fit(spam ~ exclaim_mess, data = email)\n\ntidy(log_fit)\n\n# A tibble: 2 × 5\n  term          estimate std.error statistic p.value\n  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 (Intercept)  -2.27      0.0553     -41.1     0    \n2 exclaim_mess  0.000272  0.000949     0.287   0.774"
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#summarize",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#summarize",
+    "title": "Building a spam filter (Complete)",
+    "section": "Summarize",
+    "text": "Summarize\nWrite the estimated model.\n\\[\\log\\Big(\\frac{p}{1-p}\\Big) = -2.27 - 0.000272 \\times exclaim\\_mess\\]"
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#think",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#think",
+    "title": "Building a spam filter (Complete)",
+    "section": "Think",
+    "text": "Think\nSuppose you are a data scientist working on a spam filter. You must determine how high the predicted probability must be before you think it would be reasonable to call it spam and put it in the junk folder (which the user is unlikely to check). What are some trade offs you would consider as you set the decision-making threshold?\nAnswers will vary."
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#do",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter-complete.html#do",
+    "title": "Building a spam filter (Complete)",
+    "section": "Do",
+    "text": "Do\nClassify the emails in this dataset as spam or not spam.\n\nlog_aug &lt;- augment(log_fit, new_data = email)\n\nggplot(log_aug, aes(x = exclaim_mess, y = spam, color = .pred_class)) +\n  geom_jitter(alpha = 0.5)"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "",
+    "text": "In this code along, we will use bootstrapping to construct confidence intervals."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#packages",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#packages",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Packages",
+    "text": "Packages\nWe will use tidyverse and tidymodels for data exploration and modeling, respectively, and the openintro package for the data.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#data",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#data",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Data",
+    "text": "Data\nThe data are on houses that were sold in the Duke Forest neighborhood of Durham, NC around November 2020. It was originally scraped from Zillow, and can be found in the duke_forest data set in the openintro R package.\n\nglimpse(duke_forest)\n\nRows: 98\nColumns: 13\n$ address    &lt;chr&gt; \"1 Learned Pl, Durham, NC 27705\", \"1616 Pinecrest Rd, Durha…\n$ price      &lt;dbl&gt; 1520000, 1030000, 420000, 680000, 428500, 456000, 1270000, …\n$ bed        &lt;dbl&gt; 3, 5, 2, 4, 4, 3, 5, 4, 4, 3, 4, 4, 3, 5, 4, 5, 3, 4, 4, 3,…\n$ bath       &lt;dbl&gt; 4.0, 4.0, 3.0, 3.0, 3.0, 3.0, 5.0, 3.0, 5.0, 2.0, 3.0, 3.0,…\n$ area       &lt;dbl&gt; 6040, 4475, 1745, 2091, 1772, 1950, 3909, 2841, 3924, 2173,…\n$ type       &lt;chr&gt; \"Single Family\", \"Single Family\", \"Single Family\", \"Single …\n$ year_built &lt;dbl&gt; 1972, 1969, 1959, 1961, 2020, 2014, 1968, 1973, 1972, 1964,…\n$ heating    &lt;chr&gt; \"Other, Gas\", \"Forced air, Gas\", \"Forced air, Gas\", \"Heat p…\n$ cooling    &lt;fct&gt; central, central, central, central, central, central, centr…\n$ parking    &lt;chr&gt; \"0 spaces\", \"Carport, Covered\", \"Garage - Attached, Covered…\n$ lot        &lt;dbl&gt; 0.97, 1.38, 0.51, 0.84, 0.16, 0.45, 0.94, 0.79, 0.53, 0.73,…\n$ hoa        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ url        &lt;chr&gt; \"https://www.zillow.com/homedetails/1-Learned-Pl-Durham-NC-…"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#model",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#model",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Model",
+    "text": "Model\nFit a linear model predicting price of houses from their area.\n\ndf_fit &lt;- linear_reg() |&gt;\n  fit(price ~ area, data = duke_forest)\n\ntidy(df_fit)\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)  116652.   53302.       2.19 3.11e- 2\n2 area            159.      18.2      8.78 6.29e-14"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#bootstrap-confidence-interval",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#bootstrap-confidence-interval",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Bootstrap confidence interval",
+    "text": "Bootstrap confidence interval\n\nCalculate the observed fit (slope):\n\n\nobserved_fit &lt;- duke_forest |&gt;\n  specify(price ~ area) |&gt;\n  fit()\n\nobserved_fit\n\n# A tibble: 2 × 2\n  term      estimate\n  &lt;chr&gt;        &lt;dbl&gt;\n1 intercept  116652.\n2 area          159.\n\n\n\nTake n bootstrap samples and fit models to each one:\n\n\nn = 100\nset.seed(20241115)\n\nboot_fits &lt;- duke_forest |&gt;\n  specify(price ~ area) |&gt;\n  generate(reps = n, type = \"bootstrap\") |&gt;\n  fit()\n\nboot_fits\n\n# A tibble: 200 × 3\n# Groups:   replicate [100]\n   replicate term      estimate\n       &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;\n 1         1 intercept  149083.\n 2         1 area          143.\n 3         2 intercept  226037.\n 4         2 area          110.\n 5         3 intercept   37464.\n 6         3 area          188.\n 7         4 intercept    7631.\n 8         4 area          208.\n 9         5 intercept  245406.\n10         5 area          104.\n# ℹ 190 more rows\n\n\n\nWhy do we set a seed before taking the bootstrap samples?\n\nTo get the same random samples each time we run the code / render the document.\n\nMake a histogram of the bootstrap samples to visualize the bootstrap distribution.\n\n\nboot_fits |&gt;\n  filter(term == \"area\") |&gt;\n  ggplot(aes(x = estimate)) +\n  geom_histogram()\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\n\n\nCompute the 95% confidence interval as the middle 95% of the bootstrap distribution:\n\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.95,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          79.9     207.\n2 intercept  -3694.   316939."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#changing-confidence-level",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses-complete.html#changing-confidence-level",
+    "title": "Bootstrapping Duke Forest houses (Complete)",
+    "section": "Changing confidence level",
+    "text": "Changing confidence level\nModify the code from Step 3 to create a 90% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.90,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          94.7     203.\n2 intercept   8234.   284161.\n\n\nModify the code from Step 3 to create a 99% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.99,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          64.2     211.\n2 intercept -19831.   370166.\n\n\n\nWhich confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain.\n\n99%, widest.\n\nWhich confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain\n\n90%, narrowest.\n\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?\n\nWider, but then it’s less informative."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "",
+    "text": "In this code along, we will use bootstrapping to construct confidence intervals."
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#packages",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#packages",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Packages",
+    "text": "Packages\nWe will use tidyverse and tidymodels for data exploration and modeling, respectively, and the openintro package for the data.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#data",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#data",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Data",
+    "text": "Data\nThe data are on houses that were sold in the Duke Forest neighborhood of Durham, NC around November 2020. It was originally scraped from Zillow, and can be found in the duke_forest data set in the openintro R package.\n\nglimpse(duke_forest)\n\nRows: 98\nColumns: 13\n$ address    &lt;chr&gt; \"1 Learned Pl, Durham, NC 27705\", \"1616 Pinecrest Rd, Durha…\n$ price      &lt;dbl&gt; 1520000, 1030000, 420000, 680000, 428500, 456000, 1270000, …\n$ bed        &lt;dbl&gt; 3, 5, 2, 4, 4, 3, 5, 4, 4, 3, 4, 4, 3, 5, 4, 5, 3, 4, 4, 3,…\n$ bath       &lt;dbl&gt; 4.0, 4.0, 3.0, 3.0, 3.0, 3.0, 5.0, 3.0, 5.0, 2.0, 3.0, 3.0,…\n$ area       &lt;dbl&gt; 6040, 4475, 1745, 2091, 1772, 1950, 3909, 2841, 3924, 2173,…\n$ type       &lt;chr&gt; \"Single Family\", \"Single Family\", \"Single Family\", \"Single …\n$ year_built &lt;dbl&gt; 1972, 1969, 1959, 1961, 2020, 2014, 1968, 1973, 1972, 1964,…\n$ heating    &lt;chr&gt; \"Other, Gas\", \"Forced air, Gas\", \"Forced air, Gas\", \"Heat p…\n$ cooling    &lt;fct&gt; central, central, central, central, central, central, centr…\n$ parking    &lt;chr&gt; \"0 spaces\", \"Carport, Covered\", \"Garage - Attached, Covered…\n$ lot        &lt;dbl&gt; 0.97, 1.38, 0.51, 0.84, 0.16, 0.45, 0.94, 0.79, 0.53, 0.73,…\n$ hoa        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ url        &lt;chr&gt; \"https://www.zillow.com/homedetails/1-Learned-Pl-Durham-NC-…"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#model",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#model",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Model",
+    "text": "Model\nFit a linear model predicting price of houses from their area.\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#bootstrap-confidence-interval",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#bootstrap-confidence-interval",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Bootstrap confidence interval",
+    "text": "Bootstrap confidence interval\n\nCalculate the observed fit (slope):\n\n\n# add code here\n\n\nTake n bootstrap samples and fit models to each one:\n\n\n# add code here\n\n\nWhy do we set a seed before taking the bootstrap samples?\n\nTo get the same random samples each time we run the code / render the document.\n\nMake a histogram of the bootstrap samples to visualize the bootstrap distribution.\n\n\n# add code here\n\n\nCompute the 95% confidence interval as the middle 95% of the bootstrap distribution:\n\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#changing-confidence-level",
+    "href": "code-alongs/4-1-bootstrapping-duke-forest-houses/4-1-bootstrapping-duke-forest-houses.html#changing-confidence-level",
+    "title": "Bootstrapping Duke Forest houses",
+    "section": "Changing confidence level",
+    "text": "Changing confidence level\nModify the code from Step 3 to create a 90% confidence interval.\n\n# add code here\n\nModify the code from Step 3 to create a 99% confidence interval.\n\n# add code here\n\n\nWhich confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain.\n\nAdd response here.\n\nWhich confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain\n\nAdd response here.\n\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?\n\nAdd response here."
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html",
+    "title": "Building a spam filter",
+    "section": "",
+    "text": "In this code along, we will\nTo illustrate logistic regression, we will build a spam filter from email data.\nThe data come from incoming emails in David Diez’s (one of the authors of OpenIntro textbooks) Gmail account for the first three months of 2012. All personally identifiable information has been removed.\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)\nglimpse(email)\n\nRows: 3,921\nColumns: 21\n$ spam         &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ to_multiple  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ from         &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …\n$ cc           &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2, 1, 0, 2, 0, …\n$ sent_email   &lt;fct&gt; 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, …\n$ time         &lt;dttm&gt; 2012-01-01 01:16:41, 2012-01-01 02:03:59, 2012-01-01 11:…\n$ image        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ attach       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ dollar       &lt;dbl&gt; 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 5, 0, 0, …\n$ winner       &lt;fct&gt; no, no, no, no, no, no, no, no, no, no, no, no, no, no, n…\n$ inherit      &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ viagra       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ password     &lt;dbl&gt; 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ num_char     &lt;dbl&gt; 11.370, 10.504, 7.773, 13.256, 1.231, 1.091, 4.837, 7.421…\n$ line_breaks  &lt;int&gt; 202, 202, 192, 255, 29, 25, 193, 237, 69, 68, 25, 79, 191…\n$ format       &lt;fct&gt; 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, …\n$ re_subj      &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, …\n$ exclaim_subj &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …\n$ urgent_subj  &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ exclaim_mess &lt;dbl&gt; 0, 1, 6, 48, 1, 1, 1, 18, 1, 0, 2, 1, 0, 10, 4, 10, 20, 0…\n$ number       &lt;fct&gt; big, small, small, small, none, none, big, small, small, …\nThe variables we’ll use in this analysis are\nGoal: Use the number of exclamation points in an email to predict whether or not it is spam."
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit",
+    "title": "Building a spam filter",
+    "section": "Fit",
+    "text": "Fit\nFit a linear regression model to whether an email is spam from the number of exclamation points in the email.\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#visualize",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#visualize",
+    "title": "Building a spam filter",
+    "section": "Visualize",
+    "text": "Visualize\nVisualizate the linear model.\n\n# add code here\n\n\nIs the linear model a good fit for the data? Why or why not?\n\nAdd response here."
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit-1",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#fit-1",
+    "title": "Building a spam filter",
+    "section": "Fit",
+    "text": "Fit\nFit a logistic regression model to predict the probability an email is spam from the number of exclamation points in the email.\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#summarize",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#summarize",
+    "title": "Building a spam filter",
+    "section": "Summarize",
+    "text": "Summarize\nWrite the estimated model.\n\\[\\log\\Big(\\frac{p}{1-p}\\Big) = -2.27 - 0.000272 \\times exclaim\\_mess\\]"
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#think",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#think",
+    "title": "Building a spam filter",
+    "section": "Think",
+    "text": "Think\nSuppose you are a data scientist working on a spam filter. You must determine how high the predicted probability must be before you think it would be reasonable to call it spam and put it in the junk folder (which the user is unlikely to check). What are some trade offs you would consider as you set the decision-making threshold?\nAdd response here."
+  },
+  {
+    "objectID": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#do",
+    "href": "code-alongs/3-1-building-a-spam-filter/3-1-building-a-spam-filter.html#do",
+    "title": "Building a spam filter",
+    "section": "Do",
+    "text": "Do\nClassify the emails in this dataset as spam or not spam.\n\n# add code here"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html",
+    "title": "Modeling fish (Complete)",
+    "section": "",
+    "text": "Practice modeling using the fish dataset on two common fish species in fish market sales.\n\nWe will use the tidyverse package for data wrangling and visualization and the tidymodels package for modeling.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\n\n\nThese data come from Kaggle and is commonly used in machine learning examples.\n\nfish &lt;- read_csv(\"https://data-science-with-r.github.io/data/fish.csv\")\n\nThe data dictionary is below:\n\n\nvariable\ndescription\n\n\n\nspecies\nSpecies name of fish\n\n\nweight\nWeight, in grams\n\n\nlength_vertical\nVertical length, in cm\n\n\nlength_diagonal\nDiagonal length, in cm\n\n\nlength_cross\nCross length, in cm\n\n\nheight\nHeight, in cm\n\n\nwidth\nDiagonal width, in cm\n\n\n\nLet’s take a look at the data.\n\nfish\n\n# A tibble: 55 × 7\n   species weight length_vertical length_diagonal length_cross height width\n   &lt;chr&gt;    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n 1 Bream      242            23.2            25.4         30     11.5  4.02\n 2 Bream      290            24              26.3         31.2   12.5  4.31\n 3 Bream      340            23.9            26.5         31.1   12.4  4.70\n 4 Bream      363            26.3            29           33.5   12.7  4.46\n 5 Bream      430            26.5            29           34     12.4  5.13\n 6 Bream      450            26.8            29.7         34.7   13.6  4.93\n 7 Bream      500            26.8            29.7         34.5   14.2  5.28\n 8 Bream      390            27.6            30           35     12.7  4.69\n 9 Bream      450            27.6            30           35.1   14.0  4.84\n10 Bream      500            28.5            30.7         36.2   14.2  4.96\n# ℹ 45 more rows"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#goal",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#goal",
+    "title": "Modeling fish (Complete)",
+    "section": "",
+    "text": "Practice modeling using the fish dataset on two common fish species in fish market sales."
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#packages",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#packages",
+    "title": "Modeling fish (Complete)",
+    "section": "",
+    "text": "We will use the tidyverse package for data wrangling and visualization and the tidymodels package for modeling.\n\nlibrary(tidyverse)\nlibrary(tidymodels)"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#data",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#data",
+    "title": "Modeling fish (Complete)",
+    "section": "",
+    "text": "These data come from Kaggle and is commonly used in machine learning examples.\n\nfish &lt;- read_csv(\"https://data-science-with-r.github.io/data/fish.csv\")\n\nThe data dictionary is below:\n\n\nvariable\ndescription\n\n\n\nspecies\nSpecies name of fish\n\n\nweight\nWeight, in grams\n\n\nlength_vertical\nVertical length, in cm\n\n\nlength_diagonal\nDiagonal length, in cm\n\n\nlength_cross\nCross length, in cm\n\n\nheight\nHeight, in cm\n\n\nwidth\nDiagonal width, in cm\n\n\n\nLet’s take a look at the data.\n\nfish\n\n# A tibble: 55 × 7\n   species weight length_vertical length_diagonal length_cross height width\n   &lt;chr&gt;    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n 1 Bream      242            23.2            25.4         30     11.5  4.02\n 2 Bream      290            24              26.3         31.2   12.5  4.31\n 3 Bream      340            23.9            26.5         31.1   12.4  4.70\n 4 Bream      363            26.3            29           33.5   12.7  4.46\n 5 Bream      430            26.5            29           34     12.4  5.13\n 6 Bream      450            26.8            29.7         34.7   13.6  4.93\n 7 Bream      500            26.8            29.7         34.5   14.2  5.28\n 8 Bream      390            27.6            30           35     12.7  4.69\n 9 Bream      450            27.6            30           35.1   14.0  4.84\n10 Bream      500            28.5            30.7         36.2   14.2  4.96\n# ℹ 45 more rows"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#visualizing-the-model",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#visualizing-the-model",
+    "title": "Modeling fish (Complete)",
+    "section": "Visualizing the model",
+    "text": "Visualizing the model\nWe’re going to investigate the relationship between the weights and heights of fish, predicting weight from height.\n\nCreate an appropriate plot to investigate this relationship. Add appropriate labels to the plot.\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n\n\n\n\n\n\n\nIf you were to draw a a straight line to best represent the relationship between the heights and weights of fish, where would it go? Why?\n\nStart from the bottom and go up. Identify the first and last point and draw a line through most the others.\n\nNow, let R draw the line for you! Hint: Use geom_smooth().\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  geom_smooth(method = \"lm\") +\n  labs(\n    title = \"Weights vs. lengths of fish\",\n    x = \"Head-to-tail lentgh (cm)\",\n    y = \"Weight of fish (grams)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nWhat types of questions can this plot help answer?\n\nIs there a relationship between fish heights and weights of fish?\n\nWe can use this line to make predictions. Predict what you think the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm. Which prediction is considered extrapolation?\n\nAt 10 cm, we estimate a weight of 375 grams. At 15 cm, we estimate a weight of 600 grams At 20 cm, we estimate a weight of 975 grams. 20 cm would be considered extrapolation.\n\nWhat is a residual?\n\nDifference between predicted and observed."
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-fitting",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-fitting",
+    "title": "Modeling fish (Complete)",
+    "section": "Model fitting",
+    "text": "Model fitting\n\nFit a model to predict fish weights from their heights.\n\n\nfish_hw_fit &lt;- linear_reg() |&gt;\n  fit(weight ~ height, data = fish)\n\nfish_hw_fit\n\nparsnip model object\n\n\nCall:\nstats::lm(formula = weight ~ height, data = data)\n\nCoefficients:\n(Intercept)       height  \n    -288.42        60.92  \n\n\n\nPredict what the weight of a fish would be with a height of 10 cm, 15 cm, and 20 cm using this model.\n\n\nx &lt;- c(10, 15, 20)\n-288 + 60.92 * x\n\n[1] 321.2 625.8 930.4\n\n\n\nCalculate predicted weights for all fish in the data and visualize the residuals under this model.\n\n\nfish_hw_aug &lt;- augment(fish_hw_fit, new_data = fish)\n\nggplot(fish_hw_aug, aes(x = height, y = weight)) + \n  geom_point() + \n  geom_smooth(method = \"lm\", se = FALSE, color = \"lightgrey\") +  \n  geom_segment(aes(xend = height, yend = .pred), color = \"gray\") +  \n  geom_point(aes(y = .pred), shape = \"circle open\") + \n  theme_minimal() +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    subtitle = \"Residuals\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-summary",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#model-summary",
+    "title": "Modeling fish (Complete)",
+    "section": "Model summary",
+    "text": "Model summary\n\nDisplay the model summary including estimates for the slope and intercept along with measurements of uncertainty around them. Show how you can extract these values from the model output.\n\n\nfish_hw_tidy &lt;- tidy(fish_hw_fit)\nfish_hw_tidy\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -288.      34.0      -8.49 1.83e-11\n2 height          60.9      2.64     23.1  2.40e-29\n\n\n\nWrite out your model using mathematical notation.\n\n\\(\\widehat{weight} = -288 + 60.9 \\times height\\)"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#correlation",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#correlation",
+    "title": "Modeling fish (Complete)",
+    "section": "Correlation",
+    "text": "Correlation\nWe can also assess correlation between two quantitative variables.\n\nWhat is correlation? What are values correlation can take?\n\nStrength and direction of a linear relationship. It’s bounded by -1 and 1.\n\nAre you good at guessing correlation? Give it a try! https://www.rossmanchance.com/applets/2021/guesscorrelation/GuessCorrelation.html\nWhat is the correlation between heights and weights of fish?\n\n\nfish |&gt;\n  summarize(r = cor(height, weight))\n\n# A tibble: 1 × 1\n      r\n  &lt;dbl&gt;\n1 0.954"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#adding-a-third-variable",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#adding-a-third-variable",
+    "title": "Modeling fish (Complete)",
+    "section": "Adding a third variable",
+    "text": "Adding a third variable\n\nDoes the relationship between heights and weights of fish change if we take into consideration species? Plot two separate straight lines for the Bream and Roach species.\n\n\nggplot(fish, aes(x = height, y = weight, color = species)) +\n  geom_point() +\n  geom_smooth(method = \"lm\") +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#fitting-other-models",
+    "href": "code-alongs/1-2-modeling-fish/1-2-modeling-fish-complete.html#fitting-other-models",
+    "title": "Modeling fish (Complete)",
+    "section": "Fitting other models",
+    "text": "Fitting other models\n\nWe can fit more models than just a straight line. Use method = \"loess\". What is different from the plot created before?\n\n\nggplot(fish, aes(x = height, y = weight)) +\n  geom_point() +\n  geom_smooth(method = \"loess\") +\n  labs(\n    title = \"Weights vs. heights of fish\",\n    x = \"Height (cm)\",\n    y = \"Weight (gr)\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html",
+    "title": "Forest classification (Complete)",
     "section": "",
     "text": "In this code along, we will\nWe will use tidyverse and tidymodels for data exploration and modeling, respectively, and the forested package for the data.\nlibrary(tidyverse)\n\nWarning: package 'ggplot2' was built under R version 4.4.3\n\n\nWarning: package 'tibble' was built under R version 4.4.3\n\n\nWarning: package 'purrr' was built under R version 4.4.3\n\n\nWarning: package 'lubridate' was built under R version 4.4.3\n\nlibrary(tidymodels)\n\nWarning: package 'tidymodels' was built under R version 4.4.3\n\n\nWarning: package 'broom' was built under R version 4.4.3\n\n\nWarning: package 'dials' was built under R version 4.4.3\n\n\nWarning: package 'scales' was built under R version 4.4.3\n\n\nWarning: package 'infer' was built under R version 4.4.3\n\n\nWarning: package 'modeldata' was built under R version 4.4.3\n\n\nWarning: package 'parsnip' was built under R version 4.4.3\n\n\nWarning: package 'recipes' was built under R version 4.4.3\n\n\nWarning: package 'rsample' was built under R version 4.4.3\n\n\nWarning: package 'tune' was built under R version 4.4.3\n\n\nWarning: package 'workflows' was built under R version 4.4.3\n\n\nWarning: package 'workflowsets' was built under R version 4.4.3\n\n\nWarning: package 'yardstick' was built under R version 4.4.3\n\nlibrary(forested)\n\nWarning: package 'forested' was built under R version 4.4.3\nRemember from the video that the forested dataset contains information on whether a plot is forested (Yes) or not (No) as well as numerical and categorical features of that plot.\nglimpse(forested)\n\nRows: 7,107\nColumns: 19\n$ forested         &lt;fct&gt; Yes, Yes, No, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes,…\n$ year             &lt;dbl&gt; 2005, 2005, 2005, 2005, 2005, 2005, 2005, 2005, 2005,…\n$ elevation        &lt;dbl&gt; 881, 113, 164, 299, 806, 736, 636, 224, 52, 2240, 104…\n$ eastness         &lt;dbl&gt; 90, -25, -84, 93, 47, -27, -48, -65, -62, -67, 96, -4…\n$ northness        &lt;dbl&gt; 43, 96, 53, 34, -88, -96, 87, -75, 78, -74, -26, 86, …\n$ roughness        &lt;dbl&gt; 63, 30, 13, 6, 35, 53, 3, 9, 42, 99, 51, 190, 95, 212…\n$ tree_no_tree     &lt;fct&gt; Tree, Tree, Tree, No tree, Tree, Tree, No tree, Tree,…\n$ dew_temp         &lt;dbl&gt; 0.04, 6.40, 6.06, 4.43, 1.06, 1.35, 1.42, 6.39, 6.50,…\n$ precip_annual    &lt;dbl&gt; 466, 1710, 1297, 2545, 609, 539, 702, 1195, 1312, 103…\n$ temp_annual_mean &lt;dbl&gt; 6.42, 10.64, 10.07, 9.86, 7.72, 7.89, 7.61, 10.45, 10…\n$ temp_annual_min  &lt;dbl&gt; -8.32, 1.40, 0.19, -1.20, -5.98, -6.00, -5.76, 1.11, …\n$ temp_annual_max  &lt;dbl&gt; 12.91, 15.84, 14.42, 15.78, 13.84, 14.66, 14.23, 15.3…\n$ temp_january_min &lt;dbl&gt; -0.08, 5.44, 5.72, 3.95, 1.60, 1.12, 0.99, 5.54, 6.20…\n$ vapor_min        &lt;dbl&gt; 78, 34, 49, 67, 114, 67, 67, 31, 60, 79, 172, 162, 70…\n$ vapor_max        &lt;dbl&gt; 1194, 938, 754, 1164, 1254, 1331, 1275, 944, 892, 549…\n$ canopy_cover     &lt;dbl&gt; 50, 79, 47, 42, 59, 36, 14, 27, 82, 12, 74, 66, 83, 6…\n$ lon              &lt;dbl&gt; -118.6865, -123.0825, -122.3468, -121.9144, -117.8841…\n$ lat              &lt;dbl&gt; 48.69537, 47.07991, 48.77132, 45.80776, 48.07396, 48.…\n$ land_type        &lt;fct&gt; Tree, Tree, Tree, Tree, Tree, Tree, Non-tree vegetati…"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#fit",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#fit",
-    "title": "Forest classification",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#fit",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#fit",
+    "title": "Forest classification (Complete)",
     "section": "Fit",
-    "text": "Fit\nFit a model for classifying plots as forested or not based on a subset of predictors of your choice. Name the model forested_custom_fit and display a tidy output of the model.\n\n# add code here"
+    "text": "Fit\nFit a model for classifying plots as forested or not based on a subset of predictors of your choice. Name the model forested_custom_fit and display a tidy output of the model.\n\nforested_custom_fit &lt;- logistic_reg() |&gt;\n  fit(forested ~ elevation + tree_no_tree + lat + lon + temp_annual_mean, data = forested_train)\ntidy(forested_custom_fit)\n\n# A tibble: 6 × 5\n  term                 estimate std.error statistic   p.value\n  &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)         48.2       6.06         7.96  1.71e- 15\n2 elevation           -0.000311  0.000384    -0.811 4.17e-  1\n3 tree_no_treeNo tree  3.35      0.0925      36.3   4.02e-288\n4 lat                 -0.313     0.0642      -4.87  1.09e-  6\n5 lon                  0.311     0.0288      10.8   3.81e- 27\n6 temp_annual_mean     0.270     0.0819       3.30  9.78e-  4"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#predict",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#predict",
-    "title": "Forest classification",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#predict",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#predict",
+    "title": "Forest classification (Complete)",
     "section": "Predict",
-    "text": "Predict\nPredict for the testing data using this model.\n\n# add code here"
+    "text": "Predict\nPredict for the testing data using this model.\n\nforested_custom_aug &lt;- augment(forested_custom_fit, new_data = forested_test)\nforested_custom_aug\n\n# A tibble: 1,777 × 22\n   .pred_class .pred_Yes .pred_No forested  year elevation eastness northness\n   &lt;fct&gt;           &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;\n 1 Yes            0.877    0.123  Yes       2005       113      -25        96\n 2 Yes            0.829    0.171  Yes       2005       736      -27       -96\n 3 Yes            0.855    0.145  Yes       2005       224      -65       -75\n 4 Yes            0.957    0.0431 Yes       2003      1031      -49        86\n 5 Yes            0.728    0.272  No        2005      1713      -66        75\n 6 Yes            0.982    0.0175 Yes       2014      1612       30       -95\n 7 No             0.0765   0.924  No        2014       507       44       -89\n 8 Yes            0.889    0.111  Yes       2014       940      -93        35\n 9 Yes            0.659    0.341  No        2014       246       22       -97\n10 No             0.0877   0.912  No        2014       419       86       -49\n# ℹ 1,767 more rows\n# ℹ 14 more variables: roughness &lt;dbl&gt;, tree_no_tree &lt;fct&gt;, dew_temp &lt;dbl&gt;,\n#   precip_annual &lt;dbl&gt;, temp_annual_mean &lt;dbl&gt;, temp_annual_min &lt;dbl&gt;,\n#   temp_annual_max &lt;dbl&gt;, temp_january_min &lt;dbl&gt;, vapor_min &lt;dbl&gt;,\n#   vapor_max &lt;dbl&gt;, canopy_cover &lt;dbl&gt;, lon &lt;dbl&gt;, lat &lt;dbl&gt;, land_type &lt;fct&gt;"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#evaluate",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#evaluate",
-    "title": "Forest classification",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#evaluate",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#evaluate",
+    "title": "Forest classification (Complete)",
     "section": "Evaluate",
-    "text": "Evaluate\nCalculate the false positive and false negative rates for the testing data using this model.\n\n# add code here\n\nAnother commonly used display of this information is a confusion matrix. Create this using the conf_mat() function. You will need to review the documentation for the function to determine how to use it.\n\n# add code here"
+    "text": "Evaluate\nCalculate the false positive and false negative rates for the testing data using this model.\n\nforested_custom_aug |&gt;\n  count(.pred_class, forested) |&gt;\n  arrange(forested) |&gt;\n  group_by(forested) |&gt;\n  mutate(\n    p = round(n / sum(n), 2),\n    decision = case_when(\n      .pred_class == \"Yes\" & forested == \"Yes\" ~ \"True positive\",\n      .pred_class == \"Yes\" & forested == \"No\" ~ \"False positive\",\n      .pred_class == \"No\" & forested == \"Yes\" ~ \"False negative\",\n      .pred_class == \"No\" & forested == \"No\" ~ \"True negative\"\n    )\n  )\n\n# A tibble: 4 × 5\n# Groups:   forested [2]\n  .pred_class forested     n     p decision      \n  &lt;fct&gt;       &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;         \n1 Yes         Yes        864  0.9  True positive \n2 No          Yes         98  0.1  False negative\n3 Yes         No         124  0.15 False positive\n4 No          No         691  0.85 True negative \n\n\nAnother commonly used display of this information is a confusion matrix. Create this using the conf_mat() function. You will need to review the documentation for the function to determine how to use it.\n\nconf_mat(\n  forested_custom_aug, \n  truth = forested, \n  estimate = .pred_class\n)\n\n          Truth\nPrediction Yes  No\n       Yes 864 124\n       No   98 691"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#sensitivity-specificity-roc-curve",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#sensitivity-specificity-roc-curve",
-    "title": "Forest classification",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#sensitivity-specificity-roc-curve",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#sensitivity-specificity-roc-curve",
+    "title": "Forest classification (Complete)",
     "section": "Sensitivity, specificity, ROC curve",
-    "text": "Sensitivity, specificity, ROC curve\nCalculate sensitivity and specificity and draw the ROC curve.\n\n# add code here"
+    "text": "Sensitivity, specificity, ROC curve\nCalculate sensitivity and specificity and draw the ROC curve.\n\nforested_custom_roc &lt;- roc_curve(forested_custom_aug, truth = forested, .pred_Yes)\nforested_custom_roc\n\n# A tibble: 1,779 × 3\n   .threshold specificity sensitivity\n        &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n 1  -Inf          0                 1\n 2     0.0186     0                 1\n 3     0.0202     0.00123           1\n 4     0.0204     0.00245           1\n 5     0.0207     0.00368           1\n 6     0.0227     0.00491           1\n 7     0.0286     0.00613           1\n 8     0.0298     0.00736           1\n 9     0.0299     0.00859           1\n10     0.0300     0.00982           1\n# ℹ 1,769 more rows\n\nggplot(forested_custom_roc, aes(x = 1 - specificity, y = sensitivity)) +\n  geom_path() +\n  geom_abline(lty = 3) +\n  coord_equal()"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#fit-1",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#fit-1",
-    "title": "Forest classification",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#fit-1",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#fit-1",
+    "title": "Forest classification (Complete)",
     "section": "Fit",
-    "text": "Fit\nFit a model for classifying plots as forested or not based on all predictors available. Name the model forested_full_fit and display a tidy output of the model.\n\n# add code here"
+    "text": "Fit\nFit a model for classifying plots as forested or not based on all predictors available. Name the model forested_full_fit and display a tidy output of the model.\n\nforested_full_fit &lt;- logistic_reg() |&gt;\n  fit(forested ~ ., data = forested_train)\ntidy(forested_full_fit)\n\n# A tibble: 20 × 5\n   term                             estimate std.error statistic  p.value\n   &lt;chr&gt;                               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n 1 (Intercept)                  -12.1        32.6       -0.371   7.11e- 1\n 2 year                           0.00456     0.0152     0.299   7.65e- 1\n 3 elevation                     -0.00277     0.000639  -4.33    1.47e- 5\n 4 eastness                      -0.000910    0.000734  -1.24    2.15e- 1\n 5 northness                      0.00208     0.000745   2.79    5.26e- 3\n 6 roughness                     -0.00399     0.00146   -2.73    6.29e- 3\n 7 tree_no_treeNo tree            1.25        0.136      9.23    2.61e-20\n 8 dew_temp                      -0.125       0.176     -0.712   4.76e- 1\n 9 precip_annual                 -0.0000895   0.000100  -0.895   3.71e- 1\n10 temp_annual_mean              -7.30       12.4       -0.587   5.57e- 1\n11 temp_annual_min                0.819       0.103      7.93    2.20e-15\n12 temp_annual_max                2.59        6.22       0.417   6.77e- 1\n13 temp_january_min               3.34        6.21       0.538   5.91e- 1\n14 vapor_min                      0.00000990  0.00353    0.00280 9.98e- 1\n15 vapor_max                      0.00925     0.00132    7.00    2.62e-12\n16 canopy_cover                  -0.0446      0.00366  -12.2     4.18e-34\n17 lon                           -0.0953      0.0559    -1.71    8.80e- 2\n18 lat                            0.0748      0.109      0.683   4.94e- 1\n19 land_typeNon-tree vegetation  -0.735       0.282     -2.61    9.05e- 3\n20 land_typeTree                 -1.58        0.297     -5.33    9.93e- 8"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#predict-1",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#predict-1",
-    "title": "Forest classification",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#predict-1",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#predict-1",
+    "title": "Forest classification (Complete)",
     "section": "Predict",
-    "text": "Predict\nPredict for the testing data using this model.\n\n# add code here"
+    "text": "Predict\nPredict for the testing data using this model.\n\nforested_full_aug &lt;- augment(forested_full_fit, new_data = forested_test)\nforested_full_aug\n\n# A tibble: 1,777 × 22\n   .pred_class .pred_Yes .pred_No forested  year elevation eastness northness\n   &lt;fct&gt;           &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;\n 1 Yes            0.930    0.0700 Yes       2005       113      -25        96\n 2 Yes            0.918    0.0822 Yes       2005       736      -27       -96\n 3 No             0.428    0.572  Yes       2005       224      -65       -75\n 4 Yes            0.972    0.0280 Yes       2003      1031      -49        86\n 5 Yes            0.633    0.367  No        2005      1713      -66        75\n 6 Yes            0.980    0.0201 Yes       2014      1612       30       -95\n 7 No             0.0436   0.956  No        2014       507       44       -89\n 8 Yes            0.845    0.155  Yes       2014       940      -93        35\n 9 No             0.0141   0.986  No        2014       246       22       -97\n10 No             0.0386   0.961  No        2014       419       86       -49\n# ℹ 1,767 more rows\n# ℹ 14 more variables: roughness &lt;dbl&gt;, tree_no_tree &lt;fct&gt;, dew_temp &lt;dbl&gt;,\n#   precip_annual &lt;dbl&gt;, temp_annual_mean &lt;dbl&gt;, temp_annual_min &lt;dbl&gt;,\n#   temp_annual_max &lt;dbl&gt;, temp_january_min &lt;dbl&gt;, vapor_min &lt;dbl&gt;,\n#   vapor_max &lt;dbl&gt;, canopy_cover &lt;dbl&gt;, lon &lt;dbl&gt;, lat &lt;dbl&gt;, land_type &lt;fct&gt;"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#evaluate-1",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#evaluate-1",
-    "title": "Forest classification",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#evaluate-1",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#evaluate-1",
+    "title": "Forest classification (Complete)",
     "section": "Evaluate",
-    "text": "Evaluate\nCalculate the false positive and false negative rates for the testing data using this model.\n\n# add code here"
+    "text": "Evaluate\nCalculate the false positive and false negative rates for the testing data using this model.\n\nforested_full_aug |&gt;\n  count(.pred_class, forested) |&gt;\n  arrange(forested) |&gt;\n  group_by(forested) |&gt;\n  mutate(\n    p = round(n / sum(n), 2),\n    decision = case_when(\n      .pred_class == \"Yes\" & forested == \"Yes\" ~ \"True positive\",\n      .pred_class == \"Yes\" & forested == \"No\" ~ \"False positive\",\n      .pred_class == \"No\" & forested == \"Yes\" ~ \"False negative\",\n      .pred_class == \"No\" & forested == \"No\" ~ \"True negative\"\n    )\n  )\n\n# A tibble: 4 × 5\n# Groups:   forested [2]\n  .pred_class forested     n     p decision      \n  &lt;fct&gt;       &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;         \n1 Yes         Yes        876  0.91 True positive \n2 No          Yes         86  0.09 False negative\n3 Yes         No          85  0.1  False positive\n4 No          No         730  0.9  True negative"
   },
   {
-    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#sensitivity-specificity-roc-curve-1",
-    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification.html#sensitivity-specificity-roc-curve-1",
-    "title": "Forest classification",
+    "objectID": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#sensitivity-specificity-roc-curve-1",
+    "href": "code-alongs/3-2-forest-classification/3-2-forest-classification-complete.html#sensitivity-specificity-roc-curve-1",
+    "title": "Forest classification (Complete)",
     "section": "Sensitivity, specificity, ROC curve",
-    "text": "Sensitivity, specificity, ROC curve\nCalculate sensitivity and specificity and draw the ROC curve.\n\n# add code here"
+    "text": "Sensitivity, specificity, ROC curve\nCalculate sensitivity and specificity and draw the ROC curve.\n\nforested_full_roc &lt;- roc_curve(forested_full_aug, truth = forested, .pred_Yes)\nforested_full_roc\n\n# A tibble: 1,779 × 3\n   .threshold specificity sensitivity\n        &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n 1 -Inf           0                 1\n 2    0.00106     0                 1\n 3    0.00107     0.00123           1\n 4    0.00217     0.00245           1\n 5    0.00287     0.00368           1\n 6    0.00290     0.00491           1\n 7    0.00290     0.00613           1\n 8    0.00309     0.00736           1\n 9    0.00321     0.00859           1\n10    0.00323     0.00982           1\n# ℹ 1,769 more rows\n\nggplot(forested_full_roc, aes(x = 1 - specificity, y = sensitivity)) +\n  geom_path() +\n  geom_abline(lty = 3) +\n  coord_equal()"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html",
-    "title": "Modeling loan interest rates (Complete)",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html",
+    "title": "Modeling loan interest rates",
     "section": "",
     "text": "Practice modeling with multiple predictors using the data on loan interest rates.\n\nThe dataset is about loans from the peer-to-peer lender, Lending Club, from the openintro package. We will use tidyverse and tidymodels for data exploration and modeling, respectively.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)\n\n\nBefore we use the dataset, we’ll make a few transformations to it.\n\nReview the code below with your neighbor and write a summary of the data transformation pipeline.\n\nAdd response here.\n\nloans &lt;- loans_full_schema |&gt;\n  mutate(\n    credit_util = total_credit_utilized / total_credit_limit,\n    bankruptcy = as.factor(if_else(public_record_bankrupt == 0, 0, 1)),\n    verified_income = droplevels(verified_income),\n    homeownership = str_to_title(homeownership),\n    homeownership = fct_relevel(homeownership, \"Rent\", \"Mortgage\", \"Own\")\n  ) |&gt;\n  rename(credit_checks = inquiries_last_12m) |&gt;\n  select(\n    interest_rate, loan_amount, verified_income, \n    debt_to_income, credit_util, bankruptcy, term, \n    credit_checks, issue_month, homeownership\n  )\n\nHere is a glimpse at the data:\n\nglimpse(loans)\n\nRows: 10,000\nColumns: 10\n$ interest_rate   &lt;dbl&gt; 14.07, 12.61, 17.09, 6.72, 14.07, 6.72, 13.59, 11.99, …\n$ loan_amount     &lt;int&gt; 28000, 5000, 2000, 21600, 23000, 5000, 24000, 20000, 2…\n$ verified_income &lt;fct&gt; Verified, Not Verified, Source Verified, Not Verified,…\n$ debt_to_income  &lt;dbl&gt; 18.01, 5.04, 21.15, 10.16, 57.96, 6.46, 23.66, 16.19, …\n$ credit_util     &lt;dbl&gt; 0.54759517, 0.15003472, 0.66134832, 0.19673228, 0.7549…\n$ bankruptcy      &lt;fct&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, …\n$ term            &lt;dbl&gt; 60, 36, 36, 36, 36, 36, 60, 60, 36, 36, 60, 60, 36, 60…\n$ credit_checks   &lt;int&gt; 6, 1, 4, 0, 7, 6, 1, 1, 3, 0, 4, 4, 8, 6, 0, 0, 4, 6, …\n$ issue_month     &lt;fct&gt; Mar-2018, Feb-2018, Feb-2018, Jan-2018, Mar-2018, Jan-…\n$ homeownership   &lt;fct&gt; Mortgage, Rent, Rent, Rent, Rent, Own, Mortgage, Mortg…"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#goal",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#goal",
-    "title": "Modeling loan interest rates (Complete)",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#goal",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#goal",
+    "title": "Modeling loan interest rates",
     "section": "",
     "text": "Practice modeling with multiple predictors using the data on loan interest rates."
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#packages",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#packages",
-    "title": "Modeling loan interest rates (Complete)",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#packages",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#packages",
+    "title": "Modeling loan interest rates",
     "section": "",
     "text": "The dataset is about loans from the peer-to-peer lender, Lending Club, from the openintro package. We will use tidyverse and tidymodels for data exploration and modeling, respectively.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\nlibrary(openintro)"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#data-prep",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#data-prep",
-    "title": "Modeling loan interest rates (Complete)",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#data-prep",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#data-prep",
+    "title": "Modeling loan interest rates",
     "section": "",
     "text": "Before we use the dataset, we’ll make a few transformations to it.\n\nReview the code below with your neighbor and write a summary of the data transformation pipeline.\n\nAdd response here.\n\nloans &lt;- loans_full_schema |&gt;\n  mutate(\n    credit_util = total_credit_utilized / total_credit_limit,\n    bankruptcy = as.factor(if_else(public_record_bankrupt == 0, 0, 1)),\n    verified_income = droplevels(verified_income),\n    homeownership = str_to_title(homeownership),\n    homeownership = fct_relevel(homeownership, \"Rent\", \"Mortgage\", \"Own\")\n  ) |&gt;\n  rename(credit_checks = inquiries_last_12m) |&gt;\n  select(\n    interest_rate, loan_amount, verified_income, \n    debt_to_income, credit_util, bankruptcy, term, \n    credit_checks, issue_month, homeownership\n  )\n\nHere is a glimpse at the data:\n\nglimpse(loans)\n\nRows: 10,000\nColumns: 10\n$ interest_rate   &lt;dbl&gt; 14.07, 12.61, 17.09, 6.72, 14.07, 6.72, 13.59, 11.99, …\n$ loan_amount     &lt;int&gt; 28000, 5000, 2000, 21600, 23000, 5000, 24000, 20000, 2…\n$ verified_income &lt;fct&gt; Verified, Not Verified, Source Verified, Not Verified,…\n$ debt_to_income  &lt;dbl&gt; 18.01, 5.04, 21.15, 10.16, 57.96, 6.46, 23.66, 16.19, …\n$ credit_util     &lt;dbl&gt; 0.54759517, 0.15003472, 0.66134832, 0.19673228, 0.7549…\n$ bankruptcy      &lt;fct&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, …\n$ term            &lt;dbl&gt; 60, 36, 36, 36, 36, 36, 60, 60, 36, 36, 60, 60, 36, 60…\n$ credit_checks   &lt;int&gt; 6, 1, 4, 0, 7, 6, 1, 1, 3, 0, 4, 4, 8, 6, 0, 0, 4, 6, …\n$ issue_month     &lt;fct&gt; Mar-2018, Feb-2018, Feb-2018, Jan-2018, Mar-2018, Jan-…\n$ homeownership   &lt;fct&gt; Mortgage, Rent, Rent, Rent, Rent, Own, Mortgage, Mortg…"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#get-to-know-the-data",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#get-to-know-the-data",
-    "title": "Modeling loan interest rates (Complete)",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#get-to-know-the-data",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#get-to-know-the-data",
+    "title": "Modeling loan interest rates",
     "section": "Get to know the data",
-    "text": "Get to know the data\n\nWhat is a typical interest rate in this dataset? What are some attributes of a typical loan and a typical borrower. Give yourself no more than 5 minutes for this exploration and share 1-2 findings.\n\nggplot(loans, aes(x = interest_rate)) +\n  geom_histogram(binwidth = 1)\nggplot(loans, aes(x = loan_amount)) +\n  geom_histogram(binwidth = 5000)\nggplot(loans, aes(x = term)) +\n  geom_bar()\nggplot(loans, aes(x = issue_month)) +\n  geom_bar()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(loans, aes(x = credit_util)) +\n  geom_histogram(binwidth = 0.1)\nggplot(loans, aes(x = verified_income)) +\n  geom_bar()\nggplot(loans, aes(x = debt_to_income)) +\n  geom_histogram(binwidth = 10)\nggplot(loans, aes(x = bankruptcy)) +\n  geom_bar()\nggplot(loans, aes(x = credit_checks)) +\n  geom_bar()\nggplot(loans, aes(x = homeownership)) +\n  geom_bar()"
+    "text": "Get to know the data\n\nWhat is a typical interest rate in this dataset? What are some attributes of a typical loan and a typical borrower. Give yourself no more than 5 minutes for this exploration and share 1-2 findings.\n\n\n# add code here\n\n\n# add code here"
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-credit-utilization",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-credit-utilization",
-    "title": "Modeling loan interest rates (Complete)",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-credit-utilization",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-credit-utilization",
+    "title": "Modeling loan interest rates",
     "section": "Interest rate vs. credit utilization",
-    "text": "Interest rate vs. credit utilization\n\nFor a regression model for predicting interest rate from credit utilization. Display the summary output.\n\n\nrate_util_fit &lt;- linear_reg() |&gt;\n  fit(interest_rate ~ credit_util, data = loans)\n\ntidy(rate_util_fit)\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic   p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)    10.5     0.0871     121.  0        \n2 credit_util     4.73    0.180       26.3 1.18e-147\n\n\n\nVisualize the model.\n\n\nggplot(loans, aes(x = credit_util, y = interest_rate)) +\n  geom_point(alpha = 0.5) +\n  geom_smooth(method = \"lm\")\n\n\n\n\n\n\n\n\nInterpret the intercept and the slope.\n\nIntercept: Borrowers with 0 credit utilization are predicted, on average, to get an interest rate of 10.5%.\nSlope: For each additional point credit utilization is higher, interest rate is predicted to be higher, on average, by 4.73%."
+    "text": "Interest rate vs. credit utilization\n\nFor a regression model for predicting interest rate from credit utilization. Display the summary output.\n\n\n# add code here\n\n\nVisualize the model.\n\n\n# add code here\n\n\nInterpret the intercept and the slope.\n\nIntercept: Add response here.\nSlope: Add response here."
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-homeownership",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-homeownership",
-    "title": "Modeling loan interest rates (Complete)",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-homeownership",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-homeownership",
+    "title": "Modeling loan interest rates",
     "section": "Interest rate vs. homeownership",
-    "text": "Interest rate vs. homeownership\n\nFit a regression model for predicting interest rate from homeownership and display the summary output.\n\n\nrate_home_fit &lt;- linear_reg() |&gt;\n  fit(interest_rate ~ homeownership, data = loans)\n\ntidy(rate_home_fit)\n\n# A tibble: 3 × 5\n  term                  estimate std.error statistic  p.value\n  &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)             12.9      0.0803    161.   0       \n2 homeownershipMortgage   -0.866    0.108      -8.03 1.08e-15\n3 homeownershipOwn        -0.611    0.158      -3.88 1.06e- 4\n\n\n\n\nInterpret each coefficient in context of the problem.\n\nIntercept: Loan applicants who rent are predicted to receive an interest rate of 12.9%, on average.\n\nSlopes:\n\nThe model predicts that loan applicants who have a mortgage for their home receive 0.866% lower interest rate than those who rent their home, on average.\nThe model predicts that loan applicants who own their home receive 0.611% lower interest rate than those who rent their home, on average."
+    "text": "Interest rate vs. homeownership\n\nFit a regression model for predicting interest rate from homeownership and display the summary output.\n\n\n# add code here\n\n\n\nInterpret each coefficient in context of the problem.\n\nIntercept: Add response here.\n\nSlopes:\n\nAdd response here.\nAdd response here."
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-credit-utilization-and-homeownership",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#interest-rate-vs.-credit-utilization-and-homeownership",
-    "title": "Modeling loan interest rates (Complete)",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-credit-utilization-and-homeownership",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#interest-rate-vs.-credit-utilization-and-homeownership",
+    "title": "Modeling loan interest rates",
     "section": "Interest rate vs. credit utilization and homeownership",
-    "text": "Interest rate vs. credit utilization and homeownership\nMain effects model\n\nFit a regression model to predict interest rate from credit utilization and homeownership, without an interaction effect between the two predictors. Display the summary output.\n\n\nrate_util_home_fit &lt;- linear_reg() |&gt;\n  fit(interest_rate ~ credit_util + homeownership, data = loans)\n\ntidy(rate_util_home_fit)\n\n# A tibble: 4 × 5\n  term                  estimate std.error statistic   p.value\n  &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)              9.93      0.140    70.8   0        \n2 credit_util              5.34      0.207    25.7   2.20e-141\n3 homeownershipMortgage    0.696     0.121     5.76  8.71e-  9\n4 homeownershipOwn         0.128     0.155     0.827 4.08e-  1\n\n\n\nWrite the estimated regression equation for loan applications from each of the homeownership groups separately.\n\nRent: \\(\\widehat{interest~rate} = 9.93 + 5.34 \\times credit~util\\)\n\nMortgage: \\(\\widehat{interest~rate} = 10.626 + 5.34 \\times credit~util\\)\n\nOwn: \\(\\widehat{interest~rate} = 10.058 + 5.34 \\times credit~util\\)\n\n\n\nHow does the model predict the interest rate to vary as credit utilization varies for loan applicants with different homeownership status. Are the rates the same or different?\n\nThe same.\nInteraction effects model\n\nFit a regression model to predict interest rate from credit utilization and homeownership, with an interaction effect between the two predictors. Display the summary output.\n\n\nrate_util_home_int_fit &lt;- linear_reg() |&gt;\n  fit(interest_rate ~ credit_util * homeownership, data = loans)\n\ntidy(rate_util_home_int_fit)\n\n# A tibble: 6 × 5\n  term                              estimate std.error statistic  p.value\n  &lt;chr&gt;                                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)                          9.44      0.199     47.5  0       \n2 credit_util                          6.20      0.325     19.1  1.01e-79\n3 homeownershipMortgage                1.39      0.228      6.11 1.04e- 9\n4 homeownershipOwn                     0.697     0.316      2.20 2.75e- 2\n5 credit_util:homeownershipMortgage   -1.64      0.457     -3.58 3.49e- 4\n6 credit_util:homeownershipOwn        -1.06      0.590     -1.80 7.24e- 2\n\n\n\nWrite the estimated regression equation for loan applications from each of the homeownership groups separately.\n\nRent: \\(\\widehat{interest~rate} = 9.44 + 6.20 \\times credit~util\\)\n\nMortgage: \\(\\widehat{interest~rate} = 10.83 + 4.56 \\times credit~util\\)\n\nOwn: \\(\\widehat{interest~rate} = 10.137 + 5.14 \\times credit~util\\)\n\n\n\nHow does the model predict the interest rate to vary as credit utilization varies for loan applicants with different homeownership status. Are the rates the same or different?\n\nDifferent.\nChoosing a model\nRule of thumb: Occam’s Razor - Don’t over-complicate the situation! We prefer the simplest best model.\n\nDisplay model level summary statistics.\n\n\nglance(rate_util_home_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic   p.value    df  logLik    AIC    BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1    0.0682        0.0679  4.83      244. 1.25e-152     3 -29926. 59861. 59897.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\nglance(rate_util_home_int_fit)\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic   p.value    df  logLik    AIC    BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1    0.0694        0.0689  4.83      149. 4.79e-153     5 -29919. 59852. 59903.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\nWhat is R-squared? What is adjusted R-squared?\n\nR-squared is the percent variability in the response that is explained by our model. (Can use when models have same number of variables for model selection)\nAdjusted R-squared is similar, but has a penalty for the number of variables in the model. (Should use for model selection when models have different numbers of variables).\n\nBased on the adjusted \\(R^2\\)s of these two models, which one do we prefer?\n\nThe interaction effects model, though just barely."
+    "text": "Interest rate vs. credit utilization and homeownership\nMain effects model\n\nFit a regression model to predict interest rate from credit utilization and homeownership, without an interaction effect between the two predictors. Display the summary output.\n\n\n# add code here\n\n\nWrite the estimated regression equation for loan applications from each of the homeownership groups separately.\n\nRent: \\(add~math~text~here\\)\n\nMortgage: \\(add~math~text~here\\)\n\nOwn: \\(add~math~text~here\\)\n\n\n\nHow does the model predict the interest rate to vary as credit utilization varies for loan applicants with different homeownership status. Are the rates the same or different?\n\nAdd response here.\nInteraction effects model\n\nFit a regression model to predict interest rate from credit utilization and homeownership, with an interaction effect between the two predictors. Display the summary output.\n\n\n# add code here\n\n\nWrite the estimated regression equation for loan applications from each of the homeownership groups separately.\n\nRent: \\(add~math~text~here\\)\n\nMortgage: \\(add~math~text~here\\)\n\nOwn: \\(add~math~text~here\\)\n\n\n\nHow does the model predict the interest rate to vary as credit utilization varies for loan applicants with different homeownership status. Are the rates the same or different?\n\nAdd response here.\nChoosing a model\nRule of thumb: Occam’s Razor - Don’t over-complicate the situation! We prefer the simplest best model.\n\nDisplay model level summary statistics.\n\n\n# add code here\n\n\nWhat is R-squared? What is adjusted R-squared?\n\nAdd response here.\n\nBased on the adjusted \\(R^2\\)s of these two models, which one do we prefer?\n\nAdd response here."
   },
   {
-    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#another-model-to-consider",
-    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates-complete.html#another-model-to-consider",
-    "title": "Modeling loan interest rates (Complete)",
+    "objectID": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#another-model-to-consider",
+    "href": "code-alongs/2-2-modeling-loan-interest-rates/2-2-modeling-loan-interest-rates.html#another-model-to-consider",
+    "title": "Modeling loan interest rates",
     "section": "Another model to consider",
-    "text": "Another model to consider\n\nLet’s add one more model to the variable – issue month. Should we add this variable to the interaction effects model from earlier?\n\n\nlinear_reg() |&gt;\n  fit(interest_rate ~ credit_util * homeownership + issue_month, data = loans) |&gt;\n  glance()\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic   p.value    df  logLik    AIC    BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1    0.0694        0.0688  4.83      106. 5.62e-151     7 -29919. 59856. 59921.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\nNo, the adjusted R-squared goes down."
+    "text": "Another model to consider\n\nLet’s add one more model to the variable – issue month. Should we add this variable to the interaction effects model from earlier?\n\n\n# add code here\n\nAdd response here."
   },
   {
     "objectID": "index.html",
@@ -1327,7 +1327,7 @@
     "href": "index.html#exercises",
     "title": "\n Modeling and inference",
     "section": "Exercises",
-    "text": "Exercises\n\n\n\n\nTitle\n\n\n\n\n\nSimple linear regression\n\n\n\n\nNo matching items"
+    "text": "Exercises\n\n\n\n\nTitle\n\n\n\n\n\n\nSimple linear regression\n\n\n\n\n\nMultiple linear regression\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "slides/4-2-hypothesis-testing/4-2-hypothesis-testing.html#packages",
