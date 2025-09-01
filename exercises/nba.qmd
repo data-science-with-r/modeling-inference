@@ -1,0 +1,19 @@
+---
+title: Multiple linear regression
+subtitle: "{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R"
+format: live-html
+engine: knitr
+bibliography: references.bib
+webr:
+  packages: 
+    - tidyverse
+    - tidymodels
+    # - faraway
+    #- scales
+    #- ggridges
+    # - kableExtra
+  cell-options:
+    autorun: false
+  resources:
+    - 
+---
