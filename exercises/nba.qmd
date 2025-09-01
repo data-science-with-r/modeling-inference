@@ -17,3 +17,85 @@ webr:
   resources:
     - 
 ---
+
+<!-- begin: webr fodder -->
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| edit: false
+#| echo: false
+#| output: false
+options("readr.edition" = 1)
+library(tidyverse)
+# Read the CSV file directly from the URL
+nba <- read_csv("https://raw.githubusercontent.com/exercises/data/nba_2022-23_all_stats_with_salary.csv")
+```
+
+<!-- end: webr fodder -->
+
+# Getting Started
+
+Programming exercises are designed to provide an opportunity for you to put what you learn in the videos and readings. These exercises feature interactive code cells which allow you to write, edit, and run R code without leaving your browser.
+
+When the ▶️ Run Code button turns to a solid color (with no flashing bubble indicating that the document is still loading), you can interact with the code cells!
+
+## Packages
+
+We’ll use the **tidyverse** and **tidymodels** packages to make plots and fit models. We will also use the **kableExtra** package to put our output into nice and neat tables. These are already installed for you to use in this programming exercise, run the following code cell to load these packages.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(tidymodels)
+library(kableExtra)
+```
+
+```{webr}
+library(tidyverse)
+library(tidymodels)
+library(kableExtra)
+```
+
+## Motivation
+
+The National Basketball Assocciation (NBA) is a professional sports league that 
+that consists of 30 teams across the United States and Canada. In the early 2000s, NBA teams started to use advanced analytics to gain a competitive edge over their opponents. The goal being to use NBA data to to uncover complex relationships, helping those involved to make data driven decisions on game strategy and business operations. In this programming exercise, we are going to work with NBA data to try and better understand the salary NBA players make. 
+
+
+## Dataset information
+
+This dataset consists of player per-game statistics for the NBA's 2022-23 season with player salary data. You can load the data in below and reveal the data key for the many variables in this data set. We are going to use just a subset of these variables in this programming exercise. 
+
+```{webr}
+#| label: load-kansas-data
+nba <- read_csv("exercises/data/nba20222023.csv")
+
+glimpse(nba)
+```
+
+** put in a long key here ** 
+
+Now, let's explore these data!
+
+## Exploratory Data Analysis
+
+::: exercise
+
+Before we fit a linear regression model, we are going to explore the data. Let' start with exploring our response variable of interest, cholesterol (`Salary`). Specifically, we are interested in the relationship between `Salary`, `Age`, and `Position`. Below, calculate the mean and standard deviation for your quantitative variables. In the same code, produce the count of each position. 
+
+```{webr}
+
+```
+
+:::
+
+
+
+
+Additive models: The relationship between x and y does not change based on z
+
+Interaction models: The relationship between x and y does change by z
