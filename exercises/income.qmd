@@ -160,4 +160,84 @@ tidy(income_model)
 The logistic regression model we fit models the log-odds: $$\log \left( \frac{p}{1-p} \right)$$, where `p` represents the probability of of making more than \$50,000. 
 :::
 
+#### Probabilities 
 
+To model the probability of making more than \$50,000, we need to expoentiate both sides of the eqaution. See below: 
+
+$$
+p = \frac{e^{-2.74 + 0.0395(\text{age})}}{1 + e^{-2.74 + 0.0395(\text{age})}}
+$$
+
+::: exercise
+Using your model, what's the probability of making more than \$50,000 if you are 60 years old in 1994?
+
+```{webr}
+
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+$$
+p = \frac{e^{-2.74 + 0.0395(\text{60})}}{1 + e^{-2.74 + 0.0395(\text{60})}} = 0.408
+$$
+
+We can also find this in R! 
+
+```{webr}
+age_predict <- tibble(age = 60)
+
+predict(income_model$fit, age_predict, type = "response") 
+```
+:::
+
+Based on your concoulsion from your exploratory analysis, does the probabilty of making over \$50,000 increase or decrease as you age? How can you tell from your model?
+
+::: {.callout-tip collapse="true"}
+## Solution
+The coefficient assocciated with age is positive, meaning that the estimated probability of making more than \$50,000 increases as age increases. 
+:::
+
+We can further show your intuition is correct by calculating the probability at the `age` of 61, and see if the difference between the probability at the age of 60 is positive or negative. 
+
+$$
+p = \frac{e^{-2.74 + 0.0395(\text{61})}}{1 + e^{-2.74 + 0.0395(\text{61})}} = 0.418
+
+.418 - .408 = .1
+$$
+
+The estimated probabilty of making more than \$50,000 increases by roughly 1 percent as you go from age 60 to 61.
+
+```{r}
+#| echo: false
+# Define the logistic function based on your model's coefficients
+calculate_probability <- function(age) {
+  intercept <- -2.74
+  beta_age <- 0.0395
+  exponent <- intercept + beta_age * age
+  probability <- exp(exponent) / (1 + exp(exponent))
+  return(probability)
+}
+
+# Create a data frame with a range of ages
+plot_data <- tibble(age = seq(18, 90, by = 0.5)) |>
+  mutate(probability = calculate_probability(age))
+
+# Plot the model's predicted probabilities
+ggplot(plot_data, aes(x = age, y = probability)) +
+  geom_line(color = "dodgerblue", linewidth = 1.2) +
+  labs(
+    title = "Predicted Probability of >$50k by Age",
+    x = "Age",
+    y = "Probability of >$50k "
+  ) +
+  theme_minimal() +
+  ylim(0, 1) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray") +
+  annotate("text", x = 80, y = 0.52, label = "", vjust = -0.5, color = "gray")
+```
+
+### Your Turn 
+
+There are many other factors that could contribute to the probability of making more than \$50,000 than just age in 1994. Now, we challenge you to fit a more complicated model to help better understand which factors make help best explain our response variable.
