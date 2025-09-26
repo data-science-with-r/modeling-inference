@@ -15,10 +15,8 @@ webr:
   cell-options:
     autorun: false
   resources:
-    - 
+    - https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/nba20222023.csv
 ---
-
-** need to remove duel positions ** 
 
 <!-- begin: webr fodder -->
 
@@ -31,7 +29,7 @@ webr:
 options("readr.edition" = 1)
 library(tidyverse)
 # Read the CSV file directly from the URL
-nba <- read_csv("https://raw.githubusercontent.com/exercises/data/nba_2022-23_all_stats_with_salary.csv")
+nba <- read_csv("https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/nba20222023.csv")
 ```
 
 <!-- end: webr fodder -->
@@ -56,43 +54,50 @@ library(tidymodels)
 library(kableExtra)
 ```
 
-```{webr}
-library(tidyverse)
-library(tidymodels)
-library(kableExtra)
-```
-
 ## Motivation
 
-The National Basketball Assocciation (NBA) is a professional sports league that 
-that consists of 30 teams across the United States and Canada. In the early 2000s, NBA teams started to use advanced analytics to gain a competitive edge over their opponents. The goal being to use NBA data to to uncover complex relationships, helping those involved to make data driven decisions on game strategy and business operations. In this programming exercise, we are going to work with NBA data to try and better understand the salary NBA players make. 
-
+The National Basketball Association (NBA) is a professional sports league that consists of 30 teams across the United States and Canada. In the early 2000s, NBA teams started to use advanced analytics to gain a competitive edge over their opponents. Teams employ the use of analytics to make data driven decisions on game strategy and business operations. In this programming exercise, we are going to work with NBA data to try and better understand the salary NBA players make.
 
 ## Dataset information
 
-This dataset consists of player per-game statistics for the NBA's 2022-23 season with player salary data. You can load the data in below and reveal the data key for the many variables in this data set. We are going to use just a subset of these variables in this programming exercise. 
+This dataset consists of player per-game statistics for the NBA's 2022-23 season with player salary data. We are going to use just a subset of these variables in this programming exercise. The variables we will use can be seen below. The data key for the entire data set can be revealed below.
 
 ```{webr}
-#| label: load-kansas-data
-nba <- read_csv("exercises/data/nba20222023.csv") 
+#| label: load-nba-data
+nba <- read_csv("nba20222023.csv") 
 
 glimpse(nba)
 ```
 
-** put in a long key here ** 
+| Variable | Description                                                       |
+|----------|-------------------------------------------------------------------|
+| Salary   | Yearly salary a NBA players make in USD                           |
+| Position | Position on the court the NBA player plays: PG, SG, SF, PF, and C |
+| Age      | Age of the player, rounded to the nearest year                    |
+
+
+::: {.callout-caution collapse="true"}
+## Data key
+
+Need to expand
+
+| Variable | Description                                                       |
+|----------|-------------------------------------------------------------------|
+| Salary   | Yearly salary a NBA players make in USD                           |
+| Position | Position on the court the NBA player plays: PG, SG, SF, PF, and C |
+| Age      | Age of the player, rounded to the nearest year                    |
+:::
 
 Now, let's explore these data!
 
 ## Exploratory Data Analysis
 
 ::: exercise
-
-Before we fit a linear regression model, we are going to explore the data. Let' start with exploring our response variable of interest, cholesterol (`Salary`). Specifically, we are interested in the relationship between `Salary`, `Age`, and `Position`. Below, calculate the mean and standard deviation for your quantitative variables. In the same code, produce the count of each position. 
+Before we fit a linear regression model, we are going to explore the data. Let' start with exploring our response variable of interest, cholesterol (`Salary`). Specifically, we are interested in the relationship between `Salary`, `Age`, and `Position`. Below, calculate the mean and standard deviation for your quantitative variables. In the same code, produce the count of each position.
 
 ```{webr}
 
 ```
-
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -104,7 +109,6 @@ Before we fit a linear regression model, we are going to explore the data. Let' 
 #| warning: false
 nba <- read_csv("data/nba20222023.csv") 
 ```
-
 
 ```{r}
 #| eval: true
@@ -119,11 +123,9 @@ nba |>
 ```
 :::
 
-
 ## Visualizing the data
 
-We are now going to plot our response variable `Salary` vs `Age` using a scatterplot. We are also going to color the points based on `Position`. The plot can be seen below. 
-
+We are now going to plot our response variable `Salary` vs `Age` using a scatterplot. We are also going to color the points based on `Position`. The plot can be seen below.
 
 ```{r}
 #| echo: false 
@@ -138,16 +140,14 @@ nba |>
        subtitle = "2022-2023 Season")
 ```
 
-From the videos, we learned about two different times of multiple linear regression models that we could fit: 
+From the videos, we learned about two different times of multiple linear regression models that we could fit:
 
 **Additive models**: The relationship between x and y does not change based on z
 
 **Interaction models**: The relationship between x and y does change by z
 
 ::: exercise
-
 (Thought exercise) Based on these definitions, do you think it would be appropriate to fit an additive or interaction model?
-
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -156,11 +156,9 @@ From the videos, we learned about two different times of multiple linear regress
 It is justifiable to fit an interaction model instead of an additive model. Based on the scatterplot, we can see that the relationship between Salary and Age changes depending on the position the player plays.
 :::
 
-For completeness, we are first going to fit an additive model. We are going to this to: 
+For completeness, we are first going to fit an additive model. We are going to this to:
 
--- Show that R will still fit the model, desipte it not being the most appropriate
--- Practice fitting additive models 
--- Practice interpreting additive model output
+-- Show that R will still fit the model, desipte it not being the most appropriate -- Practice fitting additive models -- Practice interpreting additive model output
 
 ::: exercise
 Fit the additive model below. Name this model `m1`, and wrap this object in the `tidy()` function. Next, interpret the estimate for `PositionPF` in the context of the problem.
@@ -186,7 +184,7 @@ As an NBA player ages one year, we estimate a mean salary increase of 1,307,286 
 :::
 
 ::: exercise
-(Thought exercise) What position do you not see a term for? Where is it? 
+(Thought exercise) What position do you not see a term for? Where is it?
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -195,7 +193,7 @@ As an NBA player ages one year, we estimate a mean salary increase of 1,307,286 
 We don't see a specific term for `C`. That is because it's our `(Intercept)` term! We can interpret the intercept as: For an age of, we estimate the mean salary of an NBA C to be -2,0019,456 usd. Each other position estimate is the estimated difference in `Salary` relative to the C, after controlling for Age!
 :::
 
-We can change the intercept. See the following code that changes the intercept to `PG`, and notice how the estimates change based on what our intercept term is! Note: `Age` does not change, because the relationship between Salary and Age does not depend on Position. 
+We can change the intercept. See the following code that changes the intercept to `PG`, and notice how the estimates change based on what our intercept term is! Note: `Age` does not change, because the relationship between Salary and Age does not depend on Position.
 
 ```{r}
 nba_diff <- nba |>
@@ -209,11 +207,10 @@ tidy(m2) |>
   select(term, estimate)
 ```
 
-#### Interaction model 
+#### Interaction model
 
 ::: exercise
-
-Now, it's time to fit the interaction model between `Salary`, `Age`, and `Position`. Please do so below, and interpret the Age:PositionPF interaction term.  
+Now, it's time to fit the interaction model between `Salary`, `Age`, and `Position`. Please do so below, and interpret the Age:PositionPF interaction term.
 
 ```{webr}
 
@@ -232,13 +229,9 @@ tidy(m3) |>
   select(term, estimate)
 ```
 
-
 For a Power Forward, a one-year increase in age, we estimate on average an increase in salary of approximately 970,334 usd.
 
 Why 970,334? The term Age:PositionPF has a coefficient of 556,044. This is the estiamted difference in the slope coefficient vs the Center position. Thus, the slope coefficient specifically for the PF position is estimated to be 414,290 larger than the baseline.
 :::
 
-#### Your Turn 
-
-
-
+#### Your Turn
