@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.4.555">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
 <meta name="author" content=" Data Science with R">
-<title>Language of models – Modeling and inference</title>
+
+<title>Modeling and inference - Language of models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -54,6 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -66,16 +70,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f8dc6eab18fde03278982b0b35885446.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b5d73cd7fdb2b00b608683a1db05c7e2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-61e2b31201f3f612199e6d259da1bf27.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="../../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -101,44 +106,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script type="module" src="../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script><link href="../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+}</script>
+<script type="module" src="../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+
 </head>
+
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Modeling and inference</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-<li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
 </ul>
-</div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
     <a href="https://github.com/data-science-with-r" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
-    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
     <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="1-1-2-language-of-models.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
 <h1 class="title">Language of models</h1>
-<p class="subtitle lead"><br><br><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</p>
+<p class="subtitle lead"><br><br> <i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</p>
 </div>
 
 
@@ -158,8 +176,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><section id="what-is-a-model" class="level1"><h1>What is a model?</h1>
-<section id="modeling" class="level2"><h2 class="anchored" data-anchor-id="modeling">Modeling</h2>
+</header>
+
+
+<section id="what-is-a-model" class="level1">
+<h1>What is a model?</h1>
+<section id="modeling" class="level2">
+<h2 class="anchored" data-anchor-id="modeling">Modeling</h2>
 <div class="incremental">
 <ul class="incremental">
 <li>Use models to explain the relationship between variables and to make predictions</li>
@@ -172,7 +195,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
@@ -181,15 +205,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 </div>
-</section></section><section id="modeling-1" class="level1"><h1>Modeling</h1>
-<section id="modeling-cars" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="modeling-cars">Modeling cars</h2>
+</section>
+</section>
+<section id="modeling-1" class="level1">
+<h1>Modeling</h1>
+<section id="modeling-cars" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="modeling-cars">Modeling cars</h2>
 <div class="question">
 <ul>
 <li>What is the relationship between cars’ weights and their mileage?</li>
@@ -199,56 +228,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="modelling-cars" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="modelling-cars">Modelling cars</h2>
+</section>
+<section id="modelling-cars" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="modelling-cars">Modelling cars</h2>
 <div class="question">
 <p><strong>Describe:</strong> What is the relationship between cars’ weights and their mileage?</p>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="modelling-cars-1" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="modelling-cars-1">Modelling cars</h2>
+</section>
+<section id="modelling-cars-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="modelling-cars-1">Modelling cars</h2>
 <div class="question">
 <p><strong>Predict:</strong> What is your best guess for a car’s MPG that weighs 3,500 pounds?</p>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="modeling-2" class="level2"><h2 class="anchored" data-anchor-id="modeling-2">Modeling</h2>
+</section>
+<section id="modeling-2" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-2">Modeling</h2>
 <ul>
 <li>Use models to explain the relationship between variables and to make predictions</li>
 <li>For now we will focus on <strong>linear</strong> models (but there are <em>many</em> <em>many</em> other types of models too!)</li>
-</ul></section><section id="modeling-vocabulary" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="modeling-vocabulary">Modeling vocabulary</h2>
+</ul>
+</section>
+<section id="modeling-vocabulary" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="modeling-vocabulary">Modeling vocabulary</h2>
 <div class="incremental">
 <ul class="incremental">
 <li><p><strong>Outcome:</strong> Variable whose behavior or variation you are trying to understand, on the y-axis (aka response variable, dependent variable)</p></li>
 <li><p><strong>Predictor(s):</strong> Other variable(s) that you want to use to explain the variation in the outcome, on the x-axis (aka explanatory variable(s), independent variable(s))</p></li>
 <li><p><strong>Model function:</strong> The regression line for predicting the outcome variable from the predictor variable(s), comprised generally of an <strong>intercept</strong> and a <strong>slope</strong> for each predictor</p></li>
 <li><p><strong>Predicted value:</strong> Output of the model function, which gives the typical (expected) value of the outcome <em>conditioning</em> on the predictor</p></li>
-<li>
-<p><strong>Residuals:</strong> A measure of how far each case’s observed value is from its predicted value (based on a particular model)</p>
+<li><p><strong>Residuals:</strong> A measure of how far each case’s observed value is from its predicted value (based on a particular model)</p>
 <ul class="incremental">
 <li>Residual = Observed value - Predicted value</li>
 <li>Tells how far above/below the expected value each case is</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 </div>
-</section><section id="predictor" class="level2"><h2 class="anchored" data-anchor-id="predictor">Predictor</h2>
+</section>
+<section id="predictor" class="level2">
+<h2 class="anchored" data-anchor-id="predictor">Predictor</h2>
 <div class="columns">
 <div class="column" style="width:25%;">
 <div class="cell">
@@ -702,11 +743,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   height: 0px !important;
 }
 </style>
+
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead><tr class="gt_col_headings header">
+<thead>
+<tr class="header gt_col_headings">
 <th id="mpg" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">mpg</th>
 <th id="wt" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">wt</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_right" headers="mpg">21</td>
@@ -738,6 +782,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -747,14 +792,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 </div>
-</section><section id="outcome" class="level2"><h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
+</section>
+<section id="outcome" class="level2">
+<h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
 <div class="columns">
 <div class="column" style="width:25%;">
 <div class="cell">
@@ -1208,11 +1256,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   height: 0px !important;
 }
 </style>
+
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead><tr class="gt_col_headings header">
+<thead>
+<tr class="header gt_col_headings">
 <th id="mpg" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">mpg</th>
 <th id="wt" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">wt</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_right" headers="mpg" style="background-color: #FE5D26; color: #FFFFFF">21</td>
@@ -1244,6 +1295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1253,108 +1305,145 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 </div>
-</section><section id="regression-line" class="level2"><h2 class="anchored" data-anchor-id="regression-line">Regression line</h2>
+</section>
+<section id="regression-line" class="level2">
+<h2 class="anchored" data-anchor-id="regression-line">Regression line</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="regression-line-slope" class="level2"><h2 class="anchored" data-anchor-id="regression-line-slope">Regression line: slope</h2>
+</section>
+<section id="regression-line-slope" class="level2">
+<h2 class="anchored" data-anchor-id="regression-line-slope">Regression line: slope</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="regression-line-intercept" class="level2"><h2 class="anchored" data-anchor-id="regression-line-intercept">Regression line: intercept</h2>
+</section>
+<section id="regression-line-intercept" class="level2">
+<h2 class="anchored" data-anchor-id="regression-line-intercept">Regression line: intercept</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="correlation" class="level2"><h2 class="anchored" data-anchor-id="correlation">Correlation</h2>
+</section>
+<section id="correlation" class="level2">
+<h2 class="anchored" data-anchor-id="correlation">Correlation</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="correlation-1" class="level2"><h2 class="anchored" data-anchor-id="correlation-1">Correlation</h2>
+</section>
+<section id="correlation-1" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-1">Correlation</h2>
 <ul>
 <li>Ranges between -1 and 1.</li>
 <li>Same sign as the slope.</li>
 </ul>
 <p>. . .</p>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="images/corr-example.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<figure class="figure">
+<p><img src="images/corr-example.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
-</section><section id="visualizing-the-model" class="level2"><h2 class="anchored" data-anchor-id="visualizing-the-model">Visualizing the model</h2>
+</section>
+<section id="visualizing-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-the-model">Visualizing the model</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="residuals" class="level2"><h2 class="anchored" data-anchor-id="residuals">Residuals</h2>
+</section>
+<section id="residuals" class="level2">
+<h2 class="anchored" data-anchor-id="residuals">Residuals</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="extending-regression-lines" class="level2"><h2 class="anchored" data-anchor-id="extending-regression-lines">Extending regression lines</h2>
+</section>
+<section id="extending-regression-lines" class="level2">
+<h2 class="anchored" data-anchor-id="extending-regression-lines">Extending regression lines</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="1-1-2-language-of-models_files/figure-revealjs/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="models---upsides-and-downsides" class="level2"><h2 class="anchored" data-anchor-id="models---upsides-and-downsides">Models - upsides and downsides</h2>
+</section>
+<section id="models---upsides-and-downsides" class="level2">
+<h2 class="anchored" data-anchor-id="models---upsides-and-downsides">Models - upsides and downsides</h2>
 <ul>
 <li>Models can sometimes reveal patterns that are not evident in a graph of the data. This is a great advantage of modeling over simple visual inspection of data.</li>
 <li>There is a real risk, however, that a model is imposing structure that is not really there on the scatter of data, just as people imagine animal shapes in the stars. A skeptical approach is always warranted.</li>
-</ul></section><section id="variation-around-the-model" class="level2"><h2 class="anchored" data-anchor-id="variation-around-the-model">Variation around the model…</h2>
+</ul>
+</section>
+<section id="variation-around-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="variation-around-the-model">Variation around the model…</h2>
 <p>is just as important as the model, if not more!</p>
 <p><em>Statistics is the explanation of variation in the context of what remains unexplained.</em></p>
 <ul>
 <li>The scatter suggests that there might be other factors that account for large parts of painting-to-painting variability, or perhaps just that randomness plays a big role.</li>
 <li>Adding more explanatory variables to a model can sometimes usefully reduce the size of the scatter around the model. (We’ll talk more about this later.)</li>
-</ul></section><section id="how-do-we-use-models" class="level2"><h2 class="anchored" data-anchor-id="how-do-we-use-models">How do we use models?</h2>
+</ul>
+</section>
+<section id="how-do-we-use-models" class="level2">
+<h2 class="anchored" data-anchor-id="how-do-we-use-models">How do we use models?</h2>
 <div class="incremental">
 <ul class="incremental">
 <li><p><strong>Predict / classify:</strong> Plug in the value(s) of predictor(s) to the model to obtain the predicted value of the outcome</p></li>
 <li><p><strong>Describe:</strong> Quantify the relationship between predictor(s) and outcome with slopes</p></li>
 </ul>
 </div>
-</section></section><section id="predict-classify" class="level1"><h1>Predict / classify</h1>
-<section id="predict-classify-1" class="level2"><h2 class="anchored" data-anchor-id="predict-classify-1">Predict / classify</h2>
+</section>
+</section>
+<section id="predict-classify" class="level1">
+<h1>Predict / classify</h1>
+<section id="predict-classify-1" class="level2">
+<h2 class="anchored" data-anchor-id="predict-classify-1">Predict / classify</h2>
 <div class="incremental">
 <ul class="incremental">
 <li><p>How do self-driving cars decide whether an object in front of them is a human, another car, or a trash can?</p></li>
@@ -1362,13 +1451,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>What happens if either of these get it wrong?</p></li>
 </ul>
 </div>
-</section></section><section id="describe" class="level1"><h1>Describe</h1>
-<section id="leisure-commute-physical-activity-and-bp" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="leisure-commute-physical-activity-and-bp">Leisure, commute, physical activity and BP</h2>
+</section>
+</section>
+<section id="describe" class="level1">
+<h1>Describe</h1>
+<section id="leisure-commute-physical-activity-and-bp" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="leisure-commute-physical-activity-and-bp">Leisure, commute, physical activity and BP</h2>
 <blockquote class="blockquote">
 <p><a href="https://www.ahajournals.org/doi/full/10.1161/JAHA.119.014313">Relation Between Leisure Time, Commuting, and Occupational Physical Activity With Blood Pressure in 125,402 Adults: The Lifelines Cohort</a></p>
 <p>Byambasukh, Oyuntugs, Harold Snieder, and Eva Corpeleijn. “Relation between leisure time, commuting, and occupational physical activity with blood pressure in 125 402 adults: the lifelines cohort.” <em>Journal of the American Heart Association</em> 9.4 (2020): e014313.</p>
 </blockquote>
-</section><section id="leisure-commute-physical-activity-and-bp-1" class="level2 smaller scrollable"><h2 class="smaller scrollable anchored" data-anchor-id="leisure-commute-physical-activity-and-bp-1">Leisure, commute, physical activity and BP</h2>
+</section>
+<section id="leisure-commute-physical-activity-and-bp-1" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="leisure-commute-physical-activity-and-bp-1">Leisure, commute, physical activity and BP</h2>
 <p><strong>Background:</strong> Whether all domains of daily‐life moderate‐to‐vigorous physical activity (MVPA) are associated with lower blood pressure (BP) and how this association depends on age and body mass index remains unclear.</p>
 <p><strong>Methods and Results:</strong> In the population‐based Lifelines cohort (N=125,402), MVPA was assessed by the Short Questionnaire to Assess Health‐Enhancing Physical Activity, a validated questionnaire in different domains such as commuting, leisure‐time, and occupational PA. BP was assessed using the last 3 of 10 measurements after 10&nbsp;minutes’ rest in the supine position. Hypertension was defined as systolic BP ≥140&nbsp;mm&nbsp;Hg and/or diastolic BP ≥90&nbsp;mm&nbsp;Hg and/or use of antihypertensives. In regression analysis, higher commuting and leisure‐time but not occupational MVPA related to lower BP and lower hypertension risk. Commuting‐and‐leisure‐time MVPA was associated with BP in a dose‐dependent manner. β Coefficients (95% CI) from linear regression analyses were −1.64 (−2.03 to −1.24), −2.29 (−2.68 to −1.90), and finally −2.90 (−3.29 to −2.50) mm&nbsp;Hg systolic BP for the low, middle, and highest tertile of MVPA compared with “No MVPA” as the reference group after adjusting for age, sex, education, smoking and alcohol use. Further adjustment for body mass index attenuated the associations by 30% to 50%, but more MVPA remained significantly associated with lower BP and lower risk of hypertension. This association was age dependent. β Coefficients (95% CI) for the highest tertiles of commuting‐and‐leisure‐time MVPA were −1.67 (−2.20 to −1.15), −3.39 (−3.94 to −2.82) and −4.64 (−6.15 to −3.14) mm&nbsp;Hg systolic BP in adults &lt;40, 40 to 60, and &gt;60&nbsp;years, respectively.</p>
 <p><strong>Conclusions:</strong> Higher commuting and leisure‐time but not occupational MVPA were significantly associated with lower BP and lower hypertension risk at all ages, but these associations were stronger in older adults.</p>
@@ -1376,7 +1471,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
-</script><div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
 
 </div>
@@ -1386,51 +1482,99 @@ eyJjb250ZW50cyI6W119
 </div>
 <script type="vfs-file">
 W10=
-</script></section></section></main><!-- /main --><script type="ojs-module-contents">
+</script>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
-</script><script type="module">
+</script>
+<script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
 window._ojs.paths.runtimeToDoc = "../../slides/1-1-2-language-of-models";
 window._ojs.paths.runtimeToRoot = "../..";
 window._ojs.paths.docToRoot = "../..";
 window._ojs.selfContained = false;
 window._ojs.runtime.interpretFromScriptTags();
-</script><script>
+</script>
+
+
+<script>
+
   // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
   // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
   // slide changes (different for each slide format).
+
   (function () {
+
     // dispatch for htmlwidgets
+
     function fireSlideEnter() {
+
       const event = window.document.createEvent("Event");
+
       event.initEvent("slideenter", true, true);
+
       window.document.dispatchEvent(event);
+
     }
+
+
 
     function fireSlideChanged(previousSlide, currentSlide) {
+
       fireSlideEnter();
 
+
+
       // dispatch for shiny
+
       if (window.jQuery) {
+
         if (previousSlide) {
+
           window.jQuery(previousSlide).trigger("hidden");
+
         }
+
         if (currentSlide) {
+
           window.jQuery(currentSlide).trigger("shown");
+
         }
+
       }
+
     }
+
+
 
     // hookup for slidy
+
     if (window.w3c_slidy) {
+
       window.w3c_slidy.add_observer(function (slide_num) {
+
         // slide_num starts at position 1
+
         fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
       });
+
     }
 
+
+
   })();
-</script><script id="quarto-html-after-body" type="application/javascript">
+
+</script>
+
+
+
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1609,7 +1753,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1641,27 +1796,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1669,7 +1804,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -1766,6 +1901,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1992,6 +2128,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

@@ -1,5 +1,7 @@
 ---
 title: Logistic regression
+execute:
+  eval: false
 subtitle: "{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R"
 format: live-html
 engine: knitr
@@ -15,6 +17,7 @@ webr:
   cell-options:
     autorun: false
   resources:
+    - https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/income.csv
 ---
 
 <!-- begin: webr fodder -->
@@ -28,7 +31,7 @@ webr:
 options("readr.edition" = 1)
 library(tidyverse)
 # Read the CSV file directly from the URL
-income <- read_csv("https://raw.githubusercontent.com/exercises/data/income.csv")
+income <- read_csv("https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/income.csv")
 ```
 
 <!-- end: webr fodder -->

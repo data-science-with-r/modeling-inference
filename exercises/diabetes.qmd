@@ -15,10 +15,8 @@ webr:
   cell-options:
     autorun: false
   resources:
-    - https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv?token=GHSAT0AAAAAAC7ZGKFKE27CWZQTYYADWCEE2FLMPJA
+    - https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv
 ---
-
-** I can't get the data to load in for webr
 
 <!-- begin: webr fodder -->
 
@@ -31,7 +29,7 @@ webr:
 options("readr.edition" = 1)
 library(tidyverse)
 # Read the CSV file directly from the URL
-diabetes <- read_csv("https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv?token=GHSAT0AAAAAAC7ZGKFKE27CWZQTYYADWCEE2FLMPJA")
+diabetes <- read_csv("https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv")
 
 ```
 
@@ -47,7 +45,7 @@ We invite you to think critically about the ethics questions associated with eac
 
 ## Packages
 
-We’ll use the **tidyverse** and **scales** packages to create and improve plots in this programming exercise. These are already installed for you to use in this programming exercise, run the following code cell to load these packages.
+We’ll use the **tidyverse** and **tidymodels** for this programming exercise. These are already installed for you to use!
 
 ```{r}
 #| echo: false
@@ -85,7 +83,7 @@ diabetes
 
 ## Dataset information
 
-Below is a data key regarding a subset of the original data set in the `faraway` package to help us best understand the variables in the dataset that we are going to work with for this programming exercise.
+Below is a data key that shows subset of variables we are going to work with for this activity. The original data are located in the `faraway` package.
 
 | Variable Name | Description                                         |
 |---------------|-----------------------------------------------------|
@@ -173,7 +171,8 @@ diabetes |>
   ggplot(
     aes(x = chol)
   ) +
-  geom_histogram()
+  geom_histogram() + 
+  labs(title = "Histogram of Cholesterol")
 ```
 
 The distribution of cholesterol responses is roughly symmetric, with a couple additional observations out on the right tail.
@@ -217,7 +216,9 @@ diabetes |>
     aes(x = weight, y = chol)
   ) +
   geom_point() + 
-  geom_smooth(method = "lm", se = F)
+  geom_smooth(method = "lm", se = F) + 
+  labs(title = "Relationship between weight and cholesterol",
+       subtitle = "with a line of best fit")
 ```
 
 It appears that the relationship between weight and cholesterol is slightly positive. That is, as someone's weight increases, on average, their cholesterol increases according to these data. 
@@ -225,7 +226,7 @@ It appears that the relationship between weight and cholesterol is slightly posi
 
 ## Estimating the line of best fit. 
 
-Now, let's use R to calculate the coefficients associated with the line of best fit your created above. See the R code and output below. 
+Now, let's use R to calculate the coefficients associated with the line of best fit your created above. The R code below uses **tidymodels** to specify a linear regression model with `cholesterol` as the response, and `weight` as the explanatory variable from the `diabetes` data set.
 
 ```{r}
 lm_fit <- linear_reg() |> 
@@ -273,7 +274,9 @@ new_obs <- tibble(
   chol = ____
 )
 
-diabetes_new <- bind_rows(diabetes, new_obs)   
+diabetes_new <- bind_rows(diabetes, new_obs)
+
+diabetes_new[404,]
 ```
 
 Now, re-run the following code below to see how your line has changed from above. Try this activity with at least our two suggested new observations. You are encouraged to explore more!
@@ -315,7 +318,7 @@ tidy(lm_fit) |>
 ```
 
 
-Why are some estimates so small?
+Why do you have a negative estimate?
 :::
 
 
@@ -370,8 +373,6 @@ For someone with a medium frame, we estimate on average a 16.043 increase in cho
 -- Simple linear regression can be used when our response variable is quantitative, and we have a single explanatory variable.
 
 -- Outliers have the ability to drastically influence our line of best fit. 
-
-## References
 
 
 

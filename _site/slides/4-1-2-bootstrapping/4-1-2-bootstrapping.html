@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.4.555">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
 <meta name="author" content=" Data Science with R">
-<title>Bootstrapping – Modeling and inference</title>
+
+<title>Modeling and inference - Bootstrapping</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -54,6 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
@@ -66,16 +70,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f8dc6eab18fde03278982b0b35885446.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b5d73cd7fdb2b00b608683a1db05c7e2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-61e2b31201f3f612199e6d259da1bf27.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="../../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -101,8 +106,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script type="module" src="../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script><link href="../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+}</script>
+<script type="module" src="../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -128,43 +139,53 @@ window.Quarto = {
   typesetMath
 };
 </script>
+
 </head>
+
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Modeling and inference</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-<li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
 </ul>
-</div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
     <a href="https://github.com/data-science-with-r" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
-    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
     <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="4-1-2-bootstrapping.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
 <h1 class="title">Bootstrapping</h1>
-<p class="subtitle lead"><br><br><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</p>
+<p class="subtitle lead"><br><br> <i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling and inference</p>
 </div>
 
 
@@ -184,19 +205,24 @@ window.Quarto = {
   
 
 
-</header><section id="setup" class="level1"><h1>Setup</h1>
-<section id="packages" class="level2"><h2 class="anchored" data-anchor-id="packages">Packages</h2>
+</header>
+
+
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
 <ul>
-<li>
-<strong>tidyverse</strong> for data wrangling and visualization</li>
-<li>
-<strong>tidymodels</strong> for modeling</li>
+<li><strong>tidyverse</strong> for data wrangling and visualization</li>
+<li><strong>tidymodels</strong> for modeling</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="data-rent-in-edinburgh" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="data-rent-in-edinburgh">Data: Rent in Edinburgh</h2>
+</section>
+<section id="data-rent-in-edinburgh" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="data-rent-in-edinburgh">Data: Rent in Edinburgh</h2>
 <p>Fifteen 3 bedroom flats in Edinburgh, Scotland were randomly selected on <a href="https://www.rightmove.co.uk">rightmove.co.uk</a>.</p>
 <pre><code>flat_id; rent; title; address
 flat_01; 825 ; 3 bedroom apartment to rent; Burnhead Grove, Edinburgh, Midlothian, EH16
@@ -214,10 +240,12 @@ flat_12; 1995; 3 bedroom apartment to rent; Chester Street, Edinburgh, Midlothia
 flat_13; 1250; 3 bedroom duplex to rent; Elmwood Terrace, Lochend, Edinburgh, EH6
 flat_14; 1995; 3 bedroom apartment to rent; Great King Street, Edinburgh, EH3
 flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,EH9</code></pre>
-</section><section id="load-data" class="level2"><h2 class="anchored" data-anchor-id="load-data">Load data</h2>
+</section>
+<section id="load-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-data">Load data</h2>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">edi_3br</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span><span class="st">"data/edi-3br.csv"</span><span class="op">)</span> <span class="co"># ; separated</span></span>
-<span><span class="va">edi_3br</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>edi_3br <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">"data/edi-3br.csv"</span>) <span class="co"># ; separated</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>edi_3br</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 15 × 4
    flat_id  rent title                               address
@@ -239,23 +267,32 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 15 flat_15  1600 3 bedroom ground floor flat to rent Rosene…</code></pre>
 </div>
 </div>
-</section><section id="observed-sample" class="level2"><h2 class="anchored" data-anchor-id="observed-sample">Observed sample</h2>
+</section>
+<section id="observed-sample" class="level2">
+<h2 class="anchored" data-anchor-id="observed-sample">Observed sample</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-1-2-bootstrapping_files/figure-revealjs/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="4-1-2-bootstrapping_files/figure-revealjs/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="observed-sample-1" class="level2"><h2 class="anchored" data-anchor-id="observed-sample-1">Observed sample</h2>
+</section>
+<section id="observed-sample-1" class="level2">
+<h2 class="anchored" data-anchor-id="observed-sample-1">Observed sample</h2>
 <p>Sample mean ≈ £1895</p>
 <p><br></p>
 <p><img src="images/rent-bootsamp.png" class="img-fluid"></p>
-</section><section id="bootstrap-population" class="level2"><h2 class="anchored" data-anchor-id="bootstrap-population">Bootstrap population</h2>
+</section>
+<section id="bootstrap-population" class="level2">
+<h2 class="anchored" data-anchor-id="bootstrap-population">Bootstrap population</h2>
 <p>Generated assuming there are more flats like the ones in the observed sample… Population mean = ?</p>
 <p><img src="images/rent-bootpop.png" class="img-fluid"></p>
-</section><section id="bootstrapping-scheme" class="level2"><h2 class="anchored" data-anchor-id="bootstrapping-scheme">Bootstrapping scheme</h2>
+</section>
+<section id="bootstrapping-scheme" class="level2">
+<h2 class="anchored" data-anchor-id="bootstrapping-scheme">Bootstrapping scheme</h2>
 <div class="incremental">
 <ol class="incremental" type="1">
 <li>Take a bootstrap sample - a random sample taken <strong>with replacement</strong> from the original sample, of the same size as the original sample</li>
@@ -264,12 +301,18 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <li>Calculate the bounds of the XX% confidence interval as the middle XX% of the bootstrap distribution</li>
 </ol>
 </div>
-</section></section><section id="bootstrapping-with-tidymodels" class="level1"><h1>Bootstrapping with tidymodels</h1>
-<section id="set-a-seed" class="level2"><h2 class="anchored" data-anchor-id="set-a-seed">Set a seed</h2>
+</section>
+</section>
+<section id="bootstrapping-with-tidymodels" class="level1">
+<h1>Bootstrapping with tidymodels</h1>
+<section id="set-a-seed" class="level2">
+<h2 class="anchored" data-anchor-id="set-a-seed">Set a seed</h2>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12345</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="specify-the-variable-of-interest" class="level2"><h2 class="anchored" data-anchor-id="specify-the-variable-of-interest">Specify the variable of interest</h2>
+</section>
+<section id="specify-the-variable-of-interest" class="level2">
+<h2 class="anchored" data-anchor-id="specify-the-variable-of-interest">Specify the variable of interest</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
@@ -297,7 +340,9 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 15  1600</code></pre>
 </div>
 </div>
-</section><section id="generate-15000-bootstrap-samples" class="level2"><h2 class="anchored" data-anchor-id="generate-15000-bootstrap-samples">Generate 15000 bootstrap samples</h2>
+</section>
+<section id="generate-15000-bootstrap-samples" class="level2">
+<h2 class="anchored" data-anchor-id="generate-15000-bootstrap-samples">Generate 15000 bootstrap samples</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a></span>
@@ -323,7 +368,9 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 # ℹ 224,990 more rows</code></pre>
 </div>
 </div>
-</section><section id="calculate-the-mean-of-each-bootstrap-sample" class="level2"><h2 class="anchored" data-anchor-id="calculate-the-mean-of-each-bootstrap-sample">Calculate the mean of each bootstrap sample</h2>
+</section>
+<section id="calculate-the-mean-of-each-bootstrap-sample" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-the-mean-of-each-bootstrap-sample">Calculate the mean of each bootstrap sample</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb10-2"><a href="#cb10-2"></a></span>
@@ -349,7 +396,9 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 # ℹ 14,990 more rows</code></pre>
 </div>
 </div>
-</section><section id="save-resulting-bootstrap-distribution" class="level2"><h2 class="anchored" data-anchor-id="save-resulting-bootstrap-distribution">Save resulting bootstrap distribution</h2>
+</section>
+<section id="save-resulting-bootstrap-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="save-resulting-bootstrap-distribution">Save resulting bootstrap distribution</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb12-2"><a href="#cb12-2"></a></span>
@@ -358,7 +407,9 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="the-bootstrap-sample" class="level2"><h2 class="anchored" data-anchor-id="the-bootstrap-sample">The bootstrap sample</h2>
+</section>
+<section id="the-bootstrap-sample" class="level2">
+<h2 class="anchored" data-anchor-id="the-bootstrap-sample">The bootstrap sample</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -367,7 +418,7 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">boot_dist</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>boot_dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response: rent (numeric)
 # A tibble: 15,000 × 2
@@ -386,24 +437,29 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 # ℹ 14,990 more rows</code></pre>
 </div>
 </div>
-</section><section id="visualize-the-bootstrap-distribution" class="level2"><h2 class="anchored" data-anchor-id="visualize-the-bootstrap-distribution">Visualize the bootstrap distribution</h2>
+</section>
+<section id="visualize-the-bootstrap-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-the-bootstrap-distribution">Visualize the bootstrap distribution</h2>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">visualize</span><span class="op">(</span><span class="va">boot_dist</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">visualize</span>(boot_dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-1-2-bootstrapping_files/figure-revealjs/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="4-1-2-bootstrapping_files/figure-revealjs/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="calculate-the-confidence-interval" class="level2"><h2 class="anchored" data-anchor-id="calculate-the-confidence-interval">Calculate the confidence interval</h2>
+</section>
+<section id="calculate-the-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-the-confidence-interval">Calculate the confidence interval</h2>
 <p>A 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ci_95</span> <span class="op">&lt;-</span> <span class="fu">get_ci</span><span class="op">(</span></span>
-<span>  <span class="va">boot_dist</span>,</span>
-<span>  level <span class="op">=</span> <span class="fl">0.95</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">ci_95</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ci_95 <span class="ot">&lt;-</span> <span class="fu">get_ci</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  boot_dist,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">level =</span> <span class="fl">0.95</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>ci_95</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   lower_ci upper_ci
@@ -411,18 +467,23 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 1     1601    2216.</code></pre>
 </div>
 </div>
-</section><section id="visualize-the-confidence-interval" class="level2"><h2 class="anchored" data-anchor-id="visualize-the-confidence-interval">Visualize the confidence interval</h2>
+</section>
+<section id="visualize-the-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-the-confidence-interval">Visualize the confidence interval</h2>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">visualize</span><span class="op">(</span><span class="va">boot_dist</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">shade_ci</span><span class="op">(</span><span class="va">ci_95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">visualize</span>(boot_dist) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shade_ci</span>(ci_95)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-1-2-bootstrapping_files/figure-revealjs/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="4-1-2-bootstrapping_files/figure-revealjs/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="interpret-the-confidence-interval" class="level2"><h2 class="anchored" data-anchor-id="interpret-the-confidence-interval">Interpret the confidence interval</h2>
+</section>
+<section id="interpret-the-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="interpret-the-confidence-interval">Interpret the confidence interval</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -438,13 +499,20 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <li><p>We are 95% confident that the mean rent of three bedroom flats in this sample is between £1601 and £2216.</p></li>
 </ul>
 </div>
-</section></section><section id="accuracy-vs.-precision" class="level1"><h1>Accuracy vs.&nbsp;precision</h1>
-<section id="confidence-level" class="level2"><h2 class="anchored" data-anchor-id="confidence-level">Confidence level</h2>
+</section>
+</section>
+<section id="accuracy-vs.-precision" class="level1">
+<h1>Accuracy vs.&nbsp;precision</h1>
+<section id="confidence-level" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-level">Confidence level</h2>
 <p><strong>We are 95% confident that …</strong></p>
 <ul>
 <li>Suppose we took many samples from the original population and built a 95% confidence interval based on each sample.</li>
 <li>Then about 95% of those intervals would contain the true population parameter.</li>
-</ul></section><section id="commonly-used-confidence-levels" class="level2"><h2 class="anchored" data-anchor-id="commonly-used-confidence-levels">Commonly used confidence levels</h2>
+</ul>
+</section>
+<section id="commonly-used-confidence-levels" class="level2">
+<h2 class="anchored" data-anchor-id="commonly-used-confidence-levels">Commonly used confidence levels</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -455,12 +523,15 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-1-2-bootstrapping_files/figure-revealjs/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure">
+<p><img src="4-1-2-bootstrapping_files/figure-revealjs/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="precision-vs.-accuracy" class="level2"><h2 class="anchored" data-anchor-id="precision-vs.-accuracy">Precision vs.&nbsp;accuracy</h2>
+</section>
+<section id="precision-vs.-accuracy" class="level2">
+<h2 class="anchored" data-anchor-id="precision-vs.-accuracy">Precision vs.&nbsp;accuracy</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -477,7 +548,9 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </div>
 </div>
-</section><section id="changing-confidence-level" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="changing-confidence-level">Changing confidence level</h2>
+</section>
+<section id="changing-confidence-level" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="changing-confidence-level">Changing confidence level</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -486,13 +559,13 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12345</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">edi_3br</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">rent</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">15000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">get_ci</span><span class="op">(</span>level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>edi_3br <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">response =</span> rent) <span class="sc">|&gt;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   lower_ci upper_ci
@@ -500,7 +573,9 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 1     1601    2216.</code></pre>
 </div>
 </div>
-</section><section id="changing-confidence-level-1" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="changing-confidence-level-1">Changing confidence level</h2>
+</section>
+<section id="changing-confidence-level-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="changing-confidence-level-1">Changing confidence level</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -523,7 +598,9 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 1    1644.    2162.</code></pre>
 </div>
 </div>
-</section><section id="changing-confidence-level-2" class="level2 smaller"><h2 class="smaller anchored" data-anchor-id="changing-confidence-level-2">Changing confidence level</h2>
+</section>
+<section id="changing-confidence-level-2" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="changing-confidence-level-2">Changing confidence level</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="task">
@@ -546,29 +623,28 @@ flat_15; 1600; 3 bedroom ground floor flat to rent; Roseneath Terrace,Edinburgh,
 1    1512.    2323.</code></pre>
 </div>
 </div>
-</section><section id="recap" class="level2"><h2 class="anchored" data-anchor-id="recap">Recap</h2>
+</section>
+<section id="recap" class="level2">
+<h2 class="anchored" data-anchor-id="recap">Recap</h2>
 <div class="incremental">
 <ul class="incremental">
 <li><p>Sample statistic <span class="math inline">\(\ne\)</span> population parameter, but if the sample is good, it can be a good estimate</p></li>
 <li><p>We report the estimate with a confidence interval, and the width of this interval depends on the variability of sample statistics from different samples from the population</p></li>
 <li><p>Since we can’t continue sampling from the population, we bootstrap from the one sample we have to estimate sampling variability</p></li>
-<li>
-<p>We can do this for any sample statistic:</p>
+<li><p>We can do this for any sample statistic:</p>
 <ul class="incremental">
-<li>For a mean: <code>calculate(stat = "mean")</code>
-</li>
-<li>For a median: <code>calculate(stat = "median")</code>
-</li>
+<li>For a mean: <code>calculate(stat = "mean")</code></li>
+<li>For a median: <code>calculate(stat = "median")</code></li>
 <li>… and so on</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 </div>
 
 
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
-</script><div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
 
 </div>
@@ -578,51 +654,99 @@ eyJjb250ZW50cyI6W119
 </div>
 <script type="vfs-file">
 W10=
-</script></section></section></main><!-- /main --><script type="ojs-module-contents">
+</script>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
-</script><script type="module">
+</script>
+<script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
 window._ojs.paths.runtimeToDoc = "../../slides/4-1-2-bootstrapping";
 window._ojs.paths.runtimeToRoot = "../..";
 window._ojs.paths.docToRoot = "../..";
 window._ojs.selfContained = false;
 window._ojs.runtime.interpretFromScriptTags();
-</script><script>
+</script>
+
+
+<script>
+
   // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
   // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
   // slide changes (different for each slide format).
+
   (function () {
+
     // dispatch for htmlwidgets
+
     function fireSlideEnter() {
+
       const event = window.document.createEvent("Event");
+
       event.initEvent("slideenter", true, true);
+
       window.document.dispatchEvent(event);
+
     }
+
+
 
     function fireSlideChanged(previousSlide, currentSlide) {
+
       fireSlideEnter();
 
+
+
       // dispatch for shiny
+
       if (window.jQuery) {
+
         if (previousSlide) {
+
           window.jQuery(previousSlide).trigger("hidden");
+
         }
+
         if (currentSlide) {
+
           window.jQuery(currentSlide).trigger("shown");
+
         }
+
       }
+
     }
+
+
 
     // hookup for slidy
+
     if (window.w3c_slidy) {
+
       window.w3c_slidy.add_observer(function (slide_num) {
+
         // slide_num starts at position 1
+
         fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
       });
+
     }
 
+
+
   })();
-</script><script id="quarto-html-after-body" type="application/javascript">
+
+</script>
+
+
+
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -801,7 +925,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -833,27 +968,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -861,7 +976,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -958,6 +1073,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1184,6 +1300,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
