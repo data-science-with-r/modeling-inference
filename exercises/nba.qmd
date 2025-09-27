@@ -42,7 +42,7 @@ When the ▶️ Run Code button turns to a solid color (with no flashing bubble 
 
 ## Packages
 
-We’ll use the **tidyverse** and **tidymodels** packages to make plots and fit models. We will also use the **kableExtra** package to put our output into nice and neat tables. These are already installed for you to use in this programming exercise, run the following code cell to load these packages.
+We’ll use the **tidyverse** and **tidymodels** for this programming exercise. These are already installed for you to use!
 
 ```{r}
 #| echo: false
@@ -62,6 +62,12 @@ The National Basketball Association (NBA) is a professional sports league that c
 
 This dataset consists of player per-game statistics for the NBA's 2022-23 season with player salary data. We are going to use just a subset of these variables in this programming exercise. The variables we will use can be seen below. The data key for the entire data set can be revealed below.
 
+| Variable | Description                                                       |
+|---------------|---------------------------------------------------------|
+| Salary   | Yearly salary a NBA players make in USD                           |
+| Position | Position on the court the NBA player plays: PG, SG, SF, PF, and C |
+| Age      | Age of the player, rounded to the nearest year                    |
+
 ```{webr}
 #| label: load-nba-data
 nba <- read_csv("nba20222023.csv") 
@@ -69,23 +75,41 @@ nba <- read_csv("nba20222023.csv")
 glimpse(nba)
 ```
 
-| Variable | Description                                                       |
-|----------|-------------------------------------------------------------------|
-| Salary   | Yearly salary a NBA players make in USD                           |
-| Position | Position on the court the NBA player plays: PG, SG, SF, PF, and C |
-| Age      | Age of the player, rounded to the nearest year                    |
-
-
 ::: {.callout-caution collapse="true"}
 ## Data key
 
 Need to expand
 
 | Variable | Description                                                       |
-|----------|-------------------------------------------------------------------|
+|---------------|---------------------------------------------------------|
 | Salary   | Yearly salary a NBA players make in USD                           |
 | Position | Position on the court the NBA player plays: PG, SG, SF, PF, and C |
 | Age      | Age of the player, rounded to the nearest year                    |
+| Team     | Team of the NBA player                                            |
+| GP       | Total number of games played                                      |
+| GS       | Total number of games the player started                          |
+| MP       | Average number of minutes played                                  |
+| FG       | The total number of shots made (2P + 3P)                          |
+| FGA      | The total number of shots taken (2PA + 3PA)                       |
+| FG%      | The percentage of all shots made (FG / FGA)                       |
+| 3P       | The total number of 3-point shots made                            |
+| 3PA      | The total number of 3-point shots taken                           |
+| 3P%      | The percentage of 3-point shots made (3P / 3PA)                   |
+| 2P       | Total number of 2-point shots made                                |
+| 2PA      | Total number of 2-point shots attempted                           |
+| eFG%     | Effective Field Goal Percentage ( (FG + 0.5\*3P) / FGA) )         |
+| FT       | Total number of free throws made                                  |
+| FTA      | The total free throws attempted                                   |
+| FT%      | The percent of FTs made (FT / FTA)                                |
+| ORB      | Average offensive rebounds per game                               |
+| DRB      | Average defensive rebounds per game                               |
+| TRB      | Total rebounds (ORB + DRB) per game                               |
+| AST      | Average assists per game                                          |
+| STL      | Average steals per game played                                    |
+| BLK      | Average blocks per game played                                    |
+| TOV      | Average turnovers per game                                        |
+| PF       | Average fouls accrued per game played                             |
+| PTS      | Average points scored per game played                             |
 :::
 
 Now, let's explore these data!
@@ -156,9 +180,17 @@ From the videos, we learned about two different times of multiple linear regress
 It is justifiable to fit an interaction model instead of an additive model. Based on the scatterplot, we can see that the relationship between Salary and Age changes depending on the position the player plays.
 :::
 
-For completeness, we are first going to fit an additive model. We are going to this to:
+## Modeling
 
--- Show that R will still fit the model, desipte it not being the most appropriate -- Practice fitting additive models -- Practice interpreting additive model output
+So we can explore both concepts, regardless of your conclusion in the though exercise, we are first going to fit an additive model. We are going to this to:
+
+-- Show that R will still fit the model, despite it not being the most appropriate
+
+-- Practice fitting additive models
+
+-- Practice interpreting additive model output
+
+#### Additive model
 
 ::: exercise
 Fit the additive model below. Name this model `m1`, and wrap this object in the `tidy()` function. Next, interpret the estimate for `PositionPF` in the context of the problem.
@@ -231,7 +263,36 @@ tidy(m3) |>
 
 For a Power Forward, a one-year increase in age, we estimate on average an increase in salary of approximately 970,334 usd.
 
-Why 970,334? The term Age:PositionPF has a coefficient of 556,044. This is the estiamted difference in the slope coefficient vs the Center position. Thus, the slope coefficient specifically for the PF position is estimated to be 414,290 larger than the baseline.
+Why 970,334? The term Age:PositionPF has a coefficient of 556,044. This is the estimated difference in the slope coefficient vs the Center position. Thus, the slope coefficient specifically for the PF position is estimated to be 414,290 larger than the baseline.
 :::
 
-#### Your Turn
+Note: This is the mathematical representation to the plot created above!
+
+If we do change the baseline term, the `Age` coefficient will also change, because the interaction term allows for the relationship between `Age` and `Salary` to change based on `Position`. Let's see this below.
+
+```{r}
+m3 <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Salary ~ Age * Position, data = nba_diff)
+
+tidy(m3) |>
+  select(term, estimate)
+```
+
+## In Summary
+
+-- Multiple linear regression allows for a single quantitative variable to be modeled by \> 1 explanatory variable.
+
+-- An additive model has the restriction of keeping the relationship between x and y consistent , regardless of the values of the other variables in the model.
+
+-- An interaction model relaxes this restriction, and allows the relationship between x and y to change based on values of z.
+
+-- Regression output has a baseline group when one explanatory variable is categorical. This can be found in the `Intercept` term, with the other categorical level coefficients representing the deviation from the baseline.
+
+## Your Turn: Challenge
+
+Use this space to fit more complicated models, and explore different relationships that model our response variable `Salary`! As a reminder, the complete data key can be found above.
+
+```{webr}
+
+```
