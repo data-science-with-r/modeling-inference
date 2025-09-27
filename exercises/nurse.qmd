@@ -1,0 +1,162 @@
+---
+title: Quantifying Uncertanity
+subtitle: "{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R"
+format: live-html
+engine: knitr
+bibliography: references.bib
+webr:
+  packages: 
+    - tidyverse
+    - tidymodels
+    # - faraway
+    #- scales
+    #- ggridges
+    # - kableExtra
+  cell-options:
+    autorun: false
+---
+
+<!-- begin: webr fodder -->
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| edit: false
+#| echo: false
+#| output: false
+
+gilbert <- 
+  tibble(
+    outcome = c(rep("died", 74), 
+                rep("no-death", 1567)),
+    working = c(rep("gilbert", 40), 
+                rep("no-gilbert", 34), 
+                rep("gilbert", 217), 
+                rep("no-gilbert", 1350)))
+
+```
+
+<!-- end: webr fodder -->
+
+# Getting Started
+
+Programming exercises are designed to provide an opportunity for you to put what you learn in the videos and readings. These exercises feature interactive code cells which allow you to write, edit, and run R code without leaving your browser.
+
+When the ▶️ Run Code button turns to a solid color (with no flashing bubble indicating that the document is still loading), you can interact with the code cells!
+
+## Packages
+
+We’ll use the **tidyverse** and **tidymodels** for this programming exercise. These are already installed for you to use!
+
+## Motivation and data set information
+
+For several years in the 1990s, Kristen Gilbert worked as a nurse in the intensive care unit (ICU) of the Veterans Administration Hospital in Northampton, Massachusetts. Over the course of her time there, other nurses came to suspect that she was killing patients by injecting them with the heart stimulant epinephrine. Gilbert was eventually arrested and charged with these murders. Part of the evidence presented against Gilbert at her murder trial was a statistical analysis of 1,641 randomly selected eight-hour shifts during the time Gilbert worked in the ICU. For each of these shifts, researchers recorded two variables: whether Gilbert worked on the shift and whether at least one patient died during the shift.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+# library(faraway)
+library(tidymodels)
+library(kableExtra)
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+gilbert <- 
+  tibble(
+    outcome = c(rep("died", 74), 
+                rep("no-death", 1567)),
+    working = c(rep("gilbert", 40), 
+                rep("no-gilbert", 34), 
+                rep("gilbert", 217), 
+                rep("no-gilbert", 1350)))
+```
+
+The data set you will be working with is called `gilbert`. The data are already pre-loaded for you! Simply run the code below to get started. The data key can be seen below.
+
+```{webr}
+gilbert
+```
+
+| Variable | Description                                                                                       |
+|----------|---------------------------------------------------------------------------------------------------|
+| outcome  | patient died (died) or a patient did not die (no-death)                                           |
+| working  | Gilbert was working on this shift (gilbert) or Gilbert was not working on this shift (no-gilbert) |
+
+
+#### Exploratory data analysis 
+
+Before we get into the inference portion of this activity, let's think about and explore our data. 
+
+::: exercise
+
+Thought exercise: What are the observational units? Are our variables categorical or quantitative?
+
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+Our observational units are whom or what we take the data off of. In this case, data are collected from individual shifts. Both variables that we are working with are categorial variables.
+:::
+
+Now that we know what types of variables we are working with, let's calculate some summary statistics. 
+
+
+::: exercise
+Create a summary table using `summarize()` and `group_by()` to display the count for each combination of `outcome` and `working` level. What would our sample statistic be? 
+:::
+
+```{webr}
+
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+gilbert |>
+  group_by(outcome, working) |>
+  summarize(n = n())
+```
+
+Our sample statistic would be $\widehat{p_\text{no-death}} - \widehat{p_\text{death}}$ = $\frac{217}{1567} - \frac{40}{74} = -.40$
+:::
+
+::: exercise
+Now, create a proper data visualization to help explore these data. Comment on a patterns you observe with these data. Hint: In the appropriate `geom`, use `position = "fill` to create a visualization that is easier to read when we have differing sample sizes. Include appropriate labels. What pattern do you reconize?
+
+```{webr}
+
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r}
+gilbert |>
+  ggplot(
+    aes(x = working, fill = outcome)
+  ) + 
+  geom_bar(position = "fill") + 
+  labs(title = "Murderous Nurse Data",
+       y = "conditional proportion")
+```
+
+Based on the visualization, it appears that their were significantly more outcomes of died vs no-death when Gilbert was on shift vs not on the shift.
+:::
+
+## Inference: Hypothesis Testing 
+
+## Inference: Confidence Intervals
+
+
+
+

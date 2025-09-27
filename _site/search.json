@@ -914,7 +914,7 @@
     "href": "index.html#exercises",
     "title": "\n Modeling and inference",
     "section": "Exercises",
-    "text": "Exercises\n\n\n\n\nTitle\n\n\n\n\n\nSimple linear regression\n\n\n\n\nLogistic regression\n\n\n\n\nMultiple linear regression\n\n\n\n\n\nNo matching items"
+    "text": "Exercises\n\n\n\n\nTitle\n\n\n\n\n\nSimple linear regression\n\n\n\n\nLogistic regression\n\n\n\n\nMultiple linear regression\n\n\n\n\nQuantifying Uncertanity\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "slides/3-1-logistic-regression/3-1-logistic-regression.html#packages",
@@ -2273,5 +2273,33 @@
     "title": "Logistic regression",
     "section": "In Summary",
     "text": "In Summary\n– We can use a logistic regression model to estimate the log-odds/probability of success of our response variable\n– Our response variable must be binary\n– The tidymodel code changes from linear regression in the following ways:\nlogistic_reg() |&gt;\n  set_engine(\"glm\")\n  -- We now tell R to fit a logistic regression model `logistic_reg()`\n  \n  -- We set the engine to be a generalized linear model\n  \nYour Turn\nThere are many other factors that could contribute to the probability of making more than $50,000 than just age in 1994. Now, we challenge you to fit a more complicated model to help better understand our variable of interest, income."
+  },
+  {
+    "objectID": "exercises/nurse.html#packages",
+    "href": "exercises/nurse.html#packages",
+    "title": "Quantifying Uncertanity",
+    "section": "Packages",
+    "text": "Packages\nWe’ll use the tidyverse and tidymodels for this programming exercise. These are already installed for you to use!"
+  },
+  {
+    "objectID": "exercises/nurse.html#motivation-and-data-set-information",
+    "href": "exercises/nurse.html#motivation-and-data-set-information",
+    "title": "Quantifying Uncertanity",
+    "section": "Motivation and data set information",
+    "text": "Motivation and data set information\nFor several years in the 1990s, Kristen Gilbert worked as a nurse in the intensive care unit (ICU) of the Veterans Administration Hospital in Northampton, Massachusetts. Over the course of her time there, other nurses came to suspect that she was killing patients by injecting them with the heart stimulant epinephrine. Gilbert was eventually arrested and charged with these murders. Part of the evidence presented against Gilbert at her murder trial was a statistical analysis of 1,641 randomly selected eight-hour shifts during the time Gilbert worked in the ICU. For each of these shifts, researchers recorded two variables: whether Gilbert worked on the shift and whether at least one patient died during the shift.\nThe data set you will be working with is called gilbert. The data are already pre-loaded for you! Simply run the code below to get started. The data key can be seen below.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVariable\nDescription\n\n\n\noutcome\npatient died (died) or a patient did not die (no-death)\n\n\nworking\nGilbert was working on this shift (gilbert) or Gilbert was not working on this shift (no-gilbert)\n\n\n\nExploratory data analysis\nBefore we get into the inference portion of this activity, let’s think about and explore our data.\n\nThought exercise: What are the observational units? Are our variables categorical or quantitative?\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOur observational units are whom or what we take the data off of. In this case, data are collected from individual shifts. Both variables that we are working with are categorial variables.\n\n\n\nNow that we know what types of variables we are working with, let’s calculate some summary statistics.\n\nCreate a summary table using summarize() and group_by() to display the count for each combination of outcome and working level. What would our sample statistic be?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\ngilbert |&gt;\n  group_by(outcome, working) |&gt;\n  summarize(n = n())\n\n`summarise()` has grouped output by 'outcome'. You can override using the\n`.groups` argument.\n\n\n# A tibble: 4 × 3\n# Groups:   outcome [2]\n  outcome  working        n\n  &lt;chr&gt;    &lt;chr&gt;      &lt;int&gt;\n1 died     gilbert       40\n2 died     no-gilbert    34\n3 no-death gilbert      217\n4 no-death no-gilbert  1350\n\n\nOur sample statistic would be \\(\\widehat{p_\\text{no-death}} - \\widehat{p_\\text{death}}\\) = \\(\\frac{217}{1567} - \\frac{40}{74} = -.40\\)\n\n\n\n\nNow, create a proper data visualization to help explore these data. Comment on a patterns you observe with these data. Hint: In the appropriate geom, use position = \"fill to create a visualization that is easier to read when we have differing sample sizes. Include appropriate labels. What pattern do you reconize?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\ngilbert |&gt;\n  ggplot(\n    aes(x = working, fill = outcome)\n  ) + \n  geom_bar(position = \"fill\") + \n  labs(title = \"Murderous Nurse Data\",\n       y = \"conditional proportion\")\n\n\n\n\n\n\n\nBased on the visualization, it appears that their were significantly more outcomes of died vs no-death when Gilbert was on shift vs not on the shift."
+  },
+  {
+    "objectID": "exercises/nurse.html#inference-hypothesis-testing",
+    "href": "exercises/nurse.html#inference-hypothesis-testing",
+    "title": "Quantifying Uncertanity",
+    "section": "Inference: Hypothesis Testing",
+    "text": "Inference: Hypothesis Testing"
+  },
+  {
+    "objectID": "exercises/nurse.html#inference-confidence-intervals",
+    "href": "exercises/nurse.html#inference-confidence-intervals",
+    "title": "Quantifying Uncertanity",
+    "section": "Inference: Confidence Intervals",
+    "text": "Inference: Confidence Intervals"
   }
 ]
