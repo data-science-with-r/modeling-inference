@@ -61,12 +61,16 @@ library(kableExtra)
 #| message: false
 #| warning: false
 
-income <- read_csv("data/income.csv") 
+income <- read_csv("data/income.csv")
+
+
+income <- income |>
+  mutate(income = factor(income))
 ```
 
 ## Motivation
 
-Census data can help us predict income based on other variables, such as demographic, social, and economic variables. We can use this information to help gain deeper insights into the economic well-being of a population, which can help practically inform items such as strategic planning, resource allocation, and market analysis. In this programming exercise, we are going to explore the relationship between different predictors, and if an individual was making more or less than \$50,000 a year in 1994 in the United States.
+Census data can help us predict income based on other variables, such as demographic, social, and economic variables. We can use this information to help gain deeper insights into the economic well-being of a population, which can help practically inform items such as strategic planning, and market analysis. In this programming exercise, we are going to explore the relationship between different predictors, and if an individual was making more or less than \$50,000 USD a year in 1994 in the United States.
 
 ## Dataset information
 
@@ -79,28 +83,27 @@ income <- read_csv("income.csv")
 income
 ```
 
-
-::: callout-caution
+::: {.callout-caution collapse="true"}
 |                |                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|------------------|------------------------------------------------------|
+|-------------------|-----------------------------------------------------|
 | Variable Name  | Description                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | age            | Age                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | workclass      | Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, State-gov, Without-pay, Never-worked.                                                                                                                                                                                                                                                                                                                          |
 | education      | Bachelors, Some-college, 11th, HS-grad, Prof-school, Assoc-acdm, Assoc-voc, 9th, 7th-8th, 12th, Masters, 1st-4th, 10th, Doctorate, 5th-6th, Preschool.                                                                                                                                                                                                                                                                          |
 | education-num  | Education Level as a number                                                                                                                                                                                                                                                                                                                                                                                                     |
 | marital-status | Married-civ-spouse, Divorced, Never-married, Separated, Widowed, Married-spouse-absent, Married-AF-spouse.                                                                                                                                                                                                                                                                                                                      |
-| occupation     | Tech-support, Craft-repair, Other-service, Sales, Exec-managerial, Prof-specialty, Handlers-cleaners, Machine-op-inspct, Adm-clerical, Farming-fishing, Transport-moving, Priv-house-serv, Protective-serv, Armed-Forces.                                                                                                                                                                                                       |
+| occupation     | Tech-support, Craft-repair, Other-service, Sales, Exec-managerial, Prof-specialty, Handlers-cleaners, Machine-op-inspect, Adm-clerical, Farming-fishing, Transport-moving, Priv-house-serv, Protective-serv, Armed-Forces.                                                                                                                                                                                                       |
 | relationship   | Wife, Own-child, Husband, Not-in-family, Other-relative, Unmarried.                                                                                                                                                                                                                                                                                                                                                             |
 | race           | White, Asian-Pac-Islander, Amer-Indian-Eskimo, Other, Black.                                                                                                                                                                                                                                                                                                                                                                    |
 | sex            | Female, Male.                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | native-country | United-States, Cambodia, England, Puerto-Rico, Canada, Germany, Outlying-US(Guam-USVI-etc), India, Japan, Greece, South, China, Cuba, Iran, Honduras, Philippines, Italy, Poland, Jamaica, Vietnam, Mexico, Portugal, Ireland, France, Dominican-Republic, Laos, Ecuador, Taiwan, Haiti, Columbia, Hungary, Guatemala, Nicaragua, Scotland, Thailand, Yugoslavia, El-Salvador, Trinadad&Tobago, Peru, Hong, Holand-Netherlands. |
-| income         | \>50K, \<=50K.                                                                                                                                           :::
+| income         | \>50K, \<=50K.                                                                                                                                                                                                                                                                                                                                                                                                                  |
+:::
 
 ## Exploratory Data Analysis
 
 ::: exercise
-
-Before we fit a logistic regression model, we are going to explore these data. Let' start with exploring our response variable of interest, cholesterol (`income`). For this exercise, we are going to investigate the relationship between `income` and `age`. 
+Before we fit a logistic regression model, we are going to explore these data. Let' start with exploring our response variable of interest, cholesterol (`income`). For this exercise, we are going to investigate the relationship between `income` and `age`.
 
 Let's calculate the mean and sd of `age` for each level of `income`. What does this tell us? When fitting a logistic regression model, would we expect the probability of making more than \$50,000 to increase or decrease as you get older?
 
@@ -119,22 +122,22 @@ income |>
             sd_age = sd(age))
 ```
 
-The mean age for those making less than \$50,000 is roughly 7.4 years younger than the mean age of those making more than \$50,000. The spread (standard deviation) is also higher for those making less than \$50,000 in comparison to those making more. 
+The mean age for those making less than \$50,000 is roughly 7.4 years younger than the mean age of those making more than \$50,000. The spread (standard deviation) is also higher for those making less than \$50,000 in comparison to those making more.
 
-Based on this information, we would expect the probability of making more than \$50,000 to increase as age increases. 
+Based on this information, we would expect the probability of making more than \$50,000 to increase as age increases.
 :::
 
 ### Fitting a logistic regression model
-::: exercise
-Fit a logisitc regression model below with income as our response, and age as our predictor. Compare your output to the written out model below. Is your respnose the log-odds of making more than \$50,000, or the probability of making more that \$50,000?
 
+The variable `income` in our data set is stored as a `fct`, with the first level being `<=50K`, and second level being `>50K`. Because of this structure, we are going to be modeling the log-odds/probability of `>50K`
+
+::: exercise
+Fit a logistic regression model below with income as our response, and age as our predictor. Compare your output to the written out model below. Is your response the log-odds of making more than \$50,000, or the probability of making more that \$50,000?
 :::
 
 ```{webr}
 
 ```
-
-
 
 $$
 \log \left( \frac{p}{1-p} \right) = -2.74 + 0.0395(\text{age})
@@ -142,6 +145,7 @@ $$
 
 ::: {.callout-tip collapse="true"}
 ## Solution
+
 ```{r}
 income_model <- logistic_reg() |>
   set_engine("glm") |>
@@ -150,12 +154,12 @@ income_model <- logistic_reg() |>
 tidy(income_model)
 ```
 
-The logistic regression model we fit models the log-odds: $$\log \left( \frac{p}{1-p} \right)$$, where `p` represents the probability of of making more than \$50,000. 
+The logistic regression model we fit models the log-odds: $$\log \left( \frac{p}{1-p} \right)$$, where `p` represents the probability of of making more than \$50,000.
 :::
 
-#### Probabilities 
+#### Probabilities
 
-To model the probability of making more than \$50,000, we need to expoentiate both sides of the eqaution. See below: 
+To model the probability of making more than \$50,000, we need to expoentiate both sides of the eqaution. See below:
 
 $$
 p = \frac{e^{-2.74 + 0.0395(\text{age})}}{1 + e^{-2.74 + 0.0395(\text{age})}}
@@ -176,10 +180,10 @@ $$
 p = \frac{e^{-2.74 + 0.0395(\text{60})}}{1 + e^{-2.74 + 0.0395(\text{60})}} = 0.408
 $$
 
-We can also find this in R! 
+We can also find this in R!
 
 ```{webr}
-age_predict <- tibble(age = 60)
+age_predict <- tibble(age = 61)
 
 predict(income_model$fit, age_predict, type = "response") 
 ```
@@ -189,18 +193,17 @@ Based on your concoulsion from your exploratory analysis, does the probabilty of
 
 ::: {.callout-tip collapse="true"}
 ## Solution
-The coefficient assocciated with age is positive, meaning that the estimated probability of making more than \$50,000 increases as age increases. 
+
+The coefficient assocciated with age is positive, meaning that the estimated probability of making more than \$50,000 increases as age increases.
 :::
 
-We can further show your intuition is correct by calculating the probability at the `age` of 61, and see if the difference between the probability at the age of 60 is positive or negative. 
+We can further show your intuition is correct by calculating the probability at the `age` of 61, and see if the difference between the probability at the age of 60 is positive or negative.
 
-$$
-p = \frac{e^{-2.74 + 0.0395(\text{61})}}{1 + e^{-2.74 + 0.0395(\text{61})}} = 0.418
+$p = \frac{e^{-2.74 + 0.0395(\text{61})}}{1 + e^{-2.74 + 0.0395(\text{61})}} = 0.418$
 
-.418 - .408 = .1
-$$
+0.418 - 0.408 = 0.01
 
-The estimated probabilty of making more than \$50,000 increases by roughly 1 percent as you go from age 60 to 61.
+The estimated probability of making more than \$50,000 increases by roughly 1 percent as you go from age 60 to 61.
 
 ```{r}
 #| echo: false
@@ -231,6 +234,29 @@ ggplot(plot_data, aes(x = age, y = probability)) +
   annotate("text", x = 80, y = 0.52, label = "", vjust = -0.5, color = "gray")
 ```
 
-### Your Turn 
+## In Summary 
 
-There are many other factors that could contribute to the probability of making more than \$50,000 than just age in 1994. Now, we challenge you to fit a more complicated model to help better understand which factors make help best explain our response variable.
+-- We can use a logistic regression model to estimate the log-odds/probability of success of our response variable
+
+-- Our response variable must be binary 
+
+-- The `tidymodel` code changes from linear regression in the following ways: 
+
+```
+logistic_reg() |>
+  set_engine("glm")
+```
+      
+      -- We now tell R to fit a logistic regression model `logistic_reg()`
+      
+      -- We set the engine to be a generalized linear model
+      
+
+### Your Turn
+
+There are many other factors that could contribute to the probability of making more than \$50,000 than just age in 1994. Now, we challenge you to fit a more complicated model to help better understand our variable of interest, `income`.
+
+```{webr}
+
+```
+
