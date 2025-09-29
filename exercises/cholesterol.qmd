@@ -1,5 +1,5 @@
 ---
-title: Simple linear regression
+title: Predicting cholesterol with simple linear regression
 subtitle: "{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R"
 format: live-html
 engine: knitr
@@ -15,7 +15,7 @@ webr:
   cell-options:
     autorun: false
   resources:
-    - https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv
+    - https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/cholesterol.csv
 ---
 
 <!-- begin: webr fodder -->
@@ -29,7 +29,7 @@ webr:
 options("readr.edition" = 1)
 library(tidyverse)
 # Read the CSV file directly from the URL
-diabetes <- read_csv("https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/diabetes.csv")
+cholesterol <- read_csv("https://raw.githubusercontent.com/data-science-with-r/modeling-inference/refs/heads/main/exercises/data/cholesterol.csv")
 
 ```
 
@@ -61,7 +61,7 @@ library(kableExtra)
 #| echo: false
 #| message: false
 #| warning: false
-diabetes <- read_csv("data/diabetes.csv")
+cholesterol <- read_csv("data/cholesterol.csv")
 ```
 
 
@@ -71,27 +71,28 @@ It's important to learn statistical modeling, as it provides us the tools necess
 
 In this programming exercise, we are going to be working with data that were published in the *Preventive Medicine* journal in 1997 [@SCHORLING199792]. In this dataset, 403 African Americans were interviewed in a study to understand the prevalence of obesity, diabetes, and other cardiovascular risk factors in central Virginia. We will fit simple linear regression models with different types of predictors to help best understand total cholesterol. Please read the data in below. 
 
+## Data
+
+The original data for this exercise are located in the [**faraway**](https://cran.r-project.org/web/packages/faraway/index.html) package, but for this exercise you will load the data from a CSV file.
+
 ```{webr}
 #| label: load-kansas-data
-diabetes <- read_csv("diabetes.csv")
+cholesterol <- read_csv("cholesterol.csv")
 
-diabetes
+cholesterol
 ```
 
-
-## Dataset information
-
-Below is a data key that shows subset of variables we are going to work with for this activity. The original data are located in the `faraway` package.
+The data dictionary below shows the subset of variables we are going to work with for this exercise. 
 
 | Variable Name | Description                                         |
 |---------------|-----------------------------------------------------|
-| chol          | Total Cholesterol                                   |
-| weight        | weight in pounds                                    |
-| frame         | factor with levels small, medium, large             |
+| chol          | Total cholesterol                                   |
+| weight        | Weight in pounds                                    |
+| frame         | Factor with levels small, medium, large             |
 
 Now, let's explore these data!
 
-## Exploratory Data Analysis
+## Exploratory data analysis
 
 ::: exercise
 
@@ -110,7 +111,7 @@ Think about the following code structure below, and what you want to be taking t
 
 ```{r}
 #| eval: false
-diabetes |>
+cholesterol |>
   summarize(
     mean = mean(___, na.rm = ___),
     sd = sd(___, na.rm = ___)
@@ -125,7 +126,7 @@ diabetes |>
 
 ```{r}
 #| eval: true
-diabetes |>
+cholesterol |>
   summarize(
     mean = mean(chol, na.rm = TRUE),
     sd = sd(chol, na.rm = TRUE)
@@ -151,7 +152,7 @@ Next, let's create a histogram of our response. What is the shape of the distrib
 
 ```{r}
 #| eval: false
-diabetes |>
+cholesterol |>
   ggplot(
     aes(x = ___)
   ) +
@@ -166,7 +167,7 @@ diabetes |>
 
 ```{r}
 #| eval: true
-diabetes |>
+cholesterol |>
   ggplot(
     aes(x = chol)
   ) +
@@ -197,7 +198,7 @@ First, let's create a scatterplot between cholesterol and weight. We also want t
 
 ```{r}
 #| eval: false
-diabetes |>
+cholesterol |>
   ggplot(
     aes(x = ___, y = ____)
   ) +
@@ -211,7 +212,7 @@ diabetes |>
 ## Solution
 
 ```{r}
-ggplot(diabetes, aes(x = weight, y = chol)) +
+ggplot(cholesterol, aes(x = weight, y = chol)) +
   geom_point() +
   geom_smooth(method = "lm", se = F) +
   labs(
@@ -224,13 +225,13 @@ It appears that the relationship between weight and cholesterol is slightly posi
 
 :::
 
-## Estimating the line of best fit. 
+## Estimating the line of best fit
 
-Now, let's use R to calculate the coefficients associated with the line of best fit your created above. The R code below uses **tidymodels** to specify a linear regression model with `cholesterol` as the response, and `weight` as the explanatory variable from the `diabetes` data set.
+Now, let's use R to calculate the coefficients associated with the line of best fit your created above. The R code below uses **tidymodels** to specify a linear regression model with `cholesterol` as the response, and `weight` as the explanatory variable from the `cholesterol` data set.
 
 ```{r}
 lm_fit <- linear_reg() |>
-  fit(chol ~ weight, data = diabetes)
+  fit(chol ~ weight, data = cholesterol)
 ```
 
 ```{r}
@@ -275,16 +276,16 @@ new_obs <- tibble(
   chol = ____
 )
 
-diabetes_new <- bind_rows(diabetes, new_obs)
+cholesterol_new <- bind_rows(cholesterol, new_obs)
 
-diabetes_new[404,]
+cholesterol_new[404,]
 ```
 
 Now, re-run the following code below to see how your line has changed from above. Try this activity with at least our two suggested new observations. You are encouraged to explore more!
 
 ```{webr}
 lm_fit <- linear_reg() |> 
-  fit(chol ~ weight, data = diabetes_new)
+  fit(chol ~ weight, data = cholesterol_new)
 
 tidy(lm_fit) |>
   select(term, estimate) |>
@@ -327,7 +328,7 @@ Why do you have a negative estimate?
 
 ```{r}
 lm_fit <- linear_reg() |>
-  fit(chol ~ frame, data = diabetes)
+  fit(chol ~ frame, data = cholesterol)
 
 tidy(lm_fit) |>
   select(term, estimate) |>
@@ -344,7 +345,7 @@ When working with a single categorical variable, the estimates for cholesterol c
 To verify this, please see the calculate the sample mean cholesterol for each frame group below, and relate these sample means to the deviations from the baseline above.
 
 ```{r}
-diabetes |>
+cholesterol |>
   filter(!is.na(frame)) |>
   group_by(frame) |>
   summarise(mean_chol = mean(chol, na.rm = T))
@@ -367,7 +368,7 @@ For someone with a medium frame, we estimate on average a 16.043 increase in cho
 
 :::
 
-## In Summary 
+## Summary 
 
 - Simple linear regression can be used when our response variable is quantitative, and we have a single explanatory variable.
 

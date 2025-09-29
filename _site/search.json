@@ -1257,7 +1257,7 @@
     "href": "index.html#exercises",
     "title": "\n Modeling and inference",
     "section": "Exercises",
-    "text": "Exercises\n\n\n\n\nTitle\n\n\n\n\n\n\nSimple linear regression\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nMultiple linear regression\n\n\n\n\n\nQuantifying Uncertanity\n\n\n\n\n\nNo matching items"
+    "text": "Exercises\n\n\n\n\nTitle\n\n\n\n\n\n\nPredicting cholesterol with simple linear regression\n\n\n\n\n\nLogistic regression\n\n\n\n\n\nMultiple linear regression\n\n\n\n\n\nQuantifying Uncertanity\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "slides/4-2-hypothesis-testing/4-2-hypothesis-testing.html#packages",
@@ -1809,8 +1809,8 @@
     "objectID": "exercises/diabetes.html#exploratory-data-analysis",
     "href": "exercises/diabetes.html#exploratory-data-analysis",
     "title": "Simple linear regression",
-    "section": "Exploratory Data Analysis",
-    "text": "Exploratory Data Analysis\n\nBefore we fit a linear regression model, we are going to explore the data. Let’ start with exploring our response variable of interest, cholesterol (chol). Find the mean and sd of the variable chol below. Note: the variable chol does have missing values.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCautionHint\n\n\n\n\n\nThink about the following code structure below, and what you want to be taking the mean of!\n\ndiabetes |&gt;\n  summarize(\n    mean = mean(___, na.rm = ___),\n    sd = sd(___, na.rm = ___)\n  )\n\n\n\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\n\ndiabetes |&gt;\n  summarize(\n    mean = mean(chol, na.rm = TRUE),\n    sd = sd(chol, na.rm = TRUE)\n  )\n\n# A tibble: 1 × 2\n   mean    sd\n  &lt;dbl&gt; &lt;dbl&gt;\n1  208.  44.4\n\n\n\n\n\n\nNext, let’s create a histogram of our response. What is the shape of the distribution?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCautionHint\n\n\n\n\n\n\ndiabetes |&gt;\n  ggplot(\n    aes(x = ___)\n  ) +\n  geom______()\n\n\n\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\n\ndiabetes |&gt;\n  ggplot(\n    aes(x = chol)\n  ) +\n  geom_histogram() +\n  labs(title = \"Histogram of Cholesterol\")\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\nWarning: Removed 1 row containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\nThe distribution of cholesterol responses is roughly symmetric, with a couple additional observations out on the right tail."
+    "section": "Exploratory data analysis",
+    "text": "Exploratory data analysis\n\nBefore we fit a linear regression model, we are going to explore the data. Let’ start with exploring our response variable of interest, cholesterol (chol). Find the mean and sd of the variable chol below. Note: the variable chol does have missing values.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCautionHint\n\n\n\n\n\nThink about the following code structure below, and what you want to be taking the mean of!\n\ndiabetes |&gt;\n  summarize(\n    mean = mean(___, na.rm = ___),\n    sd = sd(___, na.rm = ___)\n  )\n\n\n\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\n\ndiabetes |&gt;\n  summarize(\n    mean = mean(chol, na.rm = TRUE),\n    sd = sd(chol, na.rm = TRUE)\n  )\n\n# A tibble: 1 × 2\n   mean    sd\n  &lt;dbl&gt; &lt;dbl&gt;\n1  208.  44.4\n\n\n\n\n\n\nNext, let’s create a histogram of our response. What is the shape of the distribution?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCautionHint\n\n\n\n\n\n\ndiabetes |&gt;\n  ggplot(\n    aes(x = ___)\n  ) +\n  geom______()\n\n\n\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\n\ndiabetes |&gt;\n  ggplot(\n    aes(x = chol)\n  ) +\n  geom_histogram() +\n  labs(title = \"Histogram of Cholesterol\")\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\nWarning: Removed 1 row containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\nThe distribution of cholesterol responses is roughly symmetric, with a couple additional observations out on the right tail."
   },
   {
     "objectID": "exercises/diabetes.html#question-of-interest",
@@ -2189,5 +2189,89 @@
     "title": "Bootstrapping Duke Forest houses (Complete)",
     "section": "Changing confidence level",
     "text": "Changing confidence level\nModify the code from Step 3 to create a 90% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.90,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          94.7     203.\n2 intercept   8234.   284161.\n\n\nModify the code from Step 3 to create a 99% confidence interval.\n\nget_confidence_interval(\n  boot_fits, \n  point_estimate = observed_fit, \n  level = 0.99,\n  type = \"percentile\"\n)\n\n# A tibble: 2 × 3\n  term      lower_ci upper_ci\n  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;\n1 area          64.2     211.\n2 intercept -19831.   370166.\n\n\n\nWhich confidence level produces the most accurate confidence interval (90%, 95%, 99%)? Explain.\n\n99%, widest.\n\nWhich confidence level produces the most precise confidence interval (90%, 95%, 99%)? Explain\n\n90%, narrowest.\n\nIf we want to be very certain that we capture the population parameter, should we use a wider or a narrower interval? What drawbacks are associated with using a wider interval?\n\nWider, but then it’s less informative."
+  },
+  {
+    "objectID": "exercises/diabetes.html#data",
+    "href": "exercises/diabetes.html#data",
+    "title": "Simple linear regression",
+    "section": "Data",
+    "text": "Data\nThe original data for this exercise are located in the faraway package, but for this exercise you will load the data from a CSV file.\n\n\n\n\n\n\n\n\nThe data dictionary below shows the subset of variables we are going to work with for this exercise.\n\n\nVariable Name\nDescription\n\n\n\nchol\nTotal cholesterol\n\n\nweight\nWeight in pounds\n\n\nframe\nFactor with levels small, medium, large\n\n\n\nNow, let’s explore these data!"
+  },
+  {
+    "objectID": "exercises/diabetes.html#estimating-the-line-of-best-fit",
+    "href": "exercises/diabetes.html#estimating-the-line-of-best-fit",
+    "title": "Simple linear regression",
+    "section": "Estimating the line of best fit",
+    "text": "Estimating the line of best fit\nNow, let’s use R to calculate the coefficients associated with the line of best fit your created above. The R code below uses tidymodels to specify a linear regression model with cholesterol as the response, and weight as the explanatory variable from the diabetes data set.\n\nlm_fit &lt;- linear_reg() |&gt;\n  fit(chol ~ weight, data = diabetes)\n\n\n\n\n\nterm\nestimate\n\n\n\n(Intercept)\n194.986\n\n\nweight\n0.074\n\n\n\n\n\n\nHow would you interpret the intercept?\nHow would you interpret the weight coefficient?\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\nIntercept: For a person who weighs 0 pounds, we would estimate their mean cholesterol to be 194.986 milligrams per deciliter.\nWeight: For a one pound increase in a person, we estimate on average, a 0.074 milligrams per deciliter increase in their cholesterol."
+  },
+  {
+    "objectID": "exercises/diabetes.html#summary",
+    "href": "exercises/diabetes.html#summary",
+    "title": "Simple linear regression",
+    "section": "Summary",
+    "text": "Summary\n\nSimple linear regression can be used when our response variable is quantitative, and we have a single explanatory variable.\nOutliers have the ability to drastically influence our line of best fit."
+  },
+  {
+    "objectID": "exercises/cholesterol.html#packages",
+    "href": "exercises/cholesterol.html#packages",
+    "title": "Predicting cholesterol with simple linear regression",
+    "section": "Packages",
+    "text": "Packages\nWe’ll use the tidyverse and tidymodels for this programming exercise. These are already installed for you to use!"
+  },
+  {
+    "objectID": "exercises/cholesterol.html#motivation",
+    "href": "exercises/cholesterol.html#motivation",
+    "title": "Predicting cholesterol with simple linear regression",
+    "section": "Motivation",
+    "text": "Motivation\nIt’s important to learn statistical modeling, as it provides us the tools necessary to answer complex questions in a responsible, insightful manner.\nIn this programming exercise, we are going to be working with data that were published in the Preventive Medicine journal in 1997 (Schorling et al. 1997). In this dataset, 403 African Americans were interviewed in a study to understand the prevalence of obesity, diabetes, and other cardiovascular risk factors in central Virginia. We will fit simple linear regression models with different types of predictors to help best understand total cholesterol. Please read the data in below."
+  },
+  {
+    "objectID": "exercises/cholesterol.html#data",
+    "href": "exercises/cholesterol.html#data",
+    "title": "Predicting cholesterol with simple linear regression",
+    "section": "Data",
+    "text": "Data\nThe original data for this exercise are located in the faraway package, but for this exercise you will load the data from a CSV file.\n\n\n\n\n\n\n\n\nThe data dictionary below shows the subset of variables we are going to work with for this exercise.\n\n\nVariable Name\nDescription\n\n\n\nchol\nTotal cholesterol\n\n\nweight\nWeight in pounds\n\n\nframe\nFactor with levels small, medium, large\n\n\n\nNow, let’s explore these data!"
+  },
+  {
+    "objectID": "exercises/cholesterol.html#exploratory-data-analysis",
+    "href": "exercises/cholesterol.html#exploratory-data-analysis",
+    "title": "Predicting cholesterol with simple linear regression",
+    "section": "Exploratory data analysis",
+    "text": "Exploratory data analysis\n\nBefore we fit a linear regression model, we are going to explore the data. Let’ start with exploring our response variable of interest, cholesterol (chol). Find the mean and sd of the variable chol below. Note: the variable chol does have missing values.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCautionHint\n\n\n\n\n\nThink about the following code structure below, and what you want to be taking the mean of!\n\ncholesterol |&gt;\n  summarize(\n    mean = mean(___, na.rm = ___),\n    sd = sd(___, na.rm = ___)\n  )\n\n\n\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\n\ncholesterol |&gt;\n  summarize(\n    mean = mean(chol, na.rm = TRUE),\n    sd = sd(chol, na.rm = TRUE)\n  )\n\n# A tibble: 1 × 2\n   mean    sd\n  &lt;dbl&gt; &lt;dbl&gt;\n1  208.  44.4\n\n\n\n\n\n\nNext, let’s create a histogram of our response. What is the shape of the distribution?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCautionHint\n\n\n\n\n\n\ncholesterol |&gt;\n  ggplot(\n    aes(x = ___)\n  ) +\n  geom______()\n\n\n\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\n\ncholesterol |&gt;\n  ggplot(\n    aes(x = chol)\n  ) +\n  geom_histogram() +\n  labs(title = \"Histogram of Cholesterol\")\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\nWarning: Removed 1 row containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\nThe distribution of cholesterol responses is roughly symmetric, with a couple additional observations out on the right tail."
+  },
+  {
+    "objectID": "exercises/cholesterol.html#question-of-interest",
+    "href": "exercises/cholesterol.html#question-of-interest",
+    "title": "Predicting cholesterol with simple linear regression",
+    "section": "Question of interest",
+    "text": "Question of interest\nNow, we are going to explore the relationship between weight, and an individual’s cholesterol. For this exercise, cholesterol (chol) is going to be our response, and our explanatory variable is going to be weight (weight).\n\nFirst, let’s create a scatterplot between cholesterol and weight. We also want to fit a least squares simple linear regression line through our data. Once we create the plot, what can we say about the relationship?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCautionHint\n\n\n\n\n\n\ncholesterol |&gt;\n  ggplot(\n    aes(x = ___, y = ____)\n  ) +\n  geom______() +\n  geom______(method = \"lm\", se = F)\n\n\n\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\n\nggplot(cholesterol, aes(x = weight, y = chol)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = F) +\n  labs(\n    title = \"Relationship between weight and cholesterol\",\n    subtitle = \"with a line of best fit\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 2 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\nIt appears that the relationship between weight and cholesterol is slightly positive. That is, as someone’s weight increases, on average, their cholesterol increases according to these data."
+  },
+  {
+    "objectID": "exercises/cholesterol.html#estimating-the-line-of-best-fit",
+    "href": "exercises/cholesterol.html#estimating-the-line-of-best-fit",
+    "title": "Predicting cholesterol with simple linear regression",
+    "section": "Estimating the line of best fit",
+    "text": "Estimating the line of best fit\nNow, let’s use R to calculate the coefficients associated with the line of best fit your created above. The R code below uses tidymodels to specify a linear regression model with cholesterol as the response, and weight as the explanatory variable from the cholesterol data set.\n\nlm_fit &lt;- linear_reg() |&gt;\n  fit(chol ~ weight, data = cholesterol)\n\n\n\n\n\nterm\nestimate\n\n\n\n(Intercept)\n194.986\n\n\nweight\n0.074\n\n\n\n\n\n\nHow would you interpret the intercept?\nHow would you interpret the weight coefficient?\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\nIntercept: For a person who weighs 0 pounds, we would estimate their mean cholesterol to be 194.986 milligrams per deciliter.\nWeight: For a one pound increase in a person, we estimate on average, a 0.074 milligrams per deciliter increase in their cholesterol."
+  },
+  {
+    "objectID": "exercises/cholesterol.html#outliers",
+    "href": "exercises/cholesterol.html#outliers",
+    "title": "Predicting cholesterol with simple linear regression",
+    "section": "Outliers",
+    "text": "Outliers\nWe are going to investigate how adding outliers influences the line of best fit. First, we want you to:\n\nCreate a new observation that has a value of 200 pounds, and a cholesterol value of 600.\nCreate a new observation that has a value of 500 pounds, and a cholesterol value of 600.\n\nWe are going to re-estimate our line of best fit for each of these added observations. To create a new observation, please fill in the ____ with the appropriate values. Next, add this value to the exsisting data set using the bind_rows() function.\n\n\n\n\n\n\n\n\n\nNow, re-run the following code below to see how your line has changed from above. Try this activity with at least our two suggested new observations. You are encouraged to explore more!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipTakeaways\n\n\n\n\n\n\nOutliers that are more towards the middle of the data have less influence on the estimated slope coefficient\nOutliers that are more towards the ends of the data have higher influence of the estimated slope coefficient"
+  },
+  {
+    "objectID": "exercises/cholesterol.html#modeling-with-a-categorical-variable",
+    "href": "exercises/cholesterol.html#modeling-with-a-categorical-variable",
+    "title": "Predicting cholesterol with simple linear regression",
+    "section": "Modeling with a categorical variable",
+    "text": "Modeling with a categorical variable\nSimple linear regression is not limited to using a single quantitative explanatory variable. We can also use a categorical variable. In this exercise, we are going to model our response variable cholesterol by a person’s frame.\n\nFit the appropriate simple linear regression model, and produce the estimates for the model.\n\n\n\n\n\n\n\n\nWhy do you have a negative estimate?\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\n\nlm_fit &lt;- linear_reg() |&gt;\n  fit(chol ~ frame, data = cholesterol)\n\ntidy(lm_fit) |&gt;\n  select(term, estimate) |&gt;\n  kable(digits = 3)\n\n\n\nterm\nestimate\n\n\n\n(Intercept)\n208.000\n\n\nframemedium\n5.538\n\n\nframesmall\n-10.505\n\n\n\n\n\nSome estimates are small because the estimates that are associated with levels of the categorical variable frame are deviations from the baseline group! Notice how we see estimates for medium and large, but not small. Small has been chosen to be the baseline group, and the other estimates are deviations from the baseline.\n\n\n\nWhen working with a single categorical variable, the estimates for cholesterol correspond to the sample mean cholesterol for each group!\n\nTo verify this, please see the calculate the sample mean cholesterol for each frame group below, and relate these sample means to the deviations from the baseline above.\n\ncholesterol |&gt;\n  filter(!is.na(frame)) |&gt;\n  group_by(frame) |&gt;\n  summarise(mean_chol = mean(chol, na.rm = T))\n\n# A tibble: 3 × 2\n  frame  mean_chol\n  &lt;chr&gt;      &lt;dbl&gt;\n1 large       208 \n2 medium      214.\n3 small       197.\n\n\n\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\nOur baseline estimated mean cholesterol for someone with a small frame is ~ 197 in both summary outputs. The baseline deviation for the medium group is 16.043. The calculated sample mean cholesterol for someone with a medium build is ~214, which is roughly 16 units away (not exact due to rounding). This relationship holds for the large frame group as well.\n\n\n\nWith this information in-mind, what is the appropriate interpretation for the 16.403 estimate?\n\n\n\n\n\n\nTipSolution\n\n\n\n\n\nFor someone with a medium frame, we estimate on average a 16.043 increase in cholesterol from those who have a small frame."
+  },
+  {
+    "objectID": "exercises/cholesterol.html#summary",
+    "href": "exercises/cholesterol.html#summary",
+    "title": "Predicting cholesterol with simple linear regression",
+    "section": "Summary",
+    "text": "Summary\n\nSimple linear regression can be used when our response variable is quantitative, and we have a single explanatory variable.\nOutliers have the ability to drastically influence our line of best fit."
   }
 ]
