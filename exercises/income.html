@@ -361,7 +361,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </section><section id="motivation" class="level2"><h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
 <p>Census data can help us predict income based on other variables, such as demographic, social, and economic variables. We can use this information to help gain deeper insights into the economic well-being of a population, which can help practically inform items such as strategic planning, and market analysis. In this programming exercise, we are going to explore the relationship between different predictors, and if an individual was making more or less than $50,000 USD a year in 1994 in the United States.</p>
 </section><section id="data" class="level2"><h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the <a href="https://archive.ics.uci.edu/dataset/2/adult">UCI Machine Learning Repository</a>. Expand the tab below to look at the data key. In the code chunk below, we change income to be a factor. Our outcome needs to be a factor in order to fit a logistic regression model!</p>
+<p>The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the <a href="https://archive.ics.uci.edu/dataset/2/adult">UCI Machine Learning Repository</a>. Expand the tab below to look at the data key. In the code chunk below, we change income to be a factor. Our outcome variable needs to be a factor in order to fit a logistic regression model.</p>
 <div class="cell">
 <div>
 <div id="webr-2" class="exercise-cell">
@@ -378,7 +378,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJsYWJlbCI6Imxv
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Caution
+<span class="screen-reader-only">Caution</span>Data dictionary
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -491,7 +491,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </section><section id="modeling" class="level1"><h1>Modeling</h1>
-<p>The variable <code>income</code> in our dataset is stored as a <code>fct</code>, with the first level being <code>&lt;=50K</code>, and second level being <code>&gt;50K</code>. Because of this structure, we are going to be modeling the log-odds/probability of <code>&gt;50K</code></p>
+<p>The variable <code>income</code> in our dataset is changed to a <code>fct</code>, with the first level being of this factor being <code>&lt;=50K</code>, and second level being <code>&gt;50K</code>. Because of this ordering, we are going to be modeling the log-odds/probability of <code>&gt;50K</code>. The default in <strong>tidymodels</strong> code for logistic regression is to treat the second level factor as our success.</p>
 <div class="exercise">
 <p>Fit a logistic regression model below with income as the outcome and age as the predictor. Compare your output model defined below. Is the outcome the <em>log-odds</em> of making more than $50,000 or the <em>probability</em> of making more that $50,000?</p>
 </div>
@@ -572,19 +572,22 @@ p = \frac{e^{-2.74 + 0.0395(\text{60})}}{1 + e^{-2.74 + 0.0395(\text{60})}} = 0.
 \]</span></p>
 <p>We can also find this in R!</p>
 <div class="cell">
-<div>
-<div id="webr-6" class="exercise-cell">
-
-</div>
-<script type="webr-6-contents">
-eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6ImFnZV9wcmVkaWN0IDwtIHRpYmJsZShhZ2UgPSA2MSlcblxucHJlZGljdChpbmNvbWVfbW9kZWwsIGFnZV9wcmVkaWN0LCB0eXBlID0gXCJyZXNwb25zZVwiKSAifQ==
-</script>
-</div>
-</div>
-</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">age_predict</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>age <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">income_model</span>, <span class="va">age_predict</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  `.pred_&lt;=50K` `.pred_&gt;50K`
+          &lt;dbl&gt;        &lt;dbl&gt;
+1         0.592        0.408</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="exercise">
 <p>Based on your conclusion from your exploratory analysis, does the probability of making over $50,000 increase or decrease as you age? How can you tell from your model?</p>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -611,6 +614,19 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6ImFn
 <figure class="figure"><p><img src="income_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
+</div>
+</div>
+<div class="exercise">
+<p>Because this is not linear regression, the estimated change in probability of making more than 50,000 USD at the age of 60 to 61 is NOT the same as other one-year age differences. Explore this using the code below (ex. calculate the probability of making more than 50,000 USD at the age of 20 versus 21). Compare it to the visualization above.</p>
+</div>
+<div class="cell">
+<div>
+<div id="webr-6" class="exercise-cell">
+
+</div>
+<script type="webr-6-contents">
+eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6ImFnZV9wcmVkaWN0IDwtIHRpYmJsZShhZ2UgPSAyMClcblxucHJlZGljdChpbmNvbWVfbW9kZWwsIGFnZV9wcmVkaWN0LCB0eXBlID0gXCJwcm9iXCIpICJ9
+</script>
 </div>
 </div>
 </section></section><section id="summary" class="level1"><h1>Summary</h1>
