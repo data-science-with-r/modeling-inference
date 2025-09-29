@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.2">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Multiple linear regression – Modeling and inference</title>
+<title>Predicting NBA salaries with multiple linear regression – Modeling and inference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -303,7 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Multiple linear regression</h1>
+<h1 class="title">Predicting NBA salaries with multiple linear regression</h1>
 <p class="subtitle lead"><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling Inference <br><i class="fa-solid fa-book" aria-label="book"></i> Data Science with R</p>
 </div>
 
@@ -336,12 +336,12 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 <p>We’ll use the <strong>tidyverse</strong> and <strong>tidymodels</strong> for this programming exercise. These are already installed for you to use!</p>
 </section><section id="motivation" class="level2"><h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
 <p>The National Basketball Association (NBA) is a professional sports league that consists of 30 teams across the United States and Canada. In the early 2000s, NBA teams started to use advanced analytics to gain a competitive edge over their opponents. Teams employ the use of analytics to make data driven decisions on game strategy and business operations. In this programming exercise, we are going to work with NBA data to try and better understand the salary NBA players make.</p>
-</section><section id="dataset-information" class="level2"><h2 class="anchored" data-anchor-id="dataset-information">Dataset information</h2>
+</section><section id="data" class="level2"><h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>This dataset consists of player per-game statistics for the NBA’s 2022-23 season with player salary data. We are going to use just a subset of these variables in this programming exercise. The variables we will use can be seen below. The data key for the entire data set can be revealed below.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 79%">
+<col style="width: 12%">
+<col style="width: 87%">
 </colgroup>
 <thead><tr class="header">
 <th>Variable</th>
@@ -387,8 +387,8 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJsYWJlbCI6Imxv
 <p>Need to expand</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 79%">
+<col style="width: 12%">
+<col style="width: 87%">
 </colgroup>
 <thead><tr class="header">
 <th>Variable</th>
@@ -513,7 +513,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJsYWJlbCI6Imxv
 </div>
 </div>
 <p>Now, let’s explore these data!</p>
-</section><section id="exploratory-data-analysis" class="level2"><h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+</section><section id="exploratory-data-analysis" class="level2"><h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory data analysis</h2>
 <div class="exercise">
 <p>Before we fit a linear regression model, we are going to explore the data. Let’ start with exploring our response variable of interest, cholesterol (<code>Salary</code>). Specifically, we are interested in the relationship between <code>Salary</code>, <code>Age</code>, and <code>Position</code>. Below, calculate the mean and standard deviation for your quantitative variables. In the same code, produce the count of each position.</p>
 <div class="cell">
@@ -542,11 +542,13 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nba</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">Position</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span>mean_salary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Salary</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
-<span>            sd_salary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Salary</span> , na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>            mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>            sd_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>            position_n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>    mean_salary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Salary</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    sd_salary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Salary</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    sd_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    position_n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 6
   Position mean_salary sd_salary mean_age sd_age position_n
@@ -561,7 +563,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-</section><section id="visualizing-the-data" class="level2"><h2 class="anchored" data-anchor-id="visualizing-the-data">Visualizing the data</h2>
+</section><section id="visualizing-the-model" class="level2"><h2 class="anchored" data-anchor-id="visualizing-the-model">Visualizing the model</h2>
 <p>We are now going to plot our response variable <code>Salary</code> vs <code>Age</code> using a scatterplot. We are also going to color the points based on <code>Position</code>. The plot can be seen below.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -572,10 +574,10 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 <p>From the videos, we learned about two different times of multiple linear regression models that we could fit:</p>
-<p><strong>Additive models</strong>: The relationship between x and y does not change based on z</p>
-<p><strong>Interaction models</strong>: The relationship between x and y does change by z</p>
+<p><strong>Main effects models</strong>: The relationship between x and y does not change based on z</p>
+<p><strong>Interaction effects models</strong>: The relationship between x and y does change by z</p>
 <div class="exercise">
-<p>(Thought exercise) Based on these definitions, do you think it would be appropriate to fit an additive or interaction model?</p>
+<p>(Thought exercise) Based on these definitions, do you think it would be appropriate to fit an main effects or an interaction effects model?</p>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
@@ -589,18 +591,20 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>It is justifiable to fit an interaction model instead of an additive model. Based on the scatterplot, we can see that the relationship between Salary and Age changes depending on the position the player plays.</p>
+<p>It is justifiable to fit an interaction effects model instead of a main effects model. Based on the scatterplot, we can see that the relationship between Salary and Age changes depending on the position the player plays.</p>
 </div>
 </div>
 </div>
 </section><section id="modeling" class="level2"><h2 class="anchored" data-anchor-id="modeling">Modeling</h2>
-<p>So we can explore both concepts, regardless of your conclusion in the though exercise, we are first going to fit an additive model. We are going to this to:</p>
-<p>– Show that R will still fit the model, despite it not being the most appropriate</p>
-<p>– Practice fitting additive models</p>
-<p>– Practice interpreting additive model output</p>
-<section id="additive-model" class="level4"><h4 class="anchored" data-anchor-id="additive-model">Additive model</h4>
+<p>So we can explore both concepts, regardless of your conclusion in the though exercise, we are first going to fit a main effects model. We are going to this to:</p>
+<ul>
+<li><p>Show that R will still fit the model, despite it not being the most appropriate</p></li>
+<li><p>Practice fitting main effects models</p></li>
+<li><p>Practice interpreting main effects model output</p></li>
+</ul>
+<section id="main-effects-model" class="level3"><h3 class="anchored" data-anchor-id="main-effects-model">Main effects model</h3>
 <div class="exercise">
-<p>Fit the additive model below. Name this model <code>m1</code>, and wrap this object in the <code>tidy()</code> function. Next, interpret the estimate for <code>PositionPF</code> in the context of the problem.</p>
+<p>Fit the main effects model below. Name this model <code>m1</code>, and wrap this object in the <code>tidy()</code> function. Next, interpret the estimate for <code>PositionPF</code> in the context of the problem.</p>
 <div class="cell">
 <div>
 <div id="webr-4" class="exercise-cell">
@@ -625,22 +629,20 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sal_main_fit</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fit</span><span class="op">(</span><span class="va">Salary</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Position</span>, data <span class="op">=</span> <span class="va">nba</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">m1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">term</span>, <span class="va">estimate</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">sal_main_fit</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 2
-  term          estimate
-  &lt;chr&gt;            &lt;dbl&gt;
-1 (Intercept) -20019456.
-2 Age           1038670.
-3 PositionPF    1307286.
-4 PositionPG    4391276.
-5 PositionSF    1602852.
-6 PositionSG    1095288.</code></pre>
+<pre><code># A tibble: 6 × 5
+  term          estimate std.error statistic  p.value
+  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept) -20019456.  2996402.    -6.68  6.96e-11
+2 Age           1038670.   107316.     9.68  2.88e-20
+3 PositionPF    1307286.  1449993.     0.902 3.68e- 1
+4 PositionPG    4391276.  1492626.     2.94  3.43e- 3
+5 PositionSF    1602852.  1431168.     1.12  2.63e- 1
+6 PositionSG    1095288.  1363752.     0.803 4.22e- 1</code></pre>
 </div>
 </div>
 <p>As an NBA player ages one year, we estimate a mean salary increase of 1,307,286 usd if they play PF.</p>
@@ -671,27 +673,25 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nba_diff</span> <span class="op">&lt;-</span> <span class="va">nba</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>Position <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span><span class="va">Position</span>, <span class="st">"PG"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="va">sal_main_2_fit</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fit</span><span class="op">(</span><span class="va">Salary</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Position</span>, data <span class="op">=</span> <span class="va">nba_diff</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">m2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">term</span>, <span class="va">estimate</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">sal_main_2_fit</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 2
-  term          estimate
-  &lt;chr&gt;            &lt;dbl&gt;
-1 (Intercept) -15628180.
-2 Age           1038670.
-3 PositionC    -4391276.
-4 PositionPF   -3083990.
-5 PositionSF   -2788424.
-6 PositionSG   -3295988.</code></pre>
+<pre><code># A tibble: 6 × 5
+  term          estimate std.error statistic  p.value
+  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept) -15628180.  3018134.     -5.18 3.38e- 7
+2 Age           1038670.   107316.      9.68 2.88e-20
+3 PositionC    -4391276.  1492626.     -2.94 3.43e- 3
+4 PositionPF   -3083990.  1512886.     -2.04 4.21e- 2
+5 PositionSF   -2788424.  1494146.     -1.87 6.27e- 2
+6 PositionSG   -3295988.  1429037.     -2.31 2.15e- 2</code></pre>
 </div>
 </div>
-</section><section id="interaction-model" class="level4"><h4 class="anchored" data-anchor-id="interaction-model">Interaction model</h4>
+</section><section id="interaction-effects-model" class="level3"><h3 class="anchored" data-anchor-id="interaction-effects-model">Interaction effects model</h3>
 <div class="exercise">
-<p>Now, it’s time to fit the interaction model between <code>Salary</code>, <code>Age</code>, and <code>Position</code>. Please do so below, and interpret the Age:PositionPF interaction term.</p>
+<p>Now, it’s time to fit the interaction effects model between <code>Salary</code>, <code>Age</code>, and <code>Position</code>. Please do so below, and interpret the Age:PositionPF interaction term.</p>
 <div class="cell">
 <div>
 <div id="webr-5" class="exercise-cell">
@@ -716,26 +716,24 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sal_int_fit</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fit</span><span class="op">(</span><span class="va">Salary</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">*</span> <span class="va">Position</span>, data <span class="op">=</span> <span class="va">nba</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">m3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">term</span>, <span class="va">estimate</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">sal_int_fit</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   term             estimate
-   &lt;chr&gt;               &lt;dbl&gt;
- 1 (Intercept)     -3607189.
- 2 Age               414290.
- 3 PositionPF     -13289313.
- 4 PositionPG     -29720679.
- 5 PositionSF     -26887800.
- 6 PositionSG     -11312489.
- 7 Age:PositionPF    556044.
- 8 Age:PositionPG   1300074.
- 9 Age:PositionSF   1096922.
-10 Age:PositionSG    461940.</code></pre>
+<pre><code># A tibble: 10 × 5
+   term             estimate std.error statistic  p.value
+   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+ 1 (Intercept)     -3607189.  5950994.    -0.606 0.545   
+ 2 Age               414290.   223212.     1.86  0.0641  
+ 3 PositionPF     -13289313.  8318463.    -1.60  0.111   
+ 4 PositionPG     -29720679.  8918015.    -3.33  0.000931
+ 5 PositionSF     -26887800.  9258556.    -2.90  0.00386 
+ 6 PositionSG     -11312489.  8280299.    -1.37  0.173   
+ 7 Age:PositionPF    556044.   310153.     1.79  0.0737  
+ 8 Age:PositionPG   1300074.   335283.     3.88  0.000121
+ 9 Age:PositionSF   1096922.   353991.     3.10  0.00207 
+10 Age:PositionSG    461940.   321063.     1.44  0.151   </code></pre>
 </div>
 </div>
 <p>For a Power Forward, a one-year increase in age, we estimate on average an increase in salary of approximately 970,334 usd.</p>
@@ -746,34 +744,33 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <p>Note: This is the mathematical representation to the plot created above!</p>
 <p>If we do change the baseline term, the <code>Age</code> coefficient will also change, because the interaction term allows for the relationship between <code>Age</code> and <code>Salary</code> to change based on <code>Position</code>. Let’s see this below.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sal_int_2_fit</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fit</span><span class="op">(</span><span class="va">Salary</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">*</span> <span class="va">Position</span>, data <span class="op">=</span> <span class="va">nba_diff</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tidy</span><span class="op">(</span><span class="va">m3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">term</span>, <span class="va">estimate</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">tidy</span><span class="op">(</span><span class="va">sal_int_2_fit</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   term             estimate
-   &lt;chr&gt;               &lt;dbl&gt;
- 1 (Intercept)    -33327869.
- 2 Age              1714364.
- 3 PositionC       29720679.
- 4 PositionPF      16431366.
- 5 PositionSF       2832880.
- 6 PositionSG      18408190.
- 7 Age:PositionC   -1300074.
- 8 Age:PositionPF   -744030.
- 9 Age:PositionSF   -203152.
-10 Age:PositionSG   -838134.</code></pre>
+<pre><code># A tibble: 10 × 5
+   term             estimate std.error statistic  p.value
+   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+ 1 (Intercept)    -33327869.  6642038.    -5.02  7.54e- 7
+ 2 Age              1714364.   250181.     6.85  2.40e-11
+ 3 PositionC       29720679.  8918015.     3.33  9.31e- 4
+ 4 PositionPF      16431366.  8826050.     1.86  6.33e- 2
+ 5 PositionSF       2832880.  9717161.     0.292 7.71e- 1
+ 6 PositionSG      18408190.  8790091.     2.09  3.68e- 2
+ 7 Age:PositionC   -1300074.   335283.    -3.88  1.21e- 4
+ 8 Age:PositionPF   -744030.   330094.    -2.25  2.47e- 2
+ 9 Age:PositionSF   -203152.   371586.    -0.547 5.85e- 1
+10 Age:PositionSG   -838134.   340365.    -2.46  1.42e- 2</code></pre>
 </div>
 </div>
-</section></section><section id="in-summary" class="level2"><h2 class="anchored" data-anchor-id="in-summary">In Summary</h2>
-<p>– Multiple linear regression allows for a single quantitative variable to be modeled by &gt; 1 explanatory variable.</p>
-<p>– An additive model has the restriction of keeping the relationship between x and y consistent , regardless of the values of the other variables in the model.</p>
-<p>– An interaction model relaxes this restriction, and allows the relationship between x and y to change based on values of z.</p>
-<p>– Regression output has a baseline group when one explanatory variable is categorical. This can be found in the <code>Intercept</code> term, with the other categorical level coefficients representing the deviation from the baseline.</p>
-</section><section id="your-turn-challenge" class="level2"><h2 class="anchored" data-anchor-id="your-turn-challenge">Your Turn: Challenge</h2>
+</section></section><section id="summary" class="level2"><h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li><p>Multiple linear regression allows for a single quantitative variable to be modeled by &gt; 1 explanatory variable.</p></li>
+<li><p>An main effects model has the restriction of keeping the relationship between x and y consistent , regardless of the values of the other variables in the model.</p></li>
+<li><p>An interaction effects model relaxes this restriction, and allows the relationship between x and y to change based on values of z.</p></li>
+<li><p>Regression output has a baseline group when one explanatory variable is categorical. This can be found in the <code>Intercept</code> term, with the other categorical level coefficients representing the deviation from the baseline.</p></li>
+</ul></section><section id="your-turn-challenge" class="level2"><h2 class="anchored" data-anchor-id="your-turn-challenge">Your turn: Challenge</h2>
 <p>Use this space to fit more complicated models, and explore different relationships that model our response variable <code>Salary</code>! As a reminder, the complete data key can be found above.</p>
 <div class="cell">
 <div>

@@ -1,5 +1,5 @@
 ---
-title: Multiple linear regression
+title: Predicting NBA salaries with multiple linear regression
 subtitle: "{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R"
 format: live-html
 engine: knitr
@@ -8,10 +8,6 @@ webr:
   packages: 
     - tidyverse
     - tidymodels
-    # - faraway
-    #- scales
-    #- ggridges
-    # - kableExtra
   cell-options:
     autorun: false
   resources:
@@ -48,9 +44,9 @@ We’ll use the **tidyverse** and **tidymodels** for this programming exercise. 
 #| echo: false
 #| message: false
 #| warning: false
-
 library(tidyverse)
 library(tidymodels)
+library(scales)
 library(kableExtra)
 ```
 
@@ -58,12 +54,12 @@ library(kableExtra)
 
 The National Basketball Association (NBA) is a professional sports league that consists of 30 teams across the United States and Canada. In the early 2000s, NBA teams started to use advanced analytics to gain a competitive edge over their opponents. Teams employ the use of analytics to make data driven decisions on game strategy and business operations. In this programming exercise, we are going to work with NBA data to try and better understand the salary NBA players make.
 
-## Dataset information
+## Data
 
 This dataset consists of player per-game statistics for the NBA's 2022-23 season with player salary data. We are going to use just a subset of these variables in this programming exercise. The variables we will use can be seen below. The data key for the entire data set can be revealed below.
 
 | Variable | Description                                                       |
-|---------------|---------------------------------------------------------|
+|----------|-------------------------------------------------------------------|
 | Salary   | Yearly salary a NBA players make in USD                           |
 | Position | Position on the court the NBA player plays: PG, SG, SF, PF, and C |
 | Age      | Age of the player, rounded to the nearest year                    |
@@ -81,7 +77,7 @@ glimpse(nba)
 Need to expand
 
 | Variable | Description                                                       |
-|---------------|---------------------------------------------------------|
+|----------|-------------------------------------------------------------------|
 | Salary   | Yearly salary a NBA players make in USD                           |
 | Position | Position on the court the NBA player plays: PG, SG, SF, PF, and C |
 | Age      | Age of the player, rounded to the nearest year                    |
@@ -110,11 +106,12 @@ Need to expand
 | TOV      | Average turnovers per game                                        |
 | PF       | Average fouls accrued per game played                             |
 | PTS      | Average points scored per game played                             |
+
 :::
 
 Now, let's explore these data!
 
-## Exploratory Data Analysis
+## Exploratory data analysis
 
 ::: exercise
 Before we fit a linear regression model, we are going to explore the data. Let' start with exploring our response variable of interest, cholesterol (`Salary`). Specifically, we are interested in the relationship between `Salary`, `Age`, and `Position`. Below, calculate the mean and standard deviation for your quantitative variables. In the same code, produce the count of each position.
@@ -122,6 +119,7 @@ Before we fit a linear regression model, we are going to explore the data. Let' 
 ```{webr}
 
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -131,85 +129,86 @@ Before we fit a linear regression model, we are going to explore the data. Let' 
 #| echo: false
 #| message: false
 #| warning: false
-nba <- read_csv("data/nba20222023.csv") 
+nba <- read_csv("data/nba20222023.csv")
 ```
 
 ```{r}
 #| eval: true
-
 nba |>
   group_by(Position) |>
-  summarize(mean_salary = mean(Salary, na.rm = TRUE), 
-            sd_salary = sd(Salary , na.rm = TRUE),
-            mean_age = mean(Age, na.rm = TRUE),
-            sd_age = sd(Age, na.rm = TRUE),
-            position_n = n())
+  summarize(
+    mean_salary = mean(Salary, na.rm = TRUE),
+    sd_salary = sd(Salary, na.rm = TRUE),
+    mean_age = mean(Age, na.rm = TRUE),
+    sd_age = sd(Age, na.rm = TRUE),
+    position_n = n()
+  )
 ```
+
 :::
 
-## Visualizing the data
+## Visualizing the model
 
 We are now going to plot our response variable `Salary` vs `Age` using a scatterplot. We are also going to color the points based on `Position`. The plot can be seen below.
 
 ```{r}
-#| echo: false 
+#| echo: false
 #| message: false
-
-nba |>
-  ggplot(
-    aes(x = Age, y = Salary, color = Position)) +
-      geom_point() +
-      geom_smooth(method = "lm" , se = F) +
-  labs(title = "Salary by Age and Position",
-       subtitle = "2022-2023 Season")
+ggplot(nba, aes(x = Age, y = Salary, color = Position)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+  labs(
+    title = "Salary by Age and Position",
+    subtitle = "2022-2023 Season"
+  ) +
+  scale_y_continuous(labels = label_dollar())
 ```
 
 From the videos, we learned about two different times of multiple linear regression models that we could fit:
 
-**Additive models**: The relationship between x and y does not change based on z
+**Main effects models**: The relationship between x and y does not change based on z
 
-**Interaction models**: The relationship between x and y does change by z
+**Interaction effects models**: The relationship between x and y does change by z
 
 ::: exercise
-(Thought exercise) Based on these definitions, do you think it would be appropriate to fit an additive or interaction model?
+(Thought exercise) Based on these definitions, do you think it would be appropriate to fit an main effects or an interaction effects model?
 :::
 
 ::: {.callout-tip collapse="true"}
 ## Solution
 
-It is justifiable to fit an interaction model instead of an additive model. Based on the scatterplot, we can see that the relationship between Salary and Age changes depending on the position the player plays.
+It is justifiable to fit an interaction effects model instead of a main effects model. Based on the scatterplot, we can see that the relationship between Salary and Age changes depending on the position the player plays.
 :::
 
 ## Modeling
 
-So we can explore both concepts, regardless of your conclusion in the though exercise, we are first going to fit an additive model. We are going to this to:
+So we can explore both concepts, regardless of your conclusion in the though exercise, we are first going to fit a main effects model. We are going to this to:
 
--- Show that R will still fit the model, despite it not being the most appropriate
+- Show that R will still fit the model, despite it not being the most appropriate
 
--- Practice fitting additive models
+- Practice fitting main effects models
 
--- Practice interpreting additive model output
+- Practice interpreting main effects model output
 
-#### Additive model
+### Main effects model
 
 ::: exercise
-Fit the additive model below. Name this model `m1`, and wrap this object in the `tidy()` function. Next, interpret the estimate for `PositionPF` in the context of the problem.
+Fit the main effects model below. Name this model `m1`, and wrap this object in the `tidy()` function. Next, interpret the estimate for `PositionPF` in the context of the problem.
 
 ```{webr}
 
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
 ## Solution
 
 ```{r}
-m1 <- linear_reg() |>
-  set_engine("lm") |>
+sal_main_fit <- linear_reg() |>
   fit(Salary ~ Age + Position, data = nba)
 
-tidy(m1) |>
-  select(term, estimate)
+tidy(sal_main_fit)
 ```
 
 As an NBA player ages one year, we estimate a mean salary increase of 1,307,286 usd if they play PF.
@@ -231,34 +230,31 @@ We can change the intercept. See the following code that changes the intercept t
 nba_diff <- nba |>
   mutate(Position = fct_relevel(Position, "PG"))
 
-m2 <- linear_reg() |>
-  set_engine("lm") |>
+sal_main_2_fit <- linear_reg() |>
   fit(Salary ~ Age + Position, data = nba_diff)
 
-tidy(m2) |>
-  select(term, estimate)
+tidy(sal_main_2_fit)
 ```
 
-#### Interaction model
+### Interaction effects model
 
 ::: exercise
-Now, it's time to fit the interaction model between `Salary`, `Age`, and `Position`. Please do so below, and interpret the Age:PositionPF interaction term.
+Now, it's time to fit the interaction effects model between `Salary`, `Age`, and `Position`. Please do so below, and interpret the Age:PositionPF interaction term.
 
 ```{webr}
 
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
 ## Solution
 
 ```{r}
-m3 <- linear_reg() |>
-  set_engine("lm") |>
+sal_int_fit <- linear_reg() |>
   fit(Salary ~ Age * Position, data = nba)
 
-tidy(m3) |>
-  select(term, estimate)
+tidy(sal_int_fit)
 ```
 
 For a Power Forward, a one-year increase in age, we estimate on average an increase in salary of approximately 970,334 usd.
@@ -271,25 +267,23 @@ Note: This is the mathematical representation to the plot created above!
 If we do change the baseline term, the `Age` coefficient will also change, because the interaction term allows for the relationship between `Age` and `Salary` to change based on `Position`. Let's see this below.
 
 ```{r}
-m3 <- linear_reg() |>
-  set_engine("lm") |>
+sal_int_2_fit <- linear_reg() |>
   fit(Salary ~ Age * Position, data = nba_diff)
 
-tidy(m3) |>
-  select(term, estimate)
+tidy(sal_int_2_fit)
 ```
 
-## In Summary
+## Summary
 
--- Multiple linear regression allows for a single quantitative variable to be modeled by \> 1 explanatory variable.
+- Multiple linear regression allows for a single quantitative variable to be modeled by \> 1 explanatory variable.
 
--- An additive model has the restriction of keeping the relationship between x and y consistent , regardless of the values of the other variables in the model.
+- An main effects model has the restriction of keeping the relationship between x and y consistent , regardless of the values of the other variables in the model.
 
--- An interaction model relaxes this restriction, and allows the relationship between x and y to change based on values of z.
+- An interaction effects model relaxes this restriction, and allows the relationship between x and y to change based on values of z.
 
--- Regression output has a baseline group when one explanatory variable is categorical. This can be found in the `Intercept` term, with the other categorical level coefficients representing the deviation from the baseline.
+- Regression output has a baseline group when one explanatory variable is categorical. This can be found in the `Intercept` term, with the other categorical level coefficients representing the deviation from the baseline.
 
-## Your Turn: Challenge
+## Your turn: Challenge
 
 Use this space to fit more complicated models, and explore different relationships that model our response variable `Salary`! As a reminder, the complete data key can be found above.
 
