@@ -2090,7 +2090,7 @@
     "href": "exercises/cholesterol.html#packages",
     "title": "Predicting cholesterol with simple linear regression",
     "section": "Packages",
-    "text": "Packages\nWe’ll use the tidyverse and tidymodels for this programming exercise. These are already installed for you to use!"
+    "text": "Packages\nWe’ll use the tidyverse and tidymodels for this programming exercise. These are already installed for you to use!\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n   78.0   179.0   204.0   207.8   230.0   443.0       1"
   },
   {
     "objectID": "exercises/cholesterol.html#motivation",
@@ -2104,7 +2104,7 @@
     "href": "exercises/cholesterol.html#data",
     "title": "Predicting cholesterol with simple linear regression",
     "section": "Data",
-    "text": "Data\nThe original data for this exercise are located in the faraway package, but for this exercise you will load the data from a CSV file.\n\n\n\n\n\n\n\n\nThe data dictionary below shows the subset of variables we are going to work with for this exercise.\n\n\nVariable Name\nDescription\n\n\n\nchol\nTotal cholesterol\n\n\nweight\nWeight in pounds\n\n\nframe\nFactor with levels small, medium, large\n\n\n\nNow, let’s explore these data!"
+    "text": "Data\nThe original data for this exercise are located in the faraway package, but for this exercise you will load the data from a CSV file.\n\n\n\n\n\n\n\n\nThe data dictionary below shows the subset of variables we are going to work with for this exercise.\n\n\nVariable Name\nDescription\n\n\n\nchol\nTotal cholesterol\n\n\nweight\nWeight in pounds\n\n\nframe\nFactor with levels small, medium, large\n\n\n\nNote: For this exercise, there are some missing data. In your output, you may see a R Warning saying that some rows in the dataset having missing values. We will ignore this warning for the purpose of this exericse.\nNow, let’s explore these data!"
   },
   {
     "objectID": "exercises/cholesterol.html#research-question",
