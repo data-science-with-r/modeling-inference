@@ -72,7 +72,7 @@ glimpse(nba)
 ```
 
 ::: {.callout-caution collapse="true"}
-## Data key
+## Data dictionary
 
 Need to expand
 
@@ -277,17 +277,17 @@ tidy(sal_int_2_fit)
 
 # Summary
 
-- Multiple linear regression allows for a single quantitative variable to be modeled by \> 1 explanatory variable.
+- Multiple linear regression allows for a single quantitative variable to be modeled by \> 1 predictor variable.
 
 - An main effects model has the restriction of keeping the relationship between x and y consistent , regardless of the values of the other variables in the model.
 
 - An interaction effects model relaxes this restriction, and allows the relationship between x and y to change based on values of z.
 
-- Regression output has a baseline group when one explanatory variable is categorical. This can be found in the `Intercept` term, with the other categorical level coefficients representing the deviation from the baseline.
+- Regression output has a baseline group when one predictor variable is categorical. This can be found in the `Intercept` term, with the other categorical level coefficients representing the deviation from the baseline.
 
 # Your turn: Challenge
 
-Use this space to fit more complicated models, and explore different relationships that model our response variable `Salary`! As a reminder, the complete data key can be found above.
+Use this space to fit more complicated models, and explore different relationships that model our response variable `Salary`! As a reminder, the complete data dictionary can be found above.
 
 ```{webr}
 

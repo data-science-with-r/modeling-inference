@@ -66,7 +66,7 @@ Census data can help us predict income based on other variables, such as demogra
 
 ## Data
 
-The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/2/adult). Expand the tab below to look at the data key. In the code chunk below, we change income to be a factor. Our outcome needs to be a factor in order to fit a logistic regression model!
+The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/2/adult). Expand the tab below to look at the data key. In the code chunk below, we change income to be a factor. Our outcome variable needs to be a factor in order to fit a logistic regression model.
 
 ```{webr}
 #| label: load-data
@@ -79,6 +79,7 @@ income
 ```
 
 ::: {.callout-caution collapse="true"}
+## Data dictionary
 |                |                                                     |
 |----------------|-----------------------------------------------------|
 | Variable Name  | Description|
@@ -127,7 +128,7 @@ Based on this information, we would expect the probability of making more than \
 
 # Modeling
 
-The variable `income` in our dataset is stored as a `fct`, with the first level being `<=50K`, and second level being `>50K`. Because of this structure, we are going to be modeling the log-odds/probability of `>50K`
+The variable `income` in our dataset is changed to a  `fct`, with the first level being of this factor being `<=50K`, and second level being `>50K`. Because of this ordering, we are going to be modeling the log-odds/probability of `>50K`. The default in **tidymodels** code for logistic regression is to treat the second level factor as our success. 
 
 ::: exercise
 Fit a logistic regression model below with income as the outcome and age as the predictor. Compare your output model defined below. Is the outcome the _log-odds_ of making more than \$50,000 or the _probability_ of making more that \$50,000?
@@ -180,15 +181,17 @@ $$
 
 We can also find this in R!
 
-```{webr}
-age_predict <- tibble(age = 61)
+```{r}
+age_predict <- tibble(age = 60)
 
-predict(income_model, age_predict, type = "response") 
+predict(income_model, age_predict, type = "prob") 
 ```
 
 :::
 
+::: exercise
 Based on your conclusion from your exploratory analysis, does the probability of making over \$50,000 increase or decrease as you age? How can you tell from your model?
+:::
 
 ::: {.callout-tip collapse="true"}
 ## Solution
@@ -232,6 +235,18 @@ ggplot(plot_data, aes(x = age, y = probability)) +
   geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray") +
   annotate("text", x = 80, y = 0.52, label = "", vjust = -0.5, color = "gray")
 ```
+
+
+::: exercise
+Because this is not linear regression, the estimated change in probability of making more than 50,000 USD at the age of 60 to 61 is NOT the same as other one-year age differences. Explore this using the code below (ex. calculate the probability of making more than 50,000 USD at the age of 20 versus 21). Compare it to the visualization above.
+:::
+
+```{webr}
+age_predict <- tibble(age = 20)
+
+predict(income_model, age_predict, type = "prob") 
+```
+
 
 # Summary 
 
