@@ -75,7 +75,7 @@ gilbert <-
   )
 ```
 
-The data set you will be working with is called `gilbert`. The data are already pre-loaded for you! Simply run the code below to get started. The data key can be seen below.
+The dataset you will be working with is called `gilbert`. The data are already pre-loaded for you! Simply run the code below to get started. The data dictionary can be seen below.
 
 ```{webr}
 gilbert
@@ -100,7 +100,7 @@ Thought exercise: What are the observational units? Are our variables categorica
 ::: {.callout-tip collapse="true"}
 ## Solution
 
-Our observational units are whom or what we take the data off of. In this case, data are collected from individual shifts. Both variables that we are working with are categorial variables.
+Our observational units are whom or what we take the data off of. In this case, data are collected from individual shifts. Both variables that we are working with are categorical variables.
 :::
 
 Now that we know what types of variables we are working with, let's calculate some summary statistics. 
@@ -336,7 +336,7 @@ As a reminder, we **no longer** have a hypothesis to assume true. Our whole goal
 
 ... and we do the entire process above many many times. 
 
-This process is called bootstrap resampling.
+This process is called bootstrap re-sampling.
 
 ::: exercise
 
@@ -364,9 +364,9 @@ set.seed(12345)
 ```{r}
 #| eval: false
 boot_dist <- gilbert |>
-  specify(response = ____, explanatory = ____, success = "___") |> # specify your variables here, and what you are taking the proportion of) |> # specify your variables here
-  generate(reps = ____, type = "bootstrap") |> # this says we are going to use bootstrap techniques. Put an appropriate number of reps in
-  calculate(stat = "_____", order = c("_____", "_____")) # specify our statistic and the order of subtraction here
+  specify(response = ____, explanatory = ____, success = "___") |> # specify variables 
+  generate(reps = ____, type = "bootstrap") |> # use bootstrap with appropriate number of reps
+  calculate(stat = "_____", order = c("_____", "_____")) # specify statistic and order of subtraction
 ```
 
 :::
@@ -376,9 +376,9 @@ boot_dist <- gilbert |>
 
 ```{r}
 boot_dist <- gilbert |>
-  specify(response = outcome, explanatory = working, success = "died") |> # specify your variables here, and what you are taking the proportion of) |> # specify your variables here
-  generate(reps = 1000, type = "bootstrap") |> # this says we are going to use bootstrap techniques. Put an appropriate number of reps in
-  calculate(stat = "diff in props", order = c("no-gilbert", "gilbert")) # specify our statistic and the order of subtraction here
+  specify(response = outcome, explanatory = working, success = "died") |> # specify variables
+  generate(reps = 1000, type = "bootstrap") |> # use bootstrap with appropriate number of reps
+  calculate(stat = "diff in props", order = c("no-gilbert", "gilbert")) # specify statistic and order of subtraction
 ```
 
 :::
@@ -486,5 +486,5 @@ Our confidence interval will ALWAYS be centered at our sample statistic. The cen
 
 - When we want to estimate a population parameter, we should think about creating a confidence interval. 
 
-- Depending on the methodolgy, the simulation process will be different, dictating where our sampling distribution is centered.
+- Depending on the methodology, the simulation process will be different, dictating where our sampling distribution is centered.
 
