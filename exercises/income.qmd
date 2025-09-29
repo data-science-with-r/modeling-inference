@@ -1,5 +1,5 @@
 ---
-title: Logistic regression
+title: Predicting income level with logistic regression
 subtitle: "{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R"
 format: live-html
 engine: knitr
@@ -8,10 +8,6 @@ webr:
   packages: 
     - tidyverse
     - tidymodels
-    # - faraway
-    #- scales
-    #- ggridges
-    # - kableExtra
   cell-options:
     autorun: false
   resources:
@@ -34,7 +30,7 @@ income <- read_csv("https://raw.githubusercontent.com/data-science-with-r/modeli
 
 <!-- end: webr fodder -->
 
-# Getting Started
+# Getting started
 
 Programming exercises are designed to provide an opportunity for you to put what you learn in the videos and readings. These exercises feature interactive code cells which allow you to write, edit, and run R code without leaving your browser.
 
@@ -48,9 +44,7 @@ We’ll use the **tidyverse** and **tidymodels** for this programming exercise. 
 #| echo: false
 #| message: false
 #| warning: false
-
 library(tidyverse)
-# library(faraway)
 library(tidymodels)
 library(kableExtra)
 ```
@@ -60,9 +54,7 @@ library(kableExtra)
 #| echo: false
 #| message: false
 #| warning: false
-
 income <- read_csv("data/income.csv")
-
 
 income <- income |>
   mutate(income = factor(income))
@@ -72,7 +64,7 @@ income <- income |>
 
 Census data can help us predict income based on other variables, such as demographic, social, and economic variables. We can use this information to help gain deeper insights into the economic well-being of a population, which can help practically inform items such as strategic planning, and market analysis. In this programming exercise, we are going to explore the relationship between different predictors, and if an individual was making more or less than \$50,000 USD a year in 1994 in the United States.
 
-## Dataset information
+## Data
 
 The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/2/adult). Expand the tab below to look at the data key.
 
@@ -84,9 +76,9 @@ income
 ```
 
 ::: {.callout-caution collapse="true"}
-|                |                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|-------------------|-----------------------------------------------------|
-| Variable Name  | Description                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|                |                                                     |
+|----------------|-----------------------------------------------------|
+| Variable Name  | Description|
 | age            | Age                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | workclass      | Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, State-gov, Without-pay, Never-worked.                                                                                                                                                                                                                                                                                                                          |
 | education      | Bachelors, Some-college, 11th, HS-grad, Prof-school, Assoc-acdm, Assoc-voc, 9th, 7th-8th, 12th, Masters, 1st-4th, 10th, Doctorate, 5th-6th, Preschool.                                                                                                                                                                                                                                                                          |
@@ -100,16 +92,17 @@ income
 | income         | \>50K, \<=50K.                                                                                                                                                                                                                                                                                                                                                                                                                  |
 :::
 
-## Exploratory Data Analysis
+# Exploratory data analysis
 
 ::: exercise
-Before we fit a logistic regression model, we are going to explore these data. Let' start with exploring our response variable of interest, cholesterol (`income`). For this exercise, we are going to investigate the relationship between `income` and `age`.
+Before we fit a logistic regression model, we are going to explore these data. Let' start with exploring the outcome variable of interest, cholesterol (`income`). For this exercise, we are going to investigate the relationship between `income` and `age`.
 
 Let's calculate the mean and sd of `age` for each level of `income`. What does this tell us? When fitting a logistic regression model, would we expect the probability of making more than \$50,000 to increase or decrease as you get older?
 
 ```{webr}
 
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -118,8 +111,10 @@ Let's calculate the mean and sd of `age` for each level of `income`. What does t
 ```{r}
 income |>
   group_by(income) |>
-  summarize(mean_age = mean(age),
-            sd_age = sd(age))
+  summarize(
+    mean_age = mean(age),
+    sd_age = sd(age)
+  )
 ```
 
 The mean age for those making less than \$50,000 is roughly 7.4 years younger than the mean age of those making more than \$50,000. The spread (standard deviation) is also higher for those making less than \$50,000 in comparison to those making more.
@@ -127,12 +122,12 @@ The mean age for those making less than \$50,000 is roughly 7.4 years younger th
 Based on this information, we would expect the probability of making more than \$50,000 to increase as age increases.
 :::
 
-### Fitting a logistic regression model
+# Modeling
 
 The variable `income` in our data set is stored as a `fct`, with the first level being `<=50K`, and second level being `>50K`. Because of this structure, we are going to be modeling the log-odds/probability of `>50K`
 
 ::: exercise
-Fit a logistic regression model below with income as our response, and age as our predictor. Compare your output to the written out model below. Is your response the log-odds of making more than \$50,000, or the probability of making more that \$50,000?
+Fit a logistic regression model below with income as the outcome and age as the predictor. Compare your output model defined below. Is the outcome the _log-odds_ of making more than \$50,000 or the _probability_ of making more that \$50,000?
 :::
 
 ```{webr}
@@ -148,8 +143,7 @@ $$
 
 ```{r}
 income_model <- logistic_reg() |>
-  set_engine("glm") |>
-  fit(income ~ age , data = income, family = binomial)
+  fit(income ~ age, data = income, family = binomial)
 
 tidy(income_model)
 ```
@@ -157,7 +151,7 @@ tidy(income_model)
 The logistic regression model we fit models the log-odds: $$\log \left( \frac{p}{1-p} \right)$$, where `p` represents the probability of of making more than \$50,000.
 :::
 
-#### Probabilities
+## Probabilities
 
 To model the probability of making more than \$50,000, we need to expoentiate both sides of the eqaution. See below:
 
@@ -171,6 +165,7 @@ Using your model, what's the probability of making more than \$50,000 if you are
 ```{webr}
 
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -187,6 +182,7 @@ age_predict <- tibble(age = 61)
 
 predict(income_model$fit, age_predict, type = "response") 
 ```
+
 :::
 
 Based on your concoulsion from your exploratory analysis, does the probabilty of making over \$50,000 increase or decrease as you age? How can you tell from your model?
@@ -234,29 +230,18 @@ ggplot(plot_data, aes(x = age, y = probability)) +
   annotate("text", x = 80, y = 0.52, label = "", vjust = -0.5, color = "gray")
 ```
 
-## In Summary 
+# Summary 
 
--- We can use a logistic regression model to estimate the log-odds/probability of success of our response variable
+- We can use a logistic regression model to estimate the log-odds/probability of success of the outcome variable.
 
--- Our response variable must be binary 
+- The outcome variable must be binary and encoded as a factor.
 
--- The `tidymodel` code changes from linear regression in the following ways: 
+- We start the model fit with `logistic_reg()` instead of `linear_reg()`.
 
-```
-logistic_reg() |>
-  set_engine("glm")
-```
-      
-      -- We now tell R to fit a logistic regression model `logistic_reg()`
-      
-      -- We set the engine to be a generalized linear model
-      
+# Your turn: Challenge
 
-### Your Turn
-
-There are many other factors that could contribute to the probability of making more than \$50,000 than just age in 1994. Now, we challenge you to fit a more complicated model to help better understand our variable of interest, `income`.
+There are many other variables that could explain the probability of making more than \$50,000 than just age in 1994. Now, we challenge you to fit a more complicated model to help better understand our variable of interest, `income`.
 
 ```{webr}
 
 ```
-

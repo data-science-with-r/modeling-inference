@@ -111,7 +111,7 @@ Need to expand
 
 Now, let's explore these data!
 
-## Exploratory data analysis
+# Exploratory data analysis
 
 ::: exercise
 Before we fit a linear regression model, we are going to explore the data. Let' start with exploring our response variable of interest, cholesterol (`Salary`). Specifically, we are interested in the relationship between `Salary`, `Age`, and `Position`. Below, calculate the mean and standard deviation for your quantitative variables. In the same code, produce the count of each position.
@@ -147,6 +147,8 @@ nba |>
 
 :::
 
+# Modeling
+
 ## Visualizing the model
 
 We are now going to plot our response variable `Salary` vs `Age` using a scatterplot. We are also going to color the points based on `Position`. The plot can be seen below.
@@ -180,7 +182,7 @@ From the videos, we learned about two different times of multiple linear regress
 It is justifiable to fit an interaction effects model instead of a main effects model. Based on the scatterplot, we can see that the relationship between Salary and Age changes depending on the position the player plays.
 :::
 
-## Modeling
+## Multiple linear regression
 
 So we can explore both concepts, regardless of your conclusion in the though exercise, we are first going to fit a main effects model. We are going to this to:
 
@@ -273,7 +275,7 @@ sal_int_2_fit <- linear_reg() |>
 tidy(sal_int_2_fit)
 ```
 
-## Summary
+# Summary
 
 - Multiple linear regression allows for a single quantitative variable to be modeled by \> 1 explanatory variable.
 
@@ -283,7 +285,7 @@ tidy(sal_int_2_fit)
 
 - Regression output has a baseline group when one explanatory variable is categorical. This can be found in the `Intercept` term, with the other categorical level coefficients representing the deviation from the baseline.
 
-## Your turn: Challenge
+# Your turn: Challenge
 
 Use this space to fit more complicated models, and explore different relationships that model our response variable `Salary`! As a reminder, the complete data key can be found above.
 

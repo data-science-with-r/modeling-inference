@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.2">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Quantifying Uncertanity – Modeling and inference</title>
+<title>Quantifying uncertanity in the ICU – Modeling and inference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -329,7 +329,7 @@ window.Quarto = {
     
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Quantifying Uncertanity</h1>
+<h1 class="title">Quantifying uncertanity in the ICU</h1>
 <p class="subtitle lead"><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling Inference <br><i class="fa-solid fa-book" aria-label="book"></i> Data Science with R</p>
 </div>
 
@@ -360,7 +360,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 <p>When the ▶️ Run Code button turns to a solid color (with no flashing bubble indicating that the document is still loading), you can interact with the code cells!</p>
 <section id="packages" class="level2"><h2 class="anchored" data-anchor-id="packages">Packages</h2>
 <p>We’ll use the <strong>tidyverse</strong> and <strong>tidymodels</strong> for this programming exercise. These are already installed for you to use!</p>
-</section><section id="motivation-and-data-set-information" class="level2"><h2 class="anchored" data-anchor-id="motivation-and-data-set-information">Motivation and data set information</h2>
+</section><section id="motivation-and-data" class="level2"><h2 class="anchored" data-anchor-id="motivation-and-data">Motivation and data</h2>
 <p>For several years in the 1990s, Kristen Gilbert worked as a nurse in the intensive care unit (ICU) of the Veterans Administration Hospital in Northampton, Massachusetts. Over the course of her time there, other nurses came to suspect that she was killing patients by injecting them with the heart stimulant epinephrine. Gilbert was eventually arrested and charged with these murders. Part of the evidence presented against Gilbert at her murder trial was a statistical analysis of 1,641 randomly selected eight-hour shifts during the time Gilbert worked in the ICU. For each of these shifts, researchers recorded two variables: whether Gilbert worked on the shift and whether at least one patient died during the shift.</p>
 <p>The data set you will be working with is called <code>gilbert</code>. The data are already pre-loaded for you! Simply run the code below to get started. The data key can be seen below.</p>
 <div class="cell">
@@ -392,8 +392,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6Imdp
 <td>Gilbert was working on this shift (gilbert) or Gilbert was not working on this shift (no-gilbert)</td>
 </tr>
 </tbody>
-</table>
-<section id="exploratory-data-analysis" class="level4"><h4 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory data analysis</h4>
+</table></section></section><section id="exploratory-data-analysis" class="level1"><h1>Exploratory data analysis</h1>
 <p>Before we get into the inference portion of this activity, let’s think about and explore our data.</p>
 <div class="exercise">
 <p>Thought exercise: What are the observational units? Are our variables categorical or quantitative?</p>
@@ -489,13 +488,12 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gilbert</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span></span>
-<span>    <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">working</span>, fill <span class="op">=</span> <span class="va">outcome</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">geom_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Murderous Nurse Data"</span>,</span>
-<span>       y <span class="op">=</span> <span class="st">"conditional proportion"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">gilbert</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">working</span>, fill <span class="op">=</span> <span class="va">outcome</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Murderous Nurse Data"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Conditional proportion"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="nurse_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
@@ -507,7 +505,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-</section></section><section id="inference-hypothesis-testing" class="level2"><h2 class="anchored" data-anchor-id="inference-hypothesis-testing">Inference: Hypothesis Testing</h2>
+</section><section id="hypothesis-testing" class="level1"><h1>Hypothesis testing</h1>
 <p>As stated above, part of the evidence presented against Gilbert at her murder trial was a statistical analysis of 1,641 randomly selected eight-hour shifts during the time Gilbert worked in the ICU. We are going to conduct re-create the hypothesis test presented, via simulation techniques.</p>
 <div class="exercise">
 <p>Thought exercise: Below, think about what the null and alternative hypothesis would be for this scenario. Think about this both in proper notation, and in words.</p>
@@ -525,7 +523,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Our null hypothesis is:</p>
-<p><span class="math inline">\(H_o: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0\)</span></p>
+<p><span class="math inline">\(H_0: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0\)</span></p>
 <p>In words, this is the true proportion of patients who died during shifts where Gilbert was not working is the same as when she was working.</p>
 <p>Our alternative hypothesis is:</p>
 <p><span class="math inline">\(H_a:\pi_\text{no-gilbert} - \pi_\text{gilbert} &lt; 0\)</span></p>
@@ -534,7 +532,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-<section id="building-a-distribution" class="level4"><h4 class="anchored" data-anchor-id="building-a-distribution">Building a Distribution</h4>
+<section id="building-the-null-distribution" class="level2"><h2 class="anchored" data-anchor-id="building-the-null-distribution">Building the null distribution</h2>
 <div class="exercise">
 <p>Let’s use simulation-based methods to conduct the hypothesis test specified above. We’ll start by generating the null distribution. First, let’s start by explicitly calculating the sample size for each group. These values will be important for simulating our sampling distribution under the assumption of the null hypothesis.</p>
 <div class="cell">
@@ -576,10 +574,12 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 <p>The steps to simulate our sampling distribution under the assumption of the null hypothesis are as follows:</p>
-<p>– Permute or shuffle all observations together, regardless their value of work (grouping variable)</p>
-<p>– Randomly distribute observations into two new groups of size n1 = 257 and n2 = 1384</p>
-<p>– Summarize the data for each group</p>
-<p>– Subtract</p>
+<ul>
+<li><p>Permute or shuffle all observations together, regardless their value of work (grouping variable)</p></li>
+<li><p>Randomly distribute observations into two new groups of size n1 = 257 and n2 = 1384</p></li>
+<li><p>Summarize the data for each group</p></li>
+<li><p>Subtract</p></li>
+</ul>
 <p>… and we do the entire process above many many times.</p>
 <div class="exercise">
 <p>Thought exercise: Why are we shuffling all observations together?</p>
@@ -629,10 +629,10 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6InNl
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> gilbert <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">response =</span> ____, <span class="at">explanatory =</span> ____, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">|&gt;</span> <span class="co"># specify your variables here, and what you are taking the proportion of</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"independence"</span>) <span class="sc">|&gt;</span> <span class="co"># this says we want to do a hypothesis test for independence</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> ____, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">|&gt;</span> <span class="co"># this says we are going to use permutation. Put an appropriate number of reps in</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"_____"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"_____"</span>, <span class="st">"_____"</span>)) <span class="co"># specify our statistic and the order of subtraction here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">response =</span> ____, <span class="at">explanatory =</span> ____, <span class="at">success =</span> <span class="st">"___"</span>) <span class="sc">|&gt;</span> <span class="co"># specify variables</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"independence"</span>) <span class="sc">|&gt;</span> <span class="co"># hypothesis test for independence</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> ____, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">|&gt;</span> <span class="co"># use permutation with appropriate number of reps</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"_____"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"_____"</span>, <span class="st">"_____"</span>)) <span class="co"># specify statistic and order of subtraction</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -653,14 +653,17 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6InNl
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12345</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">null_dist</span> <span class="op">&lt;-</span> <span class="va">gilbert</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">outcome</span>, explanatory <span class="op">=</span> <span class="va">working</span>, success <span class="op">=</span> <span class="st">"died"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># specify your variables here</span></span>
-<span>  <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># this says we want to do a hypothesis test for independence</span></span>
-<span>  <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># this says we are going to use permutation. Put an appropriate number of reps in</span></span>
-<span>  <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no-gilbert"</span>, <span class="st">"gilbert"</span><span class="op">)</span><span class="op">)</span> <span class="co"># specify our statistic and the order of subtraction here</span></span>
+<span>  <span class="fu">specify</span><span class="op">(</span>response <span class="op">=</span> <span class="va">outcome</span>, explanatory <span class="op">=</span> <span class="va">working</span>, success <span class="op">=</span> <span class="st">"died"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># specify variables</span></span>
+<span>  <span class="fu">hypothesize</span><span class="op">(</span>null <span class="op">=</span> <span class="st">"independence"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># hypothesis test for independence</span></span>
+<span>  <span class="fu">generate</span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"permute"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># use permutation with appropriate number of reps</span></span>
+<span>  <span class="fu">calculate</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"diff in props"</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no-gilbert"</span>, <span class="st">"gilbert"</span><span class="op">)</span><span class="op">)</span> <span class="co"># specify statistic and order of subtraction</span></span>
 <span></span>
-<span><span class="fu">tibble</span><span class="op">(</span><span class="va">null_dist</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="va">null_dist</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,000 × 2
+<pre><code>Response: outcome (factor)
+Explanatory: working (factor)
+Null Hypothesis: ind...
+# A tibble: 1,000 × 2
    replicate     stat
        &lt;int&gt;    &lt;dbl&gt;
  1         1 -0.00189
@@ -676,14 +679,18 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6InNl
 # ℹ 990 more rows</code></pre>
 </div>
 </div>
-<p>You have now created 1000 simulated difference in proportions under the assumption of <span class="math inline">\(H_o: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0\)</span>.</p>
+<p>You have now created 1000 simulated difference in proportions under the assumption of <span class="math inline">\(H_0: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0\)</span>.</p>
 </div>
 </div>
 </div>
 <p>Let’s now plot your simulated difference in proportions, and calculate our p-value! To do so, we are going to use the following code:</p>
-<pre><code>visualize(_____) +
-  shade_p_value(____, direction = "____")</code></pre>
-<p>The first argument in the <code>visualize()</code> function is your R object of simulated proportions. This is why we saved these proportions as <code>null_dist</code>. The first argument in the <code>shade_p-value()</code> function is our statistic. The original statistic we calculated (-.13). Lastly, we need to specify the direction we shade from our statistic. This function will take the arguments “less”, “left”, “greater”, “right”, “two-sided”, “both”, “two_sided”, “two sided”, or “two.sided”. ::: exercise A p-value, in this context, is the probability of observing -.13, or something even <strong>lower</strong>, given <span class="math inline">\(H_o: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0\)</span>. Lower comes from our alternative hypothesis sign (i.e., our research question). Use this information to plot our our simulated sampling distribution and shade the appropriate area for our p-value below.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">visualize</span>(_____) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shade_p_value</span>(____, <span class="at">direction =</span> <span class="st">"____"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The first argument in the <code>visualize()</code> function is your R object of simulated proportions. This is why we saved these proportions as <code>null_dist</code>. The first argument in the <code>shade_p-value()</code> function is our statistic. The original statistic we calculated (-.13). Lastly, we need to specify the direction we shade from our statistic. This function will take the arguments “less”, “left”, “greater”, “right”, “two-sided”, “both”, “two_sided”, “two sided”, or “two.sided”.</p>
+<div class="exercise">
+<p>A p-value, in this context, is the probability of observing -.13, or something even <strong>lower</strong>, given <span class="math inline">\(H_0: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0\)</span>. Lower comes from our alternative hypothesis sign (i.e., our research question). Use this information to plot our our simulated sampling distribution and shade the appropriate area for our p-value below.</p>
 <p>What do we notice? Is our p-value large or small?</p>
 <div class="cell">
 <div>
@@ -695,7 +702,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </script>
 </div>
 </div>
-<p>:::</p>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -710,15 +717,15 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">visualize</span><span class="op">(</span><span class="va">null_dist</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">shade_p_value</span><span class="op">(</span><span class="op">-</span><span class="fl">.13</span>, direction <span class="op">=</span> <span class="st">"less"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">shade_p_value</span><span class="op">(</span><span class="op">-</span><span class="fl">0.13</span>, direction <span class="op">=</span> <span class="st">"less"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="nurse_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="nurse_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>We notice that, out of 1000 samples generated under the assumption of the null hypothesis, we observed 0 samples as small, or even smaller than -.13. This would indicate that our p-value is very very small.</p>
+<p>We notice that, out of 1000 samples generated under the assumption of the null hypothesis, we observed 0 samples as small, or even smaller than -0.13. This would indicate that our p-value is very very small.</p>
 </div>
 </div>
 </div>
@@ -760,12 +767,14 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-</section></section><section id="inference-confidence-intervals" class="level2"><h2 class="anchored" data-anchor-id="inference-confidence-intervals">Inference: Confidence Intervals</h2>
+</section></section><section id="confidence-intervals" class="level1"><h1>Confidence intervals</h1>
 <p>Now, we are going to estimate <span class="math inline">\(\pi_\text{no-gilbert} - \pi_\text{gilbert}\)</span>. We can do this by conducting a confidence interval! Again, we will use simulation techniques. Let’s go through the steps below.</p>
 <p>As a reminder, we <strong>no longer</strong> have a hypothesis to assume true. Our whole goal is to estimate <span class="math inline">\(pi_\text{no-gilbert} - \pi_\text{gilbert}\)</span>. At their core, confidence intervals are our “best guess” of what <span class="math inline">\(pi_\text{no-gilbert} - \pi_\text{gilbert}\)</span> might be, accompanied by a range of values created through quantifying uncertainty around our “best guess”. Our best guess is the sample statistic calculated from above: <span class="math inline">\(\widehat{p_\text{no-gilbert}} - \widehat{p_\text{gilbert}}\)</span> = <span class="math inline">\(\frac{217}{1567} - \frac{40}{74} = -.13\)</span>. Let’s now go through the steps to quantify our uncertainty (build up a sampling distribution).</p>
-<p>– Randomly sample <strong>within each group</strong> n1 = 257 and n2 = 1384 times, respectively.</p>
-<p>– Summarize the data for each group</p>
-<p>– Subtract</p>
+<ul>
+<li><p>Randomly sample <strong>within each group</strong> n1 = 257 and n2 = 1384 times, respectively.</p></li>
+<li><p>Summarize the data for each group</p></li>
+<li><p>Subtract</p></li>
+</ul>
 <p>… and we do the entire process above many many times.</p>
 <p>This process is called bootstrap resampling.</p>
 <div class="exercise">
@@ -870,7 +879,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">boot_dist</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span></span>
 <span>    <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="op">-</span><span class="fl">.13</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"simulated sampling distribution"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -879,7 +888,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="nurse_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="nurse_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -889,13 +898,19 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 <p>Now, we can use our R object <code>boot_dist</code> to calculate different levels of confidence intervals. Recall that, if we want to create a 95% confidence interval, we need to find a lower and upper bound that captures 95% of all simulated difference in proportions. We can do that using the <code><a href="https://rdrr.io/r/stats/quantile.html">quantile()</a></code> function within <code>summarize()</code>. A quantile is a value where a certain percentage of data falls to the left of the specified value. This means:</p>
-<p>– If we want to create a 95% confidence interval, we need to calculate the quantile that excludes 2.5% on the left tail, and the right tail.</p>
-<p>– If we want to create a 90% confidence interval, we need to calculate the quantile that excludes 5% on the left tail, and the right tail.</p>
-<p>– etc. etc.</p>
+<ul>
+<li><p>If we want to create a 95% confidence interval, we need to calculate the quantile that excludes 2.5% on the left tail, and the right tail.</p></li>
+<li><p>If we want to create a 90% confidence interval, we need to calculate the quantile that excludes 5% on the left tail, and the right tail.</p></li>
+<li><p>etc. etc.</p></li>
+</ul>
 <p>Take a look at the following demo code:</p>
-<pre><code>boot_dist |&gt;
-  summarize(lower = quantile(stat, ____),
-            upper = quantile(stat, ____))</code></pre>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>boot_dist <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">quantile</span>(stat, ____),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">upper =</span> <span class="fu">quantile</span>(stat, ____)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><code>boot_dist</code> is our R object. We use <code>summarize()</code> to calculate summary statistics from our <code>boot_dist</code> object. The column name <code>stat</code> in our <code>boot_dist</code></p>
 <div class="exercise">
 <p>Edit the following code above the calculate an appropriate 95% confidence interval. Then, think about how this confidence interval should be interpreted.</p>
@@ -914,8 +929,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">boot_dist</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span>lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, <span class="fl">0.025</span><span class="op">)</span>,</span>
-<span>            upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">summarize</span><span class="op">(</span>lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, <span class="fl">0.025</span><span class="op">)</span>, upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
    lower   upper
@@ -955,8 +969,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">boot_dist</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span>lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, <span class="fl">0.10</span><span class="op">)</span>,</span>
-<span>            upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, <span class="fl">0.90</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">summarize</span><span class="op">(</span>lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, <span class="fl">0.10</span><span class="op">)</span>, upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">stat</span>, <span class="fl">0.90</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
    lower  upper
@@ -968,11 +981,13 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-</section><section id="in-summary" class="level2"><h2 class="anchored" data-anchor-id="in-summary">In Summary</h2>
-<p>– We can use randomization and bootstrap techniques for statistical inference.</p>
-<p>– When we want to test a population parameter vs a given value, we should think about conducting a hypothesis test.</p>
-<p>– When we want to estimate a population parameter, we should think about creating a confidence interval.</p>
-<p>– Depending on the methodolgy, the simulation process will be different, dictating where our sampling distribution is centered.</p>
+</section><section id="summary" class="level1"><h1>Summary</h1>
+<ul>
+<li><p>We can use randomization and bootstrap techniques for statistical inference.</p></li>
+<li><p>When we want to test a population parameter vs a given value, we should think about conducting a hypothesis test.</p></li>
+<li><p>When we want to estimate a population parameter, we should think about creating a confidence interval.</p></li>
+<li><p>Depending on the methodolgy, the simulation process will be different, dictating where our sampling distribution is centered.</p></li>
+</ul>
 
 
 <script type="webr-data">
@@ -989,7 +1004,7 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xMCIsImlubGluZSI6ZmFsc2UsIm1l
 </div>
 <script type="vfs-file">
 W10=
-</script></section></section></main><!-- /main --><script type="ojs-module-contents">
+</script></section></main><!-- /main --><script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
 </script><script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }

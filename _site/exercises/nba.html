@@ -513,7 +513,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJsYWJlbCI6Imxv
 </div>
 </div>
 <p>Now, let’s explore these data!</p>
-</section><section id="exploratory-data-analysis" class="level2"><h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory data analysis</h2>
+</section></section><section id="exploratory-data-analysis" class="level1"><h1>Exploratory data analysis</h1>
 <div class="exercise">
 <p>Before we fit a linear regression model, we are going to explore the data. Let’ start with exploring our response variable of interest, cholesterol (<code>Salary</code>). Specifically, we are interested in the relationship between <code>Salary</code>, <code>Age</code>, and <code>Position</code>. Below, calculate the mean and standard deviation for your quantitative variables. In the same code, produce the count of each position.</p>
 <div class="cell">
@@ -563,7 +563,8 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-</section><section id="visualizing-the-model" class="level2"><h2 class="anchored" data-anchor-id="visualizing-the-model">Visualizing the model</h2>
+</section><section id="modeling" class="level1"><h1>Modeling</h1>
+<section id="visualizing-the-model" class="level2"><h2 class="anchored" data-anchor-id="visualizing-the-model">Visualizing the model</h2>
 <p>We are now going to plot our response variable <code>Salary</code> vs <code>Age</code> using a scatterplot. We are also going to color the points based on <code>Position</code>. The plot can be seen below.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -595,7 +596,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-</section><section id="modeling" class="level2"><h2 class="anchored" data-anchor-id="modeling">Modeling</h2>
+</section><section id="multiple-linear-regression" class="level2"><h2 class="anchored" data-anchor-id="multiple-linear-regression">Multiple linear regression</h2>
 <p>So we can explore both concepts, regardless of your conclusion in the though exercise, we are first going to fit a main effects model. We are going to this to:</p>
 <ul>
 <li><p>Show that R will still fit the model, despite it not being the most appropriate</p></li>
@@ -764,13 +765,13 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 10 Age:PositionSG   -838134.   340365.    -2.46  1.42e- 2</code></pre>
 </div>
 </div>
-</section></section><section id="summary" class="level2"><h2 class="anchored" data-anchor-id="summary">Summary</h2>
+</section></section></section><section id="summary" class="level1"><h1>Summary</h1>
 <ul>
 <li><p>Multiple linear regression allows for a single quantitative variable to be modeled by &gt; 1 explanatory variable.</p></li>
 <li><p>An main effects model has the restriction of keeping the relationship between x and y consistent , regardless of the values of the other variables in the model.</p></li>
 <li><p>An interaction effects model relaxes this restriction, and allows the relationship between x and y to change based on values of z.</p></li>
 <li><p>Regression output has a baseline group when one explanatory variable is categorical. This can be found in the <code>Intercept</code> term, with the other categorical level coefficients representing the deviation from the baseline.</p></li>
-</ul></section><section id="your-turn-challenge" class="level2"><h2 class="anchored" data-anchor-id="your-turn-challenge">Your turn: Challenge</h2>
+</ul></section><section id="your-turn-challenge" class="level1"><h1>Your turn: Challenge</h1>
 <p>Use this space to fit more complicated models, and explore different relationships that model our response variable <code>Salary</code>! As a reminder, the complete data key can be found above.</p>
 <div class="cell">
 <div>
@@ -798,7 +799,7 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC02IiwiaW5saW5lIjpmYWxzZSwibWV0
 </div>
 <script type="vfs-file">
 WyJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vZGF0YS1zY2llbmNlLXdpdGgtci9tb2RlbGluZy1pbmZlcmVuY2UvcmVmcy9oZWFkcy9tYWluL2V4ZXJjaXNlcy9kYXRhL25iYTIwMjIyMDIzLmNzdiJd
-</script></section></section></main><!-- /main --><script type="ojs-module-contents">
+</script></section></main><!-- /main --><script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
 </script><script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }

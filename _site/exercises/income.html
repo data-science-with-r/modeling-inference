@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.2">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Logistic regression – Modeling and inference</title>
+<title>Predicting income level with logistic regression – Modeling and inference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -329,7 +329,7 @@ window.Quarto = {
     
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Logistic regression</h1>
+<h1 class="title">Predicting income level with logistic regression</h1>
 <p class="subtitle lead"><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling Inference <br><i class="fa-solid fa-book" aria-label="book"></i> Data Science with R</p>
 </div>
 
@@ -355,14 +355,14 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </div>
 </div>
 <!-- end: webr fodder -->
-<section id="getting-started" class="level1"><h1>Getting Started</h1>
+<section id="getting-started" class="level1"><h1>Getting started</h1>
 <p>Programming exercises are designed to provide an opportunity for you to put what you learn in the videos and readings. These exercises feature interactive code cells which allow you to write, edit, and run R code without leaving your browser.</p>
 <p>When the ▶️ Run Code button turns to a solid color (with no flashing bubble indicating that the document is still loading), you can interact with the code cells!</p>
 <section id="packages" class="level2"><h2 class="anchored" data-anchor-id="packages">Packages</h2>
 <p>We’ll use the <strong>tidyverse</strong> and <strong>tidymodels</strong> for this programming exercise. These are already installed for you to use!</p>
 </section><section id="motivation" class="level2"><h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
 <p>Census data can help us predict income based on other variables, such as demographic, social, and economic variables. We can use this information to help gain deeper insights into the economic well-being of a population, which can help practically inform items such as strategic planning, and market analysis. In this programming exercise, we are going to explore the relationship between different predictors, and if an individual was making more or less than $50,000 USD a year in 1994 in the United States.</p>
-</section><section id="dataset-information" class="level2"><h2 class="anchored" data-anchor-id="dataset-information">Dataset information</h2>
+</section><section id="data" class="level2"><h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the <a href="https://archive.ics.uci.edu/dataset/2/adult">UCI Machine Learning Repository</a>. Expand the tab below to look at the data key.</p>
 <div class="cell">
 <div>
@@ -388,8 +388,8 @@ Caution
 <div class="callout-body-container callout-body">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 26%">
-<col style="width: 73%">
+<col style="width: 23%">
+<col style="width: 76%">
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -445,9 +445,9 @@ Caution
 </div>
 </div>
 </div>
-</section><section id="exploratory-data-analysis" class="level2"><h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+</section></section><section id="exploratory-data-analysis" class="level1"><h1>Exploratory data analysis</h1>
 <div class="exercise">
-<p>Before we fit a logistic regression model, we are going to explore these data. Let’ start with exploring our response variable of interest, cholesterol (<code>income</code>). For this exercise, we are going to investigate the relationship between <code>income</code> and <code>age</code>.</p>
+<p>Before we fit a logistic regression model, we are going to explore these data. Let’ start with exploring the outcome variable of interest, cholesterol (<code>income</code>). For this exercise, we are going to investigate the relationship between <code>income</code> and <code>age</code>.</p>
 <p>Let’s calculate the mean and sd of <code>age</code> for each level of <code>income</code>. What does this tell us? When fitting a logistic regression model, would we expect the probability of making more than $50,000 to increase or decrease as you get older?</p>
 <div class="cell">
 <div>
@@ -475,8 +475,10 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">income</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span>mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>,</span>
-<span>            sd_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>,</span>
+<span>    sd_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
   income mean_age sd_age
@@ -490,10 +492,10 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-<section id="fitting-a-logistic-regression-model" class="level3"><h3 class="anchored" data-anchor-id="fitting-a-logistic-regression-model">Fitting a logistic regression model</h3>
+</section><section id="modeling" class="level1"><h1>Modeling</h1>
 <p>The variable <code>income</code> in our data set is stored as a <code>fct</code>, with the first level being <code>&lt;=50K</code>, and second level being <code>&gt;50K</code>. Because of this structure, we are going to be modeling the log-odds/probability of <code>&gt;50K</code></p>
 <div class="exercise">
-<p>Fit a logistic regression model below with income as our response, and age as our predictor. Compare your output to the written out model below. Is your response the log-odds of making more than $50,000, or the probability of making more that $50,000?</p>
+<p>Fit a logistic regression model below with income as the outcome and age as the predictor. Compare your output model defined below. Is the outcome the <em>log-odds</em> of making more than $50,000 or the <em>probability</em> of making more that $50,000?</p>
 </div>
 <div class="cell">
 <div>
@@ -522,8 +524,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_model</span> <span class="op">&lt;-</span> <span class="fu">logistic_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"glm"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fit</span><span class="op">(</span><span class="va">income</span> <span class="op">~</span> <span class="va">age</span> , data <span class="op">=</span> <span class="va">income</span>, family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span></span>
+<span>  <span class="fu">fit</span><span class="op">(</span><span class="va">income</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">income</span>, family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tidy</span><span class="op">(</span><span class="va">income_model</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -538,7 +539,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-<section id="probabilities" class="level4"><h4 class="anchored" data-anchor-id="probabilities">Probabilities</h4>
+<section id="probabilities" class="level2"><h2 class="anchored" data-anchor-id="probabilities">Probabilities</h2>
 <p>To model the probability of making more than $50,000, we need to expoentiate both sides of the eqaution. See below:</p>
 <p><span class="math display">\[
 p = \frac{e^{-2.74 + 0.0395(\text{age})}}{1 + e^{-2.74 + 0.0395(\text{age})}}
@@ -614,18 +615,13 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6ImFn
 </div>
 </div>
 </div>
-</section></section></section><section id="in-summary" class="level2"><h2 class="anchored" data-anchor-id="in-summary">In Summary</h2>
-<p>– We can use a logistic regression model to estimate the log-odds/probability of success of our response variable</p>
-<p>– Our response variable must be binary</p>
-<p>– The <code>tidymodel</code> code changes from linear regression in the following ways:</p>
-<pre><code>logistic_reg() |&gt;
-  set_engine("glm")</code></pre>
-<pre><code>  -- We now tell R to fit a logistic regression model `logistic_reg()`
-  
-  -- We set the engine to be a generalized linear model
-  </code></pre>
-<section id="your-turn" class="level3"><h3 class="anchored" data-anchor-id="your-turn">Your Turn</h3>
-<p>There are many other factors that could contribute to the probability of making more than $50,000 than just age in 1994. Now, we challenge you to fit a more complicated model to help better understand our variable of interest, <code>income</code>.</p>
+</section></section><section id="summary" class="level1"><h1>Summary</h1>
+<ul>
+<li><p>We can use a logistic regression model to estimate the log-odds/probability of success of the outcome variable.</p></li>
+<li><p>The outcome variable must be binary and encoded as a factor.</p></li>
+<li><p>We start the model fit with <code>logistic_reg()</code> instead of <code>linear_reg()</code>.</p></li>
+</ul></section><section id="your-turn-challenge" class="level1"><h1>Your turn: Challenge</h1>
+<p>There are many other variables that could explain the probability of making more than $50,000 than just age in 1994. Now, we challenge you to fit a more complicated model to help better understand our variable of interest, <code>income</code>.</p>
 <div class="cell">
 <div>
 <div id="webr-7" class="exercise-cell">
@@ -652,7 +648,7 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC03IiwiaW5saW5lIjpmYWxzZSwibWV0
 </div>
 <script type="vfs-file">
 WyJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vZGF0YS1zY2llbmNlLXdpdGgtci9tb2RlbGluZy1pbmZlcmVuY2UvcmVmcy9oZWFkcy9tYWluL2V4ZXJjaXNlcy9kYXRhL2luY29tZS5jc3YiXQ==
-</script></section></section></section></main><!-- /main --><script type="ojs-module-contents">
+</script></section></main><!-- /main --><script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
 </script><script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }

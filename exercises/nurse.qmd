@@ -1,5 +1,5 @@
 ---
-title: Quantifying Uncertanity
+title: Quantifying uncertanity in the ICU
 subtitle: "{{< fa book-open >}} Modeling Inference <br>{{< fa book >}} Data Science with R"
 format: live-html
 engine: knitr
@@ -8,10 +8,6 @@ webr:
   packages: 
     - tidyverse
     - tidymodels
-    # - faraway
-    #- scales
-    #- ggridges
-    # - kableExtra
   cell-options:
     autorun: false
 ---
@@ -48,7 +44,7 @@ When the ▶️ Run Code button turns to a solid color (with no flashing bubble 
 
 We’ll use the **tidyverse** and **tidymodels** for this programming exercise. These are already installed for you to use!
 
-## Motivation and data set information
+## Motivation and data
 
 For several years in the 1990s, Kristen Gilbert worked as a nurse in the intensive care unit (ICU) of the Veterans Administration Hospital in Northampton, Massachusetts. Over the course of her time there, other nurses came to suspect that she was killing patients by injecting them with the heart stimulant epinephrine. Gilbert was eventually arrested and charged with these murders. Part of the evidence presented against Gilbert at her murder trial was a statistical analysis of 1,641 randomly selected eight-hour shifts during the time Gilbert worked in the ICU. For each of these shifts, researchers recorded two variables: whether Gilbert worked on the shift and whether at least one patient died during the shift.
 
@@ -56,9 +52,7 @@ For several years in the 1990s, Kristen Gilbert worked as a nurse in the intensi
 #| echo: false
 #| message: false
 #| warning: false
-
 library(tidyverse)
-# library(faraway)
 library(tidymodels)
 library(kableExtra)
 ```
@@ -69,14 +63,16 @@ library(kableExtra)
 #| message: false
 #| warning: false
 
-gilbert <- 
+gilbert <-
   tibble(
-    outcome = c(rep("died", 74), 
-                rep("no-death", 1567)),
-    working = c(rep("gilbert", 40), 
-                rep("no-gilbert", 34), 
-                rep("gilbert", 217), 
-                rep("no-gilbert", 1350)))
+    outcome = c(rep("died", 74), rep("no-death", 1567)),
+    working = c(
+      rep("gilbert", 40),
+      rep("no-gilbert", 34),
+      rep("gilbert", 217),
+      rep("no-gilbert", 1350)
+    )
+  )
 ```
 
 The data set you will be working with is called `gilbert`. The data are already pre-loaded for you! Simply run the code below to get started. The data key can be seen below.
@@ -91,7 +87,7 @@ gilbert
 | working  | Gilbert was working on this shift (gilbert) or Gilbert was not working on this shift (no-gilbert) |
 
 
-#### Exploratory data analysis 
+# Exploratory data analysis 
 
 Before we get into the inference portion of this activity, let's think about and explore our data. 
 
@@ -141,19 +137,18 @@ Now, create a proper data visualization to help explore these data. Comment on a
 ## Solution
 
 ```{r}
-gilbert |>
-  ggplot(
-    aes(x = working, fill = outcome)
-  ) + 
-  geom_bar(position = "fill") + 
-  labs(title = "Murderous Nurse Data",
-       y = "conditional proportion")
+ggplot(gilbert, aes(x = working, fill = outcome)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Murderous Nurse Data",
+    y = "Conditional proportion"
+  )
 ```
 
 Based on the visualization, it appears that their were significantly more outcomes of died vs no-death when Gilbert was on shift vs not on the shift.
 :::
 
-## Inference: Hypothesis Testing 
+# Hypothesis testing 
 
 As stated above, part of the evidence presented against Gilbert at her murder trial was a statistical analysis of 1,641 randomly selected eight-hour shifts during the time Gilbert worked in the ICU. We are going to conduct re-create the hypothesis test presented, via simulation techniques. 
 
@@ -167,7 +162,7 @@ Thought exercise: Below, think about what the null and alternative hypothesis wo
 ## Solution
 Our null hypothesis is:
 
-$H_o: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0$
+$H_0: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0$
 
 In words, this is the true proportion of patients who died during shifts where Gilbert was not working is the same as when she was working. 
 
@@ -178,9 +173,10 @@ $H_a:\pi_\text{no-gilbert} - \pi_\text{gilbert} < 0$
 In words, this is the true proportion of patients who died during shifts where Gilbert was not working is lower than when she was working. 
 
 We choose lower (<), because of the order of subtraction, and that we are trying to see if more people died while she was working vs not.
+
 :::
 
-#### Building a Distribution 
+## Building the null distribution
 
 ::: exercise
 
@@ -199,17 +195,18 @@ gilbert |>
   group_by(working) |>
   summarize(count = n())
 ```
+
 :::
 
 The steps to simulate our sampling distribution under the assumption of the null hypothesis are as follows: 
 
--- Permute or shuffle all observations together, regardless their value of work (grouping variable)
+- Permute or shuffle all observations together, regardless their value of work (grouping variable)
 
--- Randomly distribute observations into two new groups of size n1 = 257 and n2 = 1384 
+- Randomly distribute observations into two new groups of size n1 = 257 and n2 = 1384 
 
--- Summarize the data for each group 
+- Summarize the data for each group 
 
--- Subtract 
+- Subtract 
 
 ... and we do the entire process above many many times.
 
@@ -236,6 +233,7 @@ Now, let's use R to simulate the process discussed above. Save your permutated v
 ```{webr}
 set.seed(12345) # so you have reproducible results
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -243,56 +241,65 @@ set.seed(12345) # so you have reproducible results
 ```{r}
 #| eval: false
 null_dist <- gilbert |>
-  specify(response = ____, explanatory = ____, success = "___") |> # specify your variables here, and what you are taking the proportion of
-  hypothesize(null = "independence") |> # this says we want to do a hypothesis test for independence
-  generate(reps = ____, type = "permute") |> # this says we are going to use permutation. Put an appropriate number of reps in
-  calculate(stat = "_____", order = c("_____", "_____")) # specify our statistic and the order of subtraction here
+  specify(response = ____, explanatory = ____, success = "___") |> # specify variables
+  hypothesize(null = "independence") |> # hypothesis test for independence
+  generate(reps = ____, type = "permute") |> # use permutation with appropriate number of reps
+  calculate(stat = "_____", order = c("_____", "_____")) # specify statistic and order of subtraction
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
 ## Solution
+
 ```{r}
 set.seed(12345)
 
 null_dist <- gilbert |>
-  specify(response = outcome, explanatory = working, success = "died") |> # specify your variables here
-  hypothesize(null = "independence") |> # this says we want to do a hypothesis test for independence
-  generate(reps = 1000, type = "permute") |> # this says we are going to use permutation. Put an appropriate number of reps in
-  calculate(stat = "diff in props", order = c("no-gilbert", "gilbert")) # specify our statistic and the order of subtraction here
+  specify(response = outcome, explanatory = working, success = "died") |> # specify variables
+  hypothesize(null = "independence") |> # hypothesis test for independence
+  generate(reps = 1000, type = "permute") |> # use permutation with appropriate number of reps
+  calculate(stat = "diff in props", order = c("no-gilbert", "gilbert")) # specify statistic and order of subtraction
 
-tibble(null_dist)
+null_dist
 ```
 
-You have now created 1000 simulated difference in proportions under the assumption of $H_o: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0$. 
+You have now created 1000 simulated difference in proportions under the assumption of $H_0: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0$. 
+
 :::
 
 Let's now plot your simulated difference in proportions, and calculate our p-value! To do so, we are going to use the following code: 
 
-```
+```{r}
+#| eval: false
 visualize(_____) +
   shade_p_value(____, direction = "____")
 ```
 
 The first argument in the `visualize()` function is your R object of simulated proportions. This is why we saved these proportions as `null_dist`. The first argument in the `shade_p-value()` function is our statistic. The original statistic we calculated (-.13). Lastly, we need to specify the direction we shade from our statistic. This function will take the arguments "less", "left", "greater", "right", "two-sided", "both", "two_sided", "two sided", or "two.sided".
+
 ::: exercise
-A p-value, in this context, is the probability of observing -.13, or something even **lower**, given $H_o: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0$. Lower comes from our alternative hypothesis sign (i.e., our research question). Use this information to plot our our simulated sampling distribution and shade the appropriate area for our p-value below.
+
+A p-value, in this context, is the probability of observing -.13, or something even **lower**, given $H_0: \pi_\text{no-gilbert} - \pi_\text{gilbert} = 0$. Lower comes from our alternative hypothesis sign (i.e., our research question). Use this information to plot our our simulated sampling distribution and shade the appropriate area for our p-value below.
 
 What do we notice? Is our p-value large or small? 
 
 ```{webr}
 
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
 ## Solution
+
 ```{r}
 visualize(null_dist) +
-  shade_p_value(-.13, direction = "less")
+  shade_p_value(-0.13, direction = "less")
 ```
 
-We notice that, out of 1000 samples generated under the assumption of the null hypothesis, we observed 0 samples as small, or even smaller than -.13. This would indicate that our p-value is very very small.
+We notice that, out of 1000 samples generated under the assumption of the null hypothesis, we observed 0 samples as small, or even smaller than -0.13. This would indicate that our p-value is very very small.
+
 :::
 
 ::: exercise
@@ -315,17 +322,17 @@ $\alpha$ is a threshold we use against our p-value to see if we have enough evid
 :::
 
 
-## Inference: Confidence Intervals
+# Confidence intervals
 
 Now, we are going to estimate $\pi_\text{no-gilbert} - \pi_\text{gilbert}$. We can do this by conducting a confidence interval! Again, we will use simulation techniques. Let's go through the steps below. 
 
 As a reminder, we **no longer** have a hypothesis to assume true. Our whole goal is to estimate $pi_\text{no-gilbert} - \pi_\text{gilbert}$. At their core, confidence intervals are our "best guess" of what $pi_\text{no-gilbert} - \pi_\text{gilbert}$ might be, accompanied by a range of values created through quantifying uncertainty around our "best guess". Our best guess is the sample statistic calculated from above: $\widehat{p_\text{no-gilbert}} - \widehat{p_\text{gilbert}}$ = $\frac{217}{1567} - \frac{40}{74} = -.13$. Let's now go through the steps to quantify our uncertainty (build up a sampling distribution).
 
--- Randomly sample **within each group**  n1 = 257 and n2 = 1384 times, respectively. 
+- Randomly sample **within each group**  n1 = 257 and n2 = 1384 times, respectively. 
 
--- Summarize the data for each group 
+- Summarize the data for each group 
 
--- Subtract 
+- Subtract 
 
 ... and we do the entire process above many many times. 
 
@@ -354,6 +361,7 @@ set.seed(12345)
 
 ::: {.callout-tip collapse="true"}
 ## Hint
+
 ```{r}
 #| eval: false
 boot_dist <- gilbert |>
@@ -361,21 +369,28 @@ boot_dist <- gilbert |>
   generate(reps = ____, type = "bootstrap") |> # this says we are going to use bootstrap techniques. Put an appropriate number of reps in
   calculate(stat = "_____", order = c("_____", "_____")) # specify our statistic and the order of subtraction here
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
 ## Solution
+
 ```{r}
 boot_dist <- gilbert |>
   specify(response = outcome, explanatory = working, success = "died") |> # specify your variables here, and what you are taking the proportion of) |> # specify your variables here
   generate(reps = 1000, type = "bootstrap") |> # this says we are going to use bootstrap techniques. Put an appropriate number of reps in
   calculate(stat = "diff in props", order = c("no-gilbert", "gilbert")) # specify our statistic and the order of subtraction here
 ```
+
 :::
 
 ::: exercise 
 
-Now, let's plot our simulated difference in sample proportions below using `geom_histogram()`. Add a vertical line at your statistic using `geom_vline()` to help visualize that the distribution is centered at our statistic.
+Now, let's plot our simulated difference in sample proportions below using `
+geom_histogram()
+`. Add a vertical line at your statistic using `
+geom_vline()
+` to help visualize that the distribution is centered at our statistic.
 :::
 
 ```{webr}
@@ -390,7 +405,7 @@ Now, let's plot our simulated difference in sample proportions below using `geom
 boot_dist |>
   ggplot(
     aes(x = stat)
-  ) + 
+  ) +
   geom_histogram() +
   geom_vline(xintercept = -.13) +
   labs(title = "simulated sampling distribution")
@@ -404,19 +419,23 @@ We can see that our simulated sampling distribution is centered right at -.13, o
 
 Now, we can use our R object `boot_dist` to calculate different levels of confidence intervals. Recall that, if we want to create a 95% confidence interval, we need to find a lower and upper bound that captures 95% of all simulated difference in proportions. We can do that using the `quantile()` function within `summarize()`. A quantile is a value where a certain percentage of data falls to the left of the specified value. This means: 
 
--- If we want to create a 95% confidence interval, we need to calculate the quantile that excludes 2.5% on the left tail, and the right tail. 
+- If we want to create a 95% confidence interval, we need to calculate the quantile that excludes 2.5% on the left tail, and the right tail. 
 
--- If we want to create a 90% confidence interval, we need to calculate the quantile that excludes 5% on the left tail, and the right tail. 
+- If we want to create a 90% confidence interval, we need to calculate the quantile that excludes 5% on the left tail, and the right tail. 
 
--- etc. etc. 
+- etc. etc. 
 
 Take a look at the following demo code: 
 
-```
+```{r}
+#| eval: false
 boot_dist |>
-  summarize(lower = quantile(stat, ____),
-            upper = quantile(stat, ____))
+  summarize(
+    lower = quantile(stat, ____),
+    upper = quantile(stat, ____)
+  )
 ```
+
 `boot_dist` is our R object. We use `summarize()` to calculate summary statistics from our `boot_dist` object. The column name `stat` in our `boot_dist` 
 
 ::: exercise 
@@ -427,10 +446,10 @@ Edit the following code above the calculate an appropriate 95% confidence interv
 
 ::: {.callout-tip collapse="true"}
 ## Solution
+
 ```{r}
 boot_dist |>
-  summarize(lower = quantile(stat, 0.025),
-            upper = quantile(stat, 0.975))
+  summarize(lower = quantile(stat, 0.025), upper = quantile(stat, 0.975))
 ```
 
 We are 95% confident that the true proportion of deaths when Gilbert was not on shift is 0.0850 to 0.180 LOWER than when she was on shift.
@@ -450,23 +469,23 @@ What happens when the confidence level changes? Look at your distribution, and t
 
 ::: {.callout-tip collapse="true"}
 ## Solution
+
 ```{r}
 boot_dist |>
-  summarize(lower = quantile(stat, 0.10),
-            upper = quantile(stat, 0.90))
+  summarize(lower = quantile(stat, 0.10), upper = quantile(stat, 0.90))
 ```
 
 Our confidence interval will ALWAYS be centered at our sample statistic. The center of our distribution does not change. However, as our confidence level decreases, so does the width (as ween from the above code).
 
 :::
 
-## In Summary 
+# Summary 
 
--- We can use randomization and bootstrap techniques for statistical inference.
+- We can use randomization and bootstrap techniques for statistical inference.
 
--- When we want to test a population parameter vs a given value, we should think about conducting a hypothesis test. 
+- When we want to test a population parameter vs a given value, we should think about conducting a hypothesis test. 
 
--- When we want to estimate a population parameter, we should think about creating a confidence interval. 
+- When we want to estimate a population parameter, we should think about creating a confidence interval. 
 
--- Depending on the methodolgy, the simulation process will be different, dictating where our sampling distribution is centered.
+- Depending on the methodolgy, the simulation process will be different, dictating where our sampling distribution is centered.
 

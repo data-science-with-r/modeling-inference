@@ -64,7 +64,6 @@ library(kableExtra)
 cholesterol <- read_csv("data/cholesterol.csv")
 ```
 
-
 ## Motivation
 
 It's important to learn statistical modeling, as it provides us the tools necessary to answer complex questions in a responsible, insightful manner.
@@ -92,7 +91,7 @@ The data dictionary below shows the subset of variables we are going to work wit
 
 Now, let's explore these data!
 
-## Exploratory data analysis
+# Exploratory data analysis
 
 ::: exercise
 
@@ -179,7 +178,9 @@ The distribution of cholesterol responses is roughly symmetric, with a couple ad
 
 :::
 
-## Question of interest 
+# Modeling
+
+## Research question
 
 Now, we are going to explore the relationship between weight, and an individual's cholesterol. For this exercise, cholesterol (`chol`) is going to be our response, and our explanatory variable is going to be weight (`weight`).
 
@@ -303,7 +304,7 @@ tidy(lm_fit) |>
 - Outliers that are more towards the ends of the data have higher influence of the estimated slope coefficient
 :::
 
-## Modeling with a categorical variable 
+## Workign with categorical predictors
 
 Simple linear regression is not limited to using a single quantitative explanatory variable. We can also use a categorical variable. In this exercise, we are going to model our response variable cholesterol by a person's frame. 
 
@@ -368,7 +369,7 @@ For someone with a medium frame, we estimate on average a 16.043 increase in cho
 
 :::
 
-## Summary 
+# Summary 
 
 - Simple linear regression can be used when our response variable is quantitative, and we have a single explanatory variable.
 
