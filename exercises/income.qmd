@@ -66,11 +66,14 @@ Census data can help us predict income based on other variables, such as demogra
 
 ## Data
 
-The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/2/adult). Expand the tab below to look at the data key.
+The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/2/adult). Expand the tab below to look at the data key. In the code chunk below, we change income to be a factor. Our outcome needs to be a factor in order to fit a logistic regression model!
 
 ```{webr}
 #| label: load-data
-income <- read_csv("income.csv") 
+income <- read_csv("income.csv")  
+
+income <- income |>
+  mutate(income = factor(income))
 
 income
 ```
@@ -124,7 +127,7 @@ Based on this information, we would expect the probability of making more than \
 
 # Modeling
 
-The variable `income` in our data set is stored as a `fct`, with the first level being `<=50K`, and second level being `>50K`. Because of this structure, we are going to be modeling the log-odds/probability of `>50K`
+The variable `income` in our dataset is stored as a `fct`, with the first level being `<=50K`, and second level being `>50K`. Because of this structure, we are going to be modeling the log-odds/probability of `>50K`
 
 ::: exercise
 Fit a logistic regression model below with income as the outcome and age as the predictor. Compare your output model defined below. Is the outcome the _log-odds_ of making more than \$50,000 or the _probability_ of making more that \$50,000?
@@ -180,17 +183,17 @@ We can also find this in R!
 ```{webr}
 age_predict <- tibble(age = 61)
 
-predict(income_model$fit, age_predict, type = "response") 
+predict(income_model, age_predict, type = "response") 
 ```
 
 :::
 
-Based on your concoulsion from your exploratory analysis, does the probabilty of making over \$50,000 increase or decrease as you age? How can you tell from your model?
+Based on your conclusion from your exploratory analysis, does the probability of making over \$50,000 increase or decrease as you age? How can you tell from your model?
 
 ::: {.callout-tip collapse="true"}
 ## Solution
 
-The coefficient assocciated with age is positive, meaning that the estimated probability of making more than \$50,000 increases as age increases.
+The coefficient associated with age is positive, meaning that the estimated probability of making more than \$50,000 increases as age increases.
 :::
 
 We can further show your intuition is correct by calculating the probability at the `age` of 61, and see if the difference between the probability at the age of 60 is positive or negative.
