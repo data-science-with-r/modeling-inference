@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.14">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Simple linear regression – Modeling and inference</title>
+<title>Predicting cholesterol with simple linear regression – Modeling and inference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -321,7 +321,7 @@ div.csl-indent {
     
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Simple linear regression</h1>
+<h1 class="title">Predicting cholesterol with simple linear regression</h1>
 <p class="subtitle lead"><i class="fa-solid fa-book-open" aria-label="book-open"></i> Modeling Inference <br><i class="fa-solid fa-book" aria-label="book"></i> Data Science with R</p>
 </div>
 
@@ -342,7 +342,7 @@ div.csl-indent {
 
 </div>
 <script type="webr-1-contents">
-eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoib3B0aW9ucyhcInJlYWRyLmVkaXRpb25cIiA9IDEpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbiMgUmVhZCB0aGUgQ1NWIGZpbGUgZGlyZWN0bHkgZnJvbSB0aGUgVVJMXG5kaWFiZXRlcyA8LSByZWFkX2NzdihcImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kYXRhLXNjaWVuY2Utd2l0aC1yL21vZGVsaW5nLWluZmVyZW5jZS9yZWZzL2hlYWRzL21haW4vZXhlcmNpc2VzL2RhdGEvZGlhYmV0ZXMuY3N2XCIpIn0=
+eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRydWUsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoib3B0aW9ucyhcInJlYWRyLmVkaXRpb25cIiA9IDEpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbiMgUmVhZCB0aGUgQ1NWIGZpbGUgZGlyZWN0bHkgZnJvbSB0aGUgVVJMXG5jaG9sZXN0ZXJvbCA8LSByZWFkX2NzdihcImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kYXRhLXNjaWVuY2Utd2l0aC1yL21vZGVsaW5nLWluZmVyZW5jZS9yZWZzL2hlYWRzL21haW4vZXhlcmNpc2VzL2RhdGEvY2hvbGVzdGVyb2wuY3N2XCIpIn0=
 </script>
 </div>
 </div>
@@ -356,18 +356,19 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </section><section id="motivation" class="level2"><h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
 <p>It’s important to learn statistical modeling, as it provides us the tools necessary to answer complex questions in a responsible, insightful manner.</p>
 <p>In this programming exercise, we are going to be working with data that were published in the <em>Preventive Medicine</em> journal in 1997 <span class="citation" data-cites="SCHORLING199792">(<a href="#ref-SCHORLING199792" role="doc-biblioref">Schorling et al. 1997</a>)</span>. In this dataset, 403 African Americans were interviewed in a study to understand the prevalence of obesity, diabetes, and other cardiovascular risk factors in central Virginia. We will fit simple linear regression models with different types of predictors to help best understand total cholesterol. Please read the data in below.</p>
+</section><section id="data" class="level2"><h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The original data for this exercise are located in the <a href="https://cran.r-project.org/web/packages/faraway/index.html"><strong>faraway</strong></a> package, but for this exercise you will load the data from a CSV file.</p>
 <div class="cell">
 <div>
 <div id="webr-2" class="exercise-cell">
 
 </div>
 <script type="webr-2-contents">
-eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJsYWJlbCI6ImxvYWQta2Fuc2FzLWRhdGEifSwiY29kZSI6ImRpYWJldGVzIDwtIHJlYWRfY3N2KFwiZGlhYmV0ZXMuY3N2XCIpXG5cbmRpYWJldGVzIn0=
+eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJsYWJlbCI6ImxvYWQta2Fuc2FzLWRhdGEifSwiY29kZSI6ImNob2xlc3Rlcm9sIDwtIHJlYWRfY3N2KFwiY2hvbGVzdGVyb2wuY3N2XCIpXG5cbmNob2xlc3Rlcm9sIn0=
 </script>
 </div>
 </div>
-</section><section id="dataset-information" class="level2"><h2 class="anchored" data-anchor-id="dataset-information">Dataset information</h2>
-<p>Below is a data key that shows subset of variables we are going to work with for this activity. The original data are located in the <code>faraway</code> package.</p>
+<p>The data dictionary below shows the subset of variables we are going to work with for this exercise.</p>
 <table class="caption-top table">
 <thead><tr class="header">
 <th>Variable Name</th>
@@ -376,20 +377,20 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJsYWJlbCI6Imxv
 <tbody>
 <tr class="odd">
 <td>chol</td>
-<td>Total Cholesterol</td>
+<td>Total cholesterol</td>
 </tr>
 <tr class="even">
 <td>weight</td>
-<td>weight in pounds</td>
+<td>Weight in pounds</td>
 </tr>
 <tr class="odd">
 <td>frame</td>
-<td>factor with levels small, medium, large</td>
+<td>Factor with levels small, medium, large</td>
 </tr>
 </tbody>
 </table>
 <p>Now, let’s explore these data!</p>
-</section><section id="exploratory-data-analysis" class="level2"><h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+</section><section id="exploratory-data-analysis" class="level2"><h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory data analysis</h2>
 <div class="exercise">
 <p>Before we fit a linear regression model, we are going to explore the data. Let’ start with exploring our response variable of interest, cholesterol (<code>chol</code>). Find the mean and sd of the variable <code>chol</code> below. Note: the variable <code>chol</code> does have missing values.</p>
 <div class="cell">
@@ -417,7 +418,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div class="callout-body-container callout-body">
 <p>Think about the following code structure below, and what you want to be taking the mean of!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cholesterol <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(___, <span class="at">na.rm =</span> ___),</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(___, <span class="at">na.rm =</span> ___)</span>
@@ -439,7 +440,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diabetes</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cholesterol</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">summarize</span><span class="op">(</span></span>
 <span>    mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">chol</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">chol</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -480,7 +481,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cholesterol <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> ___)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
@@ -502,7 +503,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diabetes</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cholesterol</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span></span>
 <span>    <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">chol</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
@@ -517,7 +518,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="diabetes_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="cholesterol_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -554,7 +555,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cholesterol <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ____)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
@@ -577,7 +578,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">diabetes</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">weight</span>, y <span class="op">=</span> <span class="va">chol</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">cholesterol</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">weight</span>, y <span class="op">=</span> <span class="va">chol</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
@@ -597,7 +598,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="diabetes_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="cholesterol_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -606,11 +607,11 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </div>
-</section><section id="estimating-the-line-of-best-fit." class="level2"><h2 class="anchored" data-anchor-id="estimating-the-line-of-best-fit.">Estimating the line of best fit.</h2>
-<p>Now, let’s use R to calculate the coefficients associated with the line of best fit your created above. The R code below uses <strong>tidymodels</strong> to specify a linear regression model with <code>cholesterol</code> as the response, and <code>weight</code> as the explanatory variable from the <code>diabetes</code> data set.</p>
+</section><section id="estimating-the-line-of-best-fit" class="level2"><h2 class="anchored" data-anchor-id="estimating-the-line-of-best-fit">Estimating the line of best fit</h2>
+<p>Now, let’s use R to calculate the coefficients associated with the line of best fit your created above. The R code below uses <strong>tidymodels</strong> to specify a linear regression model with <code>cholesterol</code> as the response, and <code>weight</code> as the explanatory variable from the <code>cholesterol</code> data set.</p>
 <div class="cell">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_fit</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fit</span><span class="op">(</span><span class="va">chol</span> <span class="op">~</span> <span class="va">weight</span>, data <span class="op">=</span> <span class="va">diabetes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">fit</span><span class="op">(</span><span class="va">chol</span> <span class="op">~</span> <span class="va">weight</span>, data <span class="op">=</span> <span class="va">cholesterol</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -667,7 +668,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 
 </div>
 <script type="webr-6-contents">
-eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6Im5ld19vYnMgPC0gdGliYmxlKFxuICB3ZWlnaHQgPSBfX18sXG4gIGNob2wgPSBfX19fXG4pXG5cbmRpYWJldGVzX25ldyA8LSBiaW5kX3Jvd3MoZGlhYmV0ZXMsIG5ld19vYnMpXG5cbmRpYWJldGVzX25ld1s0MDQsXSJ9
+eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6Im5ld19vYnMgPC0gdGliYmxlKFxuICB3ZWlnaHQgPSBfX18sXG4gIGNob2wgPSBfX19fXG4pXG5cbmNob2xlc3Rlcm9sX25ldyA8LSBiaW5kX3Jvd3MoY2hvbGVzdGVyb2wsIG5ld19vYnMpXG5cbmNob2xlc3Rlcm9sX25ld1s0MDQsXSJ9
 </script>
 </div>
 </div>
@@ -678,7 +679,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6Im5l
 
 </div>
 <script type="webr-7-contents">
-eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6ImxtX2ZpdCA8LSBsaW5lYXJfcmVnKCkgfD4gXG4gIGZpdChjaG9sIH4gd2VpZ2h0LCBkYXRhID0gZGlhYmV0ZXNfbmV3KVxuXG50aWR5KGxtX2ZpdCkgfD5cbiAgc2VsZWN0KHRlcm0sIGVzdGltYXRlKSB8PlxuICBrYWJsZShkaWdpdHMgPSAzKSJ9
+eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6ImxtX2ZpdCA8LSBsaW5lYXJfcmVnKCkgfD4gXG4gIGZpdChjaG9sIH4gd2VpZ2h0LCBkYXRhID0gY2hvbGVzdGVyb2xfbmV3KVxuXG50aWR5KGxtX2ZpdCkgfD5cbiAgc2VsZWN0KHRlcm0sIGVzdGltYXRlKSB8PlxuICBrYWJsZShkaWdpdHMgPSAzKSJ9
 </script>
 </div>
 </div>
@@ -732,7 +733,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6Imxt
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_fit</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fit</span><span class="op">(</span><span class="va">chol</span> <span class="op">~</span> <span class="va">frame</span>, data <span class="op">=</span> <span class="va">diabetes</span><span class="op">)</span></span>
+<span>  <span class="fu">fit</span><span class="op">(</span><span class="va">chol</span> <span class="op">~</span> <span class="va">frame</span>, data <span class="op">=</span> <span class="va">cholesterol</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tidy</span><span class="op">(</span><span class="va">lm_fit</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">term</span>, <span class="va">estimate</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -768,7 +769,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6Imxt
 <div class="exercise">
 <p>To verify this, please see the calculate the sample mean cholesterol for each frame group below, and relate these sample means to the deviations from the baseline above.</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diabetes</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cholesterol</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">frame</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">frame</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">summarise</span><span class="op">(</span>mean_chol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">chol</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -815,7 +816,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6Imxt
 </div>
 </div>
 </div>
-</section><section id="in-summary" class="level2"><h2 class="anchored" data-anchor-id="in-summary">In Summary</h2>
+</section><section id="summary" class="level2"><h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <ul>
 <li><p>Simple linear regression can be used when our response variable is quantitative, and we have a single explanatory variable.</p></li>
 <li><p>Outliers have the ability to drastically influence our line of best fit.</p></li>
@@ -835,11 +836,11 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC04IiwiaW5saW5lIjpmYWxzZSwibWV0
 </div>
 </div>
 <script type="vfs-file">
-WyJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vZGF0YS1zY2llbmNlLXdpdGgtci9tb2RlbGluZy1pbmZlcmVuY2UvcmVmcy9oZWFkcy9tYWluL2V4ZXJjaXNlcy9kYXRhL2RpYWJldGVzLmNzdiJd
+WyJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vZGF0YS1zY2llbmNlLXdpdGgtci9tb2RlbGluZy1pbmZlcmVuY2UvcmVmcy9oZWFkcy9tYWluL2V4ZXJjaXNlcy9kYXRhL2Nob2xlc3Rlcm9sLmNzdiJd
 </script>
 </section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-SCHORLING199792" class="csl-entry" role="listitem">
-Schorling, John B., Julienne Roach, Marjorie Siegel, Natalie Baturka, Dawn E. Hunt, Thomas M. Guterbock, and Herbert L. Stewart. 1997. <span>“A Trial of Church-Based Smoking Cessation Interventions for Rural African Americans.”</span> <em>Preventive Medicine</em> 26 (1): 92–101. https://doi.org/<a href="https://doi.org/10.1006/pmed.1996.9988">https://doi.org/10.1006/pmed.1996.9988</a>.
+Schorling, John B., Julienne Roach, Marjorie Siegel, Natalie Baturka, Dawn E. Hunt, Thomas M. Guterbock, and Herbert L. Stewart. 1997. <span>“A Trial of Church-Based Smoking Cessation Interventions for Rural African Americans.”</span> <em>Preventive Medicine</em> 26 (1): 92–101. <a href="https://doi.org/10.1006/pmed.1996.9988">https://doi.org/10.1006/pmed.1996.9988</a>.
 </div>
 </div></section></div></main><!-- /main --><script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
