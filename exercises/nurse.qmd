@@ -126,7 +126,7 @@ Our sample statistic would be $\widehat{p_\text{no-gilbert}} - \widehat{p_\text{
 :::
 
 ::: exercise
-Now, create a proper data visualization to help explore these data. Comment on a patterns you observe with these data. Hint: In the appropriate `geom`, use `position = "fill` to create a visualization that is easier to read when we have differing sample sizes. Include appropriate labels. What pattern do you reconize?
+Now, create a proper data visualization to help explore these data. Comment on a patterns you observe with these data. Hint: In the appropriate `geom`, use `position = "fill` to create a visualization that is easier to read when we have differing sample sizes. Include appropriate labels. What pattern do you recognize?
 
 ```{webr}
 
@@ -236,7 +236,7 @@ set.seed(12345) # so you have reproducible results
 
 :::
 
-::: {.callout-tip collapse="true"}
+::: {.callout-caution collapse="true"}
 ## Hint
 ```{r}
 #| eval: false
@@ -359,9 +359,8 @@ set.seed(12345)
 
 ```
 
-::: {.callout-tip collapse="true"}
+::: {.callout-caution collapse="true"}
 ## Hint
-
 ```{r}
 #| eval: false
 boot_dist <- gilbert |>
