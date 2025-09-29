@@ -62,6 +62,8 @@ library(kableExtra)
 #| message: false
 #| warning: false
 cholesterol <- read_csv("data/cholesterol.csv")
+
+summary(cholesterol$chol)
 ```
 
 ## Motivation
@@ -88,6 +90,8 @@ The data dictionary below shows the subset of variables we are going to work wit
 | chol          | Total cholesterol                                   |
 | weight        | Weight in pounds                                    |
 | frame         | Factor with levels small, medium, large             |
+
+Note: For this exercise, there are some missing data. In your output, you may see a R Warning saying that some rows in the dataset having missing values. We will ignore this warning for the purpose of this exericse.
 
 Now, let's explore these data!
 
