@@ -361,14 +361,14 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlY2hvIjpmYWxzZSwiZWRpdCI6ZmFsc2UsImV2YWwiOnRy
 </section><section id="motivation" class="level2"><h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
 <p>Census data can help us predict income based on other variables, such as demographic, social, and economic variables. We can use this information to help gain deeper insights into the economic well-being of a population, which can help practically inform items such as strategic planning, and market analysis. In this programming exercise, we are going to explore the relationship between different predictors, and if an individual was making more or less than $50,000 USD a year in 1994 in the United States.</p>
 </section><section id="data" class="level2"><h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the <a href="https://archive.ics.uci.edu/dataset/2/adult">UCI Machine Learning Repository</a>. Expand the tab below to look at the data key.</p>
+<p>The dataset we will be using for this exercise is from the 1994 Census database, extracted by Barry Becker. These data can be found on the <a href="https://archive.ics.uci.edu/dataset/2/adult">UCI Machine Learning Repository</a>. Expand the tab below to look at the data key. In the code chunk below, we change income to be a factor. Our outcome needs to be a factor in order to fit a logistic regression model!</p>
 <div class="cell">
 <div>
 <div id="webr-2" class="exercise-cell">
 
 </div>
 <script type="webr-2-contents">
-eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJsYWJlbCI6ImxvYWQtZGF0YSJ9LCJjb2RlIjoiaW5jb21lIDwtIHJlYWRfY3N2KFwiaW5jb21lLmNzdlwiKSBcblxuaW5jb21lIn0=
+eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJsYWJlbCI6ImxvYWQtZGF0YSJ9LCJjb2RlIjoiaW5jb21lIDwtIHJlYWRfY3N2KFwiaW5jb21lLmNzdlwiKSAgXG5cbmluY29tZSA8LSBpbmNvbWUgfD5cbiAgbXV0YXRlKGluY29tZSA9IGZhY3RvcihpbmNvbWUpKVxuXG5pbmNvbWUifQ==
 </script>
 </div>
 </div>
@@ -491,7 +491,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6IiJ9
 </div>
 </div>
 </section><section id="modeling" class="level1"><h1>Modeling</h1>
-<p>The variable <code>income</code> in our data set is stored as a <code>fct</code>, with the first level being <code>&lt;=50K</code>, and second level being <code>&gt;50K</code>. Because of this structure, we are going to be modeling the log-odds/probability of <code>&gt;50K</code></p>
+<p>The variable <code>income</code> in our dataset is stored as a <code>fct</code>, with the first level being <code>&lt;=50K</code>, and second level being <code>&gt;50K</code>. Because of this structure, we are going to be modeling the log-odds/probability of <code>&gt;50K</code></p>
 <div class="exercise">
 <p>Fit a logistic regression model below with income as the outcome and age as the predictor. Compare your output model defined below. Is the outcome the <em>log-odds</em> of making more than $50,000 or the <em>probability</em> of making more that $50,000?</p>
 </div>
@@ -577,14 +577,14 @@ p = \frac{e^{-2.74 + 0.0395(\text{60})}}{1 + e^{-2.74 + 0.0395(\text{60})}} = 0.
 
 </div>
 <script type="webr-6-contents">
-eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6ImFnZV9wcmVkaWN0IDwtIHRpYmJsZShhZ2UgPSA2MSlcblxucHJlZGljdChpbmNvbWVfbW9kZWwkZml0LCBhZ2VfcHJlZGljdCwgdHlwZSA9IFwicmVzcG9uc2VcIikgIn0=
+eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6ImFnZV9wcmVkaWN0IDwtIHRpYmJsZShhZ2UgPSA2MSlcblxucHJlZGljdChpbmNvbWVfbW9kZWwsIGFnZV9wcmVkaWN0LCB0eXBlID0gXCJyZXNwb25zZVwiKSAifQ==
 </script>
 </div>
 </div>
 </div>
 </div>
 </div>
-<p>Based on your concoulsion from your exploratory analysis, does the probabilty of making over $50,000 increase or decrease as you age? How can you tell from your model?</p>
+<p>Based on your conclusion from your exploratory analysis, does the probability of making over $50,000 increase or decrease as you age? How can you tell from your model?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -597,7 +597,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOmZhbHNlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlfSwiY29kZSI6ImFn
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The coefficient assocciated with age is positive, meaning that the estimated probability of making more than $50,000 increases as age increases.</p>
+<p>The coefficient associated with age is positive, meaning that the estimated probability of making more than $50,000 increases as age increases.</p>
 </div>
 </div>
 </div>
