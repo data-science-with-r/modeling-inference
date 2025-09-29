@@ -267,7 +267,7 @@ We are going to investigate how adding outliers influences the line of best fit.
 
 - Create a new observation that has a value of 500 pounds, and a cholesterol value of 600. 
 
-We are going to re-estimate our line of best fit for each of these added observations. To create a new observation, please fill in the `____` with the appropriate values. Next, add this value to the exsisting data set using the `bind_rows()` function.
+We are going to re-estimate our line of best fit for each of these added observations. To create a new observation, please fill in the `____` with the appropriate values. Next, add this value to the existing data set using the `bind_rows()` function.
 
 ::: exercise
 
