@@ -51,9 +51,7 @@ We’ll use the **tidyverse** and **tidymodels** for this programming exercise. 
 #| echo: false
 #| message: false
 #| warning: false
-
 library(tidyverse)
-# library(faraway)
 library(tidymodels)
 library(kableExtra)
 ```
@@ -91,8 +89,6 @@ Below is a data key that shows subset of variables we are going to work with for
 | weight        | weight in pounds                                    |
 | frame         | factor with levels small, medium, large             |
 
-
-
 Now, let's explore these data!
 
 ## Exploratory Data Analysis
@@ -114,11 +110,13 @@ Think about the following code structure below, and what you want to be taking t
 
 ```{r}
 #| eval: false
-
 diabetes |>
-  summarize(mean = mean(___, na.rm = ___), 
-            sd = sd(___ , na.rm = ___))
+  summarize(
+    mean = mean(___, na.rm = ___),
+    sd = sd(___, na.rm = ___)
+  )
 ```
+
 :::
 
 
@@ -127,10 +125,11 @@ diabetes |>
 
 ```{r}
 #| eval: true
-
 diabetes |>
-  summarize(mean = mean(chol, na.rm = TRUE), 
-            sd = sd(chol , na.rm = TRUE))
+  summarize(
+    mean = mean(chol, na.rm = TRUE),
+    sd = sd(chol, na.rm = TRUE)
+  )
 ```
 
 :::
@@ -158,6 +157,7 @@ diabetes |>
   ) +
   geom______()
 ```
+
 :::
 
 
@@ -166,12 +166,11 @@ diabetes |>
 
 ```{r}
 #| eval: true
-
 diabetes |>
   ggplot(
     aes(x = chol)
   ) +
-  geom_histogram() + 
+  geom_histogram() +
   labs(title = "Histogram of Cholesterol")
 ```
 
@@ -202,26 +201,27 @@ diabetes |>
   ggplot(
     aes(x = ___, y = ____)
   ) +
-  geom______() + 
-  geom______(method = "lm" , se = F)
+  geom______() +
+  geom______(method = "lm", se = F)
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
 ## Solution
 
 ```{r}
-diabetes |>
-  ggplot(
-    aes(x = weight, y = chol)
-  ) +
-  geom_point() + 
-  geom_smooth(method = "lm", se = F) + 
-  labs(title = "Relationship between weight and cholesterol",
-       subtitle = "with a line of best fit")
+ggplot(diabetes, aes(x = weight, y = chol)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+  labs(
+    title = "Relationship between weight and cholesterol",
+    subtitle = "with a line of best fit"
+  )
 ```
 
 It appears that the relationship between weight and cholesterol is slightly positive. That is, as someone's weight increases, on average, their cholesterol increases according to these data. 
+
 :::
 
 ## Estimating the line of best fit. 
@@ -229,7 +229,7 @@ It appears that the relationship between weight and cholesterol is slightly posi
 Now, let's use R to calculate the coefficients associated with the line of best fit your created above. The R code below uses **tidymodels** to specify a linear regression model with `cholesterol` as the response, and `weight` as the explanatory variable from the `diabetes` data set.
 
 ```{r}
-lm_fit <- linear_reg() |> 
+lm_fit <- linear_reg() |>
   fit(chol ~ weight, data = diabetes)
 ```
 
@@ -261,13 +261,14 @@ Weight: For a one pound increase in a person, we estimate on average, a 0.074 mi
 
 We are going to investigate how adding outliers influences the line of best fit. First, we want you to: 
 
--- Create a new observation that has a value of 200 pounds, and a cholesterol value of 600. 
+- Create a new observation that has a value of 200 pounds, and a cholesterol value of 600. 
 
--- Create a new observation that has a value of 500 pounds, and a cholesterol value of 600. 
+- Create a new observation that has a value of 500 pounds, and a cholesterol value of 600. 
 
-We are going to re-estimate our line of best fit for each of these added observations. To create a new observation, please fill in the ____ with the appropriate values. Next, add this value to the exsisting data set using the `bind_rows()` function.
+We are going to re-estimate our line of best fit for each of these added observations. To create a new observation, please fill in the `____` with the appropriate values. Next, add this value to the exsisting data set using the `bind_rows()` function.
 
 ::: exercise
+
 ```{webr}
 new_obs <- tibble(
   weight = ___,
@@ -289,15 +290,16 @@ tidy(lm_fit) |>
   select(term, estimate) |>
   kable(digits = 3)
 ```
+
 :::
 
 
 ::: {.callout-tip collapse="true"}
 ## Takeaways
 
--- Outliers that are more towards the middle of the data have less influence on the estimated slope coefficient
+- Outliers that are more towards the middle of the data have less influence on the estimated slope coefficient
 
--- Outliers that are more towards the ends of the data have higher influence of the estimated slope coefficient
+- Outliers that are more towards the ends of the data have higher influence of the estimated slope coefficient
 :::
 
 ## Modeling with a categorical variable 
@@ -317,17 +319,14 @@ tidy(lm_fit) |>
   kable(digits = 3)
 ```
 
-
 Why do you have a negative estimate?
 :::
-
-
 
 ::: {.callout-tip collapse="true"}
 ## Solution
 
 ```{r}
-lm_fit <- linear_reg() |> 
+lm_fit <- linear_reg() |>
   fit(chol ~ frame, data = diabetes)
 
 tidy(lm_fit) |>
@@ -338,7 +337,6 @@ tidy(lm_fit) |>
 Some estimates are small because the estimates that are associated with levels of the categorical variable `frame` are **deviations** from the baseline group! Notice how we see estimates for medium and large, but not small. Small has been chosen to be the baseline group, and the other estimates are deviations from the baseline.
 
 :::
-
 
 When working with a single categorical variable, the estimates for cholesterol correspond to the sample mean cholesterol for each group!
 
@@ -351,6 +349,7 @@ diabetes |>
   group_by(frame) |>
   summarise(mean_chol = mean(chol, na.rm = T))
 ```
+
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -370,9 +369,6 @@ For someone with a medium frame, we estimate on average a 16.043 increase in cho
 
 ## In Summary 
 
--- Simple linear regression can be used when our response variable is quantitative, and we have a single explanatory variable.
+- Simple linear regression can be used when our response variable is quantitative, and we have a single explanatory variable.
 
--- Outliers have the ability to drastically influence our line of best fit. 
-
-
-
+- Outliers have the ability to drastically influence our line of best fit.
