@@ -2041,7 +2041,7 @@
     "href": "slides/4-1-1-quantifying-uncertainty/4-1-1-quantifying-uncertainty.html#interpreting-the-slope-take-two",
     "title": "Quantifying uncertainty",
     "section": "Interpreting the slope, take two",
-    "text": "Interpreting the slope, take two\n\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1  -0.0697  -0.0210\n\n\nWe are 95% confident that for each additional $1,000 of family income, we would expect students to receive $69.72 to $21.04 less in gift aid, on average."
+    "text": "Interpreting the slope, take two\n\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1  -0.0666  -0.0212\n\n\nWe are 95% confident that for each additional $1,000 of family income, we would expect students to receive $66.65 to $21.18 less in gift aid, on average."
   },
   {
     "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#packages",
