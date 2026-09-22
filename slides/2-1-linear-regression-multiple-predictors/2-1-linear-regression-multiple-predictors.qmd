@@ -1,5 +1,5 @@
 ---
-title: "Linear regression with multiple predictors"
+title: Linear regression with multiple predictors
 format: revealjs
 ---
 

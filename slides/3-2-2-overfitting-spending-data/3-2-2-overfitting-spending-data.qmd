@@ -1,5 +1,5 @@
 ---
-title: "Overfitting and spending your data"
+title: Overfitting and spending your data
 format: revealjs
 ---
 

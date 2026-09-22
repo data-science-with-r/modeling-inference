@@ -1,5 +1,5 @@
 ---
-title: "Linear regression with a categorical predictor"
+title: Linear regression with a categorical predictor
 format: revealjs
 ---
 

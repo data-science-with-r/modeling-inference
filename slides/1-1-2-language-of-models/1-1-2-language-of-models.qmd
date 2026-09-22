@@ -1,5 +1,5 @@
 ---
-title: "Language of models"
+title: Language of models
 format: revealjs
 fig-width: 8
 fig-asp: 0.618

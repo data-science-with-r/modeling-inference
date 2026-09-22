@@ -1,5 +1,5 @@
 ---
-title: "Main and interaction effects"
+title: Main and interaction effects
 format: revealjs
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Outliers in linear regression"
+title: Outliers in linear regression
 format: revealjs
 ---
 

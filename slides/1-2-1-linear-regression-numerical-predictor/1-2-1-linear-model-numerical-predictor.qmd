@@ -1,5 +1,5 @@
 ---
-title: "Linear regression with a numerical predictor"
+title: Linear regression with a numerical predictor
 format: revealjs
 ---
 
