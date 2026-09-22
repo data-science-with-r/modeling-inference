@@ -1117,7 +1117,7 @@
     "href": "index.html#code-alongs",
     "title": "\n Modeling and inference",
     "section": "Code alongs",
-    "text": "Code alongs"
+    "text": "Code alongs\nPositron\n\n\n\n\nTitle\n\n\n\nPathway\n\n\n\n\n\n\nModeling fish\n\n\nPositron\n\n\n\n\n\nModeling loan interest rates\n\n\nPositron\n\n\n\n\n\nBuilding a spam filter\n\n\nPositron\n\n\n\n\n\nForest classification\n\n\nPositron\n\n\n\n\n\nBootstrapping Duke Forest houses\n\n\nPositron\n\n\n\n\n\nNo matching items\n\nRStudio\n\n\n\n\nTitle\n\n\n\nPathway\n\n\n\n\n\n\nModeling fish (Complete)\n\n\nRStudio\n\n\n\n\n\nModeling fish\n\n\nRStudio\n\n\n\n\n\nModeling loan interest rates (Complete)\n\n\nRStudio\n\n\n\n\n\nModeling loan interest rates\n\n\nRStudio\n\n\n\n\n\nBuilding a spam filter (Complete)\n\n\nRStudio\n\n\n\n\n\nBuilding a spam filter\n\n\nRStudio\n\n\n\n\n\nForest classification (Complete)\n\n\nRStudio\n\n\n\n\n\nForest classification\n\n\nRStudio\n\n\n\n\n\nBootstrapping Duke Forest houses (Complete)\n\n\nRStudio\n\n\n\n\n\nBootstrapping Duke Forest houses\n\n\nRStudio\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#exercises",
@@ -2041,7 +2041,7 @@
     "href": "slides/4-1-1-quantifying-uncertainty/4-1-1-quantifying-uncertainty.html#interpreting-the-slope-take-two",
     "title": "Quantifying uncertainty",
     "section": "Interpreting the slope, take two",
-    "text": "Interpreting the slope, take two\n\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1  -0.0666  -0.0212\n\n\nWe are 95% confident that for each additional $1,000 of family income, we would expect students to receive $66.65 to $21.18 less in gift aid, on average."
+    "text": "Interpreting the slope, take two\n\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1  -0.0679  -0.0220\n\n\nWe are 95% confident that for each additional $1,000 of family income, we would expect students to receive $67.88 to $22.02 less in gift aid, on average."
   },
   {
     "objectID": "slides/2-1-linear-regression-multiple-predictors/2-1-linear-regression-multiple-predictors.html#packages",
