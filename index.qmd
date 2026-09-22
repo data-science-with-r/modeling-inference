@@ -54,7 +54,14 @@ library(downlit)
 
 ## Code alongs
 
-::: {#code-alongs}
+### Positron
+
+::: {#code-alongs-positron}
+:::
+
+### RStudio
+
+::: {#code-alongs-rstudio}
 :::
 
 ## Exercises
